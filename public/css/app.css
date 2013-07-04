@@ -1,30 +1,344 @@
 /* app css stylesheet */
+@font-face {
+  font-family: 'entypo';
+  src: url('../fonts/entypo.eot');
+  src: url('../fonts/entypo.eot?#iefix') format('embedded-opentype'), url('../fonts/entypo.woff') format('woff'), url('../fonts/entypo.ttf') format('truetype'), url('../fonts/entypo.svg#entypo') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'OpenSans Semibold';
+  src: url('../fonts/opensans-semibold-webfont.eot');
+  src: url('../fonts/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/opensans-semibold-webfont.woff') format('woff'), url('../fonts/opensans-semibold-webfont.ttf') format('truetype'), url('../fonts/opensans-semibold-webfont.svg#opensans-semibold-webfont') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'OpenSans Light';
+  src: url('../fonts/opensans-light-webfont.eot');
+  src: url('../fonts/opensans-light-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/opensans-light-webfont.woff') format('woff'), url('../fonts/opensans-light-webfont.ttf') format('truetype'), url('../fonts/opensans-light-webfont.svg#opensans-light-webfont') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'OpenSans Regular';
+  src: url('../fonts/opensans-regular-webfont.eot');
+  src: url('../fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/opensans-regular-webfont.woff') format('woff'), url('../fonts/opensans-regular-webfont.ttf') format('truetype'), url('../fonts/opensans-regular-webfont.svg#opensans-regular-webfont') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'OpenSans Semibold';
+  src: url('../fonts/opensans-semibold-webfont.eot');
+  src: url('../fonts/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/opensans-semibold-webfont.woff') format('woff'), url('../fonts/opensans-semibold-webfont.ttf') format('truetype'), url('../fonts/opensans-semibold-webfont.svg#opensans-semibold-webfont') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
 
-.menu {
+div.tile{
+  height: 100px;
+  padding: 15px;
+  display: block;  
+  cursor: pointer;
+}
+div.tile h4{
+    font-size: 2em;
+    line-height: 35px;
+    font-family: 'OpenSans Light'
+}
+div.tile:hover{
+  -webkit-box-shadow:0 0 0 5px rgba(255, 255, 255, 0.56) inset;
+  box-shadow:0 0 0 5px rgba(255, 255, 255, 0.56) inset;
+  height: 100px;
+  padding: 15px;
+}
+
+.tile span.enicon{
+  float: left;
+}
+.tile-sub{
+  display:table-cell;
+  vertical-align: middle;
+  height: 50%;
+}
+
+.offset-section{
+  margin-left: 2%;
+}
+.row-break{
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+span.enicon{
+    color: #333333;
+    font-family: "entypo";
+    font-size: 6em;
+    line-height: 1;  
+}
+span.whiteicon{
+  color: white;
+}
+form div.optionalinput{
+  display: none;
+}
+.sectionAZ{
+  width: 100%;
+  display: block;
+}
+.card-section{
+  overflow:  hidden;
+  background-color: transparent;
+  height: 450px;
+  position: relative;
+}
+.card-section span.legend{
+  position: absolute;
+  left: -10px;
+}
+.card{
+  width: 33.3%;
+  height: 75px;
+  display: block;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05) inset;
+  float: left;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  padding: 4px;
+  background-color: #2ecc71;  
+  cursor: pointer;
+}
+.card:hover:before{
+  background-color:rgba(0, 0, 0, 0.05);
+}
+.card span{
+  text-align: right;
+}
+.low-stock{
+  background-color: #e74c3c;
+}
+.good-stock{
+
+}
+.empty-stock{
+  background-color: #ecf0f1;
+}
+/* General styles for all menus */
+.cbp-spmenu {
+  background: #47a3da;
+  position: fixed;
+}
+
+.cbp-spmenu h3 {
+  color: #afdefa;
+  font-size: 1.9em;
+  padding: 20px;
+  margin: 0;
+  font-weight: 300;
+  background: #0d77b6;
+}
+
+.cbp-spmenu a {
+  display: block;
+  color: #fff;
+  font-size: 1.1em;
+  font-weight: 300;
+}
+
+.cbp-spmenu a:hover {
+  background: #258ecd;
+}
+
+.cbp-spmenu a:active {
+  background: #afdefa;
+  color: #47a3da;
+}
+
+/* Orientation-dependent styles for the content of the menu */
+
+.cbp-spmenu-vertical {
+  width: 240px;
+  height: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.cbp-spmenu-vertical a {
+  border-bottom: 1px solid #258ecd;
+  padding: 1em;
+}
+
+.cbp-spmenu-horizontal {
+  width: 100%;
+  height: 150px;
+  left: 0;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.cbp-spmenu-horizontal h3 {
+  height: 100%;
+  width: 20%;
+  float: left;
+}
+
+.cbp-spmenu-horizontal a {
+  float: left;
+  width: 20%;
+  padding: 0.8em;
+  border-left: 1px solid #258ecd;
+}
+
+/* Vertical menu that slides from the left or right */
+
+.cbp-spmenu-left {
+  left: -240px;
+}
+
+.cbp-spmenu-right {
+  right: -240px;
+}
+
+.cbp-spmenu-left.cbp-spmenu-open {
+  left: 0px;
+}
+
+.cbp-spmenu-right.cbp-spmenu-open {
+  right: 0px;
+}
+
+/* Horizontal menu that slides from the top or bottom */
+
+.cbp-spmenu-top {
+  top: -150px;
+}
+
+.cbp-spmenu-bottom {
+  bottom: -150px;
+}
+
+.cbp-spmenu-top.cbp-spmenu-open {
+  top: 0px;
+}
+
+.cbp-spmenu-bottom.cbp-spmenu-open {
+  bottom: 0px;
+}
+
+/* Push classes applied to the body */
+
+.cbp-spmenu-push {
+  overflow-x: hidden;
+  position: relative;
+  left: 0;
+}
+
+.cbp-spmenu-push-toright {
+  left: 240px;
+}
+
+.cbp-spmenu-push-toleft {
+  left: -240px;
+}
+
+/* Transitions */
+
+.cbp-spmenu,
+.cbp-spmenu-push {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+/* Example media queries */
+
+@media screen and (max-width: 55.1875em){
+
+  .cbp-spmenu-horizontal {
+    font-size: 75%;
+    height: 110px;
+  }
+
+  .cbp-spmenu-top {
+    top: -110px;
+  }
+
+  .cbp-spmenu-bottom {
+    bottom: -110px;
+  }
+
+}
+
+@media screen and (max-height: 26.375em){
+
+  .cbp-spmenu-vertical {
+    font-size: 90%;
+    width: 325px;
+  }
+
+  .cbp-spmenu-left,
+  .cbp-spmenu-push-toleft {
+    left: -190px;
+  }
+
+  .cbp-spmenu-right {
+    right: -190px;
+  }
+
+  .cbp-spmenu-push-toright {
+    left: 190px;
+  }
+}
+.summary{
+  padding: 15px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+
+}
+.summary-actions p{
+  margin: 0 0 0px;
+}
+.summary-actions button{
+  border-radius: 0px;
+}
+.summary-actions button.btn-warning{
+  background-color: #304D7B;
+}
+.summary-actions button.btn-warning:hover{
+  background-color: #7299D6;
+}
+.summary dd{
+  font-weight: bold;
+}
+.summary dt{
+  color: #333030;
+}
+.date-input-field{
+  width: 200px;
+  height: 20px;
+}
+#item-summary{
+  background-color: #233243;
+  border: 1px solid #202E3C;
+  padding: 5px;
+  display: none;
+}
+#item-summary dt{
+  color: #fff;
+}
+#item-summary dd{
+  color: #1ABC9C;
+}
+ul.index-list{
+  width: 100%
+}
+ul.index-list li{
+  float: left;
+  margin: 5px;
+  background-color: #2ECC71;
+  padding: 5px;
   list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
 }
-
-.menu:before {
-  content: "[";
-}
-
-.menu:after {
-  content: "]";
-}
-
-.menu > li {
-  display: inline;
-}
-
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
-}
-
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
+ul.index-list .inactive{
+  background-color: #1A2530;
+  color: #2C3E50;
 }

@@ -1,0 +1,52 @@
+extends ../layouts/default
+
+block body
+  .row-fluid.row-break
+    .span2.actioncol
+      button.btn.btn-large.btn-block.btn-primary(ng-click="", href="#fakelink") Save Item
+      button.btn.btn-large.btn-block.btn-primary(href="#fakelink") Go Back
+    .span8
+      .row-fluid
+        form#form-add-item
+          .span4
+            label(for="itemtype") Inventory Type
+            select (name="itemtype", class="span2")
+              option Medication
+              option Equipment
+            label(for="sci-name") Scientific Name
+            input(type="text", class="span3", name="sci-name")
+            label(for="name") Brand Name
+            input(type="text",name="name",class="span3")
+            label(for="man-name") Manufacturer
+            input(name="man-name",class="span3",type="text")
+            label(for="category") Category
+            select(multiple="true")
+            label(for="itemdesc") Item Description
+            textarea(name="itemdesc",class="span3")
+          .span4.offset2
+            label(for="invoice-number") Invoice Number
+            input(type="text", name="invoice-number", class="span2", placeholder="No Stock Received")
+            div.optionalinput
+              label(for="invoice-date") Invoice Date
+              input(type="text", name="invoice-date", class="datepicker",disabled="true", bs-datepicker,  data-date-format="dd/mm/yyyy")
+              label(for="stock-amount") Stock Amount
+              input(type="number",class="span2",disabled="true")
+              label(for="expdate") Batch Expiry Date
+              input(name="expdate",class="datepicker", data-date-format="dd/mm/yyyy", bs-datepicker)              
+            label(for="supplier") Supplier
+            input(type="text", name="supplier",class="span3")
+            label(for="bp") Boiling Point
+            input(type="number",name="bp",class="span2")
+            label(for="itemsize") Package Size
+            input(name="itemsize",'class="span2',type="number")
+            label(for="itempackaging") Item Packaging
+            select(name="itempackaging")
+              option Tablets
+              option Capsules
+              option Vials
+              option Caplets
+            label(for="rate") Rate
+            input(name="rate",type="text",class="span2")
+
+append foot
+  script(src='js/bootstrap-datepicker.js')

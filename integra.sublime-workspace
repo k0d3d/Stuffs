@@ -1,0 +1,573 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"order",
+				"orderInvoiceDate"
+			],
+			[
+				"direct",
+				"directive"
+			],
+			[
+				"ar",
+				"arhrefVal"
+			],
+			[
+				"lo",
+				"log"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"r",
+				"routes"
+			],
+			[
+				"font",
+				"font-family"
+			],
+			[
+				"fon",
+				"font-weight"
+			],
+			[
+				"border",
+				"border"
+			],
+			[
+				"ma",
+				"margin-top"
+			],
+			[
+				"margin",
+				"margin-bottom"
+			],
+			[
+				"marg",
+				"margin-left"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "public/js/controllers.js",
+			"settings":
+			{
+				"buffer_size": 1804,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/js/app.js",
+			"settings":
+			{
+				"buffer_size": 501,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/controllers/items.js",
+			"settings":
+			{
+				"buffer_size": 2985,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/models/item.js",
+			"settings":
+			{
+				"buffer_size": 1630,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "config/routes.js",
+			"settings":
+			{
+				"buffer_size": 970,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/layouts/default.jade",
+			"settings":
+			{
+				"buffer_size": 318,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/includes/foot.jade",
+			"settings":
+			{
+				"buffer_size": 746,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/orders/new.jade",
+			"settings":
+			{
+				"buffer_size": 1525,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/kingkoded/integra/app/views/items/new.jade",
+		"/home/kingkoded/integra/app/views/orders/new.jade",
+		"/home/kingkoded/integra/public/js/directives.js",
+		"/home/kingkoded/integra/public/js/application.js",
+		"/home/kingkoded/integra/app/views/layouts/default.jade",
+		"/home/kingkoded/integra/public/css/app.css",
+		"/home/kingkoded/integra/app/views/index.jade",
+		"/home/kingkoded/integra/app/controllers/orders.js",
+		"/home/kingkoded/integra/app/models/order.js",
+		"/home/kingkoded/integra/public/css/flat-ui.css",
+		"/home/kingkoded/integra/public/css/bootstrap-datepicker.css",
+		"/home/kingkoded/integra/public/js/bootstrap-datepicker.js",
+		"/home/kingkoded/integra/app/views/includes/header.jade",
+		"/home/kingkoded/integra/app/views/includes/head.jade",
+		"/home/kingkoded/integra/app/views/layouts/layout.jade",
+		"/home/kingkoded/integra/public/js/index.js",
+		"/home/kingkoded/integra/package.json",
+		"/home/kingkoded/integra/app/views/500.jade",
+		"/home/kingkoded/integra/app/views/includes/foot.jade",
+		"/home/kingkoded/integra/app/views/includes/footer.jade",
+		"/home/kingkoded/integra/app/views/partials/list-order.jade",
+		"/home/kingkoded/integra/config/routes.js",
+		"/home/kingkoded/integra/public/js/app.js",
+		"/home/kingkoded/integra/server.js",
+		"/home/kingkoded/integra/app/views/home/index.jade",
+		"/home/kingkoded/integra/public/js/filters.js",
+		"/home/kingkoded/integra/public/js/services.js",
+		"/home/kingkoded/integra/routes/api.js",
+		"/home/kingkoded/integra/app/views/partials/index.jade",
+		"/home/kingkoded/integra/config/express.js",
+		"/home/kingkoded/integra/public/js/controllers.js",
+		"/home/kingkoded/integra/app/models/article.js",
+		"/home/kingkoded/integra/app/controllers/articles.js",
+		"/home/kingkoded/integra/app/controllers/items.js",
+		"/home/kingkoded/integra/app/models/item.js",
+		"/home/kingkoded/integra/app/views/partials/additem.jade",
+		"/home/kingkoded/integra/app/views/partials/new-order.jade",
+		"/home/kingkoded/integra/before/app.js",
+		"/home/kingkoded/integra/routes/index.js",
+		"/home/kingkoded/integra/before/routes/api.js",
+		"/home/kingkoded/integra/before/routes/index.js",
+		"/home/kingkoded/integra/config/config.js",
+		"/home/kingkoded/integra/app.js",
+		"/home/kingkoded/integra/views/layout.jade",
+		"/home/kingkoded/integra/views/partials/additem.jade",
+		"/home/kingkoded/integra/views/partials/new-order.jade",
+		"/home/kingkoded/integra/views/partials/viewitems.jade",
+		"/home/kingkoded/integra/views/partials/index.jade",
+		"/home/kingkoded/integra/views/index.jade"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"z-index",
+			"date",
+			"'])\n",
+			", data-arhrefVal=\"\"",
+			"data-arhref",
+			"NODEJS-EXPRESS-MONGOOSE-DEMO",
+			"    when('/additem', {\n      templateUrl: 'partials/additem',\n      controller: 'addCtrl'\n    }).  ",
+			"palette."
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"",
+			"data-arhrefVal",
+			"ng-click=\"arhref()\", data-arhref",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "public/js/controllers.js",
+					"settings":
+					{
+						"buffer_size": 1804,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1105,
+								1105
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 357.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "public/js/app.js",
+					"settings":
+					{
+						"buffer_size": 501,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/controllers/items.js",
+					"settings":
+					{
+						"buffer_size": 2985,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2830,
+								2830
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1422.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/models/item.js",
+					"settings":
+					{
+						"buffer_size": 1630,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								251,
+								251
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 816.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "config/routes.js",
+					"settings":
+					{
+						"buffer_size": 970,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								720,
+								720
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 255.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/views/layouts/default.jade",
+					"settings":
+					{
+						"buffer_size": 318,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "app/views/includes/foot.jade",
+					"settings":
+					{
+						"buffer_size": 746,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								252,
+								252
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "app/views/orders/new.jade",
+					"settings":
+					{
+						"buffer_size": 1525,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								418,
+								418
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 33.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"new",
+				"app/views/orders/new.jade"
+			],
+			[
+				"foot",
+				"app/views/includes/foot.jade"
+			],
+			[
+				"header",
+				"app/views/includes/header.jade"
+			],
+			[
+				"head",
+				"app/views/includes/head.jade"
+			],
+			[
+				"app.css",
+				"public/css/app.css"
+			],
+			[
+				"app",
+				"public/js/app.js"
+			],
+			[
+				"controller",
+				"public/js/controllers.js"
+			],
+			[
+				"api",
+				"routes/api.js"
+			],
+			[
+				"rou",
+				"config/routes.js"
+			],
+			[
+				"addite",
+				"app/views/partials/additem.jade"
+			],
+			[
+				"fl",
+				"public/css/flat-ui.css"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 260.0,
+	"status_bar_visible": true
+}

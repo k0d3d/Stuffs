@@ -1,0 +1,57 @@
+extends ../layouts/default
+
+block body
+  nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-controller='summarydataCtrl')
+    h3 Item Summary
+    div.summary
+      dl
+        dt Name
+        dd(ng-init="name='Amoxillin'") {{name}}
+        dt Scientific Name
+        dd Amoxicillin 875mg  &Clavulanic acid  125mg
+        dt Manufacturer
+        dd {{manname}}
+        dt Supplier
+        dd Tylek
+        dt Current Stock
+        dd 200
+        dt Last Order Date
+        dd Tuesday March 03 2013
+        dt Rate
+        dd 2000/box
+    div.summary-actions
+      p 
+        button.btn.btn-block.btn-warning(data-arhref='/edititem/{{arid}}') Edit Item
+      p 
+        button.btn.btn-block.btn-warning Place Order
+      p 
+        button.btn.btn-block.btn-warning Return Order
+      p 
+        button.btn.btn-block.btn-danger Delete Item
+      p 
+        button.btn.btn-block.btn-default.btn-close Close
+
+  .row-fluid.row-break
+    .span2.actioncol
+      <a class="btn btn-large btn-block btn-primary" href="#fakelink">Save Order</a>
+      <a class="btn btn-large btn-block btn-primary" href="#fakelink">Go Back</a>
+    .span10
+      .row-fluid
+        .sectionAZ
+          each lttr in indexLttrs
+            .card-section.span5(id="section"+lttr)
+              - var tab = items[lttr]
+              span.legend A
+              .card(data-id="1", data-itemname="Animoral")
+                h5= tab.itemName
+                span.low= tab.currentStock
+      .row-fluid.row-break
+        ul.index-list
+          each inLi in inactiveLi
+            - if(indexLttrs.indexOf(inLi) > -1 )
+              li.active= inLi
+            - else
+              li.inactive= inLi
+
+append foot
+  script(src='js/viewitems.js')                        
