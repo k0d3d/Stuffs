@@ -33,9 +33,19 @@ angular.module('argetni.controllers', []).
 
   }).
   controller('itemsListController', function ($scope, $http, $location, $routeParams) {
+    
+    function sortItems(data){
+      var t = [];
+      data.forEach(function(ele,index,arr){
+        var fchar = ele.itemName.split("");
+        t.push(fchar[0]);
+      })
+      return t;
+    }
     $scope.itemsList = {};
     $http.get('/items/listAll').
       success(function(data) {
+        $scope.indexLetters = sortItems(data);
         $scope.itemsList = data;
       });
   }).
