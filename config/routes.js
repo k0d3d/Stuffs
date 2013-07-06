@@ -29,6 +29,18 @@ module.exports = function (app, passport) {
       });
     }
   );
+  app.get('/home/index', function(req, res){
+      res.render('home/index',{
+        title: 'Dashboard'
+      });
+    }
+  );  
+  app.get('/items/index', function(req, res){
+      res.render('items/index',{
+        title: 'Dashboard'
+      });
+    }
+  );    
   app.get('/partials/:name', function (req, res) {
       var name = req.params.name;
       res.render('partials/' + name);
@@ -40,23 +52,18 @@ module.exports = function (app, passport) {
   app.get('/orders/list',orders.list) 
   app.post('/orders/create',orders.create)
 
-  //Item routes 
+  //Item routes   
   app.get('/items/add',items.add) 
-  app.get('/items/list',items.list) 
+  app.get('/items/listAll',items.list) 
   app.get('/items/listOne/:id/:summary',items.listOne) 
   app.get('/items/typeahead/:term/:needle',items.typeahead)
   app.post('/items/create',items.create)
   
-  app.get('*', function(req, res){
-      res.render('index',{
-      });
+  // home route
+  app.get('/:parent/:child', function(req, res){
+      res.render('index');
+      //res.render('/');
     }
   );
-  // // home route
-  // app.get('*', function(req, res){
-  //     res.render('index');
-  //   }
-  // );
-
 
 }

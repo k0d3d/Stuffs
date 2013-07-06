@@ -2,7 +2,7 @@
 
 /* Filters */
 
-angular.module('myApp.filters', []).
+angular.module('argetni.filters', []).
   filter('interpolate', function (version) {
     return function (text) {
       return String(text).replace(/\%VERSION\%/mg, version);

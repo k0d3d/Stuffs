@@ -35,6 +35,20 @@
   font-style: normal;
 }
 
+html,body{
+
+}
+#wrap{
+   position:relative; /* needed for footer positioning*/
+   margin:0 auto; /* center, not in IE5 */
+   height:auto !important; /* real browsers */
+   height:100%; /* IE6: treaded as min-height*/
+   min-height:100%; /* real browsers */
+    width:100%;
+    perspective:3300px;
+    overflow:hidden;     
+}
+
 div.tile{
   height: 100px;
   padding: 15px;
@@ -96,7 +110,7 @@ form div.optionalinput{
   left: -10px;
 }
 .card{
-  width: 33.3%;
+  width: 150px;
   height: 75px;
   display: block;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05) inset;
@@ -329,7 +343,9 @@ form div.optionalinput{
   color: #1ABC9C;
 }
 ul.index-list{
-  width: 100%
+    bottom: 0;
+    position: fixed;
+    width: 100%;
 }
 ul.index-list li{
   float: left;
@@ -341,4 +357,62 @@ ul.index-list li{
 ul.index-list .inactive{
   background-color: #1A2530;
   color: #2C3E50;
+}
+
+#items-section:before{
+    color: #2ECC71;
+    content: "Inventory Items";
+    font-size: 1.5em;
+    position: relative;
+    top: -10px;
+}
+#orders-section:before{
+    color: #9B59B6;
+    content: "Orders";
+    font-size: 1.5em;
+    position: relative;
+    top: -10px;
+}
+#billing-section:before{
+    color: #18222C;
+    content: "Bills";
+    font-size: 1.5em;
+    position: relative;
+    top: -10px;
+}
+.panorama {
+  position: relative;
+  width: 100%;
+  margin: 0 40px;
+  overflow: hidden;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.panorama.nohidden {
+  width: auto;
+  overflow: inherit;
+}
+
+.panorama .panorama-sections {
+  position: relative;
+  width: 10000px;
+  height: auto;
+  padding-bottom: 24px;
+  overflow: hidden;
+}
+
+.panorama .panorama-sections h2 {
+  margin-left: 5px;
+  font-weight: 300;
+  text-transform: lowercase;
+}
+
+.panorama .panorama-sections .panorama-section {
+  position: relative;
+  float: left;
+  width: auto;
+  height: auto;
+  margin-right: 75px;
 }

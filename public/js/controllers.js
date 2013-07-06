@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', []).
+angular.module('argetni.controllers', []).
   controller('AppCtrl', function ($scope, $http) {
 
     // $http({
@@ -31,6 +31,13 @@ angular.module('myApp.controllers', []).
   controller('indexController', function ($scope) {
     // write Ctrl here
 
+  }).
+  controller('itemsListController', function ($scope, $http, $location, $routeParams) {
+    $scope.itemsList = {};
+    $http.get('/items/listAll').
+      success(function(data) {
+        $scope.itemsList = data;
+      });
   }).
   controller('addCtrl', function ($scope) {
     // write Ctrl here

@@ -1,6 +1,8 @@
-// $(document).ready(function(){
-// 	$('.tile[data-arhref]').bind('click',function(){
-// 		var hv = $(this).data('arhref');
-// 		window.location.href=hv;
-// 	});
-// });
+$(document).ready(function(){
+      $('.panorama').panorama({
+         //nicescroll: false,
+         showscrollbuttons: true,
+         keyboard: true,
+         parallax: true
+      });
+});

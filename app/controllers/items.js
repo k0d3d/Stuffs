@@ -75,6 +75,29 @@ var mockItems = [{
   "packageType": "Capsules",
   "itemRate": "300 / Box",  
   "currentStock": 1200  
+},
+{
+  "itemID": "0004",
+  "itemType": "Medication",
+  "itemName": "Loxaprim",
+  "sciName": "Sulphametoxazo 400mg - Trimtoprim 80mg",
+  "manufacturerName": "May & Baker",
+  "itemCategory": "Antibiotic",
+  "itemDescription": "None Available",
+  "orderInvoiceData":[{"orderInvoiceNumber":20000,
+                      "orderInvoiceDate":"01/01/2013",
+                      "orderInvoiceAmount":"5013",
+                      "orderBatchExpDate":"05/05/2015"
+                    }],
+  "itemSupplier": [{
+    "supplierID": "0001",
+    "supplierName": "May & Baker"
+  }],
+  "itemBoilingPoint":300,
+  "packageSize":"10 x 10",
+  "packageType": "Capsules",
+  "itemRate": "375 / Box",  
+  "currentStock": 1200  
 }
 ]
 
@@ -83,17 +106,16 @@ function itemSummary(itemData){
 }
 
 function sortItems (list,justkeys){
-  var o = [], k = {}, l=[];
+  var k = {}, l=[];
   list.forEach(function(ele,index,array){
-    var fchar = ele.itemName.split("");
-    k[fchar[0].toUpperCase()] = ele;
+    var fchar = ele.itemName.split(""); 
     l.push(fchar[0].toUpperCase()); 
   });
   if(justkeys){
     return l;
   }else{
     //o.push(k);
-    return k;
+    return list;
   }
 }
 /**
@@ -132,20 +154,34 @@ exports.list = function(req, res){
   }
   Item.list(options, function(err, itemsResult) {
     if (err) return res.render('500')
-    res.render('items/list',{
-      title: 'All Inventory Items',
-      items: sortItems(itemsResult),
-      indexLttrs : sortItems(itemsResult,true),
-      inactiveLi : (function(){
-                    a = [];
-                    for (i=65;i<=90;i++){
-                        a[a.length] = String.fromCharCode(i);
-                    }
-                    return a;
-            }())
-    });
+    res.writeHead(200,{'Content-Type': 'application/json'})
+    res.write(JSON.stringify(itemsResult));
+    res.end();
   })
 }
+// exports.list = function(req, res){
+
+//   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1
+//   var perPage = 30
+//   var options = {
+//   }
+//   Item.list(options, function(err, itemsResult) {
+//     if (err) return res.render('500')
+//       console.log(sortItems(itemsResult));
+//     res.render('items/listAll',{
+//       title: 'All Inventory Items',
+//       items: sortItems(itemsResult),
+//       indexLttrs : sortItems(itemsResult,true),
+//       inactiveLi : (function(){
+//                     a = [];
+//                     for (i=65;i<=90;i++){
+//                         a[a.length] = String.fromCharCode(i);
+//                     }
+//                     return a;
+//             }())
+//     });
+//   })
+// }
 
 exports.listOne = function(req,res){
   var options = {criteria: {}};

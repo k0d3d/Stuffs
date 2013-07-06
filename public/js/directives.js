@@ -2,7 +2,7 @@
 
 /* Directives */
 
-var myDir = angular.module('myApp.directives', [])
+var myDir = angular.module('argetni.directives', [])
 	myDir.directive('datepicker', function(){
 		var linker = function(scope, element, attrs){
 			element.datepicker();
