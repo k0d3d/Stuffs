@@ -54,7 +54,7 @@ ItemSchema.statics = {
     this.findOne({ _id : id })
       .populate('user', 'name email username')
       .populate('comments.user')
-      .exec(cb)
+      .exec(cb);
   },
 
   /**
@@ -66,8 +66,9 @@ ItemSchema.statics = {
    */
 
   list: function (options, cb) {
-    var criteria = options.criteria || {}
-    this.find(criteria)
+    var criteria = options.criteria || {};
+    var fields = options.fields || {};
+    this.find(criteria,fields)
       .exec(cb)
   },
 
@@ -87,4 +88,4 @@ ItemSchema.statics = {
 }
 
 
-mongoose.model('Item', ItemSchema)
+mongoose.model('Item', ItemSchema);

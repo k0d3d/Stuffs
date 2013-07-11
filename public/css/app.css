@@ -120,6 +120,7 @@ form div.optionalinput{
   padding: 4px;
   background-color: #2ecc71;  
   cursor: pointer;
+  border: thin inset rgba(0, 0, 0, 0.41);
 }
 .card:hover:before{
   background-color:rgba(0, 0, 0, 0.05);
@@ -135,6 +136,10 @@ form div.optionalinput{
 }
 .empty-stock{
   background-color: #ecf0f1;
+  color: #2C3E50;
+}
+li.index.active{
+  cursor: pointer;
 }
 /* General styles for all menus */
 .cbp-spmenu {
@@ -350,13 +355,16 @@ ul.index-list{
 ul.index-list li{
   float: left;
   margin: 5px;
-  background-color: #2ECC71;
   padding: 5px;
   list-style: none;
 }
 ul.index-list .inactive{
   background-color: #1A2530;
   color: #2C3E50;
+}
+ul.index-list .active{
+  background-color: #2ECC71;
+  color: #ffffff;
 }
 
 #items-section:before{
@@ -414,5 +422,14 @@ ul.index-list .inactive{
   float: left;
   width: auto;
   height: auto;
-  margin-right: 75px;
+  margin-right: 30px;
+  margin-left: 0px;
+}
+div.select-block.open ul{
+  min-width: 240px;
+  position: relative;
+}
+h2 a{
+    color: inherit;
+    text-decoration: none;  
 }

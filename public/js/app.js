@@ -16,8 +16,8 @@ config(function ($routeProvider, $locationProvider) {
     }).
     when('/items/list', {
       templateUrl: '/items/index',
-      controller: 'itemsListController'      
-    }).    
+      controller: 'itemsListController'
+    }).
     when('/items/create', {
     }).
     when('/orders/new',{

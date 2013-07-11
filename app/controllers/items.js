@@ -102,7 +102,15 @@ var mockItems = [{
 ]
 
 function itemSummary(itemData){
-
+  var options = {
+    "fields": "itemID itemName sciName manufacturerName supplierName currentStock itemRate"
+  };
+  Item.list(options, function(err, itemsResult) {
+    if (err) return res.render('500');
+    res.writeHead(200,{'Content-Type': 'application/json'});
+    res.write(JSON.stringify(itemsResult));
+    res.end();
+  });
 }
 
 function sortItems (list,justkeys){
@@ -133,32 +141,33 @@ exports.add = function(req, res){
  */
 
 exports.create = function (req, res) {
-  var it = new Item(req.body)
+  var it = new Item(req.body);
 
   it.save(function (err) {
     if (!err) {
-      req.flash('success', 'Successfully Saved!')
+      req.flash('success', 'Successfully Saved!');
     }
-    console.log(err)
-  })
-}
+    console.log(err);
+  });
+};
 /**
  * List
  */
 
 exports.list = function(req, res){
 
-  var page = (req.param('page') > 0 ? req.param('page') : 1) - 1
-  var perPage = 30
+  var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
+  var perPage = 30;
   var options = {
-  }
+    "fields": "itemName currentStock itemCategory itemBoilingPoint"
+  };
   Item.list(options, function(err, itemsResult) {
-    if (err) return res.render('500')
-    res.writeHead(200,{'Content-Type': 'application/json'})
+    if (err) return res.render('500');
+    res.writeHead(200,{'Content-Type': 'application/json'});
     res.write(JSON.stringify(itemsResult));
     res.end();
-  })
-}
+  });
+};
 // exports.list = function(req, res){
 
 //   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1

@@ -1,8 +1,24 @@
 $(document).ready(function(){
-      $('.panorama').panorama({
-         //nicescroll: false,
-         showscrollbuttons: true,
-         keyboard: true,
-         parallax: true
-      });
+ $(document).on('click','li.index',function(e){
+    e.preventDefault();
+    var totalOffset = 0;
+    var ltr = $(this).text();
+    var that = $('#section'+ltr).prevAll();
+    $.each($(that), function(i, v){
+        if(i){
+            var w = $(v).outerWidth(true);
+            totalOffset = totalOffset + w;
+        }
+    });
+    totalOffset = totalOffset + $(that).outerWidth();
+    var inpx = '-'+totalOffset+'px';
+    $('.sectionAZ').css({"margin-left":inpx});
+ }).
+ on('change','select.stockFilter',function(e){
+    e.preventDefault();    
+    $('.card').show();
+    var toHide = $(this).find('option:selected').val();
+    if(toHide.length > 0)$('.card').not('.'+toHide).hide();
+ });
+ $("select.select-block").selectpicker({style: 'btn-primary', menuStyle: 'dropdown-inverse'});
 });

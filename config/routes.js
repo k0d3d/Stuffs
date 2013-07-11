@@ -10,7 +10,7 @@ var async = require('async')
  */
 
 var orders = require('../app/controllers/orders'),
-    items = require('../app/controllers/items')
+    items = require('../app/controllers/items');
 
 /**
  * Route middlewares
@@ -34,13 +34,19 @@ module.exports = function (app, passport) {
         title: 'Dashboard'
       });
     }
-  );  
+  );
   app.get('/items/index', function(req, res){
       res.render('items/index',{
         title: 'Dashboard'
       });
     }
-  );    
+  );
+  app.get('/items/list', function(req, res){
+      res.render('index',{
+        title: 'All Items'
+      });
+    }
+  );  
   app.get('/partials/:name', function (req, res) {
       var name = req.params.name;
       res.render('partials/' + name);

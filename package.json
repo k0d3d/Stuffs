@@ -37,7 +37,9 @@
     "gzippo": "latest",
     "async": "latest",
     "view-helpers": "latest",
-    "forever": "latest"
+    "forever": "latest",
+    "jasmine-node": "latest",
+    "sinon": "latest"
   },
   "devDependencies": {
     "supertest": "latest",
