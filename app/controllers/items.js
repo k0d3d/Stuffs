@@ -103,7 +103,7 @@ var mockItems = [{
 
 function itemSummary(itemData){
   var options = {
-    "fields": "itemID itemName sciName manufacturerName supplierName currentStock itemRate"
+    "fields": "itemID itemName sciName manufacturerName itemSupplier currentStock itemRate"
   };
   Item.list(options, function(err, itemsResult) {
     if (err) return res.render('500');
@@ -159,7 +159,7 @@ exports.list = function(req, res){
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = 30;
   var options = {
-    "fields": "itemName currentStock itemCategory itemBoilingPoint"
+    "fields": "itemID itemName currentStock itemCategory itemBoilingPoint"
   };
   Item.list(options, function(err, itemsResult) {
     if (err) return res.render('500');
@@ -193,38 +193,20 @@ exports.list = function(req, res){
 // }
 
 exports.listOne = function(req,res){
-  var options = {criteria: {}};
-  function _isNumber(fData){
-      var reg = new RegExp("^[-]?[0-9]+[\.]?[0-9]+$");
-      return reg.test(fData)
-  }
+  var options = {criteria: {}, fields: {}};
   if(req.param('id').length > 0){
-    if(_isNumber(req.param('id'))){
-      options.criteria = {"itemID": req.param('id')}
-    }else{
-      options.criteria = {"itemName": req.param('id')}
+    options.criteria = {"itemID": req.param('id')};
+    if(req.param('summary') == 'quick'){
+      options.fields = "itemID itemName sciName manufacturerName itemSupplier.supplierName currentStock itemRate";
     }
     Item.list(options, function(err, itemsResult){
-      if (err) return res.render('500')
-        res.writeHead(200, { 'Content-Type': 'application/json' })
-        
-        if(req.param('summary') == 'quick'){
-          d = itemsResult[0];
-          rslt = {
-            "name": d.itemName,
-            "sciName": d.sciName,
-            "manufacturerName": d.manufacturerName,
-            "itemRate": d.itemRate
-          }
-          res.write(JSON.stringify(rslt)) 
-        }else{
-          res.write(JSON.stringify(itemsResult[0])) 
-        }
-        
-        res.end();       
-    })
-  }    
-}
+      if (err) return res.render('500');
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.write(JSON.stringify(itemsResult[0]));
+        res.end();
+    });
+  }
+};
 
 exports.typeahead = function(req, res){
   var term = req.param('term');

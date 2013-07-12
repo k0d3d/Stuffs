@@ -1,22 +1,15 @@
-'use strict';
-
 // Declare app level module which depends on filters, and services
 
-angular.module('argetni', [
-  'argetni.controllers',
-  'argetni.filters',
-  'argetni.services',
-  'argetni.directives'
-]).
-config(function ($routeProvider, $locationProvider) {
+var app = angular.module('argetni', []);
+app.config(function ($routeProvider, $locationProvider) {
   $routeProvider.
     when('/', {
       templateUrl: '/home/index',
       controller: 'indexController'
     }).
     when('/items/list', {
-      templateUrl: '/items/index',
-      controller: 'itemsListController'
+      controller: 'itemsListController',
+      templateUrl: '/items/index'
     }).
     when('/items/create', {
     }).
