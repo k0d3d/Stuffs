@@ -18,7 +18,7 @@ block body
           label(for="itemname") Item / Drug Name
           input#itemname.span3(type="text",name="itemID",ng-model="form.itemID",typeahead)          
           label(for="orderdate") Order Date
-          input#orderdate.small.date-input-field(type="text", data-date-format="dd/mm/yyyy", name="orderDate",ng-model="form.orderDate", datepicker)
+          input#orderdate.date-input-field(type="text", data-date-format="dd/mm/yyyy", name="orderDate",ng-model="form.orderDate", datepicker)
           label(for="orderamount") Order Amount
           input#orderamount.span1(type="number",name="orderAmount",ng-model="form.orderAmount")
           label(for="orderdesc") Order Description

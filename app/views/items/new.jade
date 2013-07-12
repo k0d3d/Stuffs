@@ -28,7 +28,7 @@ block body
             input(type="text", name="invoice-number", class="span2", placeholder="No Stock Received")
             div.optionalinput
               label(for="invoice-date") Invoice Date
-              input(type="text", name="invoice-date", class="datepicker",disabled="true", bs-datepicker,  data-date-format="dd/mm/yyyy")
+              input#invoice-date.date-input-field(type="text", name="invoice-date", class="datepicker",disabled="true", datepicker,  data-date-format="dd/mm/yyyy")
               label(for="stock-amount") Stock Amount
               input(type="number",class="span2",disabled="true")
               label(for="expdate") Batch Expiry Date
