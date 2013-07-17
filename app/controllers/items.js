@@ -97,21 +97,8 @@ var mockItems = [{
   "packageSize":"10 x 10",
   "packageType": "Capsules",
   "itemRate": "375 / Box",  
-  "currentStock": 1200  
-}
-]
-
-function itemSummary(itemData){
-  var options = {
-    "fields": "itemID itemName sciName manufacturerName itemSupplier currentStock itemRate"
-  };
-  Item.list(options, function(err, itemsResult) {
-    if (err) return res.render('500');
-    res.writeHead(200,{'Content-Type': 'application/json'});
-    res.write(JSON.stringify(itemsResult));
-    res.end();
-  });
-}
+  "currentStock": 1200}
+];
 
 function sortItems (list,justkeys){
   var k = {}, l=[];
@@ -194,8 +181,13 @@ exports.list = function(req, res){
 
 exports.listOne = function(req,res){
   var options = {criteria: {}, fields: {}};
+  var reg = /^\d+$/;
   if(req.param('id').length > 0){
-    options.criteria = {"itemID": req.param('id')};
+    if(reg.test(req.param('id'))){
+      options.criteria = {"itemID": req.param('id')};
+    }else{
+      options.criteria = {"itemName": req.param('id')};
+    }
     if(req.param('summary') == 'quick'){
       options.fields = "itemID itemName sciName manufacturerName itemSupplier.supplierName currentStock itemRate";
     }
@@ -213,9 +205,9 @@ exports.typeahead = function(req, res){
   var needle = req.param('needle');
   //options.criteria[term] = '/'+needle+'/i';
   Item.autocomplete(needle, function(err,itemsResult){
-    if (err) return res.render('500')
-     res.writeHead(200, { 'Content-Type': 'application/json' })
-     res.write(JSON.stringify(itemsResult)) 
+    if (err) return res.render('500');
+     res.writeHead(200, { 'Content-Type': 'application/json' });
+     res.write(JSON.stringify(itemsResult));
      res.end();   
   })
 }

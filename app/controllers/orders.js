@@ -10,8 +10,8 @@ var mongoose = require('mongoose')
  * New order
  */
 
-exports.new = function(req, res){
-  res.render('orders/new', {
+exports.add = function(req, res){
+  res.render('orders/add', {
     title: 'New Order',
     order: new Order({})
   })
@@ -20,21 +20,22 @@ exports.new = function(req, res){
  * Create an order
  */
 
-exports.create = function (req, res) {
-  var order = new Order(req.body)
-
+exports.createOrder = function (req, res) {
+  var order = new Order(req.body);
   order.save(function (err) {
     if (!err) {
-      req.flash('success', 'Successfully Saved!')
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.write(JSON.stringify({"task":"save-order","status": true,"payload":""}));
+      res.end();
     }
-    console.log(err)
-  })
-}
+    console.log(err);
+  });
+};
 /**
  * List
  */
 
-exports.list = function(req, res){
+exports.getOrders = function(req, res){
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1
   var perPage = 30
   var options = {

@@ -1,0 +1,59 @@
+nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
+  h3 Item Summary
+  div.summary
+    dl
+      dt Name
+      dd {{summary.itemName}}
+      dt Scientific Name
+      dd {{summary.sciName}}
+      dt Manufacturer
+      dd {{summary.manufacturerName}}
+      dt Supplier
+      dd {{summary.supplierName}}
+      dt Current Stock
+      dd {{summary.currentStock}}
+      dt Last Order Date
+      dd {{summary.lastOrderDate}}
+      dt Rate
+      dd {{summary.itemRate}}
+  div.summary-actions
+    p 
+      button.btn.btn-block.btn-warning(data-arhref='/items/{{summary.itemID}}/edit') Edit Item
+    p 
+      button.btn.btn-block.btn-warning(data-arhref='/orders/{{summary.itemID}}/new') Place Order
+    p 
+      button.btn.btn-block.btn-warning(data-arhref='/orders/{{summary.itemID}}/return') Return Order
+    p 
+      button.btn.btn-block.btn-danger(data-arhref='/items/{{summary.itemID}}/delete') Delete Item
+    p 
+      button.btn.btn-block.btn-default.btn-close(ng-click="spmenu=''", ng-class="spmenu") Close
+
+.row-fluid.row-break
+  .span2.actioncol
+    .row-fluid
+      select.select-block(name="categorylist",value="Category")
+        option(value="") Category
+        option(value="0") Antibiotics & Antimicrobal
+        option(value="1") Anti Malaria
+        option(value="2") Antiseptic
+        option(value="3") Cardio
+    .row-fluid
+      select.select-block.stockFilter(ng-model="selection", ng-name="stock-filter")
+        option(value="", selected) All Stock
+        option(value="good-stock") Good Stock
+        option(value="low-stock") Low Stock
+        option(value="empty-stock") Empty Stock
+  .span10
+    .row-fluid    
+      .panorama
+        .sectionAZ.panorama-sections
+          .card-section.span6.panorama-section(data-ng-repeat="(key,az) in itemsList", id="section{{key}}", on-finish="Panorama")
+            .card(data-ng-repeat="item in az  | orderBy:'itemName'", class="{{item.currentStock | stockclass: item.itemBoilingPoint}}", data-ng-click="summaryDo(item.itemID)")
+              h5 {{item.itemName}}
+              span.low{{item.currentStock}}              
+      .row-fluid.row-break
+        ul.index-list
+          li(data-ng-repeat="index in indexes", class="index {{enabledIndex | indexclass: index}}") {{index}}
+
+append foot
+  script(src="js/index.js")

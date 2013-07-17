@@ -54,7 +54,7 @@ module.exports = function (app, passport) {
   ); 
 
   //Order routes
-  app.get('/orders/new',orders.new) 
+  app.get('/orders/add',orders.add) 
   app.get('/orders/list',orders.list) 
   app.post('/orders/create',orders.create)
 

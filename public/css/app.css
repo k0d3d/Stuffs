@@ -437,3 +437,9 @@ input.date-input-field[type='text']{
   height: 20px;
   width: 100px;
 }
+.open-summary{
+  display: block;
+}
+.close-summary{
+  display: none;
+}

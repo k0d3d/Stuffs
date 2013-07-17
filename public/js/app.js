@@ -1,6 +1,6 @@
 // Declare app level module which depends on filters, and services
 
-var app = angular.module('argetni', []);
+var app = angular.module('argetni', ['ui.bootstrap']);
 app.config(function ($routeProvider, $locationProvider) {
   $routeProvider.
     when('/', {
@@ -13,8 +13,9 @@ app.config(function ($routeProvider, $locationProvider) {
     }).
     when('/items/create', {
     }).
-    when('/orders/new',{
-      controller: 'newOrderCtrl'
+    when('/orders',{
+      controller: 'newOrderCtrl',
+      templateUrl: '/orders/add'
     }).
     otherwise({
       redirectTo: '/'
