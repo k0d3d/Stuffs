@@ -1,0 +1,50 @@
+append head
+  link(rel='stylesheet', href='/css/table-fixed-header.css')
+
+block body
+  include ../partials/modal.jade
+  .row-fluid.row-break
+    .span2.actioncol
+      button.btn.btn-large.btn-block.btn-primary(type="button", ng-click='submitOrder()') All Orders
+      button.btn.btn-large.btn-block.btn-default(href="#fakelink", ng-click="openDialog()") Go Back
+    .span10
+      .row-fluid.fixed-table
+        .table-content
+          table#list-orders.table.table-fixed-header
+            thead.header
+              tr
+                th Order ID
+                th Order Type
+                th Item
+                th Quantity
+                th Order Date
+                th Description
+                th Supplier
+                th Status
+                th Action
+            tbody
+              tr(ng-repeat="order in orders", on-finish="tableheader")
+                td {{order.orderID}}
+                td {{order.orderType}}
+                td 
+                  a(href="/item/{{order.itemID}}") {{order.orderID}}
+                td {{order.orderAmount}}
+                td {{order.orderDate}}
+                td.orderDesc {{order.orderDescription}}
+                td {{order.orderSupplier}} 
+                td {{order.orderStatus}}
+                td 
+                  .btn-group
+                    button.btn.btn-small More
+                    button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
+                      span.caret
+                    ul.dropdown-menu.alt-text
+                      li Supplied
+                      li Returned
+                      li Paid
+
+
+
+append foot
+  script(src="js/table-fixed-header.js")                
+
