@@ -1,52 +1,64 @@
-extends ../layouts/default
-
 block body
   .row-fluid.row-break
     .span2.actioncol
-      button.btn.btn-large.btn-block.btn-primary(ng-click="", href="#fakelink") Save Item
+      button.btn.btn-large.btn-block.btn-primary(ng-click="saveitem()", href="#fakelink", ngDisabled) Save Item
       button.btn.btn-large.btn-block.btn-primary(href="#fakelink") Go Back
     .span8
       .row-fluid
-        form#form-add-item
+        form#form-add-item(novalidate)
           .span4
             label(for="itemtype") Inventory Type
-            select (name="itemtype", class="span2")
+            select (name="itemtype", class="span2", ng-model="form.itemtype")
               option Medication
               option Equipment
             label(for="sci-name") Scientific Name
-            input(type="text", class="span3", name="sci-name")
+            input(type="text", class="span3", name="sci-name",ng-model="form.sciname")
             label(for="name") Brand Name
-            input(type="text",name="name",class="span3")
+            input(type="text",name="name",class="span3", ng-model="form.name")
             label(for="man-name") Manufacturer
-            input(name="man-name",class="span3",type="text")
+            input#manufacturerName(name="manufacturerName",class="span3",type="text",ng-model="form.manufacturerName")
             label(for="category") Category
-            select(multiple="true")
+            select(multiple="true",ng-model="form.itemCategory")
+              option Alimentary Tract and Metabolism
+              option Blood and Blood Forming Organs
+              option Cardiovascular System
+              option Dermatologicals
+              option Genito-uninary System
+              option Hormanal
+              option Anti-infectives
+              option Anti-neoplastic and Immunomodulating Agents
+              option Musculo-skeletal System
+              option Nervous System
+              option Antiparasitic, Insecticides and Repellants
+              option Respiratory System
+              option Sensory Organs
+              option Various
             label(for="itemdesc") Item Description
-            textarea(name="itemdesc",class="span3")
+            textarea(name="itemdesc",class="span3",ng-model="form.itemDescription")
           .span4.offset2
             label(for="invoice-number") Invoice Number
-            input(type="text", name="invoice-number", class="span2", placeholder="No Stock Received")
-            div.optionalinput
+            input(type="text", name="invoice-number", class="span2", placeholder="No Stock Received",ng-model="form.orderInvoiceData.orderInvoiceNumber")
+            div.optionalinput(ng-show="form.orderInvoiceData.orderInvoiceNumber > 0")
               label(for="invoice-date") Invoice Date
-              input#invoice-date.date-input-field(type="text", name="invoice-date", class="datepicker",disabled="true", datepicker,  data-date-format="dd/mm/yyyy")
+              input#invoice-date.date-input-field(type="text", name="invoice-date", class="datepicker",disabled="true", datepicker,  data-date-format="dd/mm/yyyy",ng-model="form.orderInvoiceData.orderInvoiceDate")
               label(for="stock-amount") Stock Amount
-              input(type="number",class="span2",disabled="true")
+              input(type="number",class="span2",disabled="true",ng-model="form.orderInvoiceData.orderInvoiceAmount")
               label(for="expdate") Batch Expiry Date
-              input(name="expdate",class="datepicker", data-date-format="dd/mm/yyyy", bs-datepicker)              
+              input(name="expdate",class="datepicker", data-date-format="dd/mm/yyyy", bs-datepicker, ng-model="form.orderInvoiceData.orderBatchExpDate")              
             label(for="supplier") Supplier
-            input(type="text", name="supplier",class="span3")
+            input(type="text", name="supplier",class="span3",ng-model="form.itemSupplier")
             label(for="bp") Boiling Point
-            input(type="number",name="bp",class="span2")
+            input(type="number",name="bp",class="span2",ng-model="form.itemBoilingPoint")
             label(for="itemsize") Package Size
-            input(name="itemsize",'class="span2',type="number")
+            input(name="itemsize",'class="span2',type="number",ng-model="form.packageSize")
             label(for="itempackaging") Item Packaging
-            select(name="itempackaging")
+            select(name="itempackaging",ng-model="form.packageType")
               option Tablets
               option Capsules
               option Vials
               option Caplets
             label(for="rate") Rate
-            input(name="rate",type="text",class="span2")
+            input(name="rate",type="text",class="span2",ng-model="form.itemRate")
 
 append foot
   script(src='js/bootstrap-datepicker.js')

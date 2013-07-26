@@ -7,6 +7,29 @@ var mongoose = require('mongoose')
   , Item = mongoose.model('Item')
 
 
+module.exports.routes = function(app){
+  app.get('/items/index', function(req, res){
+      res.render('items/index',{
+        title: 'Dashboard'
+      });
+    });
+  app.get('/items/list', function(req, res){
+      res.render('index',{
+        title: 'All Items'
+      });
+    });  
+  //Item routes   
+  app.get('/items/add',function(req,res){
+    res.render('index', {
+      title: 'New Inventory Item',
+    });
+  });
+  app.get('/api/items/listAll',list);
+  app.get('/items/listOne/:id/:summary',listOne) 
+  app.get('/items/typeahead/:term/:needle',typeahead)
+  app.post('/api/items',create)  
+}
+
 var mockItems = [{
   "itemID": "0001",
   "itemType": "Medication",
@@ -113,26 +136,17 @@ function sortItems (list,justkeys){
     return list;
   }
 }
-/**
- * New order
- */
 
-exports.add = function(req, res){
-  res.render('items/new', {
-    title: 'New Inventory Item',
-    order: new Item({})
-  })
-}
 /**
  * Create an order
  */
 
-exports.create = function (req, res) {
+var create = function (req, res) {
   var it = new Item(req.body);
-
+  console.log(req.body);
   it.save(function (err) {
     if (!err) {
-      req.flash('success', 'Successfully Saved!');
+      res.send('success', 'Successfully Saved!');
     }
     console.log(err);
   });
@@ -141,7 +155,7 @@ exports.create = function (req, res) {
  * List
  */
 
-exports.list = function(req, res){
+var list = function(req, res){
 
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = 30;
@@ -179,7 +193,7 @@ exports.list = function(req, res){
 //   })
 // }
 
-exports.listOne = function(req,res){
+var listOne = function(req,res){
   var options = {criteria: {}, fields: {}};
   var reg = /^\d+$/;
   if(req.param('id').length > 0){
@@ -200,7 +214,7 @@ exports.listOne = function(req,res){
   }
 };
 
-exports.typeahead = function(req, res){
+var typeahead = function(req, res){
   var term = req.param('term');
   var needle = req.param('needle');
   //options.criteria[term] = '/'+needle+'/i';

@@ -8,14 +8,20 @@ app.config(function ($routeProvider, $locationProvider) {
       controller: 'indexController'
     }).
     when('/items/list', {
-      controller: 'itemsListController',
+      controller: 'itemsController',
       templateUrl: '/items/index'
     }).
-    when('/items/create', {
+    when('/items/add', {
+      controller: 'itemsController',
+      templateUrl: '/items/new'
+    }).
+    when('/dashboard/order',{
+      controller: 'OrdersController',
+      templateUrl: '/orders/add'
     }).
     when('/orders',{
-      controller: 'newOrderCtrl',
-      templateUrl: '/orders/add'
+      controller: 'OrdersController',
+      templateUrl: '/orders/all'
     }).
     otherwise({
       redirectTo: '/'

@@ -28,16 +28,17 @@
     // write Ctrl here
 
   });
-  app.controller('itemsListController', function ($scope, $http, $location, $routeParams,itemsService) {
-    $scope.itemsList = {};
+  app.controller('itemsController', function ($scope, $http, $location, $routeParams,itemsService) {
     $scope.summary = {};
-    init();
-    function init(){
+    $scope.form = {};
+
+    $scope.itemsList = function(){
       itemsService.items(function(data){
-        $scope.itemsList = sortItems(data);
-        $scope.enabledIndex = Object.keys($scope.itemsList);
-      });
+        return sortItems(data);
+        //$scope.enabledIndex = Object.keys($scope.itemsList);
+      });      
     }
+
     function sortItems(data){
       var o = {};
       data.forEach(function(ele,index,arr){
@@ -77,15 +78,14 @@
         $scope.spmenu = 'cbp-spmenu-open';
       });
     };
+    $scope.saveitem = function(){
+      itemsService.save($scope.form, function(res){
+        console.log(res);
+      });
+    }
   });
-  app.controller('addCtrl', function ($scope) {
-    // write Ctrl here
 
-  });
-  app.controller('viewCtrl', function ($scope) {
-    // write Ctrl here
-  });
-  app.controller('newOrderCtrl', function ($scope, $http, $location, $dialog) {
+  app.controller('OrdersController', function ($scope, $http, $location, $dialog, ordersService) {
     $scope.form = {};
     $scope.opts = {
       backdrop: true,
@@ -93,6 +93,10 @@
       backdropClick: true,
       templateUrl : '/partials/modal'
     };
+    init()
+    function init(){
+
+    }
     $scope.openDialog = function(){
       var d = $dialog.dialog($scope.opts);
       d.open().then(function(result){
@@ -102,8 +106,11 @@
         }
       });
     };
+    $scope.orders = (function(){
+      return ordersService.orders();
+    }());
     $scope.submitOrder = function(){
-      $http.post('/orders/create', $scope.form).
+      $http.post('/api/orders', $scope.form).
         success(function(data) {
           if(data.success){
             console.log(data);

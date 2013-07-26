@@ -1,5 +1,5 @@
 {
-  "name": "Integra-Drug-Store",
+  "name": "integra-drug-store",
   "description": "A pharmacy application running on MongDB, Express and Angular JS . Test by Jasmine",
   "keywords": [
     "express",
@@ -39,7 +39,8 @@
     "view-helpers": "latest",
     "forever": "latest",
     "jasmine-node": "latest",
-    "sinon": "latest"
+    "sinon": "latest",
+    "mongoose-pureautoinc": "latest"
   },
   "devDependencies": {
     "supertest": "latest",

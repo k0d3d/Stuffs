@@ -47,7 +47,7 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
     .row-fluid    
       .panorama
         .sectionAZ.panorama-sections
-          .card-section.span6.panorama-section(data-ng-repeat="(key,az) in itemsList", id="section{{key}}", on-finish="Panorama")
+          .card-section.span6.panorama-section(data-ng-repeat="(key,az) in itemsList", id="section{{key}}", on-finish="panorama")
             .card(data-ng-repeat="item in az  | orderBy:'itemName'", class="{{item.currentStock | stockclass: item.itemBoilingPoint}}", data-ng-click="summaryDo(item.itemID)")
               h5 {{item.itemName}}
               span.low{{item.currentStock}}              

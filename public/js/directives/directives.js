@@ -42,12 +42,21 @@
       link: function(scope, element, attr){
         if(scope.$last === true){
           $timeout(function(){
-            $('.panorama').panorama({
-               //nicescroll: false,
-               showscrollbuttons: false,
-               keyboard: true,
-               parallax: false
-            });
+            switch (attr.onFinish){
+              case "panorama":
+                $('.panorama').panorama({
+                   //nicescroll: false,
+                   showscrollbuttons: false,
+                   keyboard: true,
+                   parallax: false
+                });
+              break;
+              case "tableheader":
+                $('table.table').fixedHeader();
+              break;
+              default:
+              break;
+            }
           });
         }
       }

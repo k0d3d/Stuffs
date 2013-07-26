@@ -23,6 +23,12 @@ var orders = require('../app/controllers/orders'),
 
 module.exports = function (app, passport) {
   // home route
+
+  var items = require('../app/controllers/items');
+  items.routes(app);
+  var orders = require('../app/controllers/items');
+  orders.routes(app);
+
   app.get('/', function(req, res){
       res.render('index',{
         title: 'Dashboard'
@@ -35,15 +41,16 @@ module.exports = function (app, passport) {
       });
     }
   );
-  app.get('/items/index', function(req, res){
-      res.render('items/index',{
-        title: 'Dashboard'
+
+  app.get('/dashboard/order', function(req, res){
+      res.render('index',{
+        title: 'Place new order'
       });
     }
   );
-  app.get('/items/list', function(req, res){
+  app.get('/orders', function(req, res){
       res.render('index',{
-        title: 'All Items'
+        title: 'All orders'
       });
     }
   );
@@ -51,23 +58,17 @@ module.exports = function (app, passport) {
       var name = req.params.name;
       res.render('partials/' + name);
     }
-  ); 
+  );
 
   //Order routes
-  app.get('/orders/add',orders.add) 
-  app.get('/orders/list',orders.list) 
-  app.post('/orders/create',orders.create)
-
-  //Item routes   
-  app.get('/items/add',items.add) 
-  app.get('/items/listAll',items.list) 
-  app.get('/items/listOne/:id/:summary',items.listOne) 
-  app.get('/items/typeahead/:term/:needle',items.typeahead)
-  app.post('/items/create',items.create)
+  //app.get('/api/orders',orders.getOrders);
+  //app.post('/api/orders',orders.createOrder);
   
   // home route
   app.get('/:parent/:child', function(req, res){
-      res.render('index');
+    var parent = req.params.parent;
+    var child = req.params.child;
+      res.render(parent+'/'+child);
       //res.render('/');
     }
   );

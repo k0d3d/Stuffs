@@ -28,7 +28,6 @@ var ItemSchema = new Schema({
     supplierID: {type: Number},
     supplierName: {type: String}
   }],
-  itemPrice: {type: Number},
   itemBoilingPoint:{type: Number},
   packageSize:{type: String},
   packageType: {type: String},

@@ -3,19 +3,9 @@
  * Module dependencies.
  */
 
-var mongoose = require('mongoose')
-  , Order = mongoose.model('Order')
+var mongoose = require('mongoose'),
+  Order = mongoose.model('Order');
 
-/**
- * New order
- */
-
-exports.add = function(req, res){
-  res.render('orders/add', {
-    title: 'New Order',
-    order: new Order({})
-  })
-}
 /**
  * Create an order
  */
@@ -31,24 +21,22 @@ exports.createOrder = function (req, res) {
     console.log(err);
   });
 };
+
+
 /**
- * List
+ * List All Orders
  */
 
 exports.getOrders = function(req, res){
-  var page = (req.param('page') > 0 ? req.param('page') : 1) - 1
-  var perPage = 30
+  var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
+  var perPage = 30;
   var options = {
-  }
+  };
 
   Order.list(options, function(err, orders) {
-    if (err) return res.render('500')
-     // res.writeHead(200, { 'Content-Type': 'application/json' })
-     // res.write(JSON.stringify(orders))
-    res.render('/orders/list',{
-      title: 'All Orders',
-      orders: orders
-    })
-
+    if (err) return res.render('500');
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.write(JSON.stringify(orders));
+    res.end();
   })
 }

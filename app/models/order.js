@@ -3,10 +3,13 @@
  * Module dependencies.
  */
 
-var mongoose = require('mongoose')
-  , env = process.env.NODE_ENV || 'development'
-  , config = require('../../config/config')[env]
-  , Schema = mongoose.Schema
+var mongoose = require('mongoose'),
+  env = process.env.NODE_ENV || 'development',
+  config = require('../../config/config')[env],
+  Schema = mongoose.Schema,
+  pureautoinc  = require('mongoose-pureautoinc');
+
+  pureautoinc.init(mongoose);
 
 /**
  * Orders Schema
@@ -19,8 +22,14 @@ var OrderSchema = new Schema({
   orderDate: {type: Date, default: Date.now },
   orderDescription: {type: String, default: ''},
   orderSupplier: {type: String, default: ''},
-  orderStatus: {type: String}
-})
+  orderStatus: {type: String},
+  orderVisibility: {type: String, default: 'active'}
+});
+
+OrderSchema.plugin(pureautoinc.plugin, {
+  model: 'Order',
+  field: 'orderID'
+});
 
 /**
  * Statics

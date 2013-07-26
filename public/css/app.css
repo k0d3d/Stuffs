@@ -93,7 +93,6 @@ span.whiteicon{
   color: white;
 }
 form div.optionalinput{
-  display: none;
 }
 .sectionAZ{
   width: 100%;
@@ -442,4 +441,7 @@ input.date-input-field[type='text']{
 }
 .close-summary{
   display: none;
+}
+.alt-text{
+  color:#2C3E50;
 }
