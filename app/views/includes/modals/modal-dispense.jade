@@ -1,0 +1,27 @@
+#modal-create-stock-down.modal.hide.fade.alt-text(data-backdrop="static")
+    .modal-header
+        h3 Dispense Prescription
+      .modal-body
+        form.new-stock-down
+            .control-group
+                label.control-label Patient Name
+                .controls
+                    input.input-block-level(type="text",name="name", ng-model="dispenseform.patientName")
+            .control-group
+                label.control-label Company
+                .controls
+                    input.input-block-level(type="text",name="authority", ng-model="dispenseform.company")
+            .control-group
+                label.control-label Hospital
+                .controls
+                    input.input-small(type="text",name="bp-percentage", ng-model="dispenseform.hospital")
+            .control-group
+                label.control-label Dispense
+                .controls
+                    input.input-small(type="text", typeahead,typeahead-action="drugsDispense")
+            ul.drugs-list
+                li(data-ng-repeat="drugs in drugslist")
+
+      .modal-footer
+        button.btn.btn-default(ng-click="toggleModal()") Back
+        button.btn(ng-click="createPoint()",ng-init="saveButtonText='Approve'", ng-class="saveButtonClass") {{saveButtonText}}

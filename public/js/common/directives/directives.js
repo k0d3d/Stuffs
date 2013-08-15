@@ -5,15 +5,6 @@
   * Description
   */
   angular.module('directives', []);
-  angular.module('directives').directive('datepicker', function(){
-    var linker = function(scope, element, attrs){
-      element.datepicker();
-    };
-    return {
-      restrict :'A',
-      link: linker
-    };
-  });
   angular.module('directives').directive('typeahead',function(ordersService, itemsService){
     var linker = function(scope, element, attrs){
       element.typeahead({

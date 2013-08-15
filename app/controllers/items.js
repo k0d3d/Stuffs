@@ -6,6 +6,8 @@
 var mongoose = require('mongoose'),
     Item = mongoose.model('Item');
     Order = mongoose.model('Order');
+    Pharmacy = mongoose.model('Pharmacy');
+    PointLocation = mongoose.model('Location');
 
 
 module.exports.routes = function(app){
@@ -23,26 +25,25 @@ module.exports.routes = function(app){
       title: 'New Inventory Item',
     });
   });
-  app.get('/items/points',function(req, res){
+  app.get('/items/locations',function(req, res){
     res.render('index',{
       title: 'Stock Down Points'
     });
   });
-/**
- * Renders a list of created Stock Down Points
- * and the available inventory. You can also create new 
- * Points and perform simple management operations
- */
-  app.get('items/stockpoints', function(req, res){
-    res.render('items/stockdown',{
-      title: 'Stock Down Points'
+  app.get('/items/dispensary',function(req, res){
+    res.render('index',{
+      title: 'Dispense Drugs'
     });
   });
   app.get('/api/items/listAll',list);
   app.get('/api/items/listOne/:id/:summary',listOne);
   app.get('/api/items/typeahead/:term/:needle',typeahead);
   app.get('/api/items/count',count);
+  // get all stock down locations and basic information
+  app.get('/api/items/location',getAllLocations);
   app.post('/api/items',create);
+  //create a stock down location
+  app.post('/api/items/location',createLocation);
 };
 
 function sortItems (list,justkeys){
@@ -66,7 +67,8 @@ function sortItems (list,justkeys){
 var create = function (req, res) {
   var it = new Item(req.body.item);
   ObjectId = mongoose.Types.ObjectId;
-  supplierObj = {supplierName: req.body.item.itemSupplier.supplierName};
+  var sn = req.body.item.itemSupplier.supplierName || '';
+  supplierObj = {supplierName: sn};
   if(req.body.item.orderInvoiceData != undefined){
     console.log('not');
     var order = new Order();
@@ -186,3 +188,24 @@ var count = function(req, res){
     });
   });
 };
+
+var createLocation = function(req, res){
+  var pl = new PointLocation(req.body);
+  pl.save(function(err, saved){
+    if(err) return err;
+    var s = {
+      locationAuthority: saved.locationAuthority,
+      locationBoilingPoint: saved.locationBoilingPoint,
+      locationId: saved.locationId,
+      locationName: saved.locationName 
+    }
+    res.json(s);
+  })
+
+}
+var getAllLocations = function(req, res){
+  PointLocation.list(function(err, r){
+    if(err) return err;
+    res.json(r);
+  })
+}

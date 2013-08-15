@@ -72,9 +72,14 @@
       #admin-section.actionSection.span6.panorama-section
         .row-fluid
           .span6
-            .tile.palette-silver(ng-click="arhref('items/points')")
+            .tile.palette-silver(ng-click="arhref('items/dispensary')")
+              .tile-sub
+                h4 Dispensary 
+          .span6
+            .tile.palette-silver(ng-click="arhref('items/locations')")
               .tile-sub
                 h4 Stock Down Points 
+        .row-fluid.row-break
           .span6
             .tile.palette-clouds(ng-click="arhref('orders/new')")
               .tile-sub

@@ -454,3 +454,18 @@ input.date-input-field[type='text']{
 .card:nth-child(5){
   clear: left;
   }
+.list-block{
+  padding: 0;
+  margin: 0;
+}
+.list-block li{
+  width: 100%;
+  list-style: none;
+  padding: 15px 5px;
+  box-sizing: border-box;
+  border: solid 1px rgba(22, 160, 133, 0.31);
+  opacity: 0.9;
+}
+.list-block li:hover{
+  background-color: #16A085;
+}

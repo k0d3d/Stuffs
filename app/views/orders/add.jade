@@ -2,7 +2,7 @@ append head
   link(rel='stylesheet', href='/css/bootstrap-datepicker.css')
 
 block body
-  include ../partials/modal.jade
+  include ../includes/modals/modal.jade
   .row-fluid.row-break
     .span2.actioncol
       button.btn.btn-large.btn-block.btn-primary(type="button",modal-Pop,ng-click='submitOrder()') Save Order
@@ -18,7 +18,7 @@ block body
           input#itemname.span6(type="text",name="itemName",ng-model="form.itemData.itemName",typeahead)          
           input#itemname(type="hidden",name="itemID",ng-model="form.itemData.itemID")          
           label(for="orderdate") Order Date
-          input#orderdate.span3(type="text", placeholder="dd/mm/yyyy", name="orderDate",ng-model="form.orderDate")
+          input#orderdate.span3(type="text", placeholder="dd/mm/yyyy", name="orderDate")
           label(for="orderamount") Order Amount
           input#orderamount.span3(type="number",name="orderAmount",ng-model="form.orderAmount")
           label(for="orderdesc") Order Description

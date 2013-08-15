@@ -27,8 +27,10 @@ var ItemSchema = new Schema({
   itemBoilingPoint:{type: Number},
   packageSize:{type: String},
   packageType: {type: String},
-  itemRate: {type: String},
-  currentStock: {type: Number, default: 0}
+  itemPurchaseRate: {type: String},
+  itemSellingRate: {type: String},
+  currentStock: {type: Number, default: 0},
+  location: {type: String, default: 'Main'}
 });
 
 ItemSchema.plugin(pureautoinc.plugin, {

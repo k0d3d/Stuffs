@@ -3,12 +3,13 @@
 *
 * Description
 */
-angular.module('item', [])
+angular.module('item', ['ui.bootstrap'])
 
 .config(['$routeProvider', function ($routeProvider){
 	$routeProvider.when('/items', {templateUrl: '/items/index', controller: 'itemIndexController'})
   .when('/items/add', {templateUrl: '/items/new', controller: 'itemAddController'})
-	.when('/items/points', {templateUrl: '/items/stockdown', controller: 'itemStockController'});
+  .when('/items/locations', {templateUrl: '/items/stockdown', controller: 'itemStockController'})
+	.when('/items/dispensary', {templateUrl: '/items/dispense', controller: 'itemDispensaryController'});
 }])
 .controller('itemIndexController', function itemIndexController($scope, $location, $routeParams,itemsService){
     $scope.summary = {};
@@ -16,6 +17,7 @@ angular.module('item', [])
     $scope.itemsList = {};
     function init(){
       itemsService.items(function(data){
+        $scope.itemsRaw = data;
         $scope.itemsList = sortItems(data);
         $scope.enabledIndex = Object.keys($scope.itemsList);
       });
@@ -62,21 +64,47 @@ angular.module('item', [])
       });
     };
 })
-.controller('itemAddController', ['$scope','$location','$routeParams','itemsService',function itemAddController ($scope, $location, $routeParams,$dialog,itemsService){
+.controller('itemAddController', function itemAddController ($scope, $location, $routeParams,itemsService){
   $scope.form = {};
   $scope.modal ={};
+  $scope.saveButtonClass = 'btn-primary';
   $scope.saveitem = function(){
     $scope.saveButtonText = 'saving';
+    $scope.saveButtonClass = 'btn-info'
     itemsService.save($scope.form, function(res){
       $scope.saveButtonText = 'SAVED';
+      $scope.saveButtonClass= 'btn-success';
     });
   };
-}])
-.controller('itemStockController',['$scope','$location','$routeParams','itemsService',function itemAddController ($scope, $location, $routeParams,$dialog,itemsService){
+})
+.controller('itemStockController',['$scope','$location','$routeParams','itemsService',function itemAddController ($scope, $location, $routeParams,itemsService){
+  $scope.locations = [];
+  itemsService.getPoints(function(res){
+    $scope.locations = res;
+  })
   $scope.toggleModal =  function(){
     $scope.modalstate = ! $scope.modalstate;
   };
+  $scope.saveButtonClass = 'btn-primary';
+
+  $scope.createPoint = function(){
+    $scope.saveButtonText = 'saving';
+    $scope.saveButtonClass = 'btn-info'
+    itemsService.saveLocation($scope.location, function(res){
+      $scope.saveButtonText = 'SAVED';
+      $scope.saveButtonClass= 'btn-success';
+      $scope.modalstate = false;
+      $scope.locations.push(res);
+    })
+  }
 }])
+.controller('itemDispensaryController', function itemDispensaryController($scope,$location,$routeParams,itemsService){
+  $scope.dispenseform = {};
+  $scope.drugsList = [];
+  $scope.addDrug = function(){
+    $scope.drugsList.push($scope.itemName);
+  }
+})
 .factory('itemsService', function($http){
   var i = {};
 
@@ -101,6 +129,18 @@ angular.module('item', [])
       callback(data);
     });
   };
+  i.saveLocation = function(post,callback){
+    $http.post('/api/items/location',post).
+    success(function(data, status){
+      callback(data);
+    });
+  }
+  i.getPoints = function(callback){
+    $http.get('/api/items/location').
+    success(function(data, status){
+      callback(data);
+    });
+  }
   return i;
 })
 .directive('newPointModal', function(){

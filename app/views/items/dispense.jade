@@ -1,0 +1,56 @@
+append head
+  link(rel='stylesheet', href='/css/table-fixed-header.css')
+
+block body
+  .row-fluid.row-break
+    .span2.actioncol
+      button.btn.btn-large.btn-block.btn-primary(ng-click="toggleModal()", new-point-modal="modalstate") New
+      button.btn.btn-large.btn-block.btn-default(ng-click="backBtn()") Go Back
+    .span4
+      h3 Dispense Prescription
+      form.new-stock-down
+          .control-group
+              label.control-label Patient Name
+              .controls
+                  input.input-block-level(type="text",name="name", ng-model="dispenseform.patientName")
+          .control-group
+              label.control-label Company
+              .controls
+                  input.input-block-level(type="text",name="authority", ng-model="dispenseform.company")
+          .control-group
+              label.control-label Hospital
+              .controls
+                  input.input-block-level(type="text",name="bp-percentage", ng-model="dispenseform.hospital")
+          .control-group
+              label.control-label Dispense
+              .controls
+                  input.input-large(type="text",ng-model="itemName")
+                  button.btn.btn-warning(type="button", ng-click="addDrug()") Add
+          ul.drugs-list
+              li(data-ng-repeat="drugs in drugsList") {{drugs}}
+          button.btn.btn-default(ng-click="toggleModal()") Back
+          button.btn(ng-click="createPoint()",ng-init="saveButtonText='Approve'", ng-class="saveButtonClass") {{saveButtonText}}
+    .span6()
+      .row-fluid.fixed-table
+        .span12
+          .table-content
+            table#list-orders.table.table-fixed-header
+              thead.header
+                tr
+                  th Patient Name
+                  th Doctor
+                  th Date Requested
+                  th List of Drugs
+                  th Actions
+              tbody
+                tr
+                  td
+                  td 
+                  td
+                  td
+                  td
+
+
+append foot
+  script(src="js/table-fixed-header.js")                
+
