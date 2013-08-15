@@ -7,23 +7,19 @@ var mongoose = require('mongoose')
   , env = process.env.NODE_ENV || 'development'
   , config = require('../../config/config')[env]
   , Schema = mongoose.Schema
+    pureautoinc  = require('mongoose-pureautoinc');
 
 /**
- * Orders Schema
+ * Item Schema 
  */
 var ItemSchema = new Schema({
-  itemID: {type: String, default: ''},
+  itemID: {type: Number, default: ''},
   itemType: {type: String, default: ''},
   itemName: {type: String, default: ''},
   sciName: {type: String, default: ''},
   manufacturerName: {type: String},
   itemCategory: {type: String},
   itemDescription: {type: String},
-  orderInvoiceData:[{orderInvoiceNumber:{type: String, default:'0'},
-                      orderInvoiceDate:{type: String, default:''},
-                      orderInvoiceAmount:{type: Number,default:''},
-                      orderBatchExpDate:{type: String}
-                    }],
   itemSupplier: [{
     supplierID: {type: Number},
     supplierName: {type: String}
@@ -33,8 +29,12 @@ var ItemSchema = new Schema({
   packageType: {type: String},
   itemRate: {type: String},
   currentStock: {type: Number, default: 0}
-})
+});
 
+ItemSchema.plugin(pureautoinc.plugin, {
+  model: 'Item',
+  field: 'itemID'
+});
 /**
  * Statics
  */

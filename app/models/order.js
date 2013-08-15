@@ -9,20 +9,24 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   pureautoinc  = require('mongoose-pureautoinc');
 
-  pureautoinc.init(mongoose);
-
 /**
  * Orders Schema
  */
 var OrderSchema = new Schema({
-  orderID: {type: String, default: ''},
+  orderID: {type: Number, default: ''},
   orderType: {type: String, default: 'Medical Equipment'},
-  itemID: {type: String, default: ''},
+  itemData: [{itemID: {type: String, default: ''},
+            itemName: {type: String, default: ''}
+            }],
   orderAmount: {type: Number, default: '0'},
   orderDate: {type: Date, default: Date.now },
-  orderDescription: {type: String, default: ''},
-  orderSupplier: {type: String, default: ''},
-  orderStatus: {type: String},
+  orderDescription: {type: String, default: 'None'},
+  orderSupplier: [{
+    supplierID: {type: String, default: ''},
+    supplierName: {type: String, default: ''}
+  }],
+  orderInvoice: {type: String, default: ''},
+  orderStatus: {type: String, default: 'pending order'},
   orderVisibility: {type: String, default: 'active'}
 });
 
@@ -30,6 +34,13 @@ OrderSchema.plugin(pureautoinc.plugin, {
   model: 'Order',
   field: 'orderID'
 });
+
+var OrderStatusSchema = new Schema({
+  order_id: Number,
+  date: {type: Date, default: Date.now},
+  status: String
+});
+
 
 /**
  * Statics
@@ -70,3 +81,4 @@ OrderSchema.statics = {
 
 
 mongoose.model('Order', OrderSchema)
+mongoose.model('OrderStatus', OrderStatusSchema)

@@ -15,7 +15,7 @@ var path = require('path')
 
 module.exports = {
   development: {
-    db: 'mongodb://koded:login60@dbh86.mongolab.com:27867/integra',
+    db: 'mongodb://koded:login60@dbh86.mongolab.com:27728/integra',
     root: rootPath,
     notifier: notifier,
     app: {

@@ -15,10 +15,13 @@ var express = require('express'),
 // if test env, load example file
 var env = process.env.NODE_ENV || 'development',
 	config = require('./config/config')[env],
-	mongoose = require('mongoose');
+	mongoose = require('mongoose'),
+	pureautoinc  = require('mongoose-pureautoinc');
 
 // Bootstrap db connection
 mongoose.connect(config.db);
+pureautoinc.init(mongoose);
+
 
 // Bootstrap models
 var models_path = __dirname + '/app/models';
@@ -35,6 +38,11 @@ require('./config/express')(app, config, passport);
 
 // Bootstrap routes
 require('./config/routes')(app, passport);
+
+
+app.on('listening',function(){
+    console.log('store server is running');
+});
 
 // Start the app by listening on <port>
 var port = process.env.PORT || 80;

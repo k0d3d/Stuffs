@@ -2,11 +2,10 @@ append head
   link(rel='stylesheet', href='/css/table-fixed-header.css')
 
 block body
-  include ../partials/modal.jade
   .row-fluid.row-break
     .span2.actioncol
       button.btn.btn-large.btn-block.btn-primary(type="button", ng-click='submitOrder()') All Orders
-      button.btn.btn-large.btn-block.btn-default(href="#fakelink", ng-click="openDialog()") Go Back
+      button.btn.btn-large.btn-block.btn-default(href="#fakelink", ng-click="backBtn()") Go Back
     .span10
       .row-fluid.fixed-table
         .table-content
@@ -27,11 +26,11 @@ block body
                 td {{order.orderID}}
                 td {{order.orderType}}
                 td 
-                  a(href="/item/{{order.itemID}}") {{order.orderID}}
+                  a(href="/item/{{order.itemData[0].itemID}}") {{order.itemData[0].itemName}}
                 td {{order.orderAmount}}
                 td {{order.orderDate}}
                 td.orderDesc {{order.orderDescription}}
-                td {{order.orderSupplier}} 
+                td {{order.orderSupplier.supplierName}} 
                 td {{order.orderStatus}}
                 td 
                   .btn-group
@@ -39,9 +38,10 @@ block body
                     button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
                       span.caret
                     ul.dropdown-menu.alt-text
-                      li Supplied
-                      li Returned
-                      li Paid
+                      li <a ng-click="$parent.changeStatus('supplied',order.itemData[0].itemID,order.orderAmount,order.orderID)">Supplied</a>
+                      li <a href="#">Returned</a>
+                      li <a href="#">Paid</a>
+                      li <a href="#">Archive</a>
 
 
 

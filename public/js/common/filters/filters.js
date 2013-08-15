@@ -1,0 +1,2 @@
+/* Filters */
+  angular.module('filters',[]);

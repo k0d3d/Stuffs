@@ -5,7 +5,8 @@ angular.module('integraApp', [
   'order',
   'stock',
   'item',
-  'dashboard'
+  'dashboard',
+  'directives'
   ]);
 angular.module('integraApp').config(function ($routeProvider, $locationProvider) {
   $routeProvider.
@@ -15,8 +16,15 @@ angular.module('integraApp').config(function ($routeProvider, $locationProvider)
   $locationProvider.html5Mode(true);
 });
 
-angular.module('integraApp').controller('MainController', function($scope, $http){
-    $scope.arhref = function(arhrefVal){
-      window.location.href=arhrefVal;
-    }; 
-});
+angular.module('integraApp').controller('MainController', function($scope, $http, $dialog){
+  
+  $scope.closeModal = function(){
+    $dialog.dialog.close();
+  }
+  $scope.backBtn = function(){
+    history.back();
+  };
+  $scope.arhref = function(arhrefVal){
+    window.location.href=arhrefVal;
+  }; 
+}); 

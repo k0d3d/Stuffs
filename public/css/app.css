@@ -338,7 +338,6 @@ li.index.active{
   background-color: #233243;
   border: 1px solid #202E3C;
   padding: 5px;
-  display: none;
 }
 #item-summary dt{
   color: #fff;
@@ -381,8 +380,15 @@ ul.index-list .active{
     top: -10px;
 }
 #billing-section:before{
-    color: #18222C;
+    color: #95A5A6;
     content: "Bills";
+    font-size: 1.5em;
+    position: relative;
+    top: -10px;
+}
+#admin-section:before{
+    color: #BDC3C7;
+    content: "Adminstration";
     font-size: 1.5em;
     position: relative;
     top: -10px;
@@ -422,9 +428,9 @@ ul.index-list .active{
   width: auto;
   height: auto;
   margin-right: 30px;
-  margin-left: 0px;
+  margin-left: 0;
 }
-div.select-block.open ul{
+.select-block.open ul{
   min-width: 240px;
   position: relative;
 }
@@ -445,3 +451,6 @@ input.date-input-field[type='text']{
 .alt-text{
   color:#2C3E50;
 }
+.card:nth-child(5){
+  clear: left;
+  }

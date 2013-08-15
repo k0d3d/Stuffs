@@ -1,0 +1,25 @@
+#modal-create-stock-down.modal.hide.fade.alt-text(data-backdrop="static")
+    .modal-header
+        h3 Create New StockUp Point
+      .modal-body
+        form.new-stock-down
+            .control-group
+                label.control-label Name
+                .controls
+                    input.input-block-level(type="text",name="name", ng-model="stkpnt.name")
+            .control-group
+                label.control-label Staff In-Charge
+                .controls
+                    input.input-block-level(type="text",name="authority", ng-model="stkpnt.authority")
+            .control-group
+                label.control-label Boiling Point (%)
+                .controls
+                    input.input-small(type="text",name="bp-percentage", ng-model="stkpnt.bppercentage")
+            .control-group
+                label.control-label Description
+                .controls
+                    textarea.input-block-level(name="description", ng-model="stkpnt.description")
+
+      .modal-footer
+        button.btn.btn-default(ng-click="toggleModal()") Back
+        button.btn.btn-primary(ng-click="createPoint()") Create

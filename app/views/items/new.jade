@@ -1,22 +1,23 @@
 block body
+  include ../includes/modals/modal.jade
   .row-fluid.row-break
     .span2.actioncol
-      button.btn.btn-large.btn-block.btn-primary(ng-click="saveitem()", href="#fakelink", ngDisabled) Save Item
-      button.btn.btn-large.btn-block.btn-primary(href="#fakelink") Go Back
+      button.btn.btn-large.btn-block.btn-primary(ng-init="saveButtonText='Save Item'", ng-click="saveitem()", modal-Pop, href="#fakelink", ng-class="saveClass") {{saveButtonText}}
+      button.btn.btn-large.btn-block.btn-primary(ng-click="backBtn()", href="#fakelink") Go Back
     .span8
       .row-fluid
-        form#form-add-item(novalidate)
+        form#form-add-item(name="newItem")
           .span4
             label(for="itemtype") Inventory Type
-            select (name="itemtype", class="span2", ng-model="form.itemtype")
+            select(name="itemtype",class="span6",ng-model="form.itemType")
               option Medication
-              option Equipment
+              option Medical Equipment
             label(for="sci-name") Scientific Name
-            input(type="text", class="span3", name="sci-name",ng-model="form.sciname")
-            label(for="name") Brand Name
-            input(type="text",name="name",class="span3", ng-model="form.name")
+            input.input-medium(type="text", name="sci-name",ng-model="form.sciname")
+            label(for="name") Brand Name 
+            input.input-medium(type="text",name="name", ng-model="form.itemName")
             label(for="man-name") Manufacturer
-            input#manufacturerName(name="manufacturerName",class="span3",type="text",ng-model="form.manufacturerName")
+            input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName")
             label(for="category") Category
             select(multiple="true",ng-model="form.itemCategory")
               option Alimentary Tract and Metabolism
@@ -34,23 +35,21 @@ block body
               option Sensory Organs
               option Various
             label(for="itemdesc") Item Description
-            textarea(name="itemdesc",class="span3",ng-model="form.itemDescription")
+            textarea(name="itemdesc",ng-model="form.itemDescription")
           .span4.offset2
             label(for="invoice-number") Invoice Number
-            input(type="text", name="invoice-number", class="span2", placeholder="No Stock Received",ng-model="form.orderInvoiceData.orderInvoiceNumber")
+            input.input-medium(type="text", name="invoice-number", placeholder="No Stock Received",ng-model="form.orderInvoiceData.orderInvoiceNumber")
             div.optionalinput(ng-show="form.orderInvoiceData.orderInvoiceNumber > 0")
               label(for="invoice-date") Invoice Date
-              input#invoice-date.date-input-field(type="text", name="invoice-date", class="datepicker",disabled="true", datepicker,  data-date-format="dd/mm/yyyy",ng-model="form.orderInvoiceData.orderInvoiceDate")
+              input#invoice-date.input-small(type="text", name="invoice-date", class="datepicker", data-date-format="dd/mm/yyyy",ng-model="form.orderInvoiceData.orderInvoiceDate")
               label(for="stock-amount") Stock Amount
-              input(type="number",class="span2",disabled="true",ng-model="form.orderInvoiceData.orderInvoiceAmount")
-              label(for="expdate") Batch Expiry Date
-              input(name="expdate",class="datepicker", data-date-format="dd/mm/yyyy", bs-datepicker, ng-model="form.orderInvoiceData.orderBatchExpDate")              
-            label(for="supplier") Supplier
-            input(type="text", name="supplier",class="span3",ng-model="form.itemSupplier")
+              input.input-small(type="number",ng-model="form.orderInvoiceData.orderInvoiceAmount")              
+              label(for="supplier") Supplier
+              input.input-medium(type="text", name="supplier",ng-model="form.itemSupplier.supplierName")
             label(for="bp") Boiling Point
-            input(type="number",name="bp",class="span2",ng-model="form.itemBoilingPoint")
+            input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint")
             label(for="itemsize") Package Size
-            input(name="itemsize",'class="span2',type="number",ng-model="form.packageSize")
+            input.input-small(name="itemsize",type="number",ng-model="form.packageSize")
             label(for="itempackaging") Item Packaging
             select(name="itempackaging",ng-model="form.packageType")
               option Tablets
@@ -58,7 +57,6 @@ block body
               option Vials
               option Caplets
             label(for="rate") Rate
-            input(name="rate",type="text",class="span2",ng-model="form.itemRate")
-
+            input.input-small(name="rate",type="text",ng-model="form.itemRate")
 append foot
   script(src='js/bootstrap-datepicker.js')

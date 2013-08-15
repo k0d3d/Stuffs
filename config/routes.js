@@ -6,13 +6,6 @@
 var async = require('async')
 
 /**
- * Controllers
- */
-
-var orders = require('../app/controllers/orders'),
-    items = require('../app/controllers/items');
-
-/**
  * Route middlewares
  */
 
@@ -26,7 +19,7 @@ module.exports = function (app, passport) {
 
   var items = require('../app/controllers/items');
   items.routes(app);
-  var orders = require('../app/controllers/items');
+  var orders = require('../app/controllers/orders');
   orders.routes(app);
 
   app.get('/', function(req, res){
@@ -41,28 +34,11 @@ module.exports = function (app, passport) {
       });
     }
   );
-
-  app.get('/dashboard/order', function(req, res){
-      res.render('index',{
-        title: 'Place new order'
-      });
-    }
-  );
-  app.get('/orders', function(req, res){
-      res.render('index',{
-        title: 'All orders'
-      });
-    }
-  );
   app.get('/partials/:name', function (req, res) {
       var name = req.params.name;
       res.render('partials/' + name);
     }
   );
-
-  //Order routes
-  //app.get('/api/orders',orders.getOrders);
-  //app.post('/api/orders',orders.createOrder);
   
   // home route
   app.get('/:parent/:child', function(req, res){

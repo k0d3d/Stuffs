@@ -3,32 +3,47 @@
  * Module dependencies.
  */
 
-var mongoose = require('mongoose')
-  , Item = mongoose.model('Item')
+var mongoose = require('mongoose'),
+    Item = mongoose.model('Item');
+    Order = mongoose.model('Order');
 
 
 module.exports.routes = function(app){
   app.get('/items/index', function(req, res){
-      res.render('items/index',{
-        title: 'Dashboard'
-      });
+      res.render('items/index');
     });
-  app.get('/items/list', function(req, res){
+  app.get('/items', function(req, res){
       res.render('index',{
         title: 'All Items'
       });
-    });  
+    });
   //Item routes   
   app.get('/items/add',function(req,res){
     res.render('index', {
       title: 'New Inventory Item',
     });
   });
+  app.get('/items/points',function(req, res){
+    res.render('index',{
+      title: 'Stock Down Points'
+    });
+  });
+/**
+ * Renders a list of created Stock Down Points
+ * and the available inventory. You can also create new 
+ * Points and perform simple management operations
+ */
+  app.get('items/stockpoints', function(req, res){
+    res.render('items/stockdown',{
+      title: 'Stock Down Points'
+    });
+  });
   app.get('/api/items/listAll',list);
-  app.get('/items/listOne/:id/:summary',listOne) 
-  app.get('/items/typeahead/:term/:needle',typeahead)
-  app.post('/api/items',create)  
-}
+  app.get('/api/items/listOne/:id/:summary',listOne);
+  app.get('/api/items/typeahead/:term/:needle',typeahead);
+  app.get('/api/items/count',count);
+  app.post('/api/items',create);
+};
 
 function sortItems (list,justkeys){
   var k = {}, l=[];
@@ -49,13 +64,37 @@ function sortItems (list,justkeys){
  */
 
 var create = function (req, res) {
-  var it = new Item(req.body);
-  console.log(req.body);
+  var it = new Item(req.body.item);
+  ObjectId = mongoose.Types.ObjectId;
+  supplierObj = {supplierName: req.body.item.itemSupplier.supplierName};
+  if(req.body.item.orderInvoiceData != undefined){
+    console.log('not');
+    var order = new Order();
+    itemObj = {itemName: req.body.item.itemName};
+    order.itemData.push(itemObj);
+    order.orderInvoice = req.body.item.orderInvoiceData.orderInvoiceNumber;
+    order.orderStatus = 'Supplied'            ;
+    order.orderType = req.body.item.itemType;
+    order.orderAmount= req.body.item.orderInvoiceData.orderInvoiceAmount;
+    order.orderDate= req.body.item.orderInvoiceDate;
+    order.save(function(err){
+      if(err)console.log(err);
+    })
+    it.currentStock = req.body.item.orderInvoiceData.orderInvoiceAmount;
+  }
+  it.itemSupplier.push(supplierObj);
   it.save(function (err) {
     if (!err) {
-      res.send('success', 'Successfully Saved!');
+      var s = Item.findOne({"_id": it._id});
+      s.select('itemID itemName itemCategory');
+      s.exec(function(err, item){
+        res.writeHead(200,{'Content-Type': 'application/json'});
+        res.write(JSON.stringify(item));
+        res.end(); 
+      });
+    }else{
+      console.log(err);
     }
-    console.log(err);
   });
 };
 /**
@@ -130,5 +169,20 @@ var typeahead = function(req, res){
      res.writeHead(200, { 'Content-Type': 'application/json' });
      res.write(JSON.stringify(itemsResult));
      res.end();   
-  })
-}
+  });
+};
+
+var count = function(req, res){
+  var d = Item.count();
+  var m  = Item.count();
+  m.$where(function(){return this.currentStock < this.itemBoilingPoint && this.currentStock > 0;});
+  var r = {};
+  d.exec(function(err,y){
+    if(err)console.log(err);
+    m.exec(function(err, o){
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.write(JSON.stringify({"count":y,"low":o}));
+      res.end();
+    });
+  });
+};

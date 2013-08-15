@@ -8,7 +8,7 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
       dd {{summary.sciName}}
       dt Manufacturer
       dd {{summary.manufacturerName}}
-      dt Supplier
+      dt Last Supplier
       dd {{summary.supplierName}}
       dt Current Stock
       dd {{summary.currentStock}}
@@ -18,18 +18,28 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
       dd {{summary.itemRate}}
   div.summary-actions
     p 
-      button.btn.btn-block.btn-warning(data-arhref='/items/{{summary.itemID}}/edit') Edit Item
+      button.btn.btn-block.btn-warning(data-ng-click="arhref('/items/{{summary.itemID}}/edit')") Edit Item
+    p
+      button.btn.btn-block.btn-warning(data-ng-click="arhref('/items/{{summary.itemID}}/prescribe')") Prescribe
+    p
+      button.btn.btn-block.btn-warning(data-ng-click="arhref('/items/{{summary.itemID}}/edit')") Request Stock Down
     p 
-      button.btn.btn-block.btn-warning(data-arhref='/orders/{{summary.itemID}}/new') Place Order
+      button.btn.btn-block.btn-warning(data-ng-click="arhref('/orders?item={{summary.itemID}}')", href="/dashboard/order/{{summary.itemID}}") Place Order
     p 
-      button.btn.btn-block.btn-warning(data-arhref='/orders/{{summary.itemID}}/return') Return Order
+      button.btn.btn-block.btn-warning(data-ng-click="arhref('/orders/{{summary.itemID}}/return')") Return Order
     p 
-      button.btn.btn-block.btn-danger(data-arhref='/items/{{summary.itemID}}/delete') Delete Item
+      button.btn.btn-block.btn-danger(data-ng-click="arhref('/items/{{summary.itemID}}/delete')") Delete Item
     p 
-      button.btn.btn-block.btn-default.btn-close(ng-click="spmenu=''", ng-class="spmenu") Close
+      button.btn.btn-block.btn-default.btn-close(data-ng-click="spmenu=''", ng-class="spmenu") Close
 
 .row-fluid.row-break
   .span2.actioncol
+    .row-fluid
+      input.input-block-level(type="search", ng-name="stock-filter", placeholder="Search Items")
+    .row-fluid
+      select.select-block(name="inventoryType", value="Medication")
+        option(value="Medication") Medication
+        option(value="Medical Equipement") Medical Equipment
     .row-fluid
       select.select-block(name="categorylist",value="Category")
         option(value="") Category

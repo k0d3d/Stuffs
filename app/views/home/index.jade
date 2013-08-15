@@ -4,7 +4,7 @@
       #items-section.actionSection.span6.panorama-section
         .row-fluid
           .span6
-            .tile.palette-emerald(ng-click="arhref('items/list')", data-arhrefVal="items/list")
+            .tile.palette-emerald(ng-click="arhref('items')", data-arhrefVal="items")
               .tile-sub
                 span.enicon.whiteicon &#57349;
                 h4 View Inventory
@@ -15,15 +15,15 @@
                 h4 Add Inventory
         .row-fluid.row-break
           .span4
-            .tile.palette-turquoise(ng-click="arhref('items/list/low')")
+            .tile.palette-pomegranate(ng-click="arhref('items/list/low')")
               .tile-sub
                 span.enicon.whiteicon &#128255;
-                h4 0
+                h4 {{itemsCount.low}}
                 span Low Stock Items
           .span4
             .tile
               .tile-sub
-                h4 200
+                h4 {{itemsCount.count}}
                 span total stock 
       #orders-section.actionSection.span6.panorama-section
         .row-fluid
@@ -39,49 +39,46 @@
                 h4 View Orders 
         .row-fluid.row-break
           .span4
-            .tile.palette-turquoise(ng-click="arhref('items/list/low')")
-              .tile-sub
-                span.enicon.whiteicon &#128255;
-                h4 0
-                span Low Stock Items
-          .span4
             .tile.palette-turquoise(ng-click="arhref('orders/pending')")
               .tile-sub  
-                h4 0
+                h4 {{ordersCount.pendingorders}}
                 span pending orders
           .span4
             .tile.palette-turquoise(ng-click="arhref('invoices/pending')")
               .tile-sub
-                h4 0 
-                span pending invoices                 
+                h4 {{ordersCount.pendingpayment}} 
+                span pending payments                 
       #billing-section.actionSection.span6.panorama-section
         .row-fluid
           .span6
-            .tile.palette-amethyst(ng-click="arhref('orders/new')")
+            .tile.palette-concrete(ng-click="arhref('orders/new')")
               .tile-sub
-                span.enicon.whiteicon &#59197;
-                h4 Place Order
+                h4 Bills
           .span6
-            .tile.palette-peter-river(ng-click="arhref('orders/list')")
+            .tile.palette-asbestos(ng-click="arhref('orders/list')")
               .tile-sub
-                span.enicon.whiteicon &#128200;
-                h4 View Orders 
+                h4 New Bill 
         .row-fluid.row-break
           .span4
-            .tile.palette-turquoise(ng-click="arhref('items/list/low')")
+            .tile(ng-click="arhref('items/list/low')")
               .tile-sub
-                span.enicon.whiteicon &#128255;
-                h4 0
-                span Low Stock Items
+                h4 N0.00
+                span Amount today
           .span4
-            .tile.palette-turquoise(ng-click="arhref('orders/pending')")
+            .tile(ng-click="arhref('orders/pending')")
               .tile-sub  
-                h4 0
-                span pending orders
-          .span4
-            .tile.palette-turquoise(ng-click="arhref('invoices/pending')")
+                h4 N0.00
+                span amount unpaid
+      #admin-section.actionSection.span6.panorama-section
+        .row-fluid
+          .span6
+            .tile.palette-silver(ng-click="arhref('items/points')")
               .tile-sub
-                h4 0 
-                span pending invoices  
+                h4 Stock Down Points 
+          .span6
+            .tile.palette-clouds(ng-click="arhref('orders/new')")
+              .tile-sub
+                h4 Suppliers 
+
 append foot
   script(src='js/index.js')            
