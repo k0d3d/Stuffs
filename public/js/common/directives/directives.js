@@ -5,21 +5,26 @@
   * Description
   */
   angular.module('directives', []);
-  angular.module('directives').directive('typeahead',function(ordersService, itemsService){
+  angular.module('directives').directive('typeAhead',function(ordersService, itemsService){
+    var ser;
     var linker = function(scope, element, attrs){
-      element.typeahead({
+        ser = {
+          suppliername : ordersService.getSupplierName,
+          itemname : itemsService.getItemName
+        };
+        scope.selectedItem ={
+          suppliername: '',
+          itemname: ''
+        }
+        element.typeahead({
         source: function(query, process){
-          return ordersService.getItemName(query,function(results){
+          return ser[attrs.thName](query,function(results){
             return process(results);
           });
         },
         updater: function(item){
-          itemsService.summary(item, function(r){
-            scope.form.itemData.itemName = r.itemName;
-            scope.form.itemData.itemID = r.itemID;
-            scope.summary = r;
-            scope.ordersummary = 'open-summary';
-          });
+          scope.selectedItem[attrs.thName] = item;
+          scope.$apply();
           return item;
         }
       });

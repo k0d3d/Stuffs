@@ -4,33 +4,55 @@ append head
 block body
   .row-fluid.row-break
     .span2.actioncol
-      button.btn.btn-large.btn-block.btn-primary(ng-click="toggleModal()", new-point-modal="modalstate") New
+      button.btn.btn-large.btn-block.btn-primary(ng-click="new = !new;all = !all;btnState = !btnState", ng-init="new = false; all = true;btnState=false", ng-disabled="btnState") Prescribe
       button.btn.btn-large.btn-block.btn-default(ng-click="backBtn()") Go Back
-    .span4
+    .span6(ng-show="new")
       h3 Dispense Prescription
       form.new-stock-down
-          .control-group
-              label.control-label Patient Name
-              .controls
-                  input.input-block-level(type="text",name="name", ng-model="dispenseform.patientName")
-          .control-group
-              label.control-label Company
-              .controls
-                  input.input-block-level(type="text",name="authority", ng-model="dispenseform.company")
-          .control-group
-              label.control-label Hospital
-              .controls
-                  input.input-block-level(type="text",name="bp-percentage", ng-model="dispenseform.hospital")
-          .control-group
-              label.control-label Dispense
-              .controls
-                  input.input-large(type="text",ng-model="itemName")
-                  button.btn.btn-warning(type="button", ng-click="addDrug()") Add
-          ul.drugs-list
-              li(data-ng-repeat="drugs in drugsList") {{drugs}}
-          button.btn.btn-default(ng-click="toggleModal()") Back
-          button.btn(ng-click="createPoint()",ng-init="saveButtonText='Approve'", ng-class="saveButtonClass") {{saveButtonText}}
-    .span6()
+        .control-group
+            label.control-label Patient Name
+            .controls
+                input.input-block-level(type="text",name="name", ng-model="dispenseform.patientName")
+        .control-group
+            label.control-label Company
+            .controls
+                input.input-block-level(type="text",name="authority", ng-model="dispenseform.company")
+        .control-group
+            label.control-label Hospital
+            .controls
+                input.input-block-level(type="text",name="bp-percentage", ng-model="dispenseform.hospital")
+        .control-group
+            label.control-label Dispense
+            .controls
+                input.input-large(type="text",ng-model="drugname", type-ahead, th-name="itemname")
+                button.btn.btn-warning(type="button", ng-click="addDrug()") Add
+        table.table.drugs-list.table-fixed-header(ng-show="drugsList.length > 0")
+          thead.header
+            tr
+              th Drug Name
+              th Stock
+              th Amount
+              th Cost
+              th Options
+              th 
+          tbody
+            tr(data-ng-repeat="drugs in drugsList")
+              td {{drugs}}
+              td 
+              td 
+                input.input-small(ng-model="dispenseform.prescription[drugs]", placeholder="amount", type="number")
+              td {{dispenseform.cost[drugs]}}
+              td 
+                select
+                  option Dispense
+                  option Alternative
+                  option Other Pharmacy
+                  option Comeback
+              td
+                button.btn.btn-min.btn-primary Confirm
+        button.btn.btn-default(ng-click="new = !new;all = !all;btnState = !btnState") Back
+        button.btn(ng-click="createPoint()",ng-init="saveButtonText='Approve'", ng-class="saveButtonClass") {{saveButtonText}}
+    .span6(ng-show="all")
       .row-fluid.fixed-table
         .span12
           .table-content

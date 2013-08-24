@@ -55,7 +55,6 @@ perspective effects (not including the modals and the overlay).
 	left: 0;
 	z-index: 1000;
 	opacity: 0;
-	background: rgba(143,27,15,0.8);
 	-webkit-transition: all 0.3s;
 	-moz-transition: all 0.3s;
 	transition: all 0.3s;
@@ -69,7 +68,6 @@ perspective effects (not including the modals and the overlay).
 /* Content styles */
 .md-content {
 	color: #fff;
-	background: #e74c3c;
 	position: relative;
 	border-radius: 3px;
 	margin: 0 auto;
@@ -111,6 +109,24 @@ perspective effects (not including the modals and the overlay).
 	display: block;
 	margin: 0 auto;
 	font-size: 0.8em;
+}
+.md-content button {
+	border: none;
+	padding: 0.6em 1.2em;
+	background: rgba(0, 0, 0, 0.47);
+	color: #fff;
+	font-family: 'Lato', Calibri, Arial, sans-serif;
+	font-size: 1em;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	cursor: pointer;
+	display: inline-block;
+	margin: 3px 2px;
+	border-radius: 2px;
+}
+
+.md-content button:hover {
+	background: #141414;
 }
 
 /* Individual modal styles with animations/transitions */
@@ -728,6 +744,20 @@ perspective effects (not including the modals and the overlay).
 	-moz-transition: all 0.5s 0.1s;
 	transition: all 0.5s 0.1s;
 }
+
+.md-success{
+	background: #2ECC71;
+}
+.success-overlay{
+	background: rgba(39, 174, 96, 0.64);
+}
+.md-error{
+	background: #e74c3c;
+}
+.error-overlay{
+	background: rgba(143,27,15,0.8);
+}
+
 
 @media screen and (max-width: 32em) {
 	body { font-size: 75%; }

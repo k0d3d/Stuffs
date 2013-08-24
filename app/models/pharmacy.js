@@ -3,11 +3,11 @@
  * Module dependencies.
  */
 
-var mongoose = require('mongoose')
-  , env = process.env.NODE_ENV || 'development'
-  , config = require('../../config/config')[env]
-  , Schema = mongoose.Schema
-    pureautoinc  = require('mongoose-pureautoinc');
+var mongoose = require('mongoose'),
+env = process.env.NODE_ENV || 'development',
+config = require('../../config/config')[env],
+Schema = mongoose.Schema,
+pureautoinc  = require('mongoose-pureautoinc');
 
 /**
  * Pharmacy Schema 
@@ -15,7 +15,7 @@ var mongoose = require('mongoose')
 var PharmacySchema = new Schema({
   issueId: {type: Number},
   patientName: {type: String},
-  medication:[{
+  medication: [{
     itemID: {type: Schema.ObjectId, ref: 'Item'},
     itemName: String,
     amount: Number,

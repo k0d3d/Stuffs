@@ -30,18 +30,6 @@ String.prototype.repeat = function(num) {
     // Tags Input
     $(".tagsinput").tagsInput();
 
-    // jQuery UI Sliders
-    var $slider = $("#slider");
-    if ($slider.length) {
-      $slider.slider({
-        min: 1,
-        max: 5,
-        value: 2,
-        orientation: "horizontal",
-        range: "min"
-      }).addSliderSegments($slider.slider("option").max);
-    }
-
     // Placeholders for input/textarea
     $("input, textarea").placeholder();
 
@@ -55,12 +43,16 @@ String.prototype.repeat = function(num) {
     });
 
     // Disable link clicks to prevent page scrolling
-    $('a[href="#fakelink"]').on('click', function (e) {
+    $('[href="#fakelink"]').on('click', function (e) {
       e.preventDefault();
     });
 
     // Switch
     $("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
+
+    $('.md-close').on('click', function(e){
+      $(this).parents('.md-modal').removeClass('md-show');
+    });
     
   });
   

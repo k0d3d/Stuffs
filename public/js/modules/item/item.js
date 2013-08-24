@@ -26,11 +26,13 @@ angular.module('item', ['ui.bootstrap'])
     function sortItems(data){
       var o = {};
       data.forEach(function(ele,index,arr){
-        var fchar = ele.itemName.split("");
-        if(o[fchar[0]] ===  undefined){
-          o[fchar[0]] = [];
+        if(ele.itemName){
+          var fchar = ele.itemName.split("");
+          if(o[fchar[0]] ===  undefined){
+            o[fchar[0]] = [];
+          }
+          o[fchar[0]].push(ele);
         }
-        o[fchar[0]].push(ele);
       });
       return o;
     }
@@ -58,8 +60,6 @@ angular.module('item', ['ui.bootstrap'])
     $scope.summaryDo =  function (id){
       itemsService.summary(id,function(res){
         $scope.summary = res;
-        //$scope.summary.supplierName = res.itemSupplier[0]['supplierName'];
-        $scope.summary.supplierName = 'Kilo';
         $scope.spmenu = 'cbp-spmenu-open';
       });
     };
@@ -70,10 +70,23 @@ angular.module('item', ['ui.bootstrap'])
   $scope.saveButtonClass = 'btn-primary';
   $scope.saveitem = function(){
     $scope.saveButtonText = 'saving';
-    $scope.saveButtonClass = 'btn-info'
-    itemsService.save($scope.form, function(res){
-      $scope.saveButtonText = 'SAVED';
-      $scope.saveButtonClass= 'btn-success';
+    $scope.saveButtonClass = 'btn-info';
+    itemsService.save($scope.form, function(status,res){
+      if(status){
+        $scope.$parent.modal.heading= 'Item Added';
+        $scope.$parent.modal.body= "You've succesfull added an order. Note: Items placed with invoice numbers and stock amounts will have their current stock updated. To add another item, close this dialog or return to the dashboard";
+        $scope.form = '';
+        $('.md-modal').addClass('md-show md-success');
+        $('.md-overlay').addClass('success-overlay');
+        $scope.saveButtonText = 'Save Item';
+        $scope.saveButtonClass = 'btn-primary';
+      }else{
+        $scope.$parent.modal.heading= 'Error Adding Item';
+        $scope.$parent.modal.body= "Something went wrong while carrying out your last request. If it's nothing serious, you can try again. If this error happens again, please inform the Admin";
+        $('.md-modal').addClass('md-show md-error');
+        $('.md-overlay').addClass('error-overlay');
+        $scope.saveButtonText = 'Save Item';
+      }
     });
   };
 })
@@ -81,7 +94,7 @@ angular.module('item', ['ui.bootstrap'])
   $scope.locations = [];
   itemsService.getPoints(function(res){
     $scope.locations = res;
-  })
+  });
   $scope.toggleModal =  function(){
     $scope.modalstate = ! $scope.modalstate;
   };
@@ -89,21 +102,30 @@ angular.module('item', ['ui.bootstrap'])
 
   $scope.createPoint = function(){
     $scope.saveButtonText = 'saving';
-    $scope.saveButtonClass = 'btn-info'
+    $scope.saveButtonClass = 'btn-info';
     itemsService.saveLocation($scope.location, function(res){
       $scope.saveButtonText = 'SAVED';
       $scope.saveButtonClass= 'btn-success';
       $scope.modalstate = false;
       $scope.locations.push(res);
-    })
-  }
+    });
+  };
 }])
 .controller('itemDispensaryController', function itemDispensaryController($scope,$location,$routeParams,itemsService){
-  $scope.dispenseform = {};
+  $scope.dispenseform = {
+    prescription: [],
+    cost: []
+  };
   $scope.drugsList = [];
+  
+  $scope.$watch('selectedItem', function(newValue, oldValue){
+    if(newValue !== oldValue){
+      $scope.itemName = newValue;
+    }
+  });
   $scope.addDrug = function(){
     $scope.drugsList.push($scope.itemName);
-  }
+  };
 })
 .factory('itemsService', function($http){
   var i = {};
@@ -111,16 +133,24 @@ angular.module('item', ['ui.bootstrap'])
   i.items =  function(callback){
       $http.get('/api/items/listAll').success(callback);
     };
-
+  i.getItemName = function(query, callback){
+      $.getJSON('/api/items/typeahead/itemName/'+escape(query), function(s) {
+          var results = [];
+          $.each(s,function(){
+            results.push(this.itemName);
+          });
+          callback(results);
+      });
+  };
   i.summary = function(id,callback){
-      $http.get('/api/items/listOne/'+id+'/quick').success(callback);
+      $http.get('/api/items/listOne/'+escape(id)+'/quick').success(callback);
     };
   i.save =  function(post, callback){
       $http.post('/api/items', {item: post}).success(function(status, response){
-        callback(response);
+        callback(true,response);
       }).
       error(function(status, response){
-        console.log(status);
+        callback(false, response);
       });
     };
   i.count =  function(callback){
@@ -134,13 +164,13 @@ angular.module('item', ['ui.bootstrap'])
     success(function(data, status){
       callback(data);
     });
-  }
+  };
   i.getPoints = function(callback){
     $http.get('/api/items/location').
     success(function(data, status){
       callback(data);
     });
-  }
+  };
   return i;
 })
 .directive('newPointModal', function(){

@@ -13,14 +13,14 @@ $(document).ready(function(){
         totalOffset = totalOffset + $(that).outerWidth();
         var inpx = '-'+totalOffset+'px';
         $('.sectionAZ').css({"margin-left":inpx});
-     }).
-     on('change','select.stockFilter',function(e){
-        e.preventDefault();    
+     });
+     $('select.stockFilter').on('change',function(e){
+        e.preventDefault();
         $('.card').show();
         var toHide = $(this).find('option:selected').val();
         if(toHide.length > 0)$('.card').not('.'+toHide).hide();
      });
-    $("select.select-block").selectpicker({style: 'btn-primary', menuStyle: 'dropdown-inverse'});
+    //$("select.select-block").selectpicker({style: 'btn-primary', menuStyle: 'dropdown-inverse'});
     $('#home.panorama').panorama({
        //nicescroll: false,
        showscrollbuttons: false,

@@ -1,12 +1,8 @@
-append head
-  link(rel='stylesheet', href='/css/bootstrap-datepicker.css')
-
 block body
-  include ../includes/modals/modal.jade
   .row-fluid.row-break
     .span2.actioncol
-      button.btn.btn-large.btn-block.btn-primary(type="button",modal-Pop,ng-click='submitOrder()') Save Order
-      button.btn.btn-large.btn-block.btn-default(href="#fakelink", ng-click="backBtn()") Go Back
+      button.btn.btn-large.btn-block.btn-primary(ng-init="saveButtonText='Save Item'", type="button",ng-click='submitOrder()') {{saveButtonText}}
+      button.btn.btn-large.btn-block.btn-default(ng-click="backBtn()") Go Back
     .span4
       .row-fluid
         form#form-new-order(name="newOrder")
@@ -15,16 +11,16 @@ block body
             option Medication
             option Medical Equipment
           label(for="itemname") Item / Drug Name
-          input#itemname.span6(type="text",name="itemName",ng-model="form.itemData.itemName",typeahead)          
+          input#itemname.span6(type="text",name="itemName",ng-model="form.itemData.itemName",type-ahead, th-name="itemname")
           input#itemname(type="hidden",name="itemID",ng-model="form.itemData.itemID")          
           label(for="orderdate") Order Date
-          input#orderdate.span3(type="text", placeholder="dd/mm/yyyy", name="orderDate")
+          input#orderdate.span4(type="text", placeholder="dd/mm/yyyy", name="orderDate", ng-model="form.orderDate")
           label(for="orderamount") Order Amount
-          input#orderamount.span3(type="number",name="orderAmount",ng-model="form.orderAmount")
+          input#orderamount.span4(type="number",name="orderAmount",ng-model="form.orderAmount")
           label(for="orderdesc") Order Description
           textarea#orderdesc.span6(ng-model="form.orderDescription",name="orderDescription")
           label(for="orderamount") Order Supplier
-          input#order-supplier-name.span6(type="text",name="orderSupplierName",ng-model="form.orderSupplier.orderSupplierName") 
+          input#order-supplier-name.span6(type="text",name="orderSupplierName",ng-model="form.orderSupplier.orderSupplierName",type-ahead, th-name="suppliername") 
     .span3.offset2
       .row-fluid
         #item-summary.open-summary(summary-data="summary", ng-class="ordersummary")
@@ -37,14 +33,9 @@ block body
               dd {{summary.sciName}}
               dt Manufacturer
               dd {{summary.manufacturerName}}
-              dt Supplier
-              dd {{summary.supplierName}}
               dt Current Stock
               dd {{summary.currentStock}}
               dt Last Order Date
               dd {{summary.lastOrderDate}}
               dt Rate
-              dd {{summary.itemRate}}        
-
-append foot
-  script(src='js/bootstrap-datepicker.js')
+              dd {{summary.itemPurchaseRate}}        

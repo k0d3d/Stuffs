@@ -1341,7 +1341,7 @@ input[type="color"]:focus,
 .row-fluid input[type="tel"],
 .row-fluid input[type="color"],
 .row-fluid .uneditable-input {
-  /*height: 41px;*/
+  height: 30px;
   /*width: 100%;*/
 }
 textarea.flat,

@@ -8,8 +8,6 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
       dd {{summary.sciName}}
       dt Manufacturer
       dd {{summary.manufacturerName}}
-      dt Last Supplier
-      dd {{summary.supplierName}}
       dt Current Stock
       dd {{summary.currentStock}}
       dt Last Order Date
@@ -19,8 +17,6 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
   div.summary-actions
     p 
       button.btn.btn-block.btn-warning(data-ng-click="arhref('/items/{{summary.itemID}}/edit')") Edit Item
-    p
-      button.btn.btn-block.btn-warning(data-ng-click="arhref('/items/{{summary.itemID}}/prescribe')") Prescribe
     p
       button.btn.btn-block.btn-warning(data-ng-click="arhref('/items/{{summary.itemID}}/edit')") Request Stock Down
     p 
@@ -35,7 +31,7 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
 .row-fluid.row-break
   .span2.actioncol
     .row-fluid
-      input.input-block-level(type="search", ng-name="stock-filter", placeholder="Search Items")
+      input.input-medium(type="search", ng-model="search", placeholder="Search Items")
     .row-fluid
       select.select-block(name="inventoryType", value="Medication")
         option(value="Medication") Medication
@@ -48,7 +44,7 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
         option(value="2") Antiseptic
         option(value="3") Cardio
     .row-fluid
-      select.select-block.stockFilter(ng-model="selection", ng-name="stock-filter")
+      select.select-block.stockFilter
         option(value="", selected) All Stock
         option(value="good-stock") Good Stock
         option(value="low-stock") Low Stock
@@ -58,7 +54,7 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
       .panorama
         .sectionAZ.panorama-sections
           .card-section.span6.panorama-section(data-ng-repeat="(key,az) in itemsList", id="section{{key}}", on-finish="panorama")
-            .card(data-ng-repeat="item in az  | orderBy:'itemName'", class="{{item.currentStock | stockclass: item.itemBoilingPoint}}", data-ng-click="summaryDo(item.itemID)")
+            .card(data-ng-repeat="item in az  | orderBy:'itemName' | filter: search", class="{{item.currentStock | stockclass: item.itemBoilingPoint}}", data-ng-click="summaryDo(item.itemID)")
               h5 {{item.itemName}}
               span.low{{item.currentStock}}              
       .row-fluid.row-break

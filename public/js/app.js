@@ -17,14 +17,12 @@ angular.module('integraApp').config(function ($routeProvider, $locationProvider)
 });
 
 angular.module('integraApp').controller('MainController', function($scope, $http, $dialog){
-  
-  $scope.closeModal = function(){
-    $dialog.dialog.close();
-  }
-  $scope.backBtn = function(){
-    history.back();
+  $scope.modal ={
+    heading : '',
+    body : ''
   };
+
   $scope.arhref = function(arhrefVal){
     window.location.href=arhrefVal;
-  }; 
-}); 
+  };
+});

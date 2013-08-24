@@ -1,4 +1,6 @@
 extends layouts/default
 
 block body
+  include ./includes/modals/modal.jade
   div#wrap(ng-view)
+  div.md-overlay

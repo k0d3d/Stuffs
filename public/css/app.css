@@ -451,7 +451,7 @@ input.date-input-field[type='text']{
 .alt-text{
   color:#2C3E50;
 }
-.card:nth-child(5){
+.card:nth-child(5n + 6){
   clear: left;
   }
 .list-block{
@@ -468,4 +468,13 @@ input.date-input-field[type='text']{
 }
 .list-block li:hover{
   background-color: #16A085;
+}
+input#order-supplier-name + ul.typeahead{
+  
+}
+span.drugname{
+  float: left;
+}
+ul.drugs-list{
+  margin: 0;
 }

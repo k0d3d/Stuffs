@@ -3,11 +3,11 @@
  * Module dependencies.
  */
 
-var mongoose = require('mongoose')
-  , env = process.env.NODE_ENV || 'development'
-  , config = require('../../config/config')[env]
-  , Schema = mongoose.Schema
-    pureautoinc  = require('mongoose-pureautoinc');
+var mongoose = require('mongoose'),
+  env = process.env.NODE_ENV || 'development',
+  config = require('../../config/config')[env],
+  Schema = mongoose.Schema,
+  pureautoinc  = require('mongoose-pureautoinc');
 
 /**
  * Item Schema 
@@ -20,13 +20,9 @@ var ItemSchema = new Schema({
   manufacturerName: {type: String},
   itemCategory: {type: String},
   itemDescription: {type: String},
-  itemSupplier: [{
-    supplierID: {type: Number},
-    supplierName: {type: String}
-  }],
   itemBoilingPoint:{type: Number},
   packageSize:{type: String},
-  packageType: {type: String},
+  form: {type: String},
   itemPurchaseRate: {type: String},
   itemSellingRate: {type: String},
   currentStock: {type: Number, default: 0},

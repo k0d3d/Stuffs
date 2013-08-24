@@ -13,7 +13,7 @@ config(['$routeProvider',function($routeProvider){
 controller('ordersIndexController', function($scope, $http, $location, $dialog, ordersService){
   (function(){
     ordersService.orders(function(r){
-      $scope.orders = r;    
+      $scope.orders = r;
     });
   }());
   $scope.changeStatus = function(status,itemId,amount,orderId){
@@ -21,9 +21,9 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
     ordersService.updateOrder(status,itemId,amount,orderId,function(r){
 
     });
-  }    
+  };
 })
-.controller('orderAddController',function($scope, $http, $location, $dialog, ordersService,itemsService, $routeParams){
+.controller('orderAddController',function($scope, $http, $location, ordersService,itemsService, $routeParams){
   $scope.form = {
     itemData: {},
     supplierData: {}
@@ -38,31 +38,49 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
       $scope.form.orderSupplier.orderSupplierID = r.supplierID;
     });
   }
+  $scope.$watch('selectedItem', function(newValue, oldValue){
+    if(newValue !== oldValue){
+      if(newValue['itemname']){
+        itemsService.summary(newValue['itemname'], function(r){
+          $scope.form.itemData.itemName = r.itemName;
+          $scope.form.itemData.itemID = r.itemID;
+          $scope.summary = r;
+        });
+      }
+    }
+  }, true);
+  $scope.saveButtonClass = 'btn-primary';
   $scope.submitOrder = function(){
+    $scope.saveButtonText = 'saving';
+    $scope.saveButtonClass = 'btn-info';
     ordersService.save($scope.form, function(data){
-      console.log('what d fuck');
-      $scope.modal = {
-        heading : 'Save New Order',
-        body: 'Order has been placed.',
-      };
+      $scope.$parent.modal.heading= 'Order Placed';
+      $scope.$parent.modal.body= "You've succesfull placed an order. To place another order, \n close this dialog or return to the dashboard";
+      $scope.form = '';
+      $('.md-modal').addClass('md-show md-success');
+      $('.md-overlay').addClass('success-overlay');
+      $scope.saveButtonText = 'Save';
     });
   };
 })
 .factory('ordersService',function($http){
     var f = {};
-    f.getItemName = function(query, callback){
-        $.getJSON('/api/items/typeahead/itemName/'+query, function(s) {
-            var results = [];
-            $.each(s,function(){
-              results.push(this.itemName);
-            });
-            return callback(results);
-        });
+    f.getAllSuppliers = function(callback){
+      $http.get('/api/orders/suppliers/'+escape(query)).success(function(data){
+        callback(data);
+      });
     };
-    f.itemSummary = function(item){
-        $.getJSON('/apiitems/listOne/'+item+'/quick',function(y){
-            return y;
-        });
+    f.getSupplierName = function(query, callback){
+      // $http.get('/api/orders/supplier/typeahead/'+query).success(function(data){
+      //   callback(data);
+      // });
+      $.getJSON('/api/orders/supplier/typeahead/'+escape(query), function(s) {
+          var results = [];
+          $.each(s,function(){
+            results.push(this.supplierName);
+          });
+          callback(results);
+      });
     };
     f.orders = function(callback){
       var res = [];
@@ -82,7 +100,7 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
         });
     };
     f.updateOrder = function(status,itemId,amount,orderId,callback){
-      $http.put('/api/orders/'+orderId, {"status": status,"itemId":itemId,"amount":amount});
+      $http.put('/api/orders/'+escape(orderId), {"status": status,"itemId":itemId,"amount":amount});
     };
     f.count = function(callback){
       $http.get('api/orders/count').
