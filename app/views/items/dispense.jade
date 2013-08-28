@@ -6,50 +6,53 @@ block body
     .span2.actioncol
       button.btn.btn-large.btn-block.btn-primary(ng-click="new = !new;all = !all;btnState = !btnState", ng-init="new = false; all = true;btnState=false", ng-disabled="btnState") Prescribe
       button.btn.btn-large.btn-block.btn-default(ng-click="backBtn()") Go Back
-    .span6(ng-show="new")
+    .span8(ng-show="new")
       h3 Dispense Prescription
       form.new-stock-down
         .control-group
             label.control-label Patient Name
             .controls
-                input.input-block-level(type="text",name="name", ng-model="dispenseform.patientName")
+                input.input-large(type="text",name="name", ng-model="dispenseform.patientName")
         .control-group
             label.control-label Company
             .controls
-                input.input-block-level(type="text",name="authority", ng-model="dispenseform.company")
+                input.input-large(type="text",name="authority", ng-model="dispenseform.company")
         .control-group
-            label.control-label Hospital
+            label.control-label Hospital Number
             .controls
-                input.input-block-level(type="text",name="bp-percentage", ng-model="dispenseform.hospital")
+                input.input-large(type="text",name="bp-percentage", ng-model="dispenseform.hospital")
         .control-group
             label.control-label Dispense
             .controls
                 input.input-large(type="text",ng-model="drugname", type-ahead, th-name="itemname")
-                button.btn.btn-warning(type="button", ng-click="addDrug()") Add
+                button.btn.btn-warning.pull-right(type="button", ng-click="addDrug()") Add
         table.table.drugs-list.table-fixed-header(ng-show="drugsList.length > 0")
           thead.header
             tr
               th Drug Name
               th Stock
               th Amount
-              th Cost
+              th Cost (N)
               th Options
               th 
           tbody
-            tr(data-ng-repeat="drugs in drugsList")
-              td {{drugs}}
+            tr(data-ng-repeat="(i,drugs) in drugsList")
+              td {{d[$index].itemName}}
+              td {{d[$index].currentStock}}
               td 
-              td 
-                input.input-small(ng-model="dispenseform.prescription[drugs]", placeholder="amount", type="number")
-              td {{dispenseform.cost[drugs]}}
+                .control-group(ng-class="{ error: d[$index].amount > d[$index].currentStock}",amount="d[$index].amount",current-stock="d[$index].currentStock")
+                  input.input-small(ng-model="d[$index].amount",placeholder="amount", type="number")
+              td {{d[$index].amount * d[$index].itemSellingRate}}
               td 
                 select
                   option Dispense
-                  option Alternative
-                  option Other Pharmacy
-                  option Comeback
+                  option Give Alternative
+                  option Immediate Purchase
+                  option Supply on appointment
+                  option RX
               td
-                button.btn.btn-min.btn-primary Confirm
+                button.btn.btn-mini.btn-primary(ng-disabled="{true: d[$index].amount > d[$index].currentStock}") Confirm
+                i.icon-remove.icon-white.pull-right(ng-click="removeDrug($index)")
         button.btn.btn-default(ng-click="new = !new;all = !all;btnState = !btnState") Back
         button.btn(ng-click="createPoint()",ng-init="saveButtonText='Approve'", ng-class="saveButtonClass") {{saveButtonText}}
     .span6(ng-show="all")

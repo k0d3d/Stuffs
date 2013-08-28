@@ -95,7 +95,7 @@ var listOne = function(req,res){
       options.criteria = {"itemName": req.param('id')};
     }
     if(req.param('summary') == 'quick'){
-      options.fields = "itemID itemName sciName manufacturerName itemSupplier.supplierName currentStock itemRate";
+      options.fields = "itemID itemName sciName manufacturerName itemSupplier.supplierName currentStock itemSellingRate itemBoilingPoint";
     }
     Item.list(options, function(err, itemsResult){
       if (err) return res.render('500');

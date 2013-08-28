@@ -118,13 +118,24 @@ angular.module('item', ['ui.bootstrap'])
   };
   $scope.drugsList = [];
   
-  $scope.$watch('selectedItem', function(newValue, oldValue){
+  $scope.$watch('selectedItem.itemname', function(newValue, oldValue){
     if(newValue !== oldValue){
-      $scope.itemName = newValue;
+      $scope.thisItemName = newValue;
     }
   });
+  var i = 0;
+  $scope.d = {};
   $scope.addDrug = function(){
-    $scope.drugsList.push($scope.itemName);
+    itemsService.summary($scope.thisItemName, function(c){
+      if(_.indexOf($scope.drugsList, $scope.thisItemName) < 0){
+        $scope.drugsList.push($scope.thisItemName);
+        $scope.d[i] = c;
+        i++;
+      }
+    });
+  };
+  $scope.removeDrug = function(index){
+    $scope.drugsList.splice(index, 1);
   };
 })
 .factory('itemsService', function($http){
@@ -195,6 +206,25 @@ angular.module('item', ['ui.bootstrap'])
     return {
       link: link
     };
+})
+.directive('amount', function(){
+  // Runs during compile
+  return {
+    link: function($scope, iElm, iAttrs, controller) {
+      var cs = $scope.$eval(iAttrs.currentStock);
+      var amount = $scope.$eval(iAttrs.amount);
+      var dClass = $scope.$eval(iAttrs.ngClass);
+      console.log(iAttrs);
+
+      // $scope.$watch(iAttrs.amount, function(newValue, oldValue){
+      //   if(newValue < cs){
+      //     $scope[dClass] = '';
+      //   }else{
+      //     $scope[dClass] = 'error';
+      //   }
+      // });
+    }
+  };
 })
 .filter('stockclass',function(){
     return function(cs, bp){
