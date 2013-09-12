@@ -1,8 +1,9 @@
 block body
+  include ../includes/modals/modal-item.jade
   .row-fluid.row-break
     .span2.actioncol
       button.btn.btn-large.btn-block.btn-primary(ng-init="saveButtonText='Save Item'", ng-click="saveitem()", modal-Pop, ng-class="saveButtonClass") {{saveButtonText}}
-      button.btn.btn-large.btn-block.btn-primary(ng-click="backBtn()", href="#fakelink") Go Back
+      button.btn.btn-large.btn-block.btn-primary(ng-click="commons.backBtn()") Go Back
     .span8
       .row-fluid
         form#form-add-item(name="newItem")
@@ -12,7 +13,7 @@ block body
               option Medication
               option Medical Equipment
             label(for="sci-name") Scientific Name
-            input.input-medium(type="text", name="sci-name",ng-model="form.sciname")
+            input.input-medium(type="text", name="sci-name",ng-model="form.sciName")
             label(for="name") Brand Name 
             input.input-medium(type="text",name="name", ng-model="form.itemName", type-ahead, th-name="itemname")
             label(for="man-name") Manufacturer
@@ -37,7 +38,7 @@ block body
             textarea(name="itemdesc",ng-model="form.itemDescription")
           .span4.offset2
             label(for="invoice-number") Invoice Number
-            input.input-medium(type="text", name="invoice-number", placeholder="No Stock Received",ng-model="form.orderInvoiceData.orderInvoiceNumber")
+            input.input-medium(type="text", name="invoice-number", placeholder="No Stock Received",ng-model="form.orderInvoiceData.orderInvoiceNumber", ng-disabled="isDisabled")
             div.optionalinput(ng-show="form.orderInvoiceData.orderInvoiceNumber > 0")
               label(for="invoice-date") Invoice Date
               input#invoice-date.input-small(type="text", name="invoice-date", class="datepicker", data-date-format="dd/mm/yyyy",ng-model="form.orderInvoiceData.orderInvoiceDate")
@@ -57,7 +58,5 @@ block body
               option Caplets
             label(for="rate") Purchase Rate
             input.input-medium(name="rate",type="text",ng-model="form.itemPurchaseRate", placeholder="Amount / Packaging")
-            label(for="rate") Selling Rate
-            input.input-medium(name="rate",type="text",ng-model="form.itemSellingRate", placeholder="Amount / Packaging")
 append foot
   script(src='js/bootstrap-datepicker.js')

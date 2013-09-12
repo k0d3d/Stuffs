@@ -16,9 +16,9 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
       $scope.orders = r;
     });
   }());
-  $scope.changeStatus = function(status,itemId,amount,orderId){
-    console.log('click');
-    ordersService.updateOrder(status,itemId,amount,orderId,function(r){
+  $scope.changeStatus = function(status,itemData,amount,orderId){
+    console.log(itemData);
+    ordersService.updateOrder(status,itemData,amount,orderId,function(r){
 
     });
   };
@@ -44,6 +44,7 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
         itemsService.summary(newValue['itemname'], function(r){
           $scope.form.itemData.itemName = r.itemName;
           $scope.form.itemData.itemID = r.itemID;
+          $scope.form.itemData._id = r._id;
           $scope.summary = r;
         });
       }
@@ -99,8 +100,8 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
           console.log(err);
         });
     };
-    f.updateOrder = function(status,itemId,amount,orderId,callback){
-      $http.put('/api/orders/'+escape(orderId), {"status": status,"itemId":itemId,"amount":amount});
+    f.updateOrder = function(status,itemData,amount,orderId,callback){
+      $http.put('/api/orders/'+escape(orderId), {"status": status,"itemData":itemData,"amount":amount});
     };
     f.count = function(callback){
       $http.get('api/orders/count').

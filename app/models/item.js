@@ -24,9 +24,6 @@ var ItemSchema = new Schema({
   packageSize:{type: String},
   form: {type: String},
   itemPurchaseRate: {type: String},
-  itemSellingRate: {type: String},
-  currentStock: {type: Number, default: 0},
-  location: {type: String, default: 'Main'}
 });
 
 ItemSchema.plugin(pureautoinc.plugin, {
@@ -66,7 +63,21 @@ ItemSchema.statics = {
     var criteria = options.criteria || {};
     var fields = options.fields || {};
     this.find(criteria,fields)
-      .exec(cb)
+      .exec(cb);
+  },
+  /**
+   * List One article
+   *
+   * @param {Object} options
+   * @param {Function} cb
+   * @api private
+   */
+
+  listOne: function (options, cb) {
+    var criteria = options.criteria || {};
+    var fields = options.fields || {};
+    this.findOne(criteria,fields)
+      .exec(cb);
   },
 
   /**
@@ -80,7 +91,6 @@ ItemSchema.statics = {
     wit.regex('itemName',new RegExp(name, 'i')).exec(cb)
     
   }
-
 
 }
 

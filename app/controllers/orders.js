@@ -7,6 +7,7 @@ var mongoose = require('mongoose'),
   Order = mongoose.model('Order'),
   OrderStatus = mongoose.model('OrderStatus'),
   Item = mongoose.model('Item'),
+  StockHistory = mongoose.model('StockHistory'),
   Supplier = mongoose.model('Supplier');
 
 /**
@@ -14,7 +15,7 @@ var mongoose = require('mongoose'),
  */
 var createOrder = function (req, res) {
   var order = new Order(req.body);
-  itemObj = {itemName: req.body.itemData.itemName, itemID: req.body.itemData.itemID};
+  itemObj = {itemName: req.body.itemData.itemName, itemID: req.body.itemData.itemID, _id: req.body.itemData._id};
   order.itemData.push(itemObj);
   order.save(function (err) {
     if (!err) {
@@ -47,32 +48,53 @@ var getOrders = function(req, res){
 };
 
 var updateOrder = function(req, res){
-  console.log(req.param('orderId'));
+  var doUpdates = function (){
+      //Updates the order status 
+      Order.update({'orderID':req.param('orderId')},{
+        $set: {
+          'orderStatus':req.body.status
+          //'orderInvoice': req.body.orderInvoiceNumber
+        }
+      }).exec(function(err,numberAffected){
+        if(err)console.log(err);
+      });
+
+      //Creates a new record to show when this order was
+      //updated and what action was taken.
+      orderstatus = new OrderStatus();
+      orderstatus.status = req.body.status;
+      orderstatus.order_id = req.param('orderId');
+      orderstatus.save(function(err){
+        if(err)return err;
+        res.json(200, {"task": true});
+      });
+  };
+
+  //If this order gets supplied.
   if(req.body.status == 'supplied'){
-    Item.update({'itemID':req.body.itemId},{
-      $inc: {
-        'currentStock': req.body.amount
-      }
-    }).exec(function(err,numberAffected){
-      if(err)console.log(err);
-    });
+    //Set the location to 'Main'and the action to record
+    //an inventory stockup. 
+    //The save the new order. 
+    //Creating a new stock history when necessary. 
+    //Update the order status.
+    var location ={
+      name: 'Main'
+    };
+    var stockhistory = new StockHistory();
+    StockHistory.mainStockCount(req.body.itemData._id, function(deets){
+      console.log(deets);
+        var obj = {
+          item : req.body.itemData._id,
+          amount : (deets === null)? req.body.amount : (req.body.amount + deets.amount),
+          action: 'Stock Up'
+        };
+        stockhistory.addStock(obj, location, function(status){
+          console.log('status %s', status);
+          doUpdates();
+          return;
+        });
+      });
   }
-  Order.update({'orderID':req.param('orderId')},{
-    $set: {
-      'orderStatus':req.body.status
-    }
-  }).exec(function(err,numberAffected){
-    if(err)console.log(err);
-  });
-  orderstatus = new OrderStatus();
-  orderstatus.status = req.body.status;
-  orderstatus.order_id = req.param('orderId');
-  orderstatus.save(function(err){
-    if(err)return err;
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.write(JSON.stringify({"task": true}));
-    res.end();
-  });
 };
 
 var count = function(req, res){

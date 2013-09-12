@@ -3,5 +3,9 @@
       h3 {{modal.heading}}
       div
         p {{modal.body}}
+        .well(ng-show="pt")
+          ul.prescriptiontinz
+            li(ng-repeat="p in dispenseform.prescription")
+              
         button.md-close Close
         button Dashboard

@@ -2,6 +2,7 @@ append head
   link(rel='stylesheet', href='/css/table-fixed-header.css')
 
 block body
+  include ../includes/modals/modal-order-supplied.jade
   .row-fluid.row-break
     .span2.actioncol
       button.btn.btn-large.btn-block.btn-primary(type="button", ng-click='submitOrder()') All Orders
@@ -26,22 +27,17 @@ block body
                 td {{order.orderID}}
                 td {{order.orderType}}
                 td 
-                  a(href="/item/{{order.itemData[0].itemID}}") {{order.itemData[0].itemName}}
+                  a(href="/items/{{order.itemData[0].itemID}}/edit") {{order.itemData[0].itemName}}
                 td {{order.orderAmount}}
-                td {{order.orderDate}}
+                td {{order.orderDate | date:'medium'}}
                 td.orderDesc {{order.orderDescription}}
                 td {{order.orderSupplier.supplierName}} 
                 td {{order.orderStatus}}
                 td 
                   .btn-group
-                    button.btn.btn-small More
-                    button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
-                      span.caret
-                    ul.dropdown-menu.alt-text
-                      li <a ng-click="$parent.changeStatus('supplied',order.itemData[0].itemID,order.orderAmount,order.orderID)">Supplied</a>
-                      li <a href="#">Returned</a>
-                      li <a href="#">Paid</a>
-                      li <a href="#">Archive</a>
+                    a.btn.btn-mini(ng-click="$parent.changeStatus('supplied',order.itemData[0],order.orderAmount,order.orderID)", new-modal="#modal-order-supplied") {{More}}
+                    a.btn.btn-mini Return
+                    a.btn.btn-mini.btn-danger <i class="icon-remove"></i>
 
 
 

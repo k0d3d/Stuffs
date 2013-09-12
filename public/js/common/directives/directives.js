@@ -15,7 +15,7 @@
         scope.selectedItem ={
           suppliername: '',
           itemname: ''
-        }
+        };
         element.typeahead({
         source: function(query, process){
           return ser[attrs.thName](query,function(results){
@@ -65,6 +65,23 @@
       link: function($scope, iElm, iAttrs, controller) {
         $(iElm).on('click',function(){
           $('#mopop').modal('show');
+        });
+      }
+    };
+  }]);
+  /**
+  * directives Module
+  *
+  * Description
+  */
+  angular.module('directives').directive('toggleActiveList', [function(){
+    // Runs during compile
+    return {
+      link: function($scope, iElm, iAttrs, controller) {
+        iElm.on('click','li',function(e){
+          e.preventDefault();
+          $('ul.list-block li').removeClass('active');
+          $(e.currentTarget).addClass('active');
         });
       }
     };

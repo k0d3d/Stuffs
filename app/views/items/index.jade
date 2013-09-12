@@ -11,20 +11,18 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
       dt Current Stock
       dd {{summary.currentStock}}
       dt Last Order Date
-      dd {{summary.lastOrderDate}}
+      dd {{summary.lastSupplyDate | date: 'medium'}}
       dt Rate
-      dd {{summary.itemRate}}
+      dd {{summary.itemPurchaseRate}}
   div.summary-actions
     p 
-      button.btn.btn-block.btn-warning(data-ng-click="arhref('/items/{{summary.itemID}}/edit')") Edit Item
-    p
-      button.btn.btn-block.btn-warning(data-ng-click="arhref('/items/{{summary.itemID}}/edit')") Request Stock Down
+      button.btn.btn-block.btn-warning(data-ng-click="commons.href('/items/'+summary.itemID+'/edit')") Edit Item
     p 
-      button.btn.btn-block.btn-warning(data-ng-click="arhref('/orders?item={{summary.itemID}}')", href="/dashboard/order/{{summary.itemID}}") Place Order
+      button.btn.btn-block.btn-warning(data-ng-click="commons.href('/dashboard/order/'+summary.itemID)") Place Order    
     p 
-      button.btn.btn-block.btn-warning(data-ng-click="arhref('/orders/{{summary.itemID}}/return')") Return Order
+      button.btn.btn-block.btn-warning(data-ng-click="commons.href('/dashboard/order/'+summary.itemID)") Stock History
     p 
-      button.btn.btn-block.btn-danger(data-ng-click="arhref('/items/{{summary.itemID}}/delete')") Delete Item
+      button.btn.btn-block.btn-danger(data-ng-click="arhref('/items/'+summary.itemID+'/delete')") Delete Item
     p 
       button.btn.btn-block.btn-default.btn-close(data-ng-click="spmenu=''", ng-class="spmenu") Close
 
@@ -52,11 +50,14 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
   .span10
     .row-fluid    
       .panorama
-        .sectionAZ.panorama-sections
+        .sectionAZ.panorama-sections(ng-show="hasItems")
           .card-section.span6.panorama-section(data-ng-repeat="(key,az) in itemsList", id="section{{key}}", on-finish="panorama")
             .card(data-ng-repeat="item in az  | orderBy:'itemName' | filter: search", class="{{item.currentStock | stockclass: item.itemBoilingPoint}}", data-ng-click="summaryDo(item.itemID)")
               h5 {{item.itemName}}
-              span.low{{item.currentStock}}              
+              span.low{{item.currentStock}} 
+        .no-item-holder(ng-show="!hasItems")
+          h4 No Items added. 
+          a.btn.btn-primary(href="items/add") Add             
       .row-fluid.row-break
         ul.index-list
           li(data-ng-repeat="index in indexes", class="index {{enabledIndex | indexclass: index}}") {{index}}

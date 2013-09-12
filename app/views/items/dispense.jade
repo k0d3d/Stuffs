@@ -1,81 +1,84 @@
 append head
   link(rel='stylesheet', href='/css/table-fixed-header.css')
 
-block body
-  .row-fluid.row-break
-    .span2.actioncol
-      button.btn.btn-large.btn-block.btn-primary(ng-click="new = !new;all = !all;btnState = !btnState", ng-init="new = false; all = true;btnState=false", ng-disabled="btnState") Prescribe
-      button.btn.btn-large.btn-block.btn-default(ng-click="backBtn()") Go Back
-    .span8(ng-show="new")
-      h3 Dispense Prescription
-      form.new-stock-down
-        .control-group
-            label.control-label Patient Name
-            .controls
-                input.input-large(type="text",name="name", ng-model="dispenseform.patientName")
-        .control-group
-            label.control-label Company
-            .controls
-                input.input-large(type="text",name="authority", ng-model="dispenseform.company")
-        .control-group
-            label.control-label Hospital Number
-            .controls
-                input.input-large(type="text",name="bp-percentage", ng-model="dispenseform.hospital")
-        .control-group
-            label.control-label Dispense
-            .controls
-                input.input-large(type="text",ng-model="drugname", type-ahead, th-name="itemname")
-                button.btn.btn-warning.pull-right(type="button", ng-click="addDrug()") Add
-        table.table.drugs-list.table-fixed-header(ng-show="drugsList.length > 0")
-          thead.header
-            tr
-              th Drug Name
-              th Stock
-              th Amount
-              th Cost (N)
-              th Options
-              th 
-          tbody
-            tr(data-ng-repeat="(i,drugs) in drugsList")
-              td {{d[$index].itemName}}
-              td {{d[$index].currentStock}}
-              td 
-                .control-group(ng-class="{ error: d[$index].amount > d[$index].currentStock}",amount="d[$index].amount",current-stock="d[$index].currentStock")
-                  input.input-small(ng-model="d[$index].amount",placeholder="amount", type="number")
-              td {{d[$index].amount * d[$index].itemSellingRate}}
-              td 
-                select
-                  option Dispense
-                  option Give Alternative
-                  option Immediate Purchase
-                  option Supply on appointment
-                  option RX
-              td
-                button.btn.btn-mini.btn-primary(ng-disabled="{true: d[$index].amount > d[$index].currentStock}") Confirm
-                i.icon-remove.icon-white.pull-right(ng-click="removeDrug($index)")
-        button.btn.btn-default(ng-click="new = !new;all = !all;btnState = !btnState") Back
-        button.btn(ng-click="createPoint()",ng-init="saveButtonText='Approve'", ng-class="saveButtonClass") {{saveButtonText}}
-    .span6(ng-show="all")
-      .row-fluid.fixed-table
-        .span12
-          .table-content
-            table#list-orders.table.table-fixed-header
-              thead.header
-                tr
-                  th Patient Name
-                  th Doctor
-                  th Date Requested
-                  th List of Drugs
-                  th Actions
-              tbody
-                tr
-                  td
-                  td 
-                  td
-                  td
-                  td
+append mainbody
+  include ../includes/modals/dispensary/modal-success.jade
+.row-fluid.row-break
+  .span2.actioncol
+    h4 Location
+    select(ng-model="requestform.location", ng-options="l.locationName for l in locations")
+    button.btn.btn-large.btn-block.btn-primary(ng-click="new = !new;all = !all;btnState = !btnState", ng-init="new = false; all = true;btnState=false", ng-disabled="btnState") Prescribe
+    button.btn.btn-large.btn-block.btn-default(ng-click="backBtn()") Go Back
+  .span8.offset1(ng-show="new")
+    h3 Dispense Prescription
+    form.new-dispense
+      .control-group
+          label.control-label Patient Name
+          .controls
+              input.input-large(type="text",name="name", ng-model="dispenseform.patientName")
+      .control-group
+          label.control-label Company
+          .controls
+              input.input-large(type="text",name="authority", ng-model="dispenseform.company")
+      .control-group
+          label.control-label Patient Hospital Number
+          .controls
+              input.input-large(type="text",name="bp-percentage", ng-model="dispenseform.patientno")
+      .control-group
+          label.control-label Dispense
+          .controls
+              input.input-xlarge(type="text",ng-model="drugname", type-ahead, th-name="itemname")
+              button.btn.btn-warning.pull-right(type="button", ng-click="addDrug()", style="position: relative;left: -53px;top: 5px;") {{addButtonText}}
+              span.help-block {{addHelpText}}                
+      table.table.drugs-list.table-fixed-header(ng-show="drugsList.length > 0")
+        thead.header
+          tr
+            th Drug Name
+            th Stock
+            th Amount
+            th Cost (N)
+            th Options
+            th 
+        tbody
+          tr(data-ng-repeat="(i,drugs) in drugsList")
+            td {{d[$index].itemName}}
+            td {{d[$index].currentStock}}
+            td 
+              .control-group(ng-class="{ error: d[$index].amount > d[$index].currentStock }")
+                input.input-small(ng-model="d[$index].amount",placeholder="amount", type="number")
+            td {{d[$index].amount * d[$index].itemSellingRate}}
+            td 
+              select(ng-model="d[$index].options")
+                option(value="dispense") Dispense
+                option(value="alternative") Give Alternative
+                option(value="purchase") Immediate Purchase
+                option(value="appointment") Supply on appointment
+                option(value="rx") RX
+            td
+              button.btn.btn-mini.btn-primary(ng-click="prescribeThis(d[$index])") Confirm
+              i.icon-remove.icon-white.pull-right(ng-click="removeDrug($index)")
+      button.btn.btn-default(ng-click="new = !new;all = !all;btnState = !btnState") Back
+      button.btn(ng-click="approveThis()",ng-init="saveButtonText='Approve'", ng-class="saveButtonClass") {{saveButtonText}}
+  .span8.offset1(ng-show="all")
+    .row-fluid.fixed-table
+      .span12
+        .table-content
+          table#list-orders.table.table-fixed-header
+            thead.header
+              tr
+                th Patient Name
+                th Doctor
+                th Date Requested
+                th List of Drugs
+                th Actions
+            tbody
+              tr
+                td
+                td 
+                td
+                td
+                td
 
 
 append foot
   script(src="js/table-fixed-header.js")                
-

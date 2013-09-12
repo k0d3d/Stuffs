@@ -120,12 +120,17 @@ form div.optionalinput{
   background-color: #2ecc71;  
   cursor: pointer;
   border: thin inset rgba(0, 0, 0, 0.41);
+  position: relative;
 }
 .card:hover:before{
   background-color:rgba(0, 0, 0, 0.05);
 }
 .card span{
   text-align: right;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 6px;
 }
 .low-stock{
   background-color: #e74c3c;
@@ -463,8 +468,11 @@ input.date-input-field[type='text']{
   list-style: none;
   padding: 15px 5px;
   box-sizing: border-box;
-  border: solid 1px rgba(22, 160, 133, 0.31);
+  border-bottom: solid 1px rgba(22, 160, 133, 0.31);
   opacity: 0.9;
+}
+.list-block li.active{
+  background-color: #2ECC71;
 }
 .list-block li:hover{
   background-color: #16A085;
@@ -477,4 +485,13 @@ span.drugname{
 }
 ul.drugs-list{
   margin: 0;
+}
+.this-patient dd{
+  margin-left: 200px;
+}
+.no-item-holder{
+  text-align: center;
+}
+#modal-request-stock-down .modal-body{
+  min-height: 400px;
 }

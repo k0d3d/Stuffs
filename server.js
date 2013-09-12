@@ -57,6 +57,6 @@ app.use(function(err, req, res, next){
   console.error(err.stack);
   
   // make this a nicer error later
-  res.send(500, 'Something broke in our Dragnet Core!');
+  res.send(500, 'Ewww! Something got broken on Integra. Getting some tape and glue');
   
 });

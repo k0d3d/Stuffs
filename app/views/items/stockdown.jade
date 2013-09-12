@@ -3,35 +3,37 @@ append head
 
 block body
   include ../includes/modals/modal-stock-down.jade
+  include ../includes/modals/modal-request-stock.jade
   .row-fluid.row-break
     .span2.actioncol
-      button.btn.btn-large.btn-block.btn-primary(ng-click="toggleModal()", new-point-modal="modalstate") New Location
-      button.btn.btn-large.btn-block.btn-primary(ng-click="toggleModal()", new-point-modal="modalstate") Request Stock
+      button.btn.btn-large.btn-block.btn-primary(new-modal="#modal-create-stock-down") New Location
+      button.btn.btn-large.btn-block.btn-primary(new-modal="#modal-request-stock-down") Request Stock
       button.btn.btn-large.btn-block.btn-default(ng-click="backBtn()") Go Back
     .span2
-      ul.list-block
-        li.palette-turquoise(data-ng-repeat="location in locations")
-          h4 {{location.locationName}}
-    .span8(ng-controller="itemIndexController")
+      h4 Locations
+      ul.list-block(toggle-active-list)
+        li(data-ng-repeat="location in locations", ng-click="onLocation(location._id)")
+          h5 {{location.locationName}}
+
+    .span8
       .row-fluid.fixed-table
         .span12
-          .table-content
+          .table-content(ng-show="hasItems")
             table#list-orders.table.table-fixed-header
               thead.header
                 tr
                   th Item Name
                   th Last Requested
                   th Amount Requested
-                  th Current Stock
                   th Actions
               tbody
-                tr(ng-repeat="item in itemsRaw", on-finish="tableheader")
-                  td {{item.itemName}}
-                  td {{item.currentStock}}
+                tr(ng-repeat="lo in stockDownRecord | orderBy: lo.item.itemName", on-finish="tableheader")
+                  td <a href="/items/{{lo.item.itemID}}/edit">{{lo.item.itemName}}</a>
+                  td {{lo.date | date: 'medium' }}
+                  td {{lo.amount}}
                   td
-                  td
-                  td
-
+          .no-item-holder(ng-show="!hasItems")
+            h4 Choose a location.  
 
 append foot
   script(src="js/table-fixed-header.js")                

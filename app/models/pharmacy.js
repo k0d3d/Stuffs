@@ -15,9 +15,10 @@ pureautoinc  = require('mongoose-pureautoinc');
 var PharmacySchema = new Schema({
   issueId: {type: Number},
   patientName: {type: String},
-  medication: [{
+  patientNo: {type: Number},
+  company: String,
+  drugs: [{
     itemID: {type: Schema.ObjectId, ref: 'Item'},
-    itemName: String,
     amount: Number,
     status: String
   }],

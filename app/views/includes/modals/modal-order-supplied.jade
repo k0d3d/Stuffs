@@ -1,0 +1,20 @@
+#modal-order-supplied.modal.hide.fade.alt-text(data-backdrop="static")
+    .modal-header
+        h3 Request Stock
+      .modal-body
+        p
+          | Please confirm the following was supplied. 
+          | Enter an invoice number.
+        h4 Item Ordered: Drug Name
+        h5 Amount Ordered: 500
+
+        form.new-stock-down
+          .control-group
+              label.control-label Invoice Number
+              .controls
+                  input.input-xlarge(type="text",ng-model="form.orderInvoiceNo")
+                  span.help-block {{addHelpText}}                
+
+      .modal-footer
+        button.btn.btn-default(new-modal="#modal-order-supplied") Back
+        button.btn(ng-click="createPoint()",ng-init="saveButtonText='Confirm Supplied'", ng-class="saveButtonClass") {{saveButtonText}}

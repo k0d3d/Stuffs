@@ -7,7 +7,9 @@ var mongoose = require('mongoose'),
   env = process.env.NODE_ENV || 'development',
   config = require('../../config/config')[env],
   Schema = mongoose.Schema,
-  pureautoinc  = require('mongoose-pureautoinc');
+  pureautoinc  = require('mongoose-pureautoinc'),
+  moment = require("moment");
+
 
 /**
  * Orders Schema
@@ -16,7 +18,8 @@ var OrderSchema = new Schema({
   orderID: {type: Number, default: ''},
   orderType: {type: String, default: 'Medical Equipment'},
   itemData: [{itemID: {type: String, default: ''},
-            itemName: {type: String, default: ''}
+            itemName: {type: String, default: ''},
+            _id: {type: Schema.ObjectId}
             }],
   orderAmount: {type: Number, default: '0'},
   orderDate: {type: Date, default: Date.now },
@@ -60,7 +63,7 @@ OrderSchema.statics = {
     this.findOne({ _id : id })
       .populate('user', 'name email username')
       .populate('comments.user')
-      .exec(cb)
+      .exec(cb);
   },
 
   /**
@@ -72,10 +75,10 @@ OrderSchema.statics = {
    */
 
   list: function (options, cb) {
-    var criteria = options.criteria || {}
-
-    this.find(criteria)
-      .exec(cb)
+    var criteria = options.criteria || {};
+    var q = this.find(criteria);
+    q.sort({orderDate: -1});
+    q.exec(cb);
   }
 }
 
