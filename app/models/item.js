@@ -21,8 +21,8 @@ var ItemSchema = new Schema({
   itemCategory: {type: String},
   itemDescription: {type: String},
   itemBoilingPoint:{type: Number},
-  packageSize:{type: String},
-  form: {type: String},
+  itemPackaging:{type: String},
+  itemForm: {type: String},
   itemPurchaseRate: {type: String},
 });
 

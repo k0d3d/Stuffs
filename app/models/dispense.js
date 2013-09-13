@@ -6,17 +6,16 @@
 var mongoose = require('mongoose'),
 env = process.env.NODE_ENV || 'development',
 config = require('../../config/config')[env],
-Schema = mongoose.Schema,
-pureautoinc  = require('mongoose-pureautoinc');
+Schema = mongoose.Schema;
 
 /**
  * Pharmacy Schema 
  */
-var PharmacySchema = new Schema({
-  issueId: {type: Number},
+var DispenseSchema = new Schema({
   patientName: {type: String},
-  patientNo: {type: Number},
+  patientId: {type: Number},
   company: String,
+  locationId: {type: Schema.ObjectId, ref: 'Location'},
   drugs: [{
     itemID: {type: Schema.ObjectId, ref: 'Item'},
     amount: Number,
@@ -25,9 +24,5 @@ var PharmacySchema = new Schema({
   issueDate: {type: Date, default: Date.now}
 });
 
-PharmacySchema.plugin(pureautoinc.plugin, {
-  model: 'Pharmacy',
-  field: 'issueId'
-});
 
-mongoose.model('Pharmacy', PharmacySchema);
+mongoose.model('Dispense', DispenseSchema);

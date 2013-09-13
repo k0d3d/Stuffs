@@ -16,9 +16,11 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
       $scope.orders = r;
     });
   }());
-  $scope.changeStatus = function(status,itemData,amount,orderId){
-    console.log(itemData);
-    ordersService.updateOrder(status,itemData,amount,orderId,function(r){
+
+
+  $scope.changeStatus = function(status,itemData,amount,order_id){
+    console.log(order_id);
+    ordersService.updateOrder(status,itemData,amount,order_id,function(r){
 
     });
   };
@@ -30,7 +32,7 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
   };
   $scope.modal = {};
   if($routeParams.itemId){
-    itemsService.summary($routeParams.itemId, function(r){
+    itemsService.summary($routeParams.itemId, 'main', function(r){
       $scope.summary = r;
       $scope.form.itemData.itemName = r.itemName;
       $scope.form.itemData.itemID = r.itemID;
@@ -41,7 +43,7 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
   $scope.$watch('selectedItem', function(newValue, oldValue){
     if(newValue !== oldValue){
       if(newValue['itemname']){
-        itemsService.summary(newValue['itemname'], function(r){
+        itemsService.summary(newValue['itemname'],'main', function(r){
           $scope.form.itemData.itemName = r.itemName;
           $scope.form.itemData.itemID = r.itemID;
           $scope.form.itemData._id = r._id;
@@ -55,11 +57,11 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
     $scope.saveButtonText = 'saving';
     $scope.saveButtonClass = 'btn-info';
     ordersService.save($scope.form, function(data){
-      $scope.$parent.modal.heading= 'Order Placed';
-      $scope.$parent.modal.body= "You've succesfull placed an order. To place another order, \n close this dialog or return to the dashboard";
+      $scope.modal.heading= 'Order Placed';
+      $scope.modal.body= "You've succesfull placed an order. To place another order, \n close this dialog or return to the dashboard";
       $scope.form = '';
-      $('.md-modal').addClass('md-show md-success');
-      $('.md-overlay').addClass('success-overlay');
+      $scope.modal.class= 'md-success';
+      $scope.modal.modalState= 'md-show';
       $scope.saveButtonText = 'Save';
     });
   };
@@ -100,8 +102,8 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
           console.log(err);
         });
     };
-    f.updateOrder = function(status,itemData,amount,orderId,callback){
-      $http.put('/api/orders/'+escape(orderId), {"status": status,"itemData":itemData,"amount":amount});
+    f.updateOrder = function(status,itemData,amount,order_id,callback){
+      $http.put('/api/orders/'+escape(order_id), {"status": status,"itemData":itemData,"amount":amount});
     };
     f.count = function(callback){
       $http.get('api/orders/count').

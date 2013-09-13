@@ -63,7 +63,8 @@ angular.module('item', ['ui.bootstrap'])
     }];
     $scope.indexes =  atoz();
     $scope.summaryDo =  function (id){
-      itemsService.summary(id,function(res){
+      //We use 0 for the location to indicate the Main Inventory
+      itemsService.summary(id,'main',function(res){
         $scope.summary = res;
         $scope.spmenu = 'cbp-spmenu-open';
         $('html').click(function(){
@@ -162,7 +163,8 @@ angular.module('item', ['ui.bootstrap'])
   });
   $scope.addDrug = function(){
     $scope.addHelpText = '';
-    itemsService.summary(thisItemName, function(c){
+    if($scope.drugname.length === 0) return false;
+    itemsService.summary(thisItemName,'main',function(c){
       if(_.indexOf($scope.requestform.requestList, thisItemName) < 0){
         $scope.requestform.requestList.push(thisItemName);
         $scope.requestform.request.push(c);
@@ -178,8 +180,7 @@ angular.module('item', ['ui.bootstrap'])
     });
     var sendDis = {"location":$scope.requestform.location,"request": $scope.requestform.request};
     itemsService.stockdown(sendDis, function(c){
-      console.log('refresh list');
-      //$scope.stockDownRecord.push(c);
+      $('#modal-request-stock-down').modal('hide');
     });
   };
   $scope.removeDrug = function(index){
@@ -217,18 +218,18 @@ angular.module('item', ['ui.bootstrap'])
     //Holds the form for dispensing drugs to a patient.
     //Patient Name, Number, Type and the Drugs list
     $scope.dispenseform = {
-      prescription: [],
-      cost: 0
+      prescription: []
     };
     // Gets the stock down points from the server
     itemsService.getPoints(function(res){
       $scope.locations = res;
     });  
     $scope.drugsList = [];
+    $scope.d = [];  
     //Previously Dispensed Records. Get populated by the init function
-    $scope.dispenseHistory = [];
-    //Initiate Modal Scope
-    $scope.modal = {};    
+    itemsService.fetchDispenseRecords(function(r){
+      $scope.dispenseHistory = r;   
+    });    
   }
   init();
   $scope.addButtonText = 'Add';
@@ -238,15 +239,17 @@ angular.module('item', ['ui.bootstrap'])
       $scope.thisItemName = newValue;
     }
   });
-  var i = 0;
-  $scope.d = {};
   $scope.addDrug = function(){
+    if($scope.drugname.length === 0) return false;
     $scope.addHelpText = '';
-    itemsService.summary($scope.thisItemName, function(c){
+    itemsService.summary($scope.thisItemName,$scope.dispenseform.location._id,function(c){
       if(_.indexOf($scope.drugsList, $scope.thisItemName) < 0){
         $scope.drugsList.push($scope.thisItemName);
-        $scope.d[i] = c;
-        i++;
+        $scope.d.push(c);
+        //Empty the drugname field
+        $scope.drugname = '';
+      }else{
+        alert("This item is already in the list");
       }
     });
   };
@@ -257,11 +260,17 @@ angular.module('item', ['ui.bootstrap'])
       $scope.dispenseform.prescription.push(d);
       return;
     }
+    // Check if the amount to be dispensed is available
+    // (lesser than) from the current stock for the item 
     if(d.amount < d.currentStock){
       $scope.dispenseform.prescription.push(d);
     }
   };
   $scope.approveThis = function(){
+    if($scope.dispenseform.prescription.length === 0){ 
+        alert("You havent confirmed and items. Check your list");
+        return false;
+      }
     $scope.modal.heading= 'Confirm Prescription';
     $scope.modal.class= 'md-success';
     $scope.modal.modalState= 'md-show';
@@ -271,13 +280,28 @@ angular.module('item', ['ui.bootstrap'])
     _.forEach($scope.dispenseform.prescription, function(i,v){
       drugs.push({"_id":i._id,"amount":i.amount,"itemName":i.itemName,"itemID": i.itemID,"status":i.options});
     });
-    var sendDis = {"patientName":$scope.dispenseform.patientName,"patientId": $scope.dispenseform.patientno,"company": $scope.dispenseform.company,"drugs": drugs};
-    itemsService.dispense(sendDis, function(c){
-      $scope.dispenseHistory.push(c);
+    var toSend = {
+      "patientName":$scope.dispenseform.patientName,
+      "patientId": $scope.dispenseform.patientno,
+      "company": $scope.dispenseform.company,
+      "drugs": drugs,
+      "location": $scope.dispenseform.location
+    };
+    itemsService.dispense(toSend, function(c){
+      $scope.modal.modalState = false;
+      //Empty all necessary scope, reset form
+      $scope.dispenseform = '';
+      $scope.d = '';
+      $scope.drugsList = '';
+      console.log(c);
     });
   };
   $scope.removeDrug = function(index){
+    $scope.drugname = '';
     $scope.drugsList.splice(index, 1);
+    $scope.d.splice(index, 1);
+    console.log($scope.drugsList);
+    console.log($scope.d);
   };
 })
 .factory('itemsService', function($http){
@@ -298,8 +322,10 @@ angular.module('item', ['ui.bootstrap'])
           callback(results);
       });
   };
-  i.summary = function(id,callback){
-      $http.get('/api/items/'+escape(id)+'/options/quick').success(callback);
+  i.summary = function(id,lId, callback){
+    var itemId = _.escape(id);
+    var locationId = _.escape(lId);
+      $http.get('/api/items/'+itemId+'/options/quick/locations/'+locationId).success(callback);
     };
   i.save =  function(post, callback){
       $http.post('/api/items', {item: post}).success(function(status, response){
@@ -327,6 +353,15 @@ angular.module('item', ['ui.bootstrap'])
       callback(data);
     });
   };
+  //Gets dispense records from the server
+  i.fetchDispenseRecords = function(callback){
+    $http.get('/api/items/locations/records').
+    success(function(data, status){
+      callback(data);
+    });
+  };
+
+  //Post a dispense record
   i.dispense = function(list, callback){
     $http.post('/api/items/dispense',list).
     success(function(data, status){

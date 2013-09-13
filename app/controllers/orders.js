@@ -8,6 +8,7 @@ var mongoose = require('mongoose'),
   OrderStatus = mongoose.model('OrderStatus'),
   Item = mongoose.model('Item'),
   StockHistory = mongoose.model('StockHistory'),
+  StockCount = mongoose.model('StockCount'),
   Supplier = mongoose.model('Supplier');
 
 /**
@@ -47,10 +48,16 @@ var getOrders = function(req, res){
   });
 };
 
+/**
+ * Updates an order status and creates a stock record 
+ */
+
 var updateOrder = function(req, res){
-  var doUpdates = function (){
+  //Updates the order statuses, these are useful for order history
+  //queries, etc
+  var doOrderStatusUpdates = function (){
       //Updates the order status 
-      Order.update({'orderID':req.param('orderId')},{
+      Order.update({'_id':req.param('orderId')},{
         $set: {
           'orderStatus':req.body.status
           //'orderInvoice': req.body.orderInvoiceNumber
@@ -72,28 +79,52 @@ var updateOrder = function(req, res){
 
   //If this order gets supplied.
   if(req.body.status == 'supplied'){
-    //Set the location to 'Main'and the action to record
-    //an inventory stockup. 
-    //The save the new order. 
-    //Creating a new stock history when necessary. 
-    //Update the order status.
+    //Set the location to 'Main'
     var location ={
       name: 'Main'
     };
+
     var stockhistory = new StockHistory();
-    StockHistory.mainStockCount(req.body.itemData._id, function(deets){
-      console.log(deets);
-        var obj = {
-          item : req.body.itemData._id,
-          amount : (deets === null)? req.body.amount : (req.body.amount + deets.amount),
-          action: 'Stock Up'
+    // Check if this record has been created for this order using the orderid and the reference field 
+    // on the StockHistoryShema
+    StockHistory.count({'reference': 'orders-'+req.param('orderId')}, function(err, count){
+      if(count > 0){
+        res.json(400,{"message": "Invalid Order"});
+      }else{
+        var itemObj = {
+          id: req.body.itemData._id,
+          amount: req.body.amount
         };
-        stockhistory.addStock(obj, location, function(status){
-          console.log('status %s', status);
-          doUpdates();
-          return;
+        //Create a stock history record.
+        stockhistory.createRecord(itemObj, location, 'Stock Up','orders-'+req.param('orderId') ,function(g){      
+          // Updates or creates a stock count for the item 
+          var u = StockCount.update({
+            item: g.item,
+            $or:[{
+                locationName : g.locationName
+              },{
+                locationId: g.locationId
+              }]
+            },{
+              $inc: {
+                amount: g.amount
+              },
+              $set: {
+                date: Date.now
+              }
+            }, function(err, i){
+              if(i === 0){
+                var stockcount = new StockCount(g);
+                stockcount.save(function(err, i){
+                  doOrderStatusUpdates();
+                });
+              }else{
+                doOrderStatusUpdates();
+              }
+            });
         });
-      });
+      }
+    });
   }
 };
 

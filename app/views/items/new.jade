@@ -50,12 +50,36 @@ block body
             input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint")
             label(for="itemsize") Package Size
             input.input-small(name="itemsize",type="number",ng-model="form.packageSize")
-            label(for="itempackaging") Item Packaging
-            select(name="itempackaging",ng-model="form.packageType")
+            label(for="itemform") Item Form
+            select(name="itemform",ng-model="form.itemForm")
               option Tablets
               option Capsules
               option Vials
               option Caplets
+              option Amples
+              option Emugels
+              option Gels
+              option Ointments
+              option Suspensions
+              option Syrup
+              option Powder
+              option Cream
+              option Lotion
+              option Drops
+              option Sprays
+            label(for="itempackaging") Item Packaging
+            select(name="itempackaging",ng-model="form.itemPackaging")
+              option Tin
+              option Carton
+              option Sachet
+              option Roll
+              option Pieces
+              option Packet
+              option Gallon
+              option Bottles
+              option Bags
+              option Box
+              option Tube
             label(for="rate") Purchase Rate
             input.input-medium(name="rate",type="text",ng-model="form.itemPurchaseRate", placeholder="Amount / Packaging")
 append foot

@@ -19,7 +19,6 @@
                 label.control-label Description
                 .controls
                     textarea.input-block-level(name="description", ng-model="location.locationDescription")
-
       .modal-footer
-        button.btn.btn-default(new-modal="#modal-create-stock-down") Back
+        button.btn.btn-default(new-point-modal="#modal-create-stock-down") Back
         button.btn(ng-click="createPoint()",ng-init="saveButtonText='Create'", ng-class="saveButtonClass") {{saveButtonText}}

@@ -86,3 +86,20 @@
       }
     };
   }]);
+  angular.module('directives').directive('orderActionButton', function(){
+    return {
+      link: function(scope, element, attr){
+        switch(attr.orderActionButton){
+          case 'pending':
+            scope.$index.actionText = "Supplied"
+          break;
+          case 'supplied':
+            scope.$index.actionText = "Paid"
+          break;
+          default:
+          break;
+
+        }
+      }
+    }
+  });

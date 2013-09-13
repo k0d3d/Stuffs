@@ -6,7 +6,7 @@ append mainbody
 .row-fluid.row-break
   .span2.actioncol
     h4 Location
-    select(ng-model="requestform.location", ng-options="l.locationName for l in locations")
+    select(ng-model="dispenseform.location", ng-options="l.locationName for l in locations")
     button.btn.btn-large.btn-block.btn-primary(ng-click="new = !new;all = !all;btnState = !btnState", ng-init="new = false; all = true;btnState=false", ng-disabled="btnState") Prescribe
     button.btn.btn-large.btn-block.btn-default(ng-click="backBtn()") Go Back
   .span8.offset1(ng-show="new")
@@ -15,19 +15,19 @@ append mainbody
       .control-group
           label.control-label Patient Name
           .controls
-              input.input-large(type="text",name="name", ng-model="dispenseform.patientName")
+              input.input-large(type="text",name="patientname", ng-model="dispenseform.patientName")
       .control-group
           label.control-label Company
           .controls
-              input.input-large(type="text",name="authority", ng-model="dispenseform.company")
+              input.input-large(type="text",name="company", ng-model="dispenseform.company")
       .control-group
           label.control-label Patient Hospital Number
           .controls
-              input.input-large(type="text",name="bp-percentage", ng-model="dispenseform.patientno")
+              input.input-large(type="text",name="patientnumber", ng-model="dispenseform.patientno")
       .control-group
-          label.control-label Dispense
+          label.control-label Drug Name
           .controls
-              input.input-xlarge(type="text",ng-model="drugname", type-ahead, th-name="itemname")
+              input.input-xlarge(type="text",ng-model="drugname", type-ahead, th-name="itemname", ng-minlength="1")
               button.btn.btn-warning.pull-right(type="button", ng-click="addDrug()", style="position: relative;left: -53px;top: 5px;") {{addButtonText}}
               span.help-block {{addHelpText}}                
       table.table.drugs-list.table-fixed-header(ng-show="drugsList.length > 0")
@@ -36,7 +36,6 @@ append mainbody
             th Drug Name
             th Stock
             th Amount
-            th Cost (N)
             th Options
             th 
         tbody
@@ -46,7 +45,6 @@ append mainbody
             td 
               .control-group(ng-class="{ error: d[$index].amount > d[$index].currentStock }")
                 input.input-small(ng-model="d[$index].amount",placeholder="amount", type="number")
-            td {{d[$index].amount * d[$index].itemSellingRate}}
             td 
               select(ng-model="d[$index].options")
                 option(value="dispense") Dispense
@@ -58,7 +56,7 @@ append mainbody
               button.btn.btn-mini.btn-primary(ng-click="prescribeThis(d[$index])") Confirm
               i.icon-remove.icon-white.pull-right(ng-click="removeDrug($index)")
       button.btn.btn-default(ng-click="new = !new;all = !all;btnState = !btnState") Back
-      button.btn(ng-click="approveThis()",ng-init="saveButtonText='Approve'", ng-class="saveButtonClass") {{saveButtonText}}
+      button.btn.btn-primary(ng-click="approveThis()",ng-init="saveButtonText='Approve'") {{saveButtonText}}
   .span8.offset1(ng-show="all")
     .row-fluid.fixed-table
       .span12
@@ -72,11 +70,12 @@ append mainbody
                 th List of Drugs
                 th Actions
             tbody
-              tr
-                td
-                td 
-                td
-                td
+              tr(ng-repeat="record in dispenseHistory")
+                td {{record.patientName}}
+                td {{record.doctor}}
+                td {{record.issueDate | date: 'medium'}}
+                td(ng-repeat="listofdrugs in record.drugs") 
+                  p {{listofdrugs.amount}}
                 td
 
 

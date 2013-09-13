@@ -19,7 +19,8 @@ var StockHistorySchema = new Schema({
   locationName: String,
   date: {type: Date, default: Date.now},
   amount: Number,
-  action: String
+  action: String,
+  reference: String
 });
 
 StockHistorySchema.plugin(pureautoinc.plugin, {
@@ -36,12 +37,13 @@ StockHistorySchema.methods = {
    * @param  {Function} callback [description]
    * @return {[type]}            [description]
    */
-  addStock: function addStock(list, location, callback){
-    this.item = list.item;
+  createRecord: function createRecord(itemObj, location, action, reference, callback){
+    this.item = itemObj.id;
     this.locationId = location.id;
     this.locationName = location.name;
-    this.amount = list.amount;
-    this.action = list.action;
+    this.amount = itemObj.amount;
+    this.action = action;
+    this.reference = reference;
     this.save(function(err, i){
       callback(i);
     });
@@ -76,36 +78,7 @@ StockHistorySchema.statics = {
       console.log(i);
       callback(i);
     });
-  },
-  /**
-   * [mainStockCount gets the stock count for any item in the main 'stock up' inventory]
-   * @param  {[type]}   id       [description]
-   * @param  {Function} callback [description]
-   * @return {[type]}            [description]
-   */
-  mainStockCount: function mainStockCount(id, callback){
-    var q = this.findOne({item: id, locationName: 'Main'});
-    q.sort({date: -1});
-    q.limit(1);
-    q.exec(function(err, i){
-      callback(i);
-    });
-  },
-  /**
-   * [findAll description]
-   * @param  {[type]}   locationId       [description]
-   * @param  {Function} callback [description]
-   * @return {[type]}            [description]
-   */
-  fetchStockDownRecordbyId: function findAll (locationId, callback){
-    var q = this.find({locationId: locationId, action: 'Requested Stock'});
-    q.populate('item','itemName itemID');
-    q.sort({date: -1});
-    q.exec(function(err, i){
-      callback(i);
-    });
-  },
-
+  }
 };
 
 

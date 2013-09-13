@@ -7,7 +7,6 @@ var mongoose = require('mongoose'),
   env = process.env.NODE_ENV || 'development',
   config = require('../../config/config')[env],
   Schema = mongoose.Schema,
-  pureautoinc  = require('mongoose-pureautoinc'),
   moment = require("moment");
 
 
@@ -15,7 +14,6 @@ var mongoose = require('mongoose'),
  * Orders Schema
  */
 var OrderSchema = new Schema({
-  orderID: {type: Number, default: ''},
   orderType: {type: String, default: 'Medical Equipment'},
   itemData: [{itemID: {type: String, default: ''},
             itemName: {type: String, default: ''},
@@ -33,13 +31,8 @@ var OrderSchema = new Schema({
   orderVisibility: {type: String, default: 'active'}
 });
 
-OrderSchema.plugin(pureautoinc.plugin, {
-  model: 'Order',
-  field: 'orderID'
-});
-
 var OrderStatusSchema = new Schema({
-  order_id: Number,
+  order_id: {type: Schema.ObjectId},
   date: {type: Date, default: Date.now},
   status: String
 });

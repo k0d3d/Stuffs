@@ -2,11 +2,9 @@ append head
   link(rel='stylesheet', href='/css/table-fixed-header.css')
 
 block body
-  include ../includes/modals/modal-order-supplied.jade
   .row-fluid.row-break
     .span2.actioncol
-      button.btn.btn-large.btn-block.btn-primary(type="button", ng-click='submitOrder()') All Orders
-      button.btn.btn-large.btn-block.btn-default(href="#fakelink", ng-click="backBtn()") Go Back
+      button.btn.btn-large.btn-block.btn-default(ng-click="backBtn()") Go Back
     .span10
       .row-fluid.fixed-table
         .table-content
@@ -15,30 +13,28 @@ block body
               tr
                 th Prescription ID
                 th Patient Name
-                th Drugs
-                th Cost
-                th Status
+                th Company
                 th Bill Class
+                th Price
+                th Status
                 th Action
             tbody
-              tr(ng-repeat="", on-finish="tableheader")
-                td {{order.orderID}}
-                td {{order.orderType}}
-                td 
-                  a(href="/items/{{order.itemData[0].itemID}}/edit") {{order.itemData[0].itemName}}
-                td {{order.orderAmount}}
-                td {{order.orderDate | date:'medium'}}
-                td.orderDesc {{order.orderDescription}}
+              tr(ng-repeat="bill in bills", on-finish="tableheader")
+                td {{bill.dispenseID._id}}
+                td {{bill.patientName}}
+                td {{bill.dispenseID.company}}
                 td 
                   .btn-group
-                    button.btn.btn-small More
+                    button.btn.btn-small Class
                     button.btn.btn-small.dropdown-toggle(data-toggle="dropdown")
                       span.caret
                     ul.dropdown-menu.alt-text
-                      li <a ng-click="$parent.changeStatus('supplied',order.itemData[0],order.orderAmount,order.orderID)" new-modal="#modal-order-supplied">Supplied</a>
-                      li <a href="#">Returned</a>
-                      li <a href="#">Paid</a>
-                      li <a href="#">Archive</a>
+                      li <a href="#">Gold</a>
+                      li <a href="#">Platinum</a>
+                      li <a href="#">Diamond</a>                
+                td
+                td
+                td 
 
 
 

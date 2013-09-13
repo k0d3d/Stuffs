@@ -1,4 +1,5 @@
 block body
+  include ../includes/modals/modal.jade
   .row-fluid.row-break
     .span2.actioncol
       button.btn.btn-large.btn-block.btn-primary(ng-init="saveButtonText='Save Item'", type="button",ng-click='submitOrder()') {{saveButtonText}}
@@ -14,7 +15,7 @@ block body
           input#itemname.span6(type="text",name="itemName",ng-model="form.itemData.itemName",type-ahead, th-name="itemname")
           input#itemname(type="hidden",name="itemID",ng-model="form.itemData.itemID")          
           label(for="orderdate") Order Date
-          input#orderdate.span4(type="text", placeholder="dd/mm/yyyy", name="orderDate", ng-model="form.orderDate")
+          input#orderdate.span4(type="date", name="orderDate", ng-model="form.orderDate")
           label(for="orderamount") Order Amount
           input#orderamount.span4(type="number",name="orderAmount",ng-model="form.orderAmount")
           label(for="orderdesc") Order Description

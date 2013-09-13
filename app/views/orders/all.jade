@@ -13,7 +13,6 @@ block body
           table#list-orders.table.table-fixed-header
             thead.header
               tr
-                th Order ID
                 th Order Type
                 th Item
                 th Quantity
@@ -24,7 +23,6 @@ block body
                 th Action
             tbody
               tr(ng-repeat="order in orders", on-finish="tableheader")
-                td {{order.orderID}}
                 td {{order.orderType}}
                 td 
                   a(href="/items/{{order.itemData[0].itemID}}/edit") {{order.itemData[0].itemName}}
@@ -35,7 +33,7 @@ block body
                 td {{order.orderStatus}}
                 td 
                   .btn-group
-                    a.btn.btn-mini(ng-click="$parent.changeStatus('supplied',order.itemData[0],order.orderAmount,order.orderID)", new-modal="#modal-order-supplied") {{More}}
+                    a.btn.btn-mini(ng-click="$parent.changeStatus('supplied',order.itemData[0],order.orderAmount,order._id)", order-action-button="order.orderStatus") Next
                     a.btn.btn-mini Return
                     a.btn.btn-mini.btn-danger <i class="icon-remove"></i>
 

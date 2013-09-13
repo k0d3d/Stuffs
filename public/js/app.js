@@ -5,6 +5,7 @@ angular.module('integraApp', [
   'order',
   'stock',
   'item',
+  'bills',
   'dashboard',
   'directives'
   ]);

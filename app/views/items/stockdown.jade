@@ -29,7 +29,7 @@ block body
               tbody
                 tr(ng-repeat="lo in stockDownRecord | orderBy: lo.item.itemName", on-finish="tableheader")
                   td <a href="/items/{{lo.item.itemID}}/edit">{{lo.item.itemName}}</a>
-                  td {{lo.date | date: 'medium' }}
+                  td {{lo.lastOrderDate | date: 'medium' }}
                   td {{lo.amount}}
                   td
           .no-item-holder(ng-show="!hasItems")

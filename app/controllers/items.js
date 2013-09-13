@@ -6,9 +6,11 @@
 var mongoose = require('mongoose'),
     Item = mongoose.model('Item'),
     Order = mongoose.model('Order'),
-    Pharmacy = mongoose.model('Pharmacy'),
+    Dispense = mongoose.model('Dispense'),
+    Bill = mongoose.model('Bill'),
     PointLocation = mongoose.model('Location'),
     StockHistory = mongoose.model('StockHistory'),
+    StockCount = mongoose.model('StockCount'),
     _ = require("underscore"),
     utils = require("util");
 
@@ -88,7 +90,7 @@ var list = function(req, res){
      */
     var listofItems = [];
     _.each(r, function(value, index, pink){
-      StockHistory.mainStockCount(value._id, function(stock){
+      StockCount.mainStockCount(value._id, function(stock){
         var it = {
           itemID: value.itemID,
           itemName: value.itemName,
@@ -106,6 +108,7 @@ var list = function(req, res){
 
 var listOne = function(req,res){
   var options = {criteria: {}, fields: {}};
+  var it ={};
   var reg = /^\d+$/;
   if(req.param('id').length > 0){
     if(reg.test(req.param('id'))){
@@ -122,34 +125,62 @@ var listOne = function(req,res){
       /**
        * Get the current stock and last order date and 
        * add it to the object.
+       * Since dispensing is carried out from a stockdown location,
+       * we pass in the location object when fetching stock amount
        */
-      StockHistory.mainStockCount(r._id, function(stock){
-        var it = {
-          _id: r._id,
-          itemID: r.itemID,
-          itemName: r.itemName,
-          sciName: r.sciName,
-          manufacturerName: r.manufacturerName,
-          itemPurchaseRate: r.itemPurchaseRate,
-          itemBoilingPoint: r.itemBoilingPoint,
-          currentStock: (stock === null)? 0 : stock.amount,
-          lastSupplyDate: (stock === null)? '' : stock.date
-        };
-        res.json(200, it);
-      });
+      if(req.param('locationId') === 'main'){
+        //Get Stock count by name
+        StockCount.getStockAmountbyId(r._id,{name: 'Main'} ,function(stock){
+          console.log(stock);
+          it = {
+            _id: r._id,
+            itemID: r.itemID,
+            itemName: r.itemName,
+            sciName: r.sciName,
+            manufacturerName: r.manufacturerName,
+            itemPurchaseRate: r.itemPurchaseRate,
+            itemBoilingPoint: r.itemBoilingPoint,
+            currentStock: (stock === null)? 0 : stock.amount,
+            lastSupplyDate: (stock === null)? '' : stock.lastOrderDate
+          };
+          res.json(200, it);
+        });
+      }else{
+        //Get stock count by location id
+        StockCount.getStockAmountbyId(r._id,{id: req.param('locationId')} ,function(stock){
+          console.log(stock);
+          it = {
+            _id: r._id,
+            itemID: r.itemID,
+            itemName: r.itemName,
+            sciName: r.sciName,
+            manufacturerName: r.manufacturerName,
+            itemPurchaseRate: r.itemPurchaseRate,
+            itemBoilingPoint: r.itemBoilingPoint,
+            currentStock: (stock === null)? 0 : stock.amount,
+            lastSupplyDate: (stock === null)? '' : stock.lastOr
+          };
+          console.log(it);
+          res.json(200, it);
+        });
+      }
     });
   }
 };
 
+/**
+ * [typeahead description]
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 var typeahead = function(req, res){
   var term = req.param('term');
   var needle = req.param('needle');
   //options.criteria[term] = '/'+needle+'/i';
   Item.autocomplete(needle, function(err,itemsResult){
     if (err) return res.render('500');
-     res.writeHead(200, { 'Content-Type': 'application/json' });
-     res.write(JSON.stringify(itemsResult));
-     res.end();
+     res.json(itemsResult);
   });
 };
 
@@ -189,9 +220,16 @@ var getAllLocations = function(req, res){
   });
 };
 
+/**
+ * [dispenseThis description]
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 var dispenseThis = function(req, res){
-  var ds = new Pharmacy(req.body);
-  //If this order gets supplied.
+  var dispense = new Dispense();
+  var bill = new Bill();
+  var drugslist = [];
 
   //Get the location to dispense from
   var location = {
@@ -199,67 +237,181 @@ var dispenseThis = function(req, res){
     name: req.body.location.locationName
   };
   
-  var stockhistory = new StockHistory();
-  _.each(req.body.drugs , function(value, index){
-    console.log(value);
-    var obj = {
-      item : value._id,
-      action: 'Dispense'
-    },
-    amount = value.amount;
-
-    StockHistory.lookup(value._id, location.id, function(deets){
-      console.log(deets);
-      obj.amount = (deets.amount - amount);
-      stockhistory.decreaseStock(obj, location, function(status){
-        console.log('status %s', status);
-      });
+  //Saves a dispense record
+  function saveDispenseRecord(){
+    dispense.patientName = req.body.patientName;
+    dispense.patientId =  req.body.patientId;
+    dispense.company = req.body.company;
+    dispense.locationId = location.id;
+    dispense.save(function(err, i){
+      if(err){
+        console.log(err);
+      }else{
+        saveBillRecord();
+      }
     });
-  });
+  }
 
+  //Saves a bill record
+  function saveBillRecord(){
+    bill.dispenseID = dispense._id;
+    bill.patientName = req.body.patientName;
+    bill.patientId =  req.body.patientId;    
+    bill.save(function(err, i){
+      if(err) res.json('500',{"message": err});
+      res.json(200, {});
+    })
+  }
 
-  res.json(400,req.body);
+  //Create a stock record for each dispensed drug item
+  function create_record(itemObj, cb){
+    var stockhistory = new StockHistory();
+    stockhistory.item = itemObj.id;
+    stockhistory.locationId = location.id;
+    stockhistory.locationName = location.name;
+    stockhistory.amount = itemObj.amount;
+    stockhistory.action = 'Dispense';
+    stockhistory.reference = 'dispense-'+dispense._id;
+    stockhistory.save(function(err, i){
+      cb(i);
+    });
+
+  }
+
+  var total = req.body.drugs.length, result= [];
+
+  function saveAll (){
+    var request = req.body.drugs;
+    var record = request.pop();
+
+    // Call the create_record function
+    create_record({id: record._id, amount: record.amount}, function(p){
+      // Create or update this locations stock count
+      StockCount.update({
+        item: p.item,
+        $or:[{
+            locationName : location.name
+          },{
+            locationId: location.id
+          }]
+        },{
+          $inc: {
+            amount: -p.amount
+          }
+        }, function(err, i){
+          if(err){
+            if(err) res.json(400, {"message": err});
+          }
+        }, true);
+      // Push the drugs into dispense.drugs instance array
+      dispense.drugs.push({
+        itemID: record._id,
+        amount: record.amount,
+        status: record.status
+      });      
+      if(--total){
+        saveAll();
+      }else{
+        saveDispenseRecord();
+      }
+    });
+  }
+  saveAll();
 };
 
+/**
+ * [stockDown Handles Stock Down Operation]
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 var stockDown = function(req, res){
+  //Using different model instances for updates
+  var mainUpdate = mongoose.model("StockCount");
+  var locationUpdate = mongoose.model("StockCount");
+
   //If this order gets supplied.
-  return;
   var location = {
     id : req.body.location._id,
     name: req.body.location.locationName
   };
-  
-  function decreaseStock(list){
-    //Get the current stock amount
-    var q = StockHistory.findOne({item: list._id, locationName: 'Main'});
-    q.sort({date: -1});
-    q.limit(1);
-    q.exec(function(err, i){
-      var stockhistory = new StockHistory();
-      //Save an initial reduced amount on Main Inventory
-      stockhistory.item = list._id;
-      stockhistory.locationName = 'Main';
-      stockhistory.amount = i.amount - list.amount;
-      stockhistory.action = 'Stock Down';
-      stockhistory.save(function(err, i){
-        var sh = new StockHistory();
-        console.log(i);
-        //Save a updated
-        sh.item = list._id;
-        sh.locationId = location.id;
-        sh.locationName = location.name;
-        sh.amount = list.amount;
-        sh.action = 'Requested Stock';
-        sh.save(function(err, i){
-          res.json(200, {});
-        });        
-      });
-    });  
-  }  
 
-  _.each(req.body.request , function(value, index){
-    decreaseStock(value);
-  });
+  //Create a stock record for each dispensed drug item
+  function create_record(itemObj, cb){
+    var stockhistory = new StockHistory();
+    stockhistory.item = itemObj.id;
+    stockhistory.locationId = location.id;
+    stockhistory.locationName = location.name;
+    stockhistory.amount = itemObj.amount;
+    stockhistory.action = 'Requested Stock';
+    stockhistory.reference = 'none';
+    stockhistory.save(function(err, i){
+      cb(i);
+    });
+
+  }
+
+  
+  
+  var total = req.body.request.length, result= [];
+
+  function saveAll (){
+    var request = req.body.request;
+    var record = request.pop();
+
+    // Call the create_record function
+    create_record({id: record._id, amount: record.amount}, function(p){
+      //Deducts the amount from each items stock count.
+      //Important:: Stock down means decrementing the 
+      //amount from the main stock count
+      mainUpdate.update({
+        item: p.item,
+        locationName : 'Main'
+        },{
+          $inc: {
+            amount: -p.amount
+          }
+        }, function(err, i){
+          if(err){
+            if(err) res.json(400, {"message": err});
+          }
+          //console.log('Main decremented: %s', i);
+        });
+
+      // Create or update this locations stock count
+      // After iteration is complete. 
+      locationUpdate.update({
+        item: p.item,
+        $or:[{
+            locationName : location.name
+          },{
+            locationId: location.id
+          }]
+        },{
+          $inc: {
+            amount: p.amount
+          }
+          // //Setting last order / requested date
+          // $set: {
+          //   lastOrderDate: Date.now
+          // }
+        }, function(err, i){
+          if(err){
+            if(err) res.json(400, {"message": err});
+          }
+          if(i === 0){
+            var stockcount = new StockCount(p);
+            stockcount.save(function(err, i){
+              if(err) res.json(400, {"message": err});
+            });
+          }else{
+          }
+        }, true);      
+      if(--total) saveAll();
+      else res.json(200, {});
+    });
+  }
+  saveAll();
 };
 
 var updateItem = function(req, res){
@@ -279,20 +431,60 @@ var updateItem = function(req, res){
 };
 
 var getStockDown = function (req, res){
-  StockHistory.fetchStockDownRecordbyId(req.param('locationId'), function(v){
+  StockCount.fetchStockDownRecordbyId(req.param('locationId'), function(v){
     res.json(200,v);
   });
 };
 
-module.exports.routes = function(app){
-  app.get('/items/index', function(req, res){
-      res.render('items/index');
+var getDispenseRecord = function(req, res){
+  var q  = Dispense.find();
+  q.populate('locationId');
+  q.sort({issueDate: -1});
+  q.exec(function(err, i){
+    res.json(200, i);
+  });
+}
+
+var getBills = function(req, res){
+  var q  = Bill.find();
+  q.populate('dispenseID');
+  q.sort({billedOn: -1});
+  q.exec(function(err, i){
+    res.json(200, i);
+  });  
+}
+
+var itemFields = function (req, res){
+  var options = {criteria: {}, fields: {}};
+  var reg = /^\d+$/;
+  if(req.param('itemId').length > 0){
+    if(reg.test(req.param('itemId'))){
+      options.criteria = {"itemID": req.param('itemId')};
+    }else{
+      options.criteria = {"itemName": req.param('itemId')};
+    }
+
+    Item.findOne(options.criteria, function(err, r){
+      //console.log(itemsResult);
+      if (err) return res.json('500',{"mssg": 'Darn Fault!!!'});
+      console.log(r);
+      res.json(r);
     });
+  }
+}
+
+module.exports.routes = function(app){
+
   app.get('/items', function(req, res){
       res.render('index',{
         title: 'All Items'
       });
     });
+  app.get('/items/index', function(req, res){
+      res.render('items/index');
+    });
+
+
   //Item routes   
   app.get('/items/add',function(req,res){
     res.render('index', {
@@ -315,6 +507,13 @@ module.exports.routes = function(app){
     });
   });
 
+  //Move this route to seperate file
+  app.get('/bills', function(req, res){
+      res.render('index');
+  });
+  //Lookup all bills
+  app.get('/api/bills', getBills);
+
   /**
   *Items Routes
   */
@@ -323,8 +522,11 @@ module.exports.routes = function(app){
 
   //app.get('/api/items/listOne/:id/:option',listOne);
 
-  //Fetches data on an item, either full or summary
-  app.get('/api/items/:id/options/:option',listOne);
+  //Fetches data on an item, either full or summary by location
+  app.get('/api/items/:id/options/:option/locations/:locationId',listOne);
+
+  //Fetches data for an item when editing
+  app.get('/api/items/:itemId/edit', itemFields );
 
   //Updates an Item
   app.post('/api/items/:id/edit',updateItem);
@@ -344,6 +546,9 @@ module.exports.routes = function(app){
   //Create a stock down location
   app.post('/api/items/location',createLocation);
 
+  //Gets a prescription record by locationId
+  app.get('/api/items/locations/records', getDispenseRecord);
+
   //Creates a new record for a prescription
   app.post('/api/items/dispense', dispenseThis);
 
@@ -352,4 +557,6 @@ module.exports.routes = function(app){
 
   // Get stock down records for a location
   app.get('/api/items/stockdown/:locationId', getStockDown);
+
+
 };
