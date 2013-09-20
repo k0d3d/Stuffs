@@ -6,7 +6,7 @@ block body
   .row-fluid.row-break
     .span2.actioncol
       button.btn.btn-large.btn-block.btn-primary(type="button", ng-click='submitOrder()') All Orders
-      button.btn.btn-large.btn-block.btn-default(href="#fakelink", ng-click="backBtn()") Go Back
+      button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
     .span10
       .row-fluid.fixed-table
         .table-content
@@ -25,17 +25,17 @@ block body
               tr(ng-repeat="order in orders", on-finish="tableheader")
                 td {{order.orderType}}
                 td 
-                  a(href="/items/{{order.itemData[0].itemID}}/edit") {{order.itemData[0].itemName}}
+                  a(href="/items/{{order.itemData[0]._id}}/edit") {{order.itemData[0].itemName}}
                 td {{order.orderAmount}}
                 td {{order.orderDate | date:'medium'}}
                 td.orderDesc {{order.orderDescription}}
-                td {{order.orderSupplier.supplierName}} 
+                td {{order.orderSupplier[0].supplierName}} 
                 td {{order.orderStatus}}
                 td 
                   .btn-group
                     a.btn.btn-mini(ng-click="$parent.changeStatus('supplied',order.itemData[0],order.orderAmount,order._id)", order-action-button="order.orderStatus") Next
                     a.btn.btn-mini Return
-                    a.btn.btn-mini.btn-danger <i class="icon-remove"></i>
+                    a.btn.btn-mini.btn-danger(ng-click="removeOrder($event, order._id)") <i class="icon-remove"></i>
 
 
 

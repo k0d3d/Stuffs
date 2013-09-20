@@ -10,27 +10,30 @@ angular.module('item', ['ui.bootstrap'])
   .when('/items/add', {templateUrl: '/items/new', controller: 'itemAddController'})
   .when('/items/locations', {templateUrl: '/items/stockdown', controller: 'itemStockController'})
 	.when('/items/dispensary', {templateUrl: '/items/dispense', controller: 'itemDispensaryController'})
-  .when('/items/:itemId/edit',{templateUrl: '/items/new', controller: 'itemEditController'});
+  .when('/items/:itemId/edit',{templateUrl: '/items/edit', controller: 'itemEditController'});
 }])
 .controller('itemIndexController', function itemIndexController($scope, $location, $routeParams,itemsService){
     function init(){
+      var currentItem;
       $scope.summary = {};
       $scope.form = {};
-      $scope.itemsList = {};
+      $scope.itemsList = '';
       $scope.hasItems = false;
       itemsService.items(function(data){
         if(data.length > 0){
           $scope.hasItems = true;
-          $scope.itemsRaw = data;
-          $scope.itemsList = sortItems(data);
+          sortItems(data, function(lol){
+            $scope.itemsList = lol;
+          });
           $scope.enabledIndex = Object.keys($scope.itemsList);
         }
       });
     }
     init();
-    function sortItems(data){
+    function sortItems(data, callback){
+      console.log("From the server "+data.length);
       var o = {};
-      data.forEach(function(ele,index,arr){
+      angular.forEach(data, function(ele,index,arr){
         if(ele.itemName){
           var fchar = ele.itemName.split("");
           if(o[fchar[0]] ===  undefined){
@@ -38,8 +41,11 @@ angular.module('item', ['ui.bootstrap'])
           }
           o[fchar[0]].push(ele);
         }
+        if(arr.length === index + 1){
+         console.log(index);
+         callback(o);
+       }
       });
-      return o;
     }
     function atoz(){
       var a = [], i = 65;
@@ -62,9 +68,14 @@ angular.module('item', ['ui.bootstrap'])
       "text": "Empty Stock"
     }];
     $scope.indexes =  atoz();
-    $scope.summaryDo =  function (id){
+    $scope.summaryDo =  function (event, id){
       //We use 0 for the location to indicate the Main Inventory
+      
+      //Set the current item var
+      currentItem = event.currentTarget;
       itemsService.summary(id,'main',function(res){
+        $scope.delConfirm = true;
+        $scope.delBtnText = 'Delete Item';
         $scope.summary = res;
         $scope.spmenu = 'cbp-spmenu-open';
         $('html').click(function(){
@@ -76,6 +87,16 @@ angular.module('item', ['ui.bootstrap'])
         });
       });
     };
+
+    $scope.deleteItem = function(id){
+      itemsService.delete(id, function(data){
+        if(data.state === 1){
+          currentItem.remove();
+          $scope.spmenu = '';
+        }
+      });
+    }
+
 })
 .controller('itemAddController', function itemAddController ($scope, $location, $routeParams,itemsService){
   $scope.form = {};
@@ -105,8 +126,10 @@ angular.module('item', ['ui.bootstrap'])
   };
 })
 .controller('itemEditController', function itemEditController($scope, $location, $routeParams,itemsService){
-  $scope.form = {};
-  if(!isNaN($routeParams.itemId)){
+  $scope.form = {
+    itemSupplier: {}
+  };
+  if(isNaN($routeParams.itemId)){
     itemsService.getItemFields($routeParams.itemId, function(item){
       $scope.form = item;
     });
@@ -392,6 +415,13 @@ angular.module('item', ['ui.bootstrap'])
   i.update = function(form, callback){
     $http.post('/api/items/'+escape(form.itemID)+'/edit', form).success(callback);
   };
+
+  //Delete Item
+  i.delete = function(id, callback){
+    $http.delete('/api/items/'+id)
+    .success(callback);
+  };
+
   return i;
 })
 .directive('newModal', function(){

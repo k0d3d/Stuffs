@@ -9,14 +9,16 @@ var mongoose = require('mongoose'),
   Item = mongoose.model('Item'),
   StockHistory = mongoose.model('StockHistory'),
   StockCount = mongoose.model('StockCount'),
-  Supplier = mongoose.model('Supplier');
+  Supplier = mongoose.model('Supplier'),
+  utils = require("util");
 
 /**
  * Create an order
  */
 var createOrder = function (req, res) {
   var order = new Order(req.body);
-  itemObj = {itemName: req.body.itemData.itemName, itemID: req.body.itemData.itemID, _id: req.body.itemData._id};
+  var itemObj = {itemName: req.body.itemData.itemName, itemID: req.body.itemData.itemID, _id: req.body.itemData._id};
+  order.orderSupplier.push({supplierName: req.body.orderSupplierName});
   order.itemData.push(itemObj);
   order.save(function (err) {
     if (!err) {
@@ -38,6 +40,7 @@ var getOrders = function(req, res){
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = 30;
   var options = {
+    criteria: {orderVisibility: true}
   };
 
   Order.list(options, function(err, orders) {
@@ -128,9 +131,15 @@ var updateOrder = function(req, res){
   }
 };
 
+/**
+ * [count description]
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 var count = function(req, res){
-  var d = Order.count();
-  var m  = Order.count();
+  var d = Order.count({orderVisibility: true});
+  var m  = Order.count({orderVisibility: true});
   m.where('orderStatus').equals('pending order');
   d.where('orderStatus').equals('supplied');
   d.exec(function(err,y){
@@ -189,6 +198,20 @@ var suppliersTypeahead = function(req, res){
   });
 };
 
+/**
+ * [removeOrder description]
+ * @param  {[type]}   order_id   [description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+var removeOrder = function(order_id, callback){
+  Order.update({_id: order_id}, {
+    $set:{
+      orderVisibility: false
+    }
+  }, callback);
+};
+
 
 module.exports.routes = function(app){
 
@@ -223,5 +246,17 @@ module.exports.routes = function(app){
 
   //Order PUT Routes
   app.put('/api/orders/:orderId',updateOrder);
+
+  //Delete Order (logically)
+  app.delete('/api/orders/:order_id', function(req, res){
+    removeOrder(req.param('order_id'), function(err, i){
+      if(utils.isError(err)){
+        res.json(500, err);
+        return;
+      }else{
+        res.json(200, {state: 1});
+      }
+    });
+  });
 
 };

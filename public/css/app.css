@@ -456,7 +456,7 @@ input.date-input-field[type='text']{
 .alt-text{
   color:#2C3E50;
 }
-.card:nth-child(5n + 6){
+.card:nth-child(4n + 5){
   clear: left;
   }
 .list-block{
@@ -494,4 +494,8 @@ ul.drugs-list{
 }
 #modal-request-stock-down .modal-body{
   min-height: 400px;
+}
+.disabled-input{
+  border: solid 1px grey;
+  padding: 5px;
 }

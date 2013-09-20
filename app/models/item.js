@@ -23,7 +23,10 @@ var ItemSchema = new Schema({
   itemBoilingPoint:{type: Number},
   itemPackaging:{type: String},
   itemForm: {type: String},
-  itemPurchaseRate: {type: String},
+  itemPurchaseRate: {type: Number},
+  packageSize: Number,
+  supplierID: {type: Schema.ObjectId},
+  supplierName: String
 });
 
 ItemSchema.plugin(pureautoinc.plugin, {

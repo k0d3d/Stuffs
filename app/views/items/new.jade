@@ -3,7 +3,7 @@ block body
   .row-fluid.row-break
     .span2.actioncol
       button.btn.btn-large.btn-block.btn-primary(ng-init="saveButtonText='Save Item'", ng-click="saveitem()", modal-Pop, ng-class="saveButtonClass") {{saveButtonText}}
-      button.btn.btn-large.btn-block.btn-primary(ng-click="commons.backBtn()") Go Back
+      button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
     .span8
       .row-fluid
         form#form-add-item(name="newItem")
@@ -41,45 +41,19 @@ block body
             input.input-medium(type="text", name="invoice-number", placeholder="No Stock Received",ng-model="form.orderInvoiceData.orderInvoiceNumber", ng-disabled="isDisabled")
             div.optionalinput(ng-show="form.orderInvoiceData.orderInvoiceNumber > 0")
               label(for="invoice-date") Invoice Date
-              input#invoice-date.input-small(type="text", name="invoice-date", class="datepicker", data-date-format="dd/mm/yyyy",ng-model="form.orderInvoiceData.orderInvoiceDate")
+              input#invoice-date.input-small(type="date", name="invoice-date", class="datepicker", data-date-format="dd/mm/yyyy",ng-model="form.orderInvoiceData.orderInvoiceDate")
               label(for="stock-amount") Stock Amount
               input.input-small(type="number",ng-model="form.orderInvoiceData.orderInvoiceAmount")              
-              label(for="supplier") Supplier
-              input.input-medium(type="text", name="supplier",ng-model="form.itemSupplier.supplierName")
+            label(for="supplier") Supplier
+            input.input-medium(type="text", name="supplier",ng-model="form.supplierName")
             label(for="bp") Boiling Point
             input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint")
             label(for="itemsize") Package Size
             input.input-small(name="itemsize",type="number",ng-model="form.packageSize")
             label(for="itemform") Item Form
-            select(name="itemform",ng-model="form.itemForm")
-              option Tablets
-              option Capsules
-              option Vials
-              option Caplets
-              option Amples
-              option Emugels
-              option Gels
-              option Ointments
-              option Suspensions
-              option Syrup
-              option Powder
-              option Cream
-              option Lotion
-              option Drops
-              option Sprays
+            select(name="itemform",ng-model="form.itemForm", ng-options="c for c in commons.itemForm")
             label(for="itempackaging") Item Packaging
-            select(name="itempackaging",ng-model="form.itemPackaging")
-              option Tin
-              option Carton
-              option Sachet
-              option Roll
-              option Pieces
-              option Packet
-              option Gallon
-              option Bottles
-              option Bags
-              option Box
-              option Tube
+            select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging")
             label(for="rate") Purchase Rate
             input.input-medium(name="rate",type="text",ng-model="form.itemPurchaseRate", placeholder="Amount / Packaging")
 append foot

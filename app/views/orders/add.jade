@@ -3,7 +3,7 @@ block body
   .row-fluid.row-break
     .span2.actioncol
       button.btn.btn-large.btn-block.btn-primary(ng-init="saveButtonText='Save Item'", type="button",ng-click='submitOrder()') {{saveButtonText}}
-      button.btn.btn-large.btn-block.btn-default(ng-click="backBtn()") Go Back
+      button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
     .span4
       .row-fluid
         form#form-new-order(name="newOrder")
@@ -15,13 +15,13 @@ block body
           input#itemname.span6(type="text",name="itemName",ng-model="form.itemData.itemName",type-ahead, th-name="itemname")
           input#itemname(type="hidden",name="itemID",ng-model="form.itemData.itemID")          
           label(for="orderdate") Order Date
-          input#orderdate.span4(type="date", name="orderDate", ng-model="form.orderDate")
+          input#orderdate.span5(type="date", name="orderDate", ng-model="form.orderDate")
           label(for="orderamount") Order Amount
           input#orderamount.span4(type="number",name="orderAmount",ng-model="form.orderAmount")
           label(for="orderdesc") Order Description
           textarea#orderdesc.span6(ng-model="form.orderDescription",name="orderDescription")
           label(for="orderamount") Order Supplier
-          input#order-supplier-name.span6(type="text",name="orderSupplierName",ng-model="form.orderSupplier.orderSupplierName",type-ahead, th-name="suppliername") 
+          input#order-supplier-name.span6(type="text",name="orderSupplierName",ng-model="form.orderSupplierName",type-ahead, th-name="suppliername") 
     .span3.offset2
       .row-fluid
         #item-summary.open-summary(summary-data="summary", ng-class="ordersummary")
@@ -36,7 +36,7 @@ block body
               dd {{summary.manufacturerName}}
               dt Current Stock
               dd {{summary.currentStock}}
-              dt Last Order Date
+              dt Last Supply Date
               dd {{summary.lastSupplyDate | date:'medium'}}
               dt Rate
               dd {{summary.itemPurchaseRate}}        

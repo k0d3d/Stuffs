@@ -15,7 +15,7 @@ var mongoose = require('mongoose'),
  */
 var OrderSchema = new Schema({
   orderType: {type: String, default: 'Medical Equipment'},
-  itemData: [{itemID: {type: String, default: ''},
+  itemData: [{
             itemName: {type: String, default: ''},
             _id: {type: Schema.ObjectId}
             }],
@@ -28,7 +28,7 @@ var OrderSchema = new Schema({
   }],
   orderInvoice: {type: String, default: ''},
   orderStatus: {type: String, default: 'pending order'},
-  orderVisibility: {type: String, default: 'active'}
+  orderVisibility: {type: Boolean, default: true}
 });
 
 var OrderStatusSchema = new Schema({

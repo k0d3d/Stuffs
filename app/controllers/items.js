@@ -6,6 +6,7 @@
 var mongoose = require('mongoose'),
     Item = mongoose.model('Item'),
     Order = mongoose.model('Order'),
+    OrderStatus = mongoose.model('OrderStatus'),
     Dispense = mongoose.model('Dispense'),
     Bill = mongoose.model('Bill'),
     PointLocation = mongoose.model('Location'),
@@ -30,11 +31,17 @@ function sortItems (list,justkeys){
 }
 
 
+function ItemsObject(){
+
+}
+
+ItemsObject.prototype.constructor = ItemsObject;
+
 /**
- * Create an order
+ * Create an item
  */
 
-var create = function (req, res) {
+ItemsObject.prototype.create = function (req, res) {
   var it = new Item(req.body.item);
   ObjectId = mongoose.Types.ObjectId;
   supplierObj = {};
@@ -42,8 +49,11 @@ var create = function (req, res) {
     var sn = req.body.item.itemSupplier.supplierName || '';
     supplierObj = {supplierName: sn};
   }
+
+  //Create a new order if the invoice number was entered
   if(req.body.item.orderInvoiceData !== undefined){
-    console.log('not');
+    
+    //Creates a new order.
     var order = new Order();
     itemObj = {itemName: req.body.item.itemName};
     order.itemData.push(itemObj);
@@ -55,31 +65,71 @@ var create = function (req, res) {
     order.orderDate= req.body.item.orderInvoiceDate;
     order.save(function(err){
       if(err)console.log(err);
-    })
-    it.currentStock = req.body.item.orderInvoiceData.orderInvoiceAmount;
+    });
+
+    //Updates the order statuses, these are useful for order history
+    //queries, etc.
+    var doOrderStatusUpdates = function (){
+        //Creates a new record to show when this order was
+        //updated and what action was taken.
+        orderstatus = new OrderStatus();
+        orderstatus.status = 'Supplied';
+        orderstatus.order_id = order._id;
+        orderstatus.save(function(err){
+          if(err)return err;
+          res.json(200, {"task": true});
+        });
+    };
+
+    //Set the location to 'Main'
+    var location ={
+      name: 'Main'
+    };
+
+    var stockhistory = new StockHistory();
+    // Check if this record has been created for this order using the orderid and the reference field 
+    // on the StockHistoryShema
+    StockHistory.count({'reference': 'create-'+order._id}, function(err, count){
+      if(count > 0){
+        res.json(400,{"message": "Invalid Order"});
+      }else{
+        var itemObj = {
+          id: it._id,
+          amount: req.body.orderInvoiceAmount
+        };
+        //Create a stock history record.
+        stockhistory.createRecord(itemObj, location, 'Stock Up','create-'+order._id ,function(g){
+          // Creates a stock count for the item 
+          var stockcount = new StockCount(g);
+          stockcount.amount = req.body.item.orderInvoiceData.orderInvoiceAmount;
+          stockcount.save(function(err, i){
+            doOrderStatusUpdates();
+          });
+        });
+      }
+    });
   }
+
   it.save(function (err) {
     if (!err) {
       var s = Item.findOne({"_id": it._id});
       s.select('itemID itemName itemCategory');
       s.exec(function(err, item){
-        res.writeHead(200,{'Content-Type': 'application/json'});
-        res.write(JSON.stringify(item));
-        res.end();
+        res.json(item);
       });
     }else{
       console.log(err);
     }
   });
 };
+
+
 /**
  * List
  */
 
-var list = function(req, res){
+ItemsObject.prototype.list = function(req, res){
 
-  var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
-  var perPage = 30;
   var options = {
     "fields": "itemID itemName itemCategory itemBoilingPoint"
   };
@@ -89,30 +139,40 @@ var list = function(req, res){
      * Gets the current stock for all items in the inventory
      */
     var listofItems = [];
-    _.each(r, function(value, index, pink){
-      StockCount.mainStockCount(value._id, function(stock){
+    var x = r.length;
+
+    function mscProcess(){
+      var _item = r.pop();
+      StockCount.mainStockCount(_item._id, function(stock){
         var it = {
-          itemID: value.itemID,
-          itemName: value.itemName,
-          itemPurchaseRate: value.itemCategory,
-          itemBoilingPoint: value.itemBoilingPoint,
+          _id: _item._id,
+          itemName: _item.itemName,
+          itemPurchaseRate: _item.itemCategory,
+          itemBoilingPoint: _item.itemBoilingPoint,
           currentStock: (stock === null)? 0 : stock.amount,
         };
         listofItems.push(it);
-        if(index + 1 === pink.length) res.json(200, listofItems);
+
+        if(--x){
+          mscProcess();
+        }else{
+          res.json(200, listofItems);
+        }
       });
-    });
+    }
+
+    mscProcess();
 
   });
 };
 
-var listOne = function(req,res){
+ItemsObject.prototype.listOne = function(req,res){
   var options = {criteria: {}, fields: {}};
   var it ={};
-  var reg = /^\d+$/;
+  var reg = /^[0-9a-fA-F]{24}$/;
   if(req.param('id').length > 0){
     if(reg.test(req.param('id'))){
-      options.criteria = {"itemID": req.param('id')};
+      options.criteria = {"_id": req.param('id')};
     }else{
       options.criteria = {"itemName": req.param('id')};
     }
@@ -174,7 +234,7 @@ var listOne = function(req,res){
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-var typeahead = function(req, res){
+ItemsObject.prototype.typeahead = function(req, res){
   var term = req.param('term');
   var needle = req.param('needle');
   //options.criteria[term] = '/'+needle+'/i';
@@ -184,7 +244,7 @@ var typeahead = function(req, res){
   });
 };
 
-var count = function(req, res){
+ItemsObject.prototype.count = function(req, res){
   var d = Item.count();
   var m  = Item.count();
   m.$where(function(){return this.currentStock < this.itemBoilingPoint && this.currentStock > 0;});
@@ -199,7 +259,7 @@ var count = function(req, res){
   });
 };
 
-var createLocation = function(req, res){
+ItemsObject.prototype.createLocation = function(req, res){
   var pl = new PointLocation(req.body);
   pl.save(function(err, saved){
     if(err) return err;
@@ -213,7 +273,7 @@ var createLocation = function(req, res){
   });
 };
 
-var getAllLocations = function(req, res){
+ItemsObject.prototype.getAllLocations = function(req, res){
   PointLocation.list(function(err, r){
     if(err) return err;
     res.json(r);
@@ -226,7 +286,7 @@ var getAllLocations = function(req, res){
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-var dispenseThis = function(req, res){
+ItemsObject.prototype.dispenseThis = function(req, res){
   var dispense = new Dispense();
   var bill = new Bill();
   var drugslist = [];
@@ -325,7 +385,7 @@ var dispenseThis = function(req, res){
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-var stockDown = function(req, res){
+ItemsObject.prototype.stockDown = function(req, res){
   //Using different model instances for updates
   var mainUpdate = mongoose.model("StockCount");
   var locationUpdate = mongoose.model("StockCount");
@@ -414,7 +474,13 @@ var stockDown = function(req, res){
   saveAll();
 };
 
-var updateItem = function(req, res){
+/**
+ * [updateItem description]
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
+ItemsObject.prototype.updateItem = function(req, res){
   //console.log(req.body);
   var itemId = req.body.itemID;
   var o = _.omit(req.body, ["_id", "itemID"]);
@@ -430,13 +496,25 @@ var updateItem = function(req, res){
   });
 };
 
-var getStockDown = function (req, res){
+/**
+ * [getStockDown description]
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
+ItemsObject.prototype.getStockDown = function (req, res){
   StockCount.fetchStockDownRecordbyId(req.param('locationId'), function(v){
     res.json(200,v);
   });
 };
 
-var getDispenseRecord = function(req, res){
+/**
+ * [getDispenseRecord description]
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
+ItemsObject.prototype.getDispenseRecord = function(req, res){
   var q  = Dispense.find();
   q.populate('locationId');
   q.sort({issueDate: -1});
@@ -445,7 +523,13 @@ var getDispenseRecord = function(req, res){
   });
 }
 
-var getBills = function(req, res){
+/**
+ * [getBills description]
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
+ItemsObject.prototype.getBills = function(req, res){
   var q  = Bill.find();
   q.populate('dispenseID');
   q.sort({billedOn: -1});
@@ -454,14 +538,20 @@ var getBills = function(req, res){
   });  
 }
 
-var itemFields = function (req, res){
+/**
+ * [itemFields description]
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
+ItemsObject.prototype.itemFields = function (req, res){
   var options = {criteria: {}, fields: {}};
-  var reg = /^\d+$/;
-  if(req.param('itemId').length > 0){
-    if(reg.test(req.param('itemId'))){
-      options.criteria = {"itemID": req.param('itemId')};
+  var reg = /^[0-9a-fA-F]{24}$/;
+  if(req.param('item_id').length > 0){
+    if(reg.test(req.param('item_id'))){
+      options.criteria = {"_id": req.param('item_id')};
     }else{
-      options.criteria = {"itemName": req.param('itemId')};
+      options.criteria = {"itemName": req.param('item_id')};
     }
 
     Item.findOne(options.criteria, function(err, r){
@@ -472,6 +562,25 @@ var itemFields = function (req, res){
     });
   }
 }
+
+/**
+ * [deleteItem description]
+ * @param  {Integer}   itemId   [description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+ItemsObject.prototype.deleteItem = function(itemId, callback){
+  Item.remove({_id: itemId}, function(err, i){
+    if(utils.isError(err)){
+      res.json(500, error);
+      return;
+    }
+    callback(i);
+  });
+};
+
+
+var item = new ItemsObject();
 
 module.exports.routes = function(app){
 
@@ -512,51 +621,58 @@ module.exports.routes = function(app){
       res.render('index');
   });
   //Lookup all bills
-  app.get('/api/bills', getBills);
+  app.get('/api/bills', item.getBills);
 
   /**
   *Items Routes
   */
   //List all Items 
-  app.get('/api/items/listAll',list);
+  app.get('/api/items/listAll', item.list);
 
   //app.get('/api/items/listOne/:id/:option',listOne);
 
   //Fetches data on an item, either full or summary by location
-  app.get('/api/items/:id/options/:option/locations/:locationId',listOne);
+  app.get('/api/items/:id/options/:option/locations/:locationId',item.listOne);
 
   //Fetches data for an item when editing
-  app.get('/api/items/:itemId/edit', itemFields );
+  app.get('/api/items/:item_id/edit', item.itemFields );
 
   //Updates an Item
-  app.post('/api/items/:id/edit',updateItem);
+  app.post('/api/items/:id/edit',item.updateItem);
 
   //Typeahead Route
-  app.get('/api/items/typeahead/term/:term/query/:needle',typeahead);
+  app.get('/api/items/typeahead/term/:term/query/:needle',item.typeahead);
 
   //Dashboard Count Items
-  app.get('/api/items/count',count);
+  app.get('/api/items/count',item.count);
 
   // get all stock down locations and basic information
-  app.get('/api/items/location',getAllLocations);
+  app.get('/api/items/location',item.getAllLocations);
 
   //Create a new Item 
-  app.post('/api/items',create);
+  app.post('/api/items',item.create);
 
   //Create a stock down location
-  app.post('/api/items/location',createLocation);
+  app.post('/api/items/location',item.createLocation);
 
   //Gets a prescription record by locationId
-  app.get('/api/items/locations/records', getDispenseRecord);
+  app.get('/api/items/locations/records', item.getDispenseRecord);
 
   //Creates a new record for a prescription
-  app.post('/api/items/dispense', dispenseThis);
+  app.post('/api/items/dispense', item.dispenseThis);
 
   // Process stockdown request
-  app.post('/api/items/stockdown', stockDown);
+  app.post('/api/items/stockdown', item.stockDown);
 
   // Get stock down records for a location
-  app.get('/api/items/stockdown/:locationId', getStockDown);
+  app.get('/api/items/stockdown/:locationId', item.getStockDown);
 
-
+  //Delete Item
+  app.del('/api/items/:itemId', function(req, res){
+    item.deleteItem(req.param('itemId'), function(i){
+      res.json(200, {state: i});
+    });
+  });
 };
+
+module.exports.item = item;

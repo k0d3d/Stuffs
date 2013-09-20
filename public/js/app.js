@@ -25,8 +25,46 @@ angular.module('integraApp').controller('MainController', function($scope, $http
   function backBtn(){
     history.back();
   }
+
+  //List of Item forms 
+  var itemForm = [
+   'Tablets',
+   'Capsules',
+   'Vials',
+   'Caplets',
+   'Amples',
+   'Emugels',
+   'Gels',
+   'Ointments',
+   'Suspensions',
+   'Syrup',
+   'Powder',
+   'Cream',
+   'Lotion',
+   'Drops',
+   'Sprays'
+  ];
+
+  //List of Item Packaging
+  var itemPackaging = [
+     'Tin',
+     'Carton',
+     'Sachet',
+     'Roll',
+     'Pieces',
+     'Packet',
+     'Gallon',
+     'Bottles',
+     'Bags',
+     'Box',
+     'Tube'
+  ];
+
   $scope.commons = {
     href : href,
-    backBtn: backBtn
-  };
+    backBtn: backBtn,
+    itemForm : itemForm,
+    itemPackaging: itemPackaging
+
+  };  
 });

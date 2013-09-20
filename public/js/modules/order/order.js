@@ -17,7 +17,15 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
     });
   }());
 
-
+  $scope.removeOrder = function(event, order_id){
+    var currentItem = event.currentTarget;
+    console.log(currentItem);
+    ordersService.remove(order_id, function(o){
+      if(o.state === 1){
+        $(currentItem).parents('tr').remove();
+      }
+    });
+  };
   $scope.changeStatus = function(status,itemData,amount,order_id){
     console.log(order_id);
     ordersService.updateOrder(status,itemData,amount,order_id,function(r){
@@ -36,8 +44,9 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
       $scope.summary = r;
       $scope.form.itemData.itemName = r.itemName;
       $scope.form.itemData.itemID = r.itemID;
-      $scope.form.orderSupplier.orderSupplierName = r.supplierName;
-      $scope.form.orderSupplier.orderSupplierID = r.supplierID;
+      $scope.form.itemData._id = r._id;
+      $scope.form.orderSupplierName = r.supplierName;
+      $scope.form.orderSupplierID = r.supplierID;
     });
   }
   $scope.$watch('selectedItem', function(newValue, oldValue){
@@ -111,5 +120,10 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
           callback(d);
         });
     };
+    f.remove = function(order_id, callback){
+      $http.delete('/api/orders/'+order_id)
+      .success(callback);
+    };
+
     return f;
 });

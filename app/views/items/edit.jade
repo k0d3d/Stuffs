@@ -1,0 +1,55 @@
+block body
+  include ../includes/modals/modal-item.jade
+  .row-fluid.row-break
+    .span2.actioncol
+      button.btn.btn-large.btn-block.btn-primary(ng-init="saveButtonText='Save Item'", ng-click="saveitem()", modal-Pop, ng-class="saveButtonClass") {{saveButtonText}}
+      button.btn.btn-large.btn-block.btn-primary(ng-click="commons.backBtn()") Go Back
+    .span8
+      .row-fluid
+        form#form-add-item(name="editItem")
+          .span4
+            label(for="itemtype") Inventory Type
+            select(name="itemtype",class="span6",ng-model="form.itemType")
+              option Medication
+              option Medical Equipment
+            label(for="sci-name") Scientific Name
+            input.input-medium(type="text", name="sci-name",ng-model="form.sciName")
+            label(for="name") Brand Name 
+            input.input-medium(type="text",name="name", ng-model="form.itemName", type-ahead, th-name="itemname")
+            label(for="man-name") Manufacturer
+            input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName")
+            label(for="category") Category
+            select(multiple="true",ng-model="form.itemCategory")
+              option Alimentary Tract and Metabolism
+              option Blood and Blood Forming Organs
+              option Cardiovascular System
+              option Dermatologicals
+              option Genito-uninary System
+              option Hormanal
+              option Anti-infectives
+              option Anti-neoplastic and Immunomodulating Agents
+              option Musculo-skeletal System
+              option Nervous System
+              option Antiparasitic, Insecticides and Repellants
+              option Respiratory System
+              option Sensory Organs
+              option Various
+            label(for="itemdesc") Item Description
+            textarea(name="itemdesc",ng-model="form.itemDescription")
+          .span4.offset2            
+            label(for="supplier") Supplier
+            input.input-medium(type="text", name="supplier",ng-model="form.supplierName")
+            label(for="bp") Boiling Point
+            input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint")
+            label(for="itemsize") Package Size
+            input.input-small(name="itemsize",type="number",ng-model="form.packageSize")
+            label(for="itemform") Item Form
+            p.disabled-input(ng-click="itemFormShow = !itemFormShow", ng-init="itemFormShow = false", ng-show="!itemFormShow") {{form.itemForm}}
+            select(name="itemform",ng-model="form.itemForm", ng-options="c for c in commons.itemForm", ng-show="itemFormShow")
+            label(for="itempackaging") Item Packaging
+            p.disabled-input(ng-click="itemPackagingShow = !itemPackagingShow", ng-init="itemPackagingShow = false", ng-show="!itemPackagingShow") {{form.itemPackaging}}
+            select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging", ng-show="itemPackagingShow")
+            label(for="rate") Purchase Rate
+            input.input-medium(name="rate",type="number",ng-model="form.itemPurchaseRate")
+append foot
+  script(src='js/bootstrap-datepicker.js')

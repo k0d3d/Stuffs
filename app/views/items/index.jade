@@ -16,13 +16,16 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
       dd {{summary.itemPurchaseRate}}
   div.summary-actions
     p 
-      button.btn.btn-block.btn-warning(data-ng-click="commons.href('/items/'+summary.itemID+'/edit')") Edit Item
+      button.btn.btn-block.btn-warning(data-ng-click="commons.href('/items/'+summary._id+'/edit')") Edit Item
     p 
-      button.btn.btn-block.btn-warning(data-ng-click="commons.href('/dashboard/order/'+summary.itemID)") Place Order    
+      button.btn.btn-block.btn-warning(data-ng-click="commons.href('/dashboard/order/'+summary._id)") Place Order    
     p 
-      button.btn.btn-block.btn-warning(data-ng-click="commons.href('/dashboard/order/'+summary.itemID)") Stock History
+      button.btn.btn-block.btn-warning(data-ng-click="commons.href('/dashboard/order/'+summary._id)") Stock History
     p 
-      button.btn.btn-block.btn-danger(data-ng-click="arhref('/items/'+summary.itemID+'/delete')") Delete Item
+      button.btn.btn-block.btn-danger(data-ng-click="delConfirm = !delConfirm; delBtnText = 'Are you sure ?'", ng-init="delConfirm = true") {{delBtnText}}
+      div(ng-show="!delConfirm")
+        button.btn.btn-danger.btn-block(data-ng-click="deleteItem(summary._id)") Yes
+        button.btn.btn-inverse.btn-block(data-ng-click="delConfirm = true; delBtnText = 'Delete Item'") Cancel
     p 
       button.btn.btn-block.btn-default.btn-close(data-ng-click="spmenu=''", ng-class="spmenu") Close
 
@@ -52,7 +55,7 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
       .panorama
         .sectionAZ.panorama-sections(ng-show="hasItems")
           .card-section.span6.panorama-section(data-ng-repeat="(key,az) in itemsList", id="section{{key}}", on-finish="panorama")
-            .card(data-ng-repeat="item in az  | orderBy:'itemName' | filter: search", class="{{item.currentStock | stockclass: item.itemBoilingPoint}}", data-ng-click="summaryDo(item.itemID)")
+            .card(data-ng-repeat="item in az  | orderBy:'itemName' | filter: search", class="{{item.currentStock | stockclass: item.itemBoilingPoint}}", data-ng-click="summaryDo($event, item._id)")
               h5 {{item.itemName}}
               span.low{{item.currentStock}} 
         .no-item-holder(ng-show="!hasItems")
