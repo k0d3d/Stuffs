@@ -9,17 +9,17 @@ block body
         form#form-add-item(name="editItem")
           .span4
             label(for="itemtype") Inventory Type
-            select(name="itemtype",class="span6",ng-model="form.itemType")
+            select(name="itemtype",class="span6",ng-model="form.itemType", required)
               option Medication
               option Medical Equipment
             label(for="sci-name") Scientific Name
-            input.input-medium(type="text", name="sci-name",ng-model="form.sciName")
+            input.input-medium(type="text", name="sci-name",ng-model="form.sciName", required)
             label(for="name") Brand Name 
-            input.input-medium(type="text",name="name", ng-model="form.itemName", type-ahead, th-name="itemname")
+            input.input-medium(type="text",name="name", ng-model="form.itemName", type-ahead, th-name="itemname", required)
             label(for="man-name") Manufacturer
-            input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName")
+            input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName", required)
             label(for="category") Category
-            select(multiple="true",ng-model="form.itemCategory")
+            select(multiple="true",ng-model="form.itemCategory", required)
               option Alimentary Tract and Metabolism
               option Blood and Blood Forming Organs
               option Cardiovascular System
@@ -38,11 +38,11 @@ block body
             textarea(name="itemdesc",ng-model="form.itemDescription")
           .span4.offset2            
             label(for="supplier") Supplier
-            input.input-medium(type="text", name="supplier",ng-model="form.supplierName")
+            input.input-medium(type="text", name="supplier",ng-model="form.supplierName", required)
             label(for="bp") Boiling Point
-            input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint")
+            input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint", required, ng-minlength=0, ng-maxlength=100)
             label(for="itemsize") Package Size
-            input.input-small(name="itemsize",type="number",ng-model="form.packageSize")
+            input.input-small(name="itemsize",type="number",ng-model="form.packageSize", required)
             label(for="itemform") Item Form
             p.disabled-input(ng-click="itemFormShow = !itemFormShow", ng-init="itemFormShow = false", ng-show="!itemFormShow") {{form.itemForm}}
             select(name="itemform",ng-model="form.itemForm", ng-options="c for c in commons.itemForm", ng-show="itemFormShow")
@@ -50,6 +50,4 @@ block body
             p.disabled-input(ng-click="itemPackagingShow = !itemPackagingShow", ng-init="itemPackagingShow = false", ng-show="!itemPackagingShow") {{form.itemPackaging}}
             select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging", ng-show="itemPackagingShow")
             label(for="rate") Purchase Rate
-            input.input-medium(name="rate",type="number",ng-model="form.itemPurchaseRate")
-append foot
-  script(src='js/bootstrap-datepicker.js')
+            input.input-medium(name="rate",type="number",ng-model="form.itemPurchaseRate", required)

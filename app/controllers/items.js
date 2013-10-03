@@ -177,7 +177,8 @@ ItemsObject.prototype.listOne = function(req,res){
       options.criteria = {"itemName": req.param('id')};
     }
     if(req.param('option') == 'quick'){
-      options.fields = " _id itemID itemName sciName manufacturerName itemSupplier.supplierName itemPurchaseRate itemBoilingPoint";
+      //options.fields = " _id itemID itemName sciName manufacturerName itemSupplier.supplierName itemPurchaseRate itemBoilingPoint";
+      options.fields = "";
     }
     Item.listOne(options, function(err, r){
       //console.log(itemsResult);

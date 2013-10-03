@@ -30,10 +30,33 @@ block body
                 td {{order.orderDate | date:'medium'}}
                 td.orderDesc {{order.orderDescription}}
                 td {{order.orderSupplier[0].supplierName}} 
-                td {{order.orderStatus}}
-                td 
+                td.order-status 
+                  .btn-group.dropdown
+                    a.btn.btn-mini.btn-info {{order.orderStatus}}
+                    a.btn.btn-dropdown-toggle.btn-info(data-toggle="dropdown")
+                      span.caret
+                    ul.dropdown-menu.alt-text
+                      p
+                        | Please confirm the following <br>
+                        | was supplied. <br>
+                        | Enter an invoice number.
+                      dl
+                        dt Item Ordered: 
+                        dd(style="color: #3498db") {{order.itemData[0].itemName}}
+                        dt Amount Ordered: 
+                        dd(style="color:#3498db") {{order.orderAmount}}
+
+                      form.new-stock-down
+                        .control-group
+                          label.control-label Invoice Number
+                          .controls
+                            input.input-medium.input-block-level(type="text",ng-model="orders[$index].orderInvoice")
+                            span.help-block {{addHelpText}}
+                        .control-group
+                          .controls
+                            button.btn.btn-inverse.input-block-level(order-action-button="orders[$index].orderInvoice", order-item-data="order.itemData[0]", order-amount="order.orderAmount", order-id="order._id", index="{{$index}}", style="text-transform: uppercase", ng-disabled="orders[$index].orderStatus == 'paid'") {{orders[$index].next}} {{$index}}
+                td                      
                   .btn-group
-                    a.btn.btn-mini(ng-click="$parent.changeStatus('supplied',order.itemData[0],order.orderAmount,order._id)", order-action-button="order.orderStatus") Next
                     a.btn.btn-mini Return
                     a.btn.btn-mini.btn-danger(ng-click="removeOrder($event, order._id)") <i class="icon-remove"></i>
 

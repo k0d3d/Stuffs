@@ -86,20 +86,70 @@
       }
     };
   }]);
-  angular.module('directives').directive('orderActionButton', function(){
-    return {
-      link: function(scope, element, attr){
-        switch(attr.orderActionButton){
-          case 'pending':
-            scope.$index.actionText = "Supplied"
+  angular.module('directives').directive('orderActionButton', function(ordersService){
+    function getStatus (status){
+        var d;
+        switch(status){
+          case 'pending order':
+            d = 'supplied';
+            //scope.orders[attrs.thisIndex].next ="Supplied";
           break;
           case 'supplied':
-            scope.$index.actionText = "Paid"
+            d = 'paid';
+            //scope.orders[attrs.thisIndex].next ="Paid";
+          break;
+          case 'paid':
+           d = 'Complete';
           break;
           default:
           break;
-
         }
+        return d;
+    }
+    function bindEmAll (index, scope, element){
+      element.on('click', function(e){
+        e.preventDefault();
+        var status = getStatus(scope.orders[index].orderStatus);
+        var itemData = scope.orders[index].itemData[0];
+        var amount = scope.orders[index].orderAmount;
+        var order_id = scope.orders[index]._id;
+        //var invoiceNo = scope.orders[index].orderInvoice;
+        //scope.$apply();
+        console.log(invoiceNo);
+        ordersService.updateOrder(status,itemData,amount,order_id,invoiceNo, function(r){
+          scope.orders[index].orderStatus = r.result;
+          scope.orders[index].next = getStatus(r.result);
+          console.log(r);
+        });
+      });
+    }
+    return {
+      link: function(scope, element, attrs, controller){
+        var invoiceNo, index;
+        //Observe index
+        attrs.$observe('index', function(newValue){
+          index = newValue;
+          scope.orders[index].next = getStatus(scope.orders[index].orderStatus);
+          //bindEmAll(index, scope, element);
+          //console.log(scope.orders[index]);
+        });
+
+        //Bind to 
+        element.on('click', function(e){
+          e.preventDefault();
+          var status = getStatus(scope.orders[index].orderStatus);
+          var itemData = scope.orders[index].itemData[0];
+          var amount = scope.orders[index].orderAmount;
+          var order_id = scope.orders[index]._id;
+          var invoiceNo = scope.orders[index].orderInvoice;
+          //scope.$apply();
+          console.log(index);
+          ordersService.updateOrder(status,itemData,amount,order_id,invoiceNo, function(r){
+            scope.orders[index].orderStatus = r.result;
+            scope.orders[index].next = getStatus(r.result);
+            console.log(r);
+          });
+        });
       }
     }
   });

@@ -100,7 +100,6 @@ angular.module('item', ['ui.bootstrap'])
 })
 .controller('itemAddController', function itemAddController ($scope, $location, $routeParams,itemsService){
   $scope.form = {};
-  $scope.modal ={};
   $scope.saveButtonClass = 'btn-primary';
   $scope.isDisabled = false;
   $scope.saveitem = function(){
@@ -108,16 +107,16 @@ angular.module('item', ['ui.bootstrap'])
     $scope.saveButtonClass = 'btn-info';
     itemsService.save($scope.form, function(status,res){
       if(status){
-        $scope.$parent.modal.heading= 'Item Added';
-        $scope.$parent.modal.body= "You've succesfull added an order. Note: Items placed with invoice numbers and stock amounts will have their current stock updated. To add another item, close this dialog or return to the dashboard";
+        $scope.modal.heading= 'Item Added';
+        $scope.modal.body= "You've succesfull added an order. Note: Items placed with invoice numbers and stock amounts will have their current stock updated. To add another item, close this dialog or return to the dashboard";
         $scope.form = '';
         $('.md-modal').addClass('md-show md-success');
         $('.md-overlay').addClass('success-overlay');
         $scope.saveButtonText = 'Save Item';
         $scope.saveButtonClass = 'btn-primary';
       }else{
-        $scope.$parent.modal.heading= 'Error Adding Item';
-        $scope.$parent.modal.body= "Something went wrong while carrying out your last request. If it's nothing serious, you can try again. If this error happens again, please inform the Admin";
+        $scope.modal.heading= 'Error Adding Item';
+        $scope.modal.body= "Something went wrong while carrying out your last request. If it's nothing serious, you can try again. If this error happens again, please inform the Admin";
         $('.md-modal').addClass('md-show md-error');
         $('.md-overlay').addClass('error-overlay');
         $scope.saveButtonText = 'Save Item';

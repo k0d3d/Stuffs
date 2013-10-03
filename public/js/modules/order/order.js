@@ -26,8 +26,12 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
       }
     });
   };
-  $scope.changeStatus = function(status,itemData,amount,order_id){
-    console.log(order_id);
+  $scope.changeStatus = function(){
+    var status = $scope.uo.status;
+    var itemData = $scope.uo.itemData;
+    var amount = $scope.uo.amount;
+    var order_id = $scope.uo.order_id;
+    var invoiceno = $scope.uo.invoiceno;
     ordersService.updateOrder(status,itemData,amount,order_id,function(r){
 
     });
@@ -111,8 +115,16 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
           console.log(err);
         });
     };
-    f.updateOrder = function(status,itemData,amount,order_id,callback){
-      $http.put('/api/orders/'+escape(order_id), {"status": status,"itemData":itemData,"amount":amount});
+    f.updateOrder = function(status,itemData,amount,order_id,invoiceno,callback){
+      console.log(invoiceno);
+      $http.put('/api/orders/'+escape(order_id), {"status": status,"itemData":itemData,"amount":amount, "orderInvoiceNumber": invoiceno})
+      .success(function(data){
+        callback(data);
+      })
+      .error(function(data){
+        alert("Communication Error");
+      });
+
     };
     f.count = function(callback){
       $http.get('api/orders/count').

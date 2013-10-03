@@ -56,14 +56,16 @@ var getOrders = function(req, res){
  */
 
 var updateOrder = function(req, res){
+  console.log(req.body);
+  return;
   //Updates the order statuses, these are useful for order history
   //queries, etc
   var doOrderStatusUpdates = function (){
       //Updates the order status 
       Order.update({'_id':req.param('orderId')},{
         $set: {
-          'orderStatus':req.body.status
-          //'orderInvoice': req.body.orderInvoiceNumber
+          'orderStatus':req.body.status,
+          'orderInvoice': req.body.orderInvoiceNumber
         }
       }).exec(function(err,numberAffected){
         if(err)console.log(err);
@@ -76,7 +78,7 @@ var updateOrder = function(req, res){
       orderstatus.order_id = req.param('orderId');
       orderstatus.save(function(err){
         if(err)return err;
-        res.json(200, {"task": true});
+        res.json(200, {"task": true, "result": req.body.status});
       });
   };
 
@@ -129,6 +131,11 @@ var updateOrder = function(req, res){
       }
     });
   }
+
+  if(req.body.status == 'paid'){
+    doOrderStatusUpdates();
+  }
+
 };
 
 /**

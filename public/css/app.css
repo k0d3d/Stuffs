@@ -499,3 +499,18 @@ ul.drugs-list{
   border: solid 1px grey;
   padding: 5px;
 }
+
+.ng-pristine {}
+.ng-dirty {}
+.ng-valid {}
+input.ng-invalid, select.ng-invalid {
+  border: solid 1px #ff4800;
+}
+
+.order-status .dropdown-menu{
+  padding: 5px;
+  left: -165px;
+  width: 285px;
+  top: 15px;
+  border: solid 5px #3498db;
+}

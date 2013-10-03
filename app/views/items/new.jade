@@ -2,24 +2,24 @@ block body
   include ../includes/modals/modal-item.jade
   .row-fluid.row-break
     .span2.actioncol
-      button.btn.btn-large.btn-block.btn-primary(ng-init="saveButtonText='Save Item'", ng-click="saveitem()", modal-Pop, ng-class="saveButtonClass") {{saveButtonText}}
+      button.btn.btn-large.btn-block.btn-primary(ng-init="saveButtonText='Save Item'", ng-click="saveitem()", modal-Pop, ng-class="saveButtonClass", ng-disabled="newItem.$invalid", type="submit") {{saveButtonText}}
       button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
     .span8
       .row-fluid
-        form#form-add-item(name="newItem")
+        form#form-add-item(name="newItem", novalidate)
           .span4
             label(for="itemtype") Inventory Type
-            select(name="itemtype",class="span6",ng-model="form.itemType")
+            select(name="itemtype",class="span6",ng-model="form.itemType", required)
               option Medication
               option Medical Equipment
             label(for="sci-name") Scientific Name
-            input.input-medium(type="text", name="sci-name",ng-model="form.sciName")
+            input.input-medium(type="text", name="sci-name",ng-model="form.sciName", required)
             label(for="name") Brand Name 
-            input.input-medium(type="text",name="name", ng-model="form.itemName", type-ahead, th-name="itemname")
+            input.input-medium(type="text",name="name", ng-model="form.itemName", type-ahead, th-name="itemname", required)
             label(for="man-name") Manufacturer
-            input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName")
+            input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName", required)
             label(for="category") Category
-            select(multiple="true",ng-model="form.itemCategory")
+            select(multiple="true",ng-model="form.itemCategory", required)
               option Alimentary Tract and Metabolism
               option Blood and Blood Forming Organs
               option Cardiovascular System
@@ -41,20 +41,18 @@ block body
             input.input-medium(type="text", name="invoice-number", placeholder="No Stock Received",ng-model="form.orderInvoiceData.orderInvoiceNumber", ng-disabled="isDisabled")
             div.optionalinput(ng-show="form.orderInvoiceData.orderInvoiceNumber > 0")
               label(for="invoice-date") Invoice Date
-              input#invoice-date.input-small(type="date", name="invoice-date", class="datepicker", data-date-format="dd/mm/yyyy",ng-model="form.orderInvoiceData.orderInvoiceDate")
+              input#invoice-date.input-medium(type="date", name="invoice-date", class="datepicker", data-date-format="dd/mm/yyyy",ng-model="form.orderInvoiceData.orderInvoiceDate")
               label(for="stock-amount") Stock Amount
               input.input-small(type="number",ng-model="form.orderInvoiceData.orderInvoiceAmount")              
             label(for="supplier") Supplier
             input.input-medium(type="text", name="supplier",ng-model="form.supplierName")
             label(for="bp") Boiling Point
-            input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint")
+            input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint", required, min=0, max=100)
             label(for="itemsize") Package Size
-            input.input-small(name="itemsize",type="number",ng-model="form.packageSize")
+            input.input-small(name="itemsize",type="number",ng-model="form.packageSize", required)
             label(for="itemform") Item Form
-            select(name="itemform",ng-model="form.itemForm", ng-options="c for c in commons.itemForm")
+            select(name="itemform",ng-model="form.itemForm", ng-options="c for c in commons.itemForm", required)
             label(for="itempackaging") Item Packaging
-            select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging")
+            select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging", required)
             label(for="rate") Purchase Rate
-            input.input-medium(name="rate",type="text",ng-model="form.itemPurchaseRate", placeholder="Amount / Packaging")
-append foot
-  script(src='js/bootstrap-datepicker.js')
+            input.input-medium(name="rate",type="number",ng-model="form.itemPurchaseRate", placeholder="Amount / Packaging", required)
