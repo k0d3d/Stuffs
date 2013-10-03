@@ -56,8 +56,6 @@ var getOrders = function(req, res){
  */
 
 var updateOrder = function(req, res){
-  console.log(req.body);
-  return;
   //Updates the order statuses, these are useful for order history
   //queries, etc
   var doOrderStatusUpdates = function (){

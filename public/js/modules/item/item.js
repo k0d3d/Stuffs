@@ -198,10 +198,14 @@ angular.module('item', ['ui.bootstrap'])
   $scope.sendIt = function(){
     var drugs = [];
     _.forEach($scope.requestform.request, function(i,v){
-      drugs.push({"_id":i._id,"amount":i.amount,"itemName":i.itemName,"itemID": i.itemID});
+      if(i.amount !== 0 && i.amount.length !== 0){
+        drugs.push({"_id":i._id,"amount":i.amount,"itemName":i.itemName,"itemID": i.itemID});
+      }
     });
     var sendDis = {"location":$scope.requestform.location,"request": $scope.requestform.request};
     itemsService.stockdown(sendDis, function(c){
+      $scope.requestform.request.length = 0;
+      $scope.requestform.requestList.length = 0;
       $('#modal-request-stock-down').modal('hide');
     });
   };

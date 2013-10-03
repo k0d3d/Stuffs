@@ -201,6 +201,9 @@ ItemsObject.prototype.listOne = function(req,res){
             manufacturerName: r.manufacturerName,
             itemPurchaseRate: r.itemPurchaseRate,
             itemBoilingPoint: r.itemBoilingPoint,
+            itemForm: r.itemForm,
+            itemPackaging: r.itemPackaging,
+            packageSize: r.packageSize,
             currentStock: (stock === null)? 0 : stock.amount,
             lastSupplyDate: (stock === null)? '' : stock.lastOrderDate
           };
@@ -218,6 +221,9 @@ ItemsObject.prototype.listOne = function(req,res){
             manufacturerName: r.manufacturerName,
             itemPurchaseRate: r.itemPurchaseRate,
             itemBoilingPoint: r.itemBoilingPoint,
+            itemForm: r.itemForm,
+            itemPackaging: r.itemPackaging,
+            packageSize: r.packageSize,            
             currentStock: (stock === null)? 0 : stock.amount,
             lastSupplyDate: (stock === null)? '' : stock.lastOr
           };
@@ -245,21 +251,74 @@ ItemsObject.prototype.typeahead = function(req, res){
   });
 };
 
+/**
+ * [count Counts items for the summery tiles on the dashboard]
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 ItemsObject.prototype.count = function(req, res){
   var d = Item.count();
-  var m  = Item.count();
-  m.$where(function(){return this.currentStock < this.itemBoilingPoint && this.currentStock > 0;});
-  var r = {};
+  var m  = Item.find();
+  //m.$where(function(){return this.currentStock < this.itemBoilingPoint && this.currentStock > 0;});
+  var r = {}, lowCount = 0, totalCount = 0, total, stockcountlist;
   d.exec(function(err,y){
     if(err)console.log(err);
-    m.exec(function(err, o){
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.write(JSON.stringify({"count":y,"low":o}));
-      res.end();
-    });
+    totalCount = y;
+    gl();
   });
+
+  //When set, please send respion
+  function respond(lowCount, totalCount){
+    res.json(200, {"count": totalCount, "low": lowCount});
+  }
+
+  //get all items from the 'items' collectioin
+  function gl (){
+    StockCount.find({locationName: 'Main'}, function(err, i){
+      total = i.length;
+      stockcountlist = i;
+
+      if(stockcountlist.length === 0){
+        respond(0, totalCount);
+      }else{
+        // Run the cross check function
+        hl();
+      }
+    });
+  }
+
+
+  //Cross check the currentStock against the itemBoilingPoint
+  //pass in the StockCount list
+  function hl (){
+    var countItem = stockcountlist.pop();
+
+    console.log(countItem);
+
+    //Find one 
+    Item.load(countItem.item, function(err, i){
+      //When found compare boilingPoint to the result amount
+      if(countItem.amount < i.itemBoilingPoint){
+        lowCount++;
+      }
+      --total;
+      if(total > 0){
+        hl();
+        return;
+      }else{
+        respond(lowCount, totalCount);
+      }
+    });
+  }
 };
 
+/**
+ * [createLocation Creates a Stock Down Location]
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 ItemsObject.prototype.createLocation = function(req, res){
   var pl = new PointLocation(req.body);
   pl.save(function(err, saved){

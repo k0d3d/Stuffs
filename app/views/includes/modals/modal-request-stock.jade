@@ -2,10 +2,10 @@
     .modal-header
         h3 Request Stock
       .modal-body
-        form.new-stock-down
+        form.newstockdown
           .control-group
             label.control-label Location
-            select(ng-model="requestform.location", ng-options="l.locationName for l in locations")
+            select(name="locationselect", ng-model="requestform.location", ng-options="l.locationName for l in locations", required)
           .control-group
               label.control-label Dispense
               .controls
@@ -24,11 +24,11 @@
                 td {{requestform.request[$index].itemName}}
                 td {{requestform.request[$index].currentStock}}
                 td 
-                  .control-group(ng-class="{ error: requestform.request[$index].amount > requestform.request[$index].currentStock }")
+                  .control-group(ng-class="{ error: requestform.request[$index].amount > requestform.request[$index].currentStock}")
                     input.input-small(ng-model="requestform.request[$index].amount",placeholder="amount", type="number")
                 td
                   i.icon-remove.pull-right(ng-click="removeDrug($index)")
 
       .modal-footer
         button.btn.btn-default(new-modal="#modal-request-stock-down") Back
-        button.btn(ng-click="sendIt()",ng-init="saveButtonText='Send Request'", ng-class="saveButtonClass") {{saveButtonText}}
+        button.btn(ng-click="sendIt()",ng-init="saveButtonText='Send Request'", ng-class="saveButtonClass", ng-disabled="requestform.location.length == 0 || requestform.request.length == 0 || requestform.requestList == 0 ") {{saveButtonText}}

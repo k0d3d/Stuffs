@@ -116,7 +116,6 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
         });
     };
     f.updateOrder = function(status,itemData,amount,order_id,invoiceno,callback){
-      console.log(invoiceno);
       $http.put('/api/orders/'+escape(order_id), {"status": status,"itemData":itemData,"amount":amount, "orderInvoiceNumber": invoiceno})
       .success(function(data){
         callback(data);

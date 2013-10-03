@@ -76,5 +76,5 @@ OrderSchema.statics = {
 }
 
 
-mongoose.model('Order', OrderSchema)
-mongoose.model('OrderStatus', OrderStatusSchema)
+mongoose.model('Order', OrderSchema);
+mongoose.model('OrderStatus', OrderStatusSchema);

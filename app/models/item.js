@@ -49,8 +49,6 @@ ItemSchema.statics = {
 
   load: function (id, cb) {
     this.findOne({ _id : id })
-      .populate('user', 'name email username')
-      .populate('comments.user')
       .exec(cb);
   },
 

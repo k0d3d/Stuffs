@@ -106,23 +106,7 @@
         }
         return d;
     }
-    function bindEmAll (index, scope, element){
-      element.on('click', function(e){
-        e.preventDefault();
-        var status = getStatus(scope.orders[index].orderStatus);
-        var itemData = scope.orders[index].itemData[0];
-        var amount = scope.orders[index].orderAmount;
-        var order_id = scope.orders[index]._id;
-        //var invoiceNo = scope.orders[index].orderInvoice;
-        //scope.$apply();
-        console.log(invoiceNo);
-        ordersService.updateOrder(status,itemData,amount,order_id,invoiceNo, function(r){
-          scope.orders[index].orderStatus = r.result;
-          scope.orders[index].next = getStatus(r.result);
-          console.log(r);
-        });
-      });
-    }
+
     return {
       link: function(scope, element, attrs, controller){
         var invoiceNo, index;
@@ -151,5 +135,5 @@
           });
         });
       }
-    }
+    };
   });
