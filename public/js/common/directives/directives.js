@@ -17,17 +17,17 @@
           itemname: ''
         };
         element.typeahead({
-        source: function(query, process){
-          return ser[attrs.thName](query,function(results){
-            return process(results);
-          });
-        },
-        updater: function(item){
-          scope.selectedItem[attrs.thName] = item;
-          scope.$apply();
-          return item;
-        }
-      });
+          source: function(query, process){
+            return ser[attrs.thName](query,function(results){
+              return process(results);
+            });
+          },
+          updater: function(item){
+            scope.selectedItem[attrs.thName] = item;
+            scope.$apply();
+            return item;
+          }
+        });
     };
     return{
       restrict: 'A',
@@ -52,10 +52,14 @@
               case "tableheader":
                 $('table.table').fixedHeader();
               break;
+              case "checkViewState":
+                scope.$emit('onFinishLoaded', true);
+              break;
               default:
               break;
             }
           });
+          
         }
       }
     };

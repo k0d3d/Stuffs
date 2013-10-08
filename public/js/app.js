@@ -42,7 +42,10 @@ angular.module('integraApp').controller('MainController', function($scope, $http
    'Cream',
    'Lotion',
    'Drops',
-   'Sprays'
+   'Sprays',
+   'Suppositories',
+   'Solutions',
+   'Sheet'
   ];
 
   //List of Item Packaging

@@ -72,7 +72,7 @@ append mainbody
             tbody
               tr(ng-repeat="record in dispenseHistory")
                 td {{record.patientName}}
-                td {{record.doctor}}
+                td <a href="/doctors/lookup/{{record.doctorId}}">{{record.doctorName}}</a>
                 td {{record.issueDate | date: 'medium'}}
                 td(ng-repeat="listofdrugs in record.drugs") 
                   p {{listofdrugs.amount}}

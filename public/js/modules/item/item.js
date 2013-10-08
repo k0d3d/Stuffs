@@ -7,6 +7,7 @@ angular.module('item', ['ui.bootstrap'])
 
 .config(['$routeProvider', function ($routeProvider){
 	$routeProvider.when('/items', {templateUrl: '/items/index', controller: 'itemIndexController'})
+  .when('/items/view/:state', {templateUrl: '/items/index', controller: 'itemIndexController'})
   .when('/items/add', {templateUrl: '/items/new', controller: 'itemAddController'})
   .when('/items/locations', {templateUrl: '/items/stockdown', controller: 'itemStockController'})
 	.when('/items/dispensary', {templateUrl: '/items/dispense', controller: 'itemDispensaryController'})
@@ -28,10 +29,16 @@ angular.module('item', ['ui.bootstrap'])
           $scope.enabledIndex = Object.keys($scope.itemsList);
         }
       });
+      $scope.$on('onFinishLoaded', function(event, data){
+        if(data == true){
+          if($routeParams.state == 'low'){
+            $('.card').not('.low-stock').hide();
+          }
+        }
+      });
     }
     init();
     function sortItems(data, callback){
-      console.log("From the server "+data.length);
       var o = {};
       angular.forEach(data, function(ele,index,arr){
         if(ele.itemName){
@@ -42,7 +49,6 @@ angular.module('item', ['ui.bootstrap'])
           o[fchar[0]].push(ele);
         }
         if(arr.length === index + 1){
-         console.log(index);
          callback(o);
        }
       });
@@ -108,10 +114,10 @@ angular.module('item', ['ui.bootstrap'])
     itemsService.save($scope.form, function(status,res){
       if(status){
         $scope.modal.heading= 'Item Added';
-        $scope.modal.body= "You've succesfull added an order. Note: Items placed with invoice numbers and stock amounts will have their current stock updated. To add another item, close this dialog or return to the dashboard";
+        $scope.modal.body= "You've succesfully added an order. Note: Items placed with invoice numbers and stock amounts will have their current stock updated. To add another item, close this dialog or return to the dashboard";
         $scope.form = '';
-        $('.md-modal').addClass('md-show md-success');
-        $('.md-overlay').addClass('success-overlay');
+        $scope.modal.class= 'md-success';
+        $scope.modal.modalState= 'md-show';
         $scope.saveButtonText = 'Save Item';
         $scope.saveButtonClass = 'btn-primary';
       }else{
@@ -257,7 +263,10 @@ angular.module('item', ['ui.bootstrap'])
       $scope.dispenseHistory = r;   
     });    
   }
+
+  //Initialize
   init();
+
   $scope.addButtonText = 'Add';
   $scope.addHelpText = '';
   $scope.$watch('selectedItem.itemname', function(newValue, oldValue){
@@ -279,6 +288,8 @@ angular.module('item', ['ui.bootstrap'])
       }
     });
   };
+
+  //Confirm this drug to be prescribed
   $scope.prescribeThis = function(d){
     $scope.drugname = '';
     if(d.options == 'alternative'){
@@ -292,15 +303,19 @@ angular.module('item', ['ui.bootstrap'])
       $scope.dispenseform.prescription.push(d);
     }
   };
+
+  //Pull up modal with summary
   $scope.approveThis = function(){
-    if($scope.dispenseform.prescription.length === 0){ 
-        alert("You havent confirmed and items. Check your list");
+    if($scope.dispenseform.prescription.length === 0){
+        alert("You havent confirmed any items. Check your list");
         return false;
       }
     $scope.modal.heading= 'Confirm Prescription';
     $scope.modal.class= 'md-success';
     $scope.modal.modalState= 'md-show';
   };
+
+  // Send prescript
   $scope.sendDis = function(){
     var drugs = [];
     _.forEach($scope.dispenseform.prescription, function(i,v){
@@ -334,7 +349,6 @@ angular.module('item', ['ui.bootstrap'])
   var i = {};
 
   i.items =  function(callback){
-      console.log('ehy');
       $http.get('/api/items/listAll').success(callback);
     };
 

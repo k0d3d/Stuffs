@@ -21,6 +21,8 @@ var DispenseSchema = new Schema({
     amount: Number,
     status: String
   }],
+  doctorId: String,
+  doctorName: String,
   issueDate: {type: Date, default: Date.now}
 });
 

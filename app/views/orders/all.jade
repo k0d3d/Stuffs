@@ -5,7 +5,8 @@ block body
   include ../includes/modals/modal-order-supplied.jade
   .row-fluid.row-break
     .span2.actioncol
-      button.btn.btn-large.btn-block.btn-primary(type="button", ng-click='submitOrder()') All Orders
+      .search-bar
+        input.input-medium(type="search", ng-model="ordersfilter", placeholder="Filter")
       button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
     .span10
       .row-fluid.fixed-table
@@ -22,7 +23,7 @@ block body
                 th Status
                 th Action
             tbody
-              tr(ng-repeat="order in orders", on-finish="tableheader")
+              tr(ng-repeat="order in orders | filter: ordersfilter", on-finish="tableheader")
                 td {{order.orderType}}
                 td 
                   a(href="/items/{{order.itemData[0]._id}}/edit") {{order.itemData[0].itemName}}

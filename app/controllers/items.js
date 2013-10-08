@@ -167,6 +167,8 @@ ItemsObject.prototype.list = function(req, res){
 };
 
 ItemsObject.prototype.listOne = function(req,res){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
   var options = {criteria: {}, fields: {}};
   var it ={};
   var reg = /^[0-9a-fA-F]{24}$/;
@@ -247,7 +249,9 @@ ItemsObject.prototype.typeahead = function(req, res){
   //options.criteria[term] = '/'+needle+'/i';
   Item.autocomplete(needle, function(err,itemsResult){
     if (err) return res.render('500');
-     res.json(itemsResult);
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");    
+    res.json(itemsResult);
   });
 };
 
@@ -346,7 +350,7 @@ ItemsObject.prototype.getAllLocations = function(req, res){
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-ItemsObject.prototype.dispenseThis = function(req, res){
+ItemsObject.prototype.dispenseThis = function(req, res){     
   var dispense = new Dispense();
   var bill = new Bill();
   var drugslist = [];
@@ -362,6 +366,8 @@ ItemsObject.prototype.dispenseThis = function(req, res){
     dispense.patientName = req.body.patientName;
     dispense.patientId =  req.body.patientId;
     dispense.company = req.body.company;
+    dispense.doctorId = req.body.doctorId;
+    dispense.doctorName = req.body.doctorName;
     dispense.locationId = location.id;
     dispense.save(function(err, i){
       if(err){
@@ -379,6 +385,8 @@ ItemsObject.prototype.dispenseThis = function(req, res){
     bill.patientId =  req.body.patientId;    
     bill.save(function(err, i){
       if(err) res.json('500',{"message": err});
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "X-Requested-With");      
       res.json(200, {});
     })
   }
@@ -648,10 +656,14 @@ module.exports.routes = function(app){
       res.render('index',{
         title: 'All Items'
       });
-    });
+  });
   app.get('/items/index', function(req, res){
       res.render('items/index');
-    });
+  });
+
+  app.get('/items/view/low', function(req, res){
+    res.render('index');
+  });
 
 
   //Item routes   
