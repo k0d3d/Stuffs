@@ -6,7 +6,14 @@ block body
   .row-fluid.row-break
     .span2.actioncol
       .search-bar
-        input.input-medium(type="search", ng-model="ordersfilter", placeholder="Filter")
+        input.input-medium(type="search", ng-model="ordersfilter.itemData", placeholder="Search Item Name")
+        input.input-medium(type="search", ng-model="ordersfilter.orderSupplier", placeholder="Search Suppliers")
+        input.input-medium(type="search", ng-model="ordersfilter.orderInvoice", placeholder="Search Invoices")
+        select.input-medium(ng-model="ordersfilter.orderStatus")
+          option
+          option Supplied
+          option Paid
+          option Pending Order
       button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
     .span10
       .row-fluid.fixed-table
@@ -46,6 +53,8 @@ block body
                         dd(style="color: #3498db") {{order.itemData[0].itemName}}
                         dt Amount Ordered: 
                         dd(style="color:#3498db") {{order.orderAmount}}
+                        dt Invoice Number
+                        dd {{orders[$index].orderInvoice}}
 
                       form.new-stock-down
                         .control-group

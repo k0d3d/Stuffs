@@ -514,3 +514,76 @@ input.ng-invalid, select.ng-invalid {
   top: 15px;
   border: solid 5px #3498db;
 }
+
+.notification-bar .navbar-text{
+  color: white;
+  text-align: center;
+}
+
+.notification-bar.success .navbar-inner{
+  background-color: #48C9B0;
+}
+.notification-bar.error .navbar-inner{
+  background-color: #d85945;
+}
+.notification-bar.info .navbar-inner{
+  background-color: #5bace2;
+}
+dl.headed dt{
+  font-weight: bold;
+  font-size: larger;
+}
+dl.headed dd{
+  text-transform: capitalize;
+}
+
+button.nop{
+  padding: 1px 4px;
+}
+
+label.lister {
+  border-bottom: solid 1px white;
+  margin-top: 15px;
+}
+
+label.lister button {
+float: right;
+margin-top: -7px;
+border-radius: 0;
+}
+
+ul.listing{
+  margin: 0;
+}
+ul.listing li{
+list-style: none;
+border: solid 1px rgb(164, 183, 218);  
+padding: 5px;
+}
+ul.listing li:hover{
+  background-color: #3391AF;
+  cursor: pointer;
+}
+ul.listing li i{
+  margin-right: 5px;
+}
+ul.listing + p{
+  margin-bottom: 10px;
+}
+#dialog-category ul{
+  min-height: 260px;
+  overflow-y: auto;  
+  margin: 0px;
+}
+
+#dialog-category li{
+  border-bottom: solid 1px #ddd;
+  display: block;
+  height: 35px;
+}
+#dialog-category ul li button{
+  padding: 5px;
+  margin: 0;
+  border-radius: 0;  
+  float: right;
+}

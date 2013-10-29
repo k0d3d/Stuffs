@@ -2,21 +2,23 @@
 /**
  * Module dependencies.
  */
-
+var db = require("../../lib/db.js");
 var mongoose = require('mongoose'),
 	env = process.env.NODE_ENV || 'development',
 	config = require('../../config/config')[env],
 	Schema = mongoose.Schema;
 
 var SuppliersSchema = new Schema({
-	name: String,
+	supplierName: String,
 	phoneNumber: String,
 	email: String,
 	address: String,
+	otherContact: String,
 	contactPerson: String,
-	contactPhone: String,
+	contactPersonPhone: String,
 	daysSupply: String,
-	daysPayment: String
+	daysPayment: String,
+	addedOn: {type: Date, default: Date.now}
 });
 
 /**

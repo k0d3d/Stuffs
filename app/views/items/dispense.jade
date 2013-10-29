@@ -8,7 +8,7 @@ append mainbody
     h4 Location
     select(ng-model="dispenseform.location", ng-options="l.locationName for l in locations")
     button.btn.btn-large.btn-block.btn-primary(ng-click="new = !new;all = !all;btnState = !btnState", ng-init="new = false; all = true;btnState=false", ng-disabled="btnState") Prescribe
-    button.btn.btn-large.btn-block.btn-default(ng-click="backBtn()") Go Back
+    button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
   .span8.offset1(ng-show="new")
     h3 Dispense Prescription
     form.newdispense

@@ -14,14 +14,7 @@ var express = require('express'),
 // Load configurations
 // if test env, load example file
 var env = process.env.NODE_ENV || 'development',
-	config = require('./config/config')[env],
-	mongoose = require('mongoose'),
-	pureautoinc  = require('mongoose-pureautoinc');
-
-// Bootstrap db connection
-mongoose.connect(config.db);
-pureautoinc.init(mongoose);
-
+	config = require('./config/config')[env];
 
 // Bootstrap models
 var models_path = __dirname + '/app/models';
@@ -47,7 +40,7 @@ app.on('listening',function(){
 // Start the app by listening on <port>
 var port = process.env.PORT || 80;
 app.listen(port);
-console.log('Express app started on port '+port);
+console.log('Integra Drug Store App started on port '+port);
 
 // expose app
 exports = module.exports = app;

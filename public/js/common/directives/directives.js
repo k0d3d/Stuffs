@@ -10,11 +10,13 @@
     var linker = function(scope, element, attrs){
         ser = {
           suppliername : ordersService.getSupplierName,
-          itemname : itemsService.getItemName
+          itemname : itemsService.getItemName,
+          nafdacdrugs: itemsService.getNafdacDrug
         };
         scope.selectedItem ={
           suppliername: '',
-          itemname: ''
+          itemname: '',
+          nafdacDrug: ''
         };
         element.typeahead({
           source: function(query, process){

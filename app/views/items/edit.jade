@@ -12,12 +12,16 @@ block body
             select(name="itemtype",class="span6",ng-model="form.itemType", required)
               option Medication
               option Medical Equipment
+            label(for="name") Brand Name 
+            input.input-medium(type="text",name="name", ng-model="form.itemName", type-ahead, th-name="nafdacdrugs", required)              
             label(for="sci-name") Scientific Name
             input.input-medium(type="text", name="sci-name",ng-model="form.sciName", required)
-            label(for="name") Brand Name 
-            input.input-medium(type="text",name="name", ng-model="form.itemName", type-ahead, th-name="itemname", required)
             label(for="man-name") Manufacturer
             input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName", required)
+            label(for="supplier") Importer
+            input.input-medium(type="text", name="supplier",ng-model="form.importer")                 
+            label(for="supplier") NAFDAC Number
+            input.input-medium(type="text", name="supplier",ng-model="form.nadfac", readonly)                 
             label(for="category") Category
             select(multiple="true",ng-model="form.itemCategory")
               option Alimentary Tract and Metabolism

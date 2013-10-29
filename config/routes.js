@@ -21,6 +21,8 @@ module.exports = function (app, passport) {
   items.routes(app);
   var orders = require('../app/controllers/orders');
   orders.routes(app);
+  var suppliers = require('../app/controllers/suppliers');
+  suppliers.routes(app);
 
   app.get('/', function(req, res){
       res.render('index',{

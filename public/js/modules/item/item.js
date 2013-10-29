@@ -105,7 +105,22 @@ angular.module('item', ['ui.bootstrap'])
 
 })
 .controller('itemAddController', function itemAddController ($scope, $location, $routeParams,itemsService){
-  $scope.form = {};
+  $scope.form = {
+    itemCategory: []
+  };
+  $scope.catList = [];
+  
+  //Initialization function
+  function init(){
+    itemsService.listCategory(function(r){
+      angular.forEach(r, function(v,k){
+        $scope.catList.push(v);
+      });
+    });
+  }
+  //Run initialization
+  init();
+
   $scope.saveButtonClass = 'btn-primary';
   $scope.isDisabled = false;
   $scope.saveitem = function(){
@@ -113,22 +128,39 @@ angular.module('item', ['ui.bootstrap'])
     $scope.saveButtonClass = 'btn-info';
     itemsService.save($scope.form, function(status,res){
       if(status){
-        $scope.modal.heading= 'Item Added';
-        $scope.modal.body= "You've succesfully added an order. Note: Items placed with invoice numbers and stock amounts will have their current stock updated. To add another item, close this dialog or return to the dashboard";
         $scope.form = '';
-        $scope.modal.class= 'md-success';
-        $scope.modal.modalState= 'md-show';
         $scope.saveButtonText = 'Save Item';
         $scope.saveButtonClass = 'btn-primary';
       }else{
-        $scope.modal.heading= 'Error Adding Item';
-        $scope.modal.body= "Something went wrong while carrying out your last request. If it's nothing serious, you can try again. If this error happens again, please inform the Admin";
-        $('.md-modal').addClass('md-show md-error');
-        $('.md-overlay').addClass('error-overlay');
         $scope.saveButtonText = 'Save Item';
       }
     });
   };
+
+  //Add Category
+  $scope.addCat = function(){
+    if($scope.catInput.length > 0){
+      itemsService.addCategory($scope.catInput, function(r){
+        $scope.catList.push($scope.catInput);
+      });
+    }
+  };
+
+  //Remove/Delete a Category
+  $scope.removeCat = function(index){
+    $scope.catList.splice(index, 1);
+  };
+
+  //Add a category to the item's category list
+  $scope.addToItem = function(index){
+    var i = $scope.catList[index];
+    $scope.form.itemCategory.push(i);
+  };
+
+  $scope.removeItemCat = function(index){
+    $scope.form.itemCategory.splice(index,1);
+  };
+
 })
 .controller('itemEditController', function itemEditController($scope, $location, $routeParams,itemsService){
   $scope.form = {
@@ -345,22 +377,42 @@ angular.module('item', ['ui.bootstrap'])
     console.log($scope.d);
   };
 })
-.factory('itemsService', function($http){
+.factory('itemsService', ['$http', 'Language','Notification', function($http, Language, Notification){
   var i = {};
-
   i.items =  function(callback){
-      $http.get('/api/items/listAll').success(callback);
+      $http.get('/api/items/listAll')
+      .success(function(data, status){
+        Notification.notifier({
+          message: "Fetched list of items successfully",
+          type: "success"
+        });
+      })
+      .error(function(data, status){
+        Notification.notifier({
+          message: 'Failed to fetch list of items from the server. Will try again',
+          type: 'error'
+        })
+      });
     };
 
   //Typeahead Query
   i.getItemName = function(query, callback){
-      $.getJSON('/api/items/typeahead/term/itemName/query/'+escape(query), function(s) {
-          var results = [];
-          $.each(s,function(){
-            results.push(this.itemName);
-          });
-          callback(results);
-      });
+    $.getJSON('/api/items/typeahead/term/itemName/query/'+escape(query), function(s) {
+        var results = [];
+        $.each(s,function(){
+          results.push(this.itemName);
+        });
+        callback(results);
+    });
+  };
+  i.getNafdacDrug = function(query, callback){
+    $.getJSON('/api/nafdacdrugs/typeahead/needle/'+escape(query), function(s) {
+        var results = [];
+        $.each(s,function(){
+          results.push(this.productName);
+        });
+        callback(results, s);
+    });    
   };
   i.summary = function(id,lId, callback){
     var itemId = _.escape(id);
@@ -368,11 +420,21 @@ angular.module('item', ['ui.bootstrap'])
       $http.get('/api/items/'+itemId+'/options/quick/locations/'+locationId).success(callback);
     };
   i.save =  function(post, callback){
-      $http.post('/api/items', {item: post}).success(function(status, response){
-        callback(true,response);
+      $http.post('/api/items', {item: post}).success(function(data, status){
+        Notification.modal({
+          heading: 'Item Added',
+          body: Language.eng.items.save.success,
+          type: 'success',
+        });
+        callback(true,status);
       }).
-      error(function(status, response){
-        callback(false, response);
+      error(function(data, status){
+        Notification.modal({
+          heading: 'Error Adding Item',
+          body: Language.eng.items.save.error,
+          type: 'error',
+        });         
+        callback(false, status);
       });
     };
   i.count =  function(callback){
@@ -439,8 +501,40 @@ angular.module('item', ['ui.bootstrap'])
     .success(callback);
   };
 
+  //Add an item category
+  i.addCategory = function(name, callback){
+    $http.post('/api/items/category/', {name: name, parent: ''})
+    .success(function(data, status){
+      Notification.notifier({
+        message: Language.eng.items.category.add.success,
+        type: "success"
+      });
+      callback(data);
+    })
+    .error(function(data, status){
+      Notification.notifier({
+        message: Language.eng.items.category.add.error,
+        type: "error"
+      }); 
+    });
+  };
+
+  //List Categories
+  i.listCategory = function(callback){
+    $http.get("/api/items/category")
+    .success(function(data, status){
+      callback(data);
+    })
+    .error(function(data, status){
+      Notification.notifier({
+        message: Language.eng.items.category.list.error,
+        type: "error"
+      });       
+    });
+  }
+
   return i;
-})
+}])
 .directive('newModal', function(){
     function link($scope, element, attributes){
       element.on('click', function(){
@@ -470,4 +564,33 @@ angular.module('item', ['ui.bootstrap'])
         return "inactive";
       }
     };
-  });
+  })
+.directive('brandNameTypeAhead', ['itemsService', function(itemsService){
+  var linker = function(scope, element, attrs){
+    var nx;
+      element.typeahead({
+        source: function(query, process){
+          return itemsService.getNafdacDrug(query,function(results, s){
+            nx = s;
+            return process(results);
+          });
+        },
+        updater: function(item){
+          scope.form.itemName = item;
+          _.some(nx, function(v,i){
+            if(v.productName === item){
+              scope.form.nafdacRegNo = v.regNo;
+              scope.form.importer = v.man_imp_supp;
+              scope.form.nafdacId = v._id;
+              return true;
+            }
+          });
+          scope.$apply();
+          return item;
+        }
+      });
+  };
+  return {
+    link: linker
+  };
+}]);

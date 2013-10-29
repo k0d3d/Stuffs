@@ -2,12 +2,11 @@
 /**
  * Module dependencies.
  */
-
+var db = require("../../lib/db.js");
 var mongoose = require('mongoose'),
   env = process.env.NODE_ENV || 'development',
   config = require('../../config/config')[env],
-  Schema = mongoose.Schema,
-  pureautoinc  = require('mongoose-pureautoinc');
+  Schema = mongoose.Schema;
 
 /**
  * Item Schema 
@@ -18,21 +17,32 @@ var ItemSchema = new Schema({
   itemName: {type: String, default: ''},
   sciName: {type: String, default: ''},
   manufacturerName: {type: String},
-  itemCategory: {type: String},
+  itemCategory: [{
+    category: {type: Schema.ObjectId, ref: 'ItemCategory'}
+  }],
   itemDescription: {type: String},
   itemBoilingPoint:{type: Number},
   itemPackaging:{type: String},
   itemForm: {type: String},
   itemPurchaseRate: {type: Number},
   packageSize: Number,
-  supplierID: {type: Schema.ObjectId},
-  supplierName: String
+  suppliers: [{
+    supplierID: {type: Schema.ObjectId},
+    supplierName: String,
+    position: Number
+  }],
+  nafdacId: {type: Schema.ObjectId},
+  importer: String,
+  nafdacRegNo: String
 });
 
-ItemSchema.plugin(pureautoinc.plugin, {
-  model: 'Item',
-  field: 'itemID'
+
+var ItemCategorySchema = new Schema({
+  categoryName: String,
+  categoryParent: {type: Schema.ObjectId},
+  categoryType: {type: String, default: 'system'}
 });
+
 /**
  * Statics
  */
@@ -96,4 +106,50 @@ ItemSchema.statics = {
 }
 
 
+/**
+ * ItemCategory Schema Statics
+ */
+ItemCategorySchema.statics = {
+  list: function(callback){
+    this.find().exec(function(err, i){
+      if(err){
+        callback(err);
+      }else{
+        callback(i);
+      }
+    });
+  },
+
+  delete: function(id, callback){
+    this.remove({"_id": id, "categoryType": "system"}, function(err, i){
+      if(err){
+        callback(err);
+      }else{
+        callback(i);
+      }
+    });
+  }
+}
+
+/**
+ * ItemCategory Schema Methods
+ */
+ItemCategorySchema.methods = {
+  create: function(name, parent, callback){
+    this.categoryName = name;
+    this.categoryType = 'user';
+    this.categoryParent = parent;
+    this.save(function(err, i){
+      console.log(err);
+      if(err){
+        callback(err);
+      }else{
+        callback(i);
+      }      
+    });
+  }
+}
+
+mongoose.model('ItemCategory', ItemCategorySchema);
 mongoose.model('Item', ItemSchema);
+module.exports = mongoose.model('Item');

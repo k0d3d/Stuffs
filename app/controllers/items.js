@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose'),
     Item = mongoose.model('Item'),
+    ItemCategory = mongoose.model('ItemCategory'),
     Order = mongoose.model('Order'),
     OrderStatus = mongoose.model('OrderStatus'),
     Dispense = mongoose.model('Dispense'),
@@ -13,6 +14,7 @@ var mongoose = require('mongoose'),
     StockHistory = mongoose.model('StockHistory'),
     StockCount = mongoose.model('StockCount'),
     _ = require("underscore"),
+    NafdacDrugs = mongoose.model("nafdacdrug"),
     utils = require("util");
 
 
@@ -35,34 +37,40 @@ function ItemsObject(){
 
 }
 
+
 ItemsObject.prototype.constructor = ItemsObject;
 
 /**
  * Create an item
  */
 
-ItemsObject.prototype.create = function (req, res) {
-  var it = new Item(req.body.item);
+ItemsObject.prototype.create = function (itemBody, callback) {
+  // callback(200);
+  // return;
+  if(itemBody.item.length === 0){
+    return callback(400);
+  } 
+  var it = new Item(itemBody.item);
   ObjectId = mongoose.Types.ObjectId;
   supplierObj = {};
-  if(req.body.item.itemSupplier){
-    var sn = req.body.item.itemSupplier.supplierName || '';
+  if(itemBody.item.itemSupplier){
+    var sn = itemBody.item.itemSupplier.supplierName || '';
     supplierObj = {supplierName: sn};
   }
 
   //Create a new order if the invoice number was entered
-  if(req.body.item.orderInvoiceData !== undefined){
+  if(itemBody.item.orderInvoiceData !== undefined){
     
     //Creates a new order.
     var order = new Order();
-    itemObj = {itemName: req.body.item.itemName};
+    itemObj = {itemName: itemBody.item.itemName};
     order.itemData.push(itemObj);
     order.orderSupplier.push(supplierObj);
-    order.orderInvoice = req.body.item.orderInvoiceData.orderInvoiceNumber;
+    order.orderInvoice = itemBody.item.orderInvoiceData.orderInvoiceNumber;
     order.orderStatus = 'Supplied'            ;
-    order.orderType = req.body.item.itemType;
-    order.orderAmount= req.body.item.orderInvoiceData.orderInvoiceAmount;
-    order.orderDate= req.body.item.orderInvoiceDate;
+    order.orderType = itemBody.item.itemType;
+    order.orderAmount= itemBody.item.orderInvoiceData.orderInvoiceAmount;
+    order.orderDate= itemBody.item.orderInvoiceDate;
     order.save(function(err){
       if(err)console.log(err);
     });
@@ -77,7 +85,7 @@ ItemsObject.prototype.create = function (req, res) {
         orderstatus.order_id = order._id;
         orderstatus.save(function(err){
           if(err)return err;
-          res.json(200, {"task": true});
+          callback(200);
         });
     };
 
@@ -91,17 +99,17 @@ ItemsObject.prototype.create = function (req, res) {
     // on the StockHistoryShema
     StockHistory.count({'reference': 'create-'+order._id}, function(err, count){
       if(count > 0){
-        res.json(400,{"message": "Invalid Order"});
+        callback(400);
       }else{
         var itemObj = {
           id: it._id,
-          amount: req.body.orderInvoiceAmount
+          amount: itemBody.orderInvoiceAmount
         };
         //Create a stock history record.
         stockhistory.createRecord(itemObj, location, 'Stock Up','create-'+order._id ,function(g){
           // Creates a stock count for the item 
           var stockcount = new StockCount(g);
-          stockcount.amount = req.body.item.orderInvoiceData.orderInvoiceAmount;
+          stockcount.amount = itemBody.item.orderInvoiceData.orderInvoiceAmount;
           stockcount.save(function(err, i){
             doOrderStatusUpdates();
           });
@@ -115,7 +123,7 @@ ItemsObject.prototype.create = function (req, res) {
       var s = Item.findOne({"_id": it._id});
       s.select('itemID itemName itemCategory');
       s.exec(function(err, item){
-        res.json(item);
+        callback(item);
       });
     }else{
       console.log(err);
@@ -141,7 +149,11 @@ ItemsObject.prototype.list = function(req, res){
     var listofItems = [];
     var x = r.length;
 
+    //msc means main stock count, #humorMe
     function mscProcess(){
+      if(x === 0){
+        return res.json(200, {});
+      }
       var _item = r.pop();
       StockCount.mainStockCount(_item._id, function(stock){
         var it = {
@@ -255,13 +267,25 @@ ItemsObject.prototype.typeahead = function(req, res){
   });
 };
 
+ItemsObject.prototype.nafdacTypeAhead = function(req, res){
+  var needle = req.param('needle');
+  //options.criteria[term] = '/'+needle+'/i';
+  NafdacDrugs.autocomplete(needle, function(err,itemsResult){
+    if (err) return res.render('500');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");    
+    res.json(itemsResult);
+  });
+}
+
+
+
 /**
  * [count Counts items for the summery tiles on the dashboard]
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
+ * @param  {[type]} callback [description]
  * @return {[type]}     [description]
  */
-ItemsObject.prototype.count = function(req, res){
+ItemsObject.prototype.count = function(callback){
   var d = Item.count();
   var m  = Item.find();
   //m.$where(function(){return this.currentStock < this.itemBoilingPoint && this.currentStock > 0;});
@@ -274,7 +298,7 @@ ItemsObject.prototype.count = function(req, res){
 
   //When set, please send respion
   function respond(lowCount, totalCount){
-    res.json(200, {"count": totalCount, "low": lowCount});
+    callback(lowCount, totalCount);
   }
 
   //get all items from the 'items' collectioin
@@ -282,7 +306,6 @@ ItemsObject.prototype.count = function(req, res){
     StockCount.find({locationName: 'Main'}, function(err, i){
       total = i.length;
       stockcountlist = i;
-
       if(stockcountlist.length === 0){
         respond(0, totalCount);
       }else{
@@ -297,9 +320,6 @@ ItemsObject.prototype.count = function(req, res){
   //pass in the StockCount list
   function hl (){
     var countItem = stockcountlist.pop();
-
-    console.log(countItem);
-
     //Find one 
     Item.load(countItem.item, function(err, i){
       //When found compare boilingPoint to the result amount
@@ -647,6 +667,37 @@ ItemsObject.prototype.deleteItem = function(itemId, callback){
   });
 };
 
+/**
+ * [addCategory Adds a new category for items]
+ * @param {[type]}   name     [description]
+ * @param {[type]}   parent   [description]
+ * @param {Function} callback [description]
+ */
+ItemsObject.prototype.addCategory = function(name, parent, callback){
+  if(name.length === 0 ){
+    return callback(new Error('Empty name'));
+  }
+  if(parent.length === 0){
+    parent = undefined;
+  }
+  var ic = new ItemCategory();
+  ic.create(name, parent, function(r){
+    callback(r);
+  });
+};
+
+/**
+ * [listCategory list out all saved categories]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+ItemsObject.prototype.listCategory = function(callback){
+  return ItemCategory.list(function(i){
+    callback(i);
+  });
+};
+
+module.exports.item = ItemsObject;
 
 var item = new ItemsObject();
 
@@ -715,14 +766,31 @@ module.exports.routes = function(app){
   //Typeahead Route
   app.get('/api/items/typeahead/term/:term/query/:needle',item.typeahead);
 
+  //Nafdac Typeahead Route
+  app.get('/api/nafdacdrugs/typeahead/needle/:needle',item.nafdacTypeAhead);
+
   //Dashboard Count Items
-  app.get('/api/items/count',item.count);
+  app.get('/api/items/count',function(req, res){
+    item.count(function(lowCount, totalCount){
+      res.json(200, {"count": totalCount, "low": lowCount});
+    });
+  });
 
   // get all stock down locations and basic information
   app.get('/api/items/location',item.getAllLocations);
 
   //Create a new Item 
-  app.post('/api/items',item.create);
+  app.post('/api/items',function(req,res){
+    item.create(req.body, function(result){
+      if(result === 400){
+        res.json(400,{"message": "Invalid Order"});
+      }else if(result === 200){
+        res.json(200, {"task": true});
+      }else if(typeof(result) ==  'object'){
+        res.json(200, {"task": true});
+      }
+    });
+  });
 
   //Create a stock down location
   app.post('/api/items/location',item.createLocation);
@@ -745,6 +813,37 @@ module.exports.routes = function(app){
       res.json(200, {state: i});
     });
   });
+
+  //Item Category Routes.///
+  app.post('/api/items/category', function(req, res, next){
+    item.addCategory(req.body.name, req.body.parent, function(r){
+      if(utils.isError(r)){
+        next(r);
+      }else{
+        res.json(200, true);
+      }
+    });
+  });
+
+  app.get('/api/items/category', function(req, res, next){
+    item.listCategory(function(i){
+      if(utils.isError(r)){
+        next(r);
+      }else{
+        res.json(200, true);
+      }      
+    });
+  });
+
+  app.del('/api/items/category/:categoryId', function(req, res, next){
+    var catId = req.params.categoryId;
+    item.removeCategory(catId, function(i){
+      if(utils.isError(r)){
+        next(r);
+      }else{
+        res.json(200, true);
+      }       
+    });
+  });
 };
 
-module.exports.item = item;

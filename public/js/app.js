@@ -6,8 +6,11 @@ angular.module('integraApp', [
   'stock',
   'item',
   'bills',
+  'supplier',
   'dashboard',
-  'directives'
+  'directives',
+  'services',
+  'language'
   ]);
 angular.module('integraApp').config(function ($routeProvider, $locationProvider) {
   $routeProvider.
@@ -17,9 +20,11 @@ angular.module('integraApp').config(function ($routeProvider, $locationProvider)
   $locationProvider.html5Mode(true);
 });
 
-angular.module('integraApp').controller('MainController', function($scope, $http, $location){
-  $scope.modal ={};
+angular.module('integraApp').controller('MainController', function($scope, $http, $location, Notification){
+  $scope.modal = {};
+  $scope.notification = {};
   function href(target){
+    $scope.modal = {};
     $location.path(target);
   }
   function backBtn(){
@@ -69,5 +74,12 @@ angular.module('integraApp').controller('MainController', function($scope, $http
     itemForm : itemForm,
     itemPackaging: itemPackaging
 
-  };  
+  };
+
+  $scope.$on('newNotification', function(){
+    $scope.notification = Notification.notice;
+  });
+  $scope.$on('newEvent', function(){
+    $scope.modal = Notification.message;
+  });
 });

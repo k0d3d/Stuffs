@@ -129,6 +129,26 @@ perspective effects (not including the modals and the overlay).
 	background: #141414;
 }
 
+.md-success{
+	background: #2ECC71;
+}
+.success-overlay{
+	background-color: #28855A;
+	background-color: rgba(39, 174, 96, 0.64);
+	opacity: 1;
+	visibility: visible;	
+}
+.md-error{
+	background: #e74c3c;
+}
+.error-overlay{
+	background: rgba(143,27,15,0.8);
+	opacity: 1;
+	visibility: visible;	
+}
+
+
+
 /* Individual modal styles with animations/transitions */
 
 /* Effect 1: Fade in and scale up */
@@ -744,21 +764,6 @@ perspective effects (not including the modals and the overlay).
 	-moz-transition: all 0.5s 0.1s;
 	transition: all 0.5s 0.1s;
 }
-
-.md-success{
-	background: #2ECC71;
-}
-.success-overlay{
-	background: rgba(39, 174, 96, 0.64);
-}
-.md-error{
-	background: #e74c3c;
-}
-.error-overlay{
-	background: rgba(143,27,15,0.8);
-}
-
-
 @media screen and (max-width: 32em) {
 	body { font-size: 75%; }
 }

@@ -43,7 +43,7 @@ module.exports = {
     },
   },
   test: {
-    db: 'mongodb://localhost/aregtni_test',
+    db: 'mongodb://localhost/local',
     root: rootPath,
     notifier: notifier,
     app: {
