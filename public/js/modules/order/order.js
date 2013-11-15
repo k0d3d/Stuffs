@@ -27,12 +27,14 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
     });
   };
   $scope.changeStatus = function(){
-    var status = $scope.uo.status;
-    var itemData = $scope.uo.itemData;
-    var amount = $scope.uo.amount;
-    var order_id = $scope.uo.order_id;
-    var invoiceno = $scope.uo.invoiceno;
-    ordersService.updateOrder(status,itemData,amount,order_id,function(r){
+    var o = {
+      status : $scope.uo.status,
+      itemData : $scope.uo.itemData,
+      amount : $scope.uo.amount,
+      order_id : $scope.uo.order_id,
+      invoiceno : $scope.uo.invoiceno
+    };
+    ordersService.updateOrder(o,function(r){
 
     });
   };
@@ -49,37 +51,20 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
       $scope.form.itemData.itemName = r.itemName;
       $scope.form.itemData.itemID = r.itemID;
       $scope.form.itemData._id = r._id;
-      $scope.form.orderSupplierName = r.supplierName;
-      $scope.form.orderSupplierID = r.supplierID;
+      $scope.form.suppliers = {
+        supplierName : r.supplierName,
+        supplierID : r.supplierID
+      };
     });
   }
-  $scope.$watch('selectedItem', function(newValue, oldValue){
-    if(newValue !== oldValue){
-      if(newValue['itemname']){
-        itemsService.summary(newValue['itemname'],'main', function(r){
-          $scope.form.itemData.itemName = r.itemName;
-          $scope.form.itemData.itemID = r.itemID;
-          $scope.form.itemData._id = r._id;
-          $scope.summary = r;
-        });
-      }
-    }
-  }, true);
   $scope.saveButtonClass = 'btn-primary';
   $scope.submitOrder = function(){
-    $scope.saveButtonText = 'saving';
-    $scope.saveButtonClass = 'btn-info';
     ordersService.save($scope.form, function(data){
-      $scope.modal.heading= 'Order Placed';
-      $scope.modal.body= "You've succesfull placed an order. To place another order, \n close this dialog or return to the dashboard";
       $scope.form = '';
-      $scope.modal.class= 'md-success';
-      $scope.modal.modalState= 'md-show';
-      $scope.saveButtonText = 'Save';
     });
   };
 })
-.factory('ordersService',function($http){
+.factory('ordersService',['$http', 'Notification','Language', function($http, Notification, Lang){
     var f = {};
     f.getAllSuppliers = function(callback){
       $http.get('/api/orders/suppliers/'+escape(query)).success(function(data){
@@ -109,19 +94,39 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
     f.save = function(form, callback){
       $http.post('/api/orders', form).
         success(function(data) {
+          Notification.notifier({
+            message : Lang.eng.order.place.success,
+            type: 'success'
+          });
             callback(data);
         }).
         error(function(err){
-          console.log(err);
+          Notification.notifier({
+            message : Lang.eng.order.place.error,
+            type: 'error'
+          });          
         });
     };
-    f.updateOrder = function(status,itemData,amount,order_id,invoiceno,callback){
-      $http.put('/api/orders/'+escape(order_id), {"status": status,"itemData":itemData,"amount":amount, "orderInvoiceNumber": invoiceno})
+    f.updateOrder = function(o,callback){
+      $http.put('/api/orders/'+escape(o.order_id), {
+          "status": o.status,
+          "itemData":o.itemData,
+          "amount":o.amount,
+          "orderInvoiceNumber": o.invoiceno,
+          "amountSupplied": o.amountSupplied || undefined
+        })
       .success(function(data){
+        Notification.notifier({
+          message: Lang.eng.order.update.success,
+          type: 'success'
+        });
         callback(data);
       })
       .error(function(data){
-        alert("Communication Error");
+        Notification.notifier({
+          message: Lang.eng.order.update.error,
+          type: 'error'
+        });        
       });
 
     };
@@ -137,4 +142,62 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
     };
 
     return f;
-});
+}]).directive('orderSupplierTypeAhead', ['itemsService', function(itemsService){
+  var linker = function(scope, element, attrs){
+    var nx;
+      element.typeahead({
+        source: function(query, process){
+          return itemsService.getSupplierName(query,function(results, s){
+            nx = s;
+            return process(results);
+          });
+        },
+        updater: function(name){
+          _.some(nx, function(v,i){
+            if(v.supplierName === name){
+              scope.form.suppliers = {
+                supplierID : v._id,
+                supplierName: v.supplierName
+              };
+              return true;
+            }
+          });          
+          scope.$apply();
+          return name;
+        }
+      });
+  };
+  return {
+    link: linker
+  };
+}])
+.directive('orderItemTypeAhead', ['itemsService', function(itemsService){
+  var linker = function(scope, element, attrs){
+    var nx;
+      element.typeahead({
+        source: function(query, process){
+          return itemsService.getItemName(query,function(results, s){
+            nx = s;
+            return process(results);
+          });
+        },
+        updater: function(name){
+          itemsService.summary(name,'main', function(r){
+            scope.form.itemData.itemName = r.itemName;
+            scope.form.itemData.itemID = r.itemID;
+            scope.form.itemData._id = r._id;
+            scope.form.suppliers = {
+              supplierID : r.suppliers[0]._id,
+              supplierName: r.suppliers[0].supplierName
+            };
+            scope.summary = r;
+          });
+          scope.$apply();
+          return name;
+        }
+      });
+  };
+  return {
+    link: linker
+  };
+}]);

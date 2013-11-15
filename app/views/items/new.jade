@@ -22,7 +22,7 @@ block body
             label(for="man-name") Manufacturer
             input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName", required)
             label(for="supplier") Importer
-            input.input-medium(type="text", name="supplier",ng-model="form.importer")  
+            input.input-medium(type="text", name="supplier",ng-model="form.importer", readonly, style="color:black;" )  
             label(for="supplier") NAFDAC Number
             input.input-medium(type="text", name="supplier",ng-model="form.nafdacRegNo", readonly, style="color:black;") 
             label.lister(for="category") Category
@@ -30,7 +30,7 @@ block body
                 i.fa.fa-ellipsis-horizontal
             ul#itemCategory.fa-ul.listing(ng-model="form.itemCategory")
               li(ng-repeat="itemCat in form.itemCategory ", ng-click="removeItemCat($index)")
-                | {{itemCat}}
+                | {{itemCat.categoryName}}
             p {{form.itemCategory.length}} categories selected.
 
             label(for="itemdesc") Item Description
@@ -43,8 +43,16 @@ block body
               input#invoice-date.input-medium(type="date", name="invoice-date", class="datepicker", data-date-format="dd/mm/yyyy",ng-model="form.orderInvoiceData.orderInvoiceDate")
               label(for="stock-amount") Stock Amount
               input.input-small(type="number",ng-model="form.orderInvoiceData.orderInvoiceAmount")              
-            label(for="supplier") Supplier
-            input.input-medium(type="text", name="supplier",ng-model="form.supplierName")              
+            label.lister(for="supplier") Supplier  
+            ul#itemSuppliers.fa-ul.listing(ng-model="form.suppliers")
+              li(ng-repeat="itemSup in form.suppliers", ng-click="removeItemSup($index)")
+                | {{itemSup.supplierName}}
+            input.input-medium(type="text", name="supplier", supplier-name-type-ahead)                
+            p {{form.suppliers.length}} suppliers selected.
+
+
+            label(for="icd") ICD Code
+            input.input-small(type="text",name="icd",ng-model="form.icdcode")
             label(for="bp") Boiling Point
             input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint", required, min=0, max=100)
             label(for="itemsize") Package Size

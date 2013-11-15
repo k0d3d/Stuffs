@@ -18,7 +18,7 @@ var mongoose = require('mongoose'),
 var createOrder = function (req, res) {
   var order = new Order(req.body);
   var itemObj = {itemName: req.body.itemData.itemName, itemID: req.body.itemData.itemID, _id: req.body.itemData._id};
-  order.orderSupplier.push({supplierName: req.body.orderSupplierName});
+  order.orderSupplier =  req.body.suppliers;
   order.itemData.push(itemObj);
   order.save(function (err) {
     if (!err) {
@@ -55,7 +55,7 @@ var getOrders = function(req, res){
  * Updates an order status and creates a stock record 
  */
 
-var updateOrder = function(req, res){
+var updateOrder = function(req, res, next){
   //Updates the order statuses, these are useful for order history
   //queries, etc
   var doOrderStatusUpdates = function (){
@@ -63,7 +63,8 @@ var updateOrder = function(req, res){
       Order.update({'_id':req.param('orderId')},{
         $set: {
           'orderStatus':req.body.status,
-          'orderInvoice': req.body.orderInvoiceNumber
+          'orderInvoice': req.body.orderInvoiceNumber,
+          'amountSupplied': req.body.amountSupplied
         }
       }).exec(function(err,numberAffected){
         if(err)console.log(err);
@@ -98,8 +99,12 @@ var updateOrder = function(req, res){
           id: req.body.itemData._id,
           amount: req.body.amount
         };
+        var options = {
+          action: 'Stock Up',
+          reference: 'orders-'+req.param('orderId')
+        };
         //Create a stock history record.
-        stockhistory.createRecord(itemObj, location, 'Stock Up','orders-'+req.param('orderId') ,function(g){      
+        stockhistory.log(itemObj, location, options ,function(g){      
           // Updates or creates a stock count for the item 
           var u = StockCount.update({
             item: g.item,

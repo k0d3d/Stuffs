@@ -6,58 +6,43 @@
 var mongoose = require('mongoose'),
   env = process.env.NODE_ENV || 'development',
   config = require('../../config/config')[env],
-  Schema = mongoose.Schema,
-  pureautoinc  = require('mongoose-pureautoinc');
-
+  Schema = mongoose.Schema;
 /**
  * Item Schema 
  */
 var StockHistorySchema = new Schema({
-  shID: Number,
   item: {type: Schema.ObjectId, ref: 'Item'},
   locationId: {type: Schema.ObjectId, ref: 'Location'},
   locationName: String,
   date: {type: Date, default: Date.now},
-  amount: Number,
+  amount: {type: Number, min: 0},
   action: String,
   reference: String
 });
 
-StockHistorySchema.plugin(pureautoinc.plugin, {
-  model: 'StockHistory',
-  field: 'shID'
-});
 
 StockHistorySchema.methods = {
   /**
    * [augumentStock adds or removes stock from ]
    * @param  {[type]}   list     [description]
    * @param  {[type]}   location [description]
-   * @param  {[type]}   option   [description]
+   * @param  {[type]}   others   [description]
    * @param  {Function} callback [description]
    * @return {[type]}            [description]
    */
-  createRecord: function createRecord(itemObj, location, action, reference, callback){
+  log: function log(itemObj, location, others, callback){
     this.item = itemObj.id;
     this.locationId = location.id;
     this.locationName = location.name;
     this.amount = itemObj.amount;
-    this.action = action;
-    this.reference = reference;
+    this.action = others.action;
+    this.reference = others.reference;
     this.save(function(err, i){
-      callback(i);
-    });
-  },
-
-  decreaseStock: function decreaseStock(list, location, callback){
-    this.item = list.item;
-    this.locationId = location.id;
-    this.locationName = location.name;
-    this.amount = list.amount;
-    this.action = list.action;
-    this.save(function(err, i){
-      console.log(err);
-      callback(i);
+      if(err){
+        callback(err);
+      }else{
+        callback(i);
+      }
     });
   }
 };

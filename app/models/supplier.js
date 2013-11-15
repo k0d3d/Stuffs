@@ -34,6 +34,7 @@ SuppliersSchema.statics = {
   * @api private
   */
   autocomplete: function(name, cb){
+  	console.log(name);
     var wit = this.find({},'supplierName');
     wit.regex('supplierName',new RegExp(name, 'i')).exec(cb);
     

@@ -7,6 +7,7 @@
   angular.module('directives', []);
   angular.module('directives').directive('typeAhead',function(ordersService, itemsService){
     var ser;
+
     var linker = function(scope, element, attrs){
         ser = {
           suppliername : ordersService.getSupplierName,
@@ -119,27 +120,60 @@
         //Observe index
         attrs.$observe('index', function(newValue){
           index = newValue;
-          scope.orders[index].next = getStatus(scope.orders[index].orderStatus);
+          scope.kush.next = getStatus(scope.kush.orderStatus);
           //bindEmAll(index, scope, element);
-          //console.log(scope.orders[index]);
+          //console.log(scope.kush);
         });
 
         //Bind to 
         element.on('click', function(e){
           e.preventDefault();
-          var status = getStatus(scope.orders[index].orderStatus);
-          var itemData = scope.orders[index].itemData[0];
-          var amount = scope.orders[index].orderAmount;
-          var order_id = scope.orders[index]._id;
-          var invoiceNo = scope.orders[index].orderInvoice;
+
+          var o ={
+            status : getStatus(scope.kush.orderStatus),
+            itemData : scope.kush.itemData[0],
+            amount : scope.kush.orderAmount,
+            order_id : scope.kush._id,
+            invoiceno : scope.kush.orderInvoice,
+            amountSupplied: scope.kush.amountSupplied
+          }
           //scope.$apply();
           console.log(index);
-          ordersService.updateOrder(status,itemData,amount,order_id,invoiceNo, function(r){
-            scope.orders[index].orderStatus = r.result;
-            scope.orders[index].next = getStatus(r.result);
+          ordersService.updateOrder(o, function(r){
+            scope.kush.orderStatus = r.result;
+            scope.kush.next = getStatus(r.result);
             console.log(r);
           });
         });
+      },
+      scope : {
+        kush : "="
       }
     };
   });
+
+  angular.module('directives').directive('tooltip', function(){
+      return {
+          link: function(scope, element, attrs){
+              element.tooltip({
+                placement: attrs.tooltipPosition || 'top'
+              });
+          }
+      }
+  });
+
+  angular.module('directives').directive('scrollBar', function(){
+      return {
+          link: function(scope, element, attrs){
+            //if(attrs.activate)
+              $(element).on('scrollbar', function(){
+                  if(element.height() >= attrs.maxContainerHeight){
+                      element.slimScroll({
+                          height: attrs.maxContainerHeight+'px',
+                          distance: '0'
+                      });
+                  }
+              });
+          }
+      };
+  }); 

@@ -1,4 +1,4 @@
-#dialog-category.modal.hide.fade.alt-text(data-backdrop="static")
+#dialog-category.modal.hide.fade.alt-text()
   .modal-header
     h4 Add a new Category
   .modal-body
@@ -7,9 +7,9 @@
     h4 Select Categories
     ul
       li(ng-repeat="cat in catList")
-        {{cat}}
+        {{cat.categoryName}}
         button.btn.btn-mini(href="#", ng-click="removeCat($index)")  Delete        
         button.btn.btn-mini(href="#", ng-click="addToItem($index)")  Add
     p {{catList.length}} categories.
   .modal-footer
-    button.btn.btn-default(new-modal="#dialog-category") Back
+    button.btn.btn-default(new-modal="#dialog-category") Close

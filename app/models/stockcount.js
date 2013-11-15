@@ -14,7 +14,7 @@ var StockCountSchema = new Schema({
   item: {type: Schema.ObjectId, ref: 'Item'},
   locationId: {type: Schema.ObjectId, ref: 'Location'},
   locationName: String,
-  amount: Number,
+  amount: {type:Number,min: 0},
   lastOrderDate: {type: Date, default: Date.now}
 });
 

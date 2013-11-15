@@ -6,5 +6,23 @@ div#frontpage.container-fluid
         a(href="/") Drug Store
       span=title 
     .offset8.span2
-      img.authorphoto (src="public/images/demo/browser_author.jpg")
-      h2 Location
+      .btn-toolbar
+        .btn-group
+          button.btn.btn-bell.btn-small(type="button", data-toggle="dropdown")
+            i.fa.fa-bell
+            |  Waiting  
+            span.label.label-info {{waiting.length}}
+          .bell.dropdown-menu.alt-text.pr-btn-drpdwn(role="menu", ng-show="waiting.length > 0")
+            table.table.table-hover
+              thead
+                tr
+                  th Patient Name
+                  th Class
+                  th Attending Doctor
+                  th Wait time
+              tbody
+                tr(ng-repeat="w in waiting", ng-click="commons.href('dispensary/'+$index)")
+                  td {{w.patientName}}
+                  td {{w.class}}
+                  td {{w.doctorName}}
+                  td {{w.issueDate | moment}}

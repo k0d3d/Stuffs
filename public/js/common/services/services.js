@@ -1,9 +1,9 @@
 /* Services */
 
-angular.module('services', []).
+angular.module('services', [])
 
 
-factory('Notification', function($rootScope, $timeout){
+.factory('Notification', function($rootScope, $timeout){
 	var s = {};
 
 	s.message = {
@@ -79,4 +79,14 @@ factory('Notification', function($rootScope, $timeout){
 		$rootScope.$broadcast('newEvent');
 	};
 	return s;
+})
+.factory('Dialog', function($rootScope, $timeout){
+	var d = {};
+
+	d.dom = {
+		heading : '',
+		content : '',
+		
+	}
+	return d;
 })

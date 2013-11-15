@@ -26,6 +26,7 @@ var OrderSchema = new Schema({
     supplierID: {type: String, default: ''},
     supplierName: {type: String, default: ''}
   }],
+  amountSupplied: {type: Number},
   orderInvoice: {type: String, default: ''},
   orderStatus: {type: String, default: 'pending order'},
   orderVisibility: {type: Boolean, default: true}

@@ -6,6 +6,7 @@
 var mongoose = require('mongoose'),
 env = process.env.NODE_ENV || 'development',
 config = require('../../config/config')[env],
+_ = require("underscore"),
 Schema = mongoose.Schema;
 
 /**
@@ -14,17 +15,23 @@ Schema = mongoose.Schema;
 var DispenseSchema = new Schema({
   patientName: {type: String},
   patientId: {type: Number},
-  company: String,
   locationId: {type: Schema.ObjectId, ref: 'Location'},
   drugs: [{
-    itemID: {type: Schema.ObjectId, ref: 'Item'},
-    amount: Number,
-    status: String
+    itemId: {type: Schema.ObjectId, ref: 'Item'},
+    itemName: {type: String},
+    amount: {type: Number},
+    status: {type: String},
+    dosage: {type: String},
+    period: {type: Number},
+    cost: {type: Number}
   }],
   doctorId: String,
   doctorName: String,
-  issueDate: {type: Date, default: Date.now}
+  issueDate: {type: Date, default: Date.now},
+  prescribeDate: {type: Date},
+  status: {type: String, default: 'pending'}
 });
+
 
 
 mongoose.model('Dispense', DispenseSchema);

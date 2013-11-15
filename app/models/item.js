@@ -17,19 +17,19 @@ var ItemSchema = new Schema({
   itemName: {type: String, default: ''},
   sciName: {type: String, default: ''},
   manufacturerName: {type: String},
-  itemCategory: [{
-    category: {type: Schema.ObjectId, ref: 'ItemCategory'}
-  }],
+  itemCategory: [
+    {type: Schema.ObjectId, ref: 'ItemCategory'}
+  ],
   itemDescription: {type: String},
   itemBoilingPoint:{type: Number},
   itemPackaging:{type: String},
   itemForm: {type: String},
   itemPurchaseRate: {type: Number},
   packageSize: Number,
+  icdcode: {type: String},
   suppliers: [{
     supplierID: {type: Schema.ObjectId},
     supplierName: String,
-    position: Number
   }],
   nafdacId: {type: Schema.ObjectId},
   importer: String,
@@ -38,9 +38,19 @@ var ItemSchema = new Schema({
 
 
 var ItemCategorySchema = new Schema({
-  categoryName: String,
+  categoryName: {type: String, required: true},
   categoryParent: {type: Schema.ObjectId},
   categoryType: {type: String, default: 'system'}
+});
+
+var ItemFormSchema = new Schema({
+  formName: {type: String, required: true},
+  formType: {type: String, default: 'system'}
+});
+
+var ItemPackagingSchema = new Schema ({
+  packagingName: {type: String, default: ''},
+  packagingType: {type: String, default: 'system'}
 });
 
 /**
@@ -63,7 +73,7 @@ ItemSchema.statics = {
   },
 
   /**
-   * List articles
+   * List items
    *
    * @param {Object} options
    * @param {Function} cb
@@ -74,10 +84,12 @@ ItemSchema.statics = {
     var criteria = options.criteria || {};
     var fields = options.fields || {};
     this.find(criteria,fields)
-      .exec(cb);
+    .populate("itemCategory", 'categoryName categoryType categoryParent')
+    //.populate("suppliers.supplierID")
+    .exec(cb);
   },
   /**
-   * List One article
+   * List One item
    *
    * @param {Object} options
    * @param {Function} cb
@@ -88,7 +100,8 @@ ItemSchema.statics = {
     var criteria = options.criteria || {};
     var fields = options.fields || {};
     this.findOne(criteria,fields)
-      .exec(cb);
+    .populate("itemCategory")
+    .exec(cb);
   },
 
   /**
@@ -121,7 +134,7 @@ ItemCategorySchema.statics = {
   },
 
   delete: function(id, callback){
-    this.remove({"_id": id, "categoryType": "system"}, function(err, i){
+    this.remove({"_id": id, "categoryType": "user"}, function(err, i){
       if(err){
         callback(err);
       }else{
@@ -148,8 +161,97 @@ ItemCategorySchema.methods = {
       }      
     });
   }
+};
+
+/**
+ * ItemForm Schema Statics
+ */
+
+ItemFormSchema.statics = {
+  list: function(callback){
+    this.find().exec(function(err, i){
+      if(err){
+        callback(err);
+      }else{
+        callback(i);
+      }
+    });
+  },
+
+  delete: function(id, callback){
+    this.remove({"_id": id, "formType": "user"}, function(err, i){
+      if(err){
+        callback(err);
+      }else{
+        callback(i);
+      }
+    });
+  }
+};
+
+/**
+ * ItemForm Methods 
+ */
+ItemFormSchema.methods = {
+  create: function(name, callback){
+    this.formName = name;
+    this.formType = 'user';
+    this.save(function(err, i){
+      if(err){
+        callback(err);
+      }else{
+        callback(i);
+      }      
+    });
+  }
+};
+
+
+/**
+ * ItemPackaging Schema 
+ */
+ItemPackagingSchema.statics = {
+  list: function(callback){
+    this.find().exec(function(err, i){
+      if(err){
+        callback(err);
+      }else{
+        callback(i);
+      }
+    });
+  },
+
+  delete: function(id, callback){
+    this.remove({"_id": id, "packagingType": "user"}, function(err, i){
+      if(err){
+        callback(err);
+      }else{
+        callback(i);
+      }
+    });
+  }
 }
 
+/**
+ * ItemPackaing Schema Methods
+ */
+ItemPackagingSchema.methods = {
+  create: function(name, callback){
+    this.packagingName = name;
+    this.packagingType = 'user';
+    this.save(function(err, i){
+      console.log(err);
+      if(err){
+        callback(err);
+      }else{
+        callback(i);
+      }      
+    });
+  }  
+}
+
+mongoose.model('ItemForm', ItemFormSchema);
+mongoose.model('ItemPackaging', ItemPackagingSchema);
 mongoose.model('ItemCategory', ItemCategorySchema);
 mongoose.model('Item', ItemSchema);
 module.exports = mongoose.model('Item');

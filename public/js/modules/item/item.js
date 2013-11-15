@@ -11,7 +11,7 @@ angular.module('item', ['ui.bootstrap'])
   .when('/items/add', {templateUrl: '/items/new', controller: 'itemAddController'})
   .when('/items/locations', {templateUrl: '/items/stockdown', controller: 'itemStockController'})
 	.when('/items/dispensary', {templateUrl: '/items/dispense', controller: 'itemDispensaryController'})
-  .when('/items/:itemId/edit',{templateUrl: '/items/edit', controller: 'itemEditController'});
+  .when('/items/:itemId/:action',{templateUrl: '/items/edit', controller: 'itemAddController'});
 }])
 .controller('itemIndexController', function itemIndexController($scope, $location, $routeParams,itemsService){
     function init(){
@@ -22,6 +22,7 @@ angular.module('item', ['ui.bootstrap'])
       $scope.hasItems = false;
       itemsService.items(function(data){
         if(data.length > 0){
+          console.log(data);
           $scope.hasItems = true;
           sortItems(data, function(lol){
             $scope.itemsList = lol;
@@ -106,15 +107,30 @@ angular.module('item', ['ui.bootstrap'])
 })
 .controller('itemAddController', function itemAddController ($scope, $location, $routeParams,itemsService){
   $scope.form = {
-    itemCategory: []
+    itemCategory: [],
+    itemForm: [],
+    itemPackaging: [],
+    suppliers: []
   };
   $scope.catList = [];
+  $scope.formList = [];
+  $scope.packagingList = [];
   
   //Initialization function
   function init(){
     itemsService.listCategory(function(r){
       angular.forEach(r, function(v,k){
         $scope.catList.push(v);
+      });
+    });
+    itemsService.listForm(function(r){
+      angular.forEach(r, function(v,k){
+        $scope.formList.push(v);
+      });
+    });
+    itemsService.listPackaging(function(r){
+      angular.forEach(r, function(v,k){
+        $scope.packagingList.push(v);
       });
     });
   }
@@ -127,12 +143,10 @@ angular.module('item', ['ui.bootstrap'])
     $scope.saveButtonText = 'saving';
     $scope.saveButtonClass = 'btn-info';
     itemsService.save($scope.form, function(status,res){
+      $scope.saveButtonText = 'Save Item';
       if(status){
         $scope.form = '';
-        $scope.saveButtonText = 'Save Item';
         $scope.saveButtonClass = 'btn-primary';
-      }else{
-        $scope.saveButtonText = 'Save Item';
       }
     });
   };
@@ -141,7 +155,17 @@ angular.module('item', ['ui.bootstrap'])
   $scope.addCat = function(){
     if($scope.catInput.length > 0){
       itemsService.addCategory($scope.catInput, function(r){
-        $scope.catList.push($scope.catInput);
+        $scope.catList.push(r);
+        $scope.catInput ='';
+      });
+    }
+  };
+  //Add Category
+  $scope.addForm = function(name){
+    if(name.length > 0){
+      itemsService.addForm(name, function(r){
+        $scope.catList.push(r);
+        $scope.catInput ='';
       });
     }
   };
@@ -161,6 +185,20 @@ angular.module('item', ['ui.bootstrap'])
     $scope.form.itemCategory.splice(index,1);
   };
 
+  //Remove Supplier From List
+  $scope.removeItemSup = function(index){
+    $scope.form.suppliers.splice(index,1);
+  };
+  if(!_.isUndefined($routeParams.itemId) && $routeParams.action === 'edit'){
+    itemsService.getItemFields($routeParams.itemId, function(item){
+      $scope.form = item;
+    });
+  }
+  $scope.updateItem = function(){
+    itemsService.update($scope.form, function(status,res){
+      $scope.saveButtonText = 'Save Item';
+    });
+  };
 })
 .controller('itemEditController', function itemEditController($scope, $location, $routeParams,itemsService){
   $scope.form = {
@@ -172,23 +210,9 @@ angular.module('item', ['ui.bootstrap'])
     });
   }
   $scope.saveitem = function(){
-    $scope.saveButtonText = 'saving';
     $scope.saveButtonClass = 'btn-info';
     itemsService.update($scope.form, function(status,res){
-      if(status){
-        $scope.modal.heading= 'Item Updated';
-        $scope.modal.body= "Close this dialog or return to the dashboard";
-        $scope.modal.class= 'md-success';
-        $scope.modal.modalState= 'md-show';
-        $scope.saveButtonText = 'Save Item';
-        $scope.saveButtonClass = 'btn-primary';
-      }else{
-        $scope.$parent.modal.heading= 'Error Adding Item';
-        $scope.$parent.modal.body= "Something went wrong while carrying out your last request. If it's nothing serious, you can try again. If this error happens again, please inform the Admin";
-        $('.md-modal').addClass('md-show md-error');
-        $('.md-overlay').addClass('error-overlay');
-        $scope.saveButtonText = 'Save Item';
-      }
+      $scope.saveButtonText = 'Save Item';
     });
   };
 })
@@ -277,119 +301,20 @@ angular.module('item', ['ui.bootstrap'])
     });
   }
 }])
-.controller('itemDispensaryController', function itemDispensaryController($scope,$location,$routeParams,itemsService){
-  function init(){
-    //Holds the form for dispensing drugs to a patient.
-    //Patient Name, Number, Type and the Drugs list
-    $scope.dispenseform = {
-      prescription: []
-    };
-    // Gets the stock down points from the server
-    itemsService.getPoints(function(res){
-      $scope.locations = res;
-    });  
-    $scope.drugsList = [];
-    $scope.d = [];  
-    //Previously Dispensed Records. Get populated by the init function
-    itemsService.fetchDispenseRecords(function(r){
-      $scope.dispenseHistory = r;   
-    });    
-  }
-
-  //Initialize
-  init();
-
-  $scope.addButtonText = 'Add';
-  $scope.addHelpText = '';
-  $scope.$watch('selectedItem.itemname', function(newValue, oldValue){
-    if(newValue !== oldValue){
-      $scope.thisItemName = newValue;
-    }
-  });
-  $scope.addDrug = function(){
-    if($scope.drugname.length === 0) return false;
-    $scope.addHelpText = '';
-    itemsService.summary($scope.thisItemName,$scope.dispenseform.location._id,function(c){
-      if(_.indexOf($scope.drugsList, $scope.thisItemName) < 0){
-        $scope.drugsList.push($scope.thisItemName);
-        $scope.d.push(c);
-        //Empty the drugname field
-        $scope.drugname = '';
-      }else{
-        alert("This item is already in the list");
-      }
-    });
-  };
-
-  //Confirm this drug to be prescribed
-  $scope.prescribeThis = function(d){
-    $scope.drugname = '';
-    if(d.options == 'alternative'){
-      $scope.addHelpText = 'This is an alternative to '+d.itemName;
-      $scope.dispenseform.prescription.push(d);
-      return;
-    }
-    // Check if the amount to be dispensed is available
-    // (lesser than) from the current stock for the item 
-    if(d.amount < d.currentStock){
-      $scope.dispenseform.prescription.push(d);
-    }
-  };
-
-  //Pull up modal with summary
-  $scope.approveThis = function(){
-    if($scope.dispenseform.prescription.length === 0){
-        alert("You havent confirmed any items. Check your list");
-        return false;
-      }
-    $scope.modal.heading= 'Confirm Prescription';
-    $scope.modal.class= 'md-success';
-    $scope.modal.modalState= 'md-show';
-  };
-
-  // Send prescript
-  $scope.sendDis = function(){
-    var drugs = [];
-    _.forEach($scope.dispenseform.prescription, function(i,v){
-      drugs.push({"_id":i._id,"amount":i.amount,"itemName":i.itemName,"itemID": i.itemID,"status":i.options});
-    });
-    var toSend = {
-      "patientName":$scope.dispenseform.patientName,
-      "patientId": $scope.dispenseform.patientno,
-      "company": $scope.dispenseform.company,
-      "drugs": drugs,
-      "location": $scope.dispenseform.location
-    };
-    itemsService.dispense(toSend, function(c){
-      $scope.modal.modalState = false;
-      //Empty all necessary scope, reset form
-      $scope.dispenseform = '';
-      $scope.d = '';
-      $scope.drugsList = '';
-      console.log(c);
-    });
-  };
-  $scope.removeDrug = function(index){
-    $scope.drugname = '';
-    $scope.drugsList.splice(index, 1);
-    $scope.d.splice(index, 1);
-    console.log($scope.drugsList);
-    console.log($scope.d);
-  };
-})
 .factory('itemsService', ['$http', 'Language','Notification', function($http, Language, Notification){
   var i = {};
   i.items =  function(callback){
       $http.get('/api/items/listAll')
       .success(function(data, status){
         Notification.notifier({
-          message: "Fetched list of items successfully",
+          message: Language.eng.items.list.fetch.success,
           type: "success"
         });
+        callback(data);
       })
       .error(function(data, status){
         Notification.notifier({
-          message: 'Failed to fetch list of items from the server. Will try again',
+          message: Language.eng.items.list.fetch.error,
           type: 'error'
         })
       });
@@ -402,9 +327,27 @@ angular.module('item', ['ui.bootstrap'])
         $.each(s,function(){
           results.push(this.itemName);
         });
-        callback(results);
+        callback(results, s);
     });
   };
+
+  //Query Supplier Typeahead
+  i.getSupplierName = function(query, callback){
+    $http.get('/api/supplier/typeahead/term/supplierName/query/'+escape(query))
+    .success(function(s, status){
+      var results = [];
+      $.each(s,function(){
+        results.push(this.supplierName);
+      });
+      callback(results, s);      
+    })
+    .error(function(err, status){
+      Notification.notifier({
+        message: Language.eng.items.supplier.typeahead.error,
+        type: 'error'
+      });
+    });
+  }
   i.getNafdacDrug = function(query, callback){
     $.getJSON('/api/nafdacdrugs/typeahead/needle/'+escape(query), function(s) {
         var results = [];
@@ -444,9 +387,19 @@ angular.module('item', ['ui.bootstrap'])
     });
   };
   i.saveLocation = function(post,callback){
-    $http.post('/api/items/location',post).
-    success(function(data, status){
+    $http.post('/api/items/location',post)
+    .success(function(data, status){
+      Notification.notifier({
+        message : Language.eng.stock.location.create.success,
+        type: 'success'
+      });      
       callback(data);
+    })
+    .error(function(data, status){
+      Notification.notifier({
+        message : Language.eng.stock.location.create.error,
+        type: 'error'
+      });
     });
   };
   i.getPoints = function(callback){
@@ -456,8 +409,8 @@ angular.module('item', ['ui.bootstrap'])
     });
   };
   //Gets dispense records from the server
-  i.fetchDispenseRecords = function(callback){
-    $http.get('/api/items/locations/records').
+  i.fetchDispenseRecords = function(status,callback){
+    $http.get('/api/items/locations/records/status/'+status).
     success(function(data, status){
       callback(data);
     });
@@ -467,13 +420,18 @@ angular.module('item', ['ui.bootstrap'])
   i.dispense = function(list, callback){
     $http.post('/api/items/dispense',list).
     success(function(data, status){
-      callback(date);
+      Notification.notifier({
+        message : Language.eng.dispense.approve.success,
+        type: 'success'
+      }); 
+      Notification.message.close();
+      callback();
     }).
     error(function(data, status){
-      $scope.modal.heading= 'Error Submitting';
-      $scope.modal.class= 'md-error';
-      $scope.modal.modalState= 'md-show';
-      $scope.modal.body = "The last request was not successful. We think something went wrong. Try again. If this error persists, contact Admin";
+      Notification.notifier({
+        message : Language.eng.dispense.approve.error,
+        type: 'error'
+      });
     });
   };
   //Fetches fields data for an Item
@@ -487,12 +445,37 @@ angular.module('item', ['ui.bootstrap'])
 
   //sends a stockdown request, 
   i.stockdown = function(list, callback){
-    $http.post('/api/items/stockdown', list).success(callback);
+    $http.post('/api/items/stockdown', list)
+    .success(function(data, res){
+      Notification.notifier({
+        message : Language.eng.stock.down.success,
+        type: 'success'
+      });      
+    })
+    .error(function(data, res){
+      Notification.notifier({
+        message : Language.eng.stock.down.error,
+        type: 'error'
+      });      
+    });
   };
 
   //Post updated item fields 
   i.update = function(form, callback){
-    $http.post('/api/items/'+escape(form.itemID)+'/edit', form).success(callback);
+    $http.post('/api/items/'+escape(form._id)+'/edit', form)
+    .success(function(data, res){
+      Notification.notifier({
+        message : Language.eng.items.update.success,
+        type: 'success'
+      });
+      callback(true);
+    })
+    .error(function(data,res){
+      Notification.notifier({
+        message : Language.eng.items.update.error,
+        type: 'error'
+      });      
+    });
   };
 
   //Delete Item
@@ -518,6 +501,40 @@ angular.module('item', ['ui.bootstrap'])
       }); 
     });
   };
+  //Add an item form
+  i.addForm = function(name, callback){
+    $http.post('/api/items/form/', {name: name})
+    .success(function(data, status){
+      Notification.notifier({
+        message: Language.eng.items.form.add.success,
+        type: "success"
+      });
+      callback(data);
+    })
+    .error(function(data, status){
+      Notification.notifier({
+        message: Language.eng.items.form.add.error,
+        type: "error"
+      }); 
+    });
+  };
+  //Add an item packaging
+  i.addPackaging = function(name, callback){
+    $http.post('/api/items/packaging/', {name: name, parent: ''})
+    .success(function(data, status){
+      Notification.notifier({
+        message: Language.eng.items.packaging.add.success,
+        type: "success"
+      });
+      callback(data);
+    })
+    .error(function(data, status){
+      Notification.notifier({
+        message: Language.eng.items.packaging.add.error,
+        type: "error"
+      }); 
+    });
+  };
 
   //List Categories
   i.listCategory = function(callback){
@@ -528,6 +545,32 @@ angular.module('item', ['ui.bootstrap'])
     .error(function(data, status){
       Notification.notifier({
         message: Language.eng.items.category.list.error,
+        type: "error"
+      });       
+    });
+  }
+  //List Forms
+  i.listForm = function(callback){
+    $http.get("/api/items/form")
+    .success(function(data, status){
+      callback(data);
+    })
+    .error(function(data, status){
+      Notification.notifier({
+        message: Language.eng.items.form.list.error,
+        type: "error"
+      });       
+    });
+  }
+  //List packaging
+  i.listPackaging = function(callback){
+    $http.get("/api/items/packaging")
+    .success(function(data, status){
+      callback(data);
+    })
+    .error(function(data, status){
+      Notification.notifier({
+        message: Language.eng.items.packaging.list.error,
         type: "error"
       });       
     });
@@ -581,12 +624,42 @@ angular.module('item', ['ui.bootstrap'])
             if(v.productName === item){
               scope.form.nafdacRegNo = v.regNo;
               scope.form.importer = v.man_imp_supp;
+              scope.form.sciName = v.composition;
               scope.form.nafdacId = v._id;
               return true;
             }
           });
           scope.$apply();
           return item;
+        }
+      });
+  };
+  return {
+    link: linker
+  };
+}])
+.directive('supplierNameTypeAhead', ['itemsService', function(itemsService){
+  var linker = function(scope, element, attrs){
+    var nx;
+      element.typeahead({
+        source: function(query, process){
+          return itemsService.getSupplierName(query,function(results, s){
+            nx = s;
+            return process(results);
+          });
+        },
+        updater: function(name){
+          _.some(nx, function(v,i){
+            if(v.supplierName === name){
+              scope.form.suppliers.push({
+                supplierID : v._id,
+                supplierName: v.supplierName
+              });
+              return true;
+            }
+          });          
+          scope.$apply();
+          return '';
         }
       });
   };

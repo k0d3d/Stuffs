@@ -34,7 +34,9 @@
   font-weight: normal;
   font-style: normal;
 }
-
+a:hover{
+  cursor: pointer;
+}
 html,body{
 
 }
@@ -586,4 +588,66 @@ ul.listing + p{
   margin: 0;
   border-radius: 0;  
   float: right;
+}
+
+tr.faded{
+  background-color: rgba(52, 202, 76, 0.25);
+  background-color: #2E604F;
+
+}
+.listofdrugs{
+  min-width: 200px;
+}
+.listofdrugs p {
+  font-size: 14px;
+  float: left;
+}
+.listofdrugs span{
+  font-weight: bold;
+  float: right;
+}
+.pr-btn-drpdwn{
+  margin-top: 5px !important;
+  margin-left: -50px;
+}
+.span-rgt-brd{
+border-right: 1px rgba(20, 27, 37, 1) solid;
+border-right: 1px #141B25 solid;
+padding-right: 9px;
+}
+.al-rulz-cont{
+  padding: 0 10px;
+}
+.al-rulz-cont p{
+margin-bottom: 0px;
+line-height: 12px;
+font-weight: bold;
+}
+.al-rulz-cont span{
+font-size: 11px;
+color: #CACACA;
+}
+.scroll-panel{
+  width: 966px;
+overflow-x: scroll;
+display: block;
+float: left;
+position: relative;
+}
+.bell{
+  color: #000;
+  text-transform: capitalize;
+  margin-left: -242px;
+  font-size: 13px;
+}
+.btn-bell{
+background-color: #2C3E50;
+border: solid 1px #D6D6D6;  
+}
+.btn-bell:hover{
+  color:#2C3E50 ;
+  background-color: #D6D6D6;
+}
+.ph-bx input{
+  color: black;
 }

@@ -1,11 +1,8 @@
-
-/**
- * Module dependencies.
- */
-
 var mongoose = require('mongoose'),
     Item = mongoose.model('Item'),
     ItemCategory = mongoose.model('ItemCategory'),
+    ItemForm = mongoose.model('ItemForm'),
+    ItemPackaging = mongoose.model('ItemPackaging'),
     Order = mongoose.model('Order'),
     OrderStatus = mongoose.model('OrderStatus'),
     Dispense = mongoose.model('Dispense'),
@@ -16,6 +13,11 @@ var mongoose = require('mongoose'),
     _ = require("underscore"),
     NafdacDrugs = mongoose.model("nafdacdrug"),
     utils = require("util");
+/**
+ * Module dependencies.
+ */
+
+
 
 
 function sortItems (list,justkeys){
@@ -49,14 +51,26 @@ ItemsObject.prototype.create = function (itemBody, callback) {
   // return;
   if(itemBody.item.length === 0){
     return callback(400);
-  } 
-  var it = new Item(itemBody.item);
-  ObjectId = mongoose.Types.ObjectId;
-  supplierObj = {};
-  if(itemBody.item.itemSupplier){
-    var sn = itemBody.item.itemSupplier.supplierName || '';
-    supplierObj = {supplierName: sn};
   }
+  //copy the item category property into a variable
+  var shark = itemBody.item.itemCategory;
+
+  //omit the itemCategory property
+  var joel = _.omit(itemBody.item, "itemCategory");
+
+  var it = new Item(joel);
+  ObjectId = mongoose.Types.ObjectId;
+  //supplierObj = {};
+  // if(itemBody.item.suppliers){
+  //   var sn = itemBody.item.suppliers.supplierName || '';
+  //   supplierObj = {supplierName: sn};
+  // }
+
+  //Push in categories
+  //var c = [];
+  _.each(shark, function(v,i){
+    it.itemCategory.push(v._id);
+  });
 
   //Create a new order if the invoice number was entered
   if(itemBody.item.orderInvoiceData !== undefined){
@@ -65,14 +79,14 @@ ItemsObject.prototype.create = function (itemBody, callback) {
     var order = new Order();
     itemObj = {itemName: itemBody.item.itemName};
     order.itemData.push(itemObj);
-    order.orderSupplier.push(supplierObj);
+    order.orderSupplier = (itemBody.item.suppliers);
     order.orderInvoice = itemBody.item.orderInvoiceData.orderInvoiceNumber;
     order.orderStatus = 'Supplied'            ;
     order.orderType = itemBody.item.itemType;
     order.orderAmount= itemBody.item.orderInvoiceData.orderInvoiceAmount;
     order.orderDate= itemBody.item.orderInvoiceDate;
     order.save(function(err){
-      if(err)console.log(err);
+      if(utils.isError(err))return callback(err);
     });
 
     //Updates the order statuses, these are useful for order history
@@ -97,16 +111,20 @@ ItemsObject.prototype.create = function (itemBody, callback) {
     var stockhistory = new StockHistory();
     // Check if this record has been created for this order using the orderid and the reference field 
     // on the StockHistoryShema
-    StockHistory.count({'reference': 'create-'+order._id}, function(err, count){
+    StockHistory.count({'reference': 'create-'+req.params.orderId}, function(err, count){
       if(count > 0){
         callback(400);
       }else{
         var itemObj = {
-          id: it._id,
-          amount: itemBody.orderInvoiceAmount
+          id: req.body.itemData._id,
+          amount: req.body.amount
+        };
+        var options = {
+          action: 'Stock Up',
+          reference: 'create-'+req.param('orderId')
         };
         //Create a stock history record.
-        stockhistory.createRecord(itemObj, location, 'Stock Up','create-'+order._id ,function(g){
+        stockhistory.log(itemObj, location, options ,function(g){
           // Creates a stock count for the item 
           var stockcount = new StockCount(g);
           stockcount.amount = itemBody.item.orderInvoiceData.orderInvoiceAmount;
@@ -126,7 +144,7 @@ ItemsObject.prototype.create = function (itemBody, callback) {
         callback(item);
       });
     }else{
-      console.log(err);
+      callback(err);
     }
   });
 };
@@ -139,7 +157,7 @@ ItemsObject.prototype.create = function (itemBody, callback) {
 ItemsObject.prototype.list = function(req, res){
 
   var options = {
-    "fields": "itemID itemName itemCategory itemBoilingPoint"
+    "fields": "itemName itemCategory itemBoilingPoint"
   };
   Item.list(options, function(err, r) {
     if (err) return res.json('500',{"mssg": 'Darn Fault!!!'});
@@ -148,7 +166,6 @@ ItemsObject.prototype.list = function(req, res){
      */
     var listofItems = [];
     var x = r.length;
-
     //msc means main stock count, #humorMe
     function mscProcess(){
       if(x === 0){
@@ -159,8 +176,8 @@ ItemsObject.prototype.list = function(req, res){
         var it = {
           _id: _item._id,
           itemName: _item.itemName,
-          itemPurchaseRate: _item.itemCategory,
           itemBoilingPoint: _item.itemBoilingPoint,
+          itemCategory: _item.itemCategory,
           currentStock: (stock === null)? 0 : stock.amount,
         };
         listofItems.push(it);
@@ -178,6 +195,13 @@ ItemsObject.prototype.list = function(req, res){
   });
 };
 
+
+/**
+ * [listOne Does a summary thingy fetch]
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 ItemsObject.prototype.listOne = function(req,res){
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -206,7 +230,6 @@ ItemsObject.prototype.listOne = function(req,res){
       if(req.param('locationId') === 'main'){
         //Get Stock count by name
         StockCount.getStockAmountbyId(r._id,{name: 'Main'} ,function(stock){
-          console.log(stock);
           it = {
             _id: r._id,
             itemID: r.itemID,
@@ -218,6 +241,7 @@ ItemsObject.prototype.listOne = function(req,res){
             itemForm: r.itemForm,
             itemPackaging: r.itemPackaging,
             packageSize: r.packageSize,
+            suppliers : r.suppliers,
             currentStock: (stock === null)? 0 : stock.amount,
             lastSupplyDate: (stock === null)? '' : stock.lastOrderDate
           };
@@ -267,6 +291,13 @@ ItemsObject.prototype.typeahead = function(req, res){
   });
 };
 
+
+/**
+ * [nafdacTypeAhead description]
+ * @param  {[type]} req [description]
+ * @param  {[type]} res [description]
+ * @return {[type]}     [description]
+ */
 ItemsObject.prototype.nafdacTypeAhead = function(req, res){
   var needle = req.param('needle');
   //options.criteria[term] = '/'+needle+'/i';
@@ -276,291 +307,8 @@ ItemsObject.prototype.nafdacTypeAhead = function(req, res){
     res.header("Access-Control-Allow-Headers", "X-Requested-With");    
     res.json(itemsResult);
   });
-}
-
-
-
-/**
- * [count Counts items for the summery tiles on the dashboard]
- * @param  {[type]} callback [description]
- * @return {[type]}     [description]
- */
-ItemsObject.prototype.count = function(callback){
-  var d = Item.count();
-  var m  = Item.find();
-  //m.$where(function(){return this.currentStock < this.itemBoilingPoint && this.currentStock > 0;});
-  var r = {}, lowCount = 0, totalCount = 0, total, stockcountlist;
-  d.exec(function(err,y){
-    if(err)console.log(err);
-    totalCount = y;
-    gl();
-  });
-
-  //When set, please send respion
-  function respond(lowCount, totalCount){
-    callback(lowCount, totalCount);
-  }
-
-  //get all items from the 'items' collectioin
-  function gl (){
-    StockCount.find({locationName: 'Main'}, function(err, i){
-      total = i.length;
-      stockcountlist = i;
-      if(stockcountlist.length === 0){
-        respond(0, totalCount);
-      }else{
-        // Run the cross check function
-        hl();
-      }
-    });
-  }
-
-
-  //Cross check the currentStock against the itemBoilingPoint
-  //pass in the StockCount list
-  function hl (){
-    var countItem = stockcountlist.pop();
-    //Find one 
-    Item.load(countItem.item, function(err, i){
-      //When found compare boilingPoint to the result amount
-      if(countItem.amount < i.itemBoilingPoint){
-        lowCount++;
-      }
-      --total;
-      if(total > 0){
-        hl();
-        return;
-      }else{
-        respond(lowCount, totalCount);
-      }
-    });
-  }
 };
 
-/**
- * [createLocation Creates a Stock Down Location]
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
- */
-ItemsObject.prototype.createLocation = function(req, res){
-  var pl = new PointLocation(req.body);
-  pl.save(function(err, saved){
-    if(err) return err;
-    var s = {
-      locationAuthority: saved.locationAuthority,
-      locationBoilingPoint: saved.locationBoilingPoint,
-      locationId: saved.locationId,
-      locationName: saved.locationName
-    };
-    res.json(s);
-  });
-};
-
-ItemsObject.prototype.getAllLocations = function(req, res){
-  PointLocation.list(function(err, r){
-    if(err) return err;
-    res.json(r);
-  });
-};
-
-/**
- * [dispenseThis description]
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
- */
-ItemsObject.prototype.dispenseThis = function(req, res){     
-  var dispense = new Dispense();
-  var bill = new Bill();
-  var drugslist = [];
-
-  //Get the location to dispense from
-  var location = {
-    id : req.body.location._id,
-    name: req.body.location.locationName
-  };
-  
-  //Saves a dispense record
-  function saveDispenseRecord(){
-    dispense.patientName = req.body.patientName;
-    dispense.patientId =  req.body.patientId;
-    dispense.company = req.body.company;
-    dispense.doctorId = req.body.doctorId;
-    dispense.doctorName = req.body.doctorName;
-    dispense.locationId = location.id;
-    dispense.save(function(err, i){
-      if(err){
-        console.log(err);
-      }else{
-        saveBillRecord();
-      }
-    });
-  }
-
-  //Saves a bill record
-  function saveBillRecord(){
-    bill.dispenseID = dispense._id;
-    bill.patientName = req.body.patientName;
-    bill.patientId =  req.body.patientId;    
-    bill.save(function(err, i){
-      if(err) res.json('500',{"message": err});
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "X-Requested-With");      
-      res.json(200, {});
-    })
-  }
-
-  //Create a stock record for each dispensed drug item
-  function create_record(itemObj, cb){
-    var stockhistory = new StockHistory();
-    stockhistory.item = itemObj.id;
-    stockhistory.locationId = location.id;
-    stockhistory.locationName = location.name;
-    stockhistory.amount = itemObj.amount;
-    stockhistory.action = 'Dispense';
-    stockhistory.reference = 'dispense-'+dispense._id;
-    stockhistory.save(function(err, i){
-      cb(i);
-    });
-
-  }
-
-  var total = req.body.drugs.length, result= [];
-
-  function saveAll (){
-    var request = req.body.drugs;
-    var record = request.pop();
-
-    // Call the create_record function
-    create_record({id: record._id, amount: record.amount}, function(p){
-      // Create or update this locations stock count
-      StockCount.update({
-        item: p.item,
-        $or:[{
-            locationName : location.name
-          },{
-            locationId: location.id
-          }]
-        },{
-          $inc: {
-            amount: -p.amount
-          }
-        }, function(err, i){
-          if(err){
-            if(err) res.json(400, {"message": err});
-          }
-        }, true);
-      // Push the drugs into dispense.drugs instance array
-      dispense.drugs.push({
-        itemID: record._id,
-        amount: record.amount,
-        status: record.status
-      });      
-      if(--total){
-        saveAll();
-      }else{
-        saveDispenseRecord();
-      }
-    });
-  }
-  saveAll();
-};
-
-/**
- * [stockDown Handles Stock Down Operation]
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
- */
-ItemsObject.prototype.stockDown = function(req, res){
-  //Using different model instances for updates
-  var mainUpdate = mongoose.model("StockCount");
-  var locationUpdate = mongoose.model("StockCount");
-
-  //If this order gets supplied.
-  var location = {
-    id : req.body.location._id,
-    name: req.body.location.locationName
-  };
-
-  //Create a stock record for each dispensed drug item
-  function create_record(itemObj, cb){
-    var stockhistory = new StockHistory();
-    stockhistory.item = itemObj.id;
-    stockhistory.locationId = location.id;
-    stockhistory.locationName = location.name;
-    stockhistory.amount = itemObj.amount;
-    stockhistory.action = 'Requested Stock';
-    stockhistory.reference = 'none';
-    stockhistory.save(function(err, i){
-      cb(i);
-    });
-
-  }
-
-  
-  
-  var total = req.body.request.length, result= [];
-
-  function saveAll (){
-    var request = req.body.request;
-    var record = request.pop();
-
-    // Call the create_record function
-    create_record({id: record._id, amount: record.amount}, function(p){
-      //Deducts the amount from each items stock count.
-      //Important:: Stock down means decrementing the 
-      //amount from the main stock count
-      mainUpdate.update({
-        item: p.item,
-        locationName : 'Main'
-        },{
-          $inc: {
-            amount: -p.amount
-          }
-        }, function(err, i){
-          if(err){
-            if(err) res.json(400, {"message": err});
-          }
-          //console.log('Main decremented: %s', i);
-        });
-
-      // Create or update this locations stock count
-      // After iteration is complete. 
-      locationUpdate.update({
-        item: p.item,
-        $or:[{
-            locationName : location.name
-          },{
-            locationId: location.id
-          }]
-        },{
-          $inc: {
-            amount: p.amount
-          }
-          // //Setting last order / requested date
-          // $set: {
-          //   lastOrderDate: Date.now
-          // }
-        }, function(err, i){
-          if(err){
-            if(err) res.json(400, {"message": err});
-          }
-          if(i === 0){
-            var stockcount = new StockCount(p);
-            stockcount.save(function(err, i){
-              if(err) res.json(400, {"message": err});
-            });
-          }else{
-          }
-        }, true);      
-      if(--total) saveAll();
-      else res.json(200, {});
-    });
-  }
-  saveAll();
-};
 
 /**
  * [updateItem description]
@@ -569,65 +317,24 @@ ItemsObject.prototype.stockDown = function(req, res){
  * @return {[type]}     [description]
  */
 ItemsObject.prototype.updateItem = function(req, res){
-  //console.log(req.body);
-  var itemId = req.body.itemID;
+  console.log(req.body);
+  var itemId = req.body._id;
   var o = _.omit(req.body, ["_id", "itemID"]);
-  console.log(o);
-  Item.update({itemID: itemId}, {
+  Item.update({_id: itemId}, {
     $set: o
   }, function(err, i){
     if(err){
-      res.json(400,{});
+      res.json(400,err);
     }else{
       res.json(i);
     }
   });
 };
 
-/**
- * [getStockDown description]
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
- */
-ItemsObject.prototype.getStockDown = function (req, res){
-  StockCount.fetchStockDownRecordbyId(req.param('locationId'), function(v){
-    res.json(200,v);
-  });
-};
+
 
 /**
- * [getDispenseRecord description]
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
- */
-ItemsObject.prototype.getDispenseRecord = function(req, res){
-  var q  = Dispense.find();
-  q.populate('locationId');
-  q.sort({issueDate: -1});
-  q.exec(function(err, i){
-    res.json(200, i);
-  });
-}
-
-/**
- * [getBills description]
- * @param  {[type]} req [description]
- * @param  {[type]} res [description]
- * @return {[type]}     [description]
- */
-ItemsObject.prototype.getBills = function(req, res){
-  var q  = Bill.find();
-  q.populate('dispenseID');
-  q.sort({billedOn: -1});
-  q.exec(function(err, i){
-    res.json(200, i);
-  });  
-}
-
-/**
- * [itemFields description]
+ * [itemFields used for querying an item document e.g. when editing / updating an item]
  * @param  {[type]} req [description]
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
@@ -642,14 +349,13 @@ ItemsObject.prototype.itemFields = function (req, res){
       options.criteria = {"itemName": req.param('item_id')};
     }
 
-    Item.findOne(options.criteria, function(err, r){
-      //console.log(itemsResult);
-      if (err) return res.json('500',{"mssg": 'Darn Fault!!!'});
+    Item.listOne(options, function(err, r){
       console.log(r);
-      res.json(r);
+      if (err) return res.json(500,{"mssg": 'Darn Fault!!!'});
+      res.json(200, r);
     });
   }
-}
+};
 
 /**
  * [deleteItem description]
@@ -660,7 +366,7 @@ ItemsObject.prototype.itemFields = function (req, res){
 ItemsObject.prototype.deleteItem = function(itemId, callback){
   Item.remove({_id: itemId}, function(err, i){
     if(utils.isError(err)){
-      res.json(500, error);
+      callback(err);
       return;
     }
     callback(i);
@@ -696,6 +402,54 @@ ItemsObject.prototype.listCategory = function(callback){
     callback(i);
   });
 };
+
+/**
+ * [addForm Adds an item form ]
+ * @param {[type]}   name     [description]
+ * @param {Function} callback [description]
+ */
+ItemsObject.prototype.addForm = function(name, callback){
+  if(name.length === 0 ){
+    return callback(new Error('Empty name'));
+  }
+  var ic = new ItemForm();
+  ic.create(name, function(r){
+    console.log(r);
+    callback(r);
+  });
+};
+
+/**
+ * [listForm List all item forms]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+ItemsObject.prototype.listForm = function(callback){
+  return ItemForm.list(function(i){
+    callback(i);
+  });
+};
+
+
+ItemsObject.prototype.listPackaging = function(callback){
+  return ItemPackaging.list(function(i){
+    callback(i);
+  });
+};
+
+ItemsObject.prototype.addPackaging = function(name, callback){
+  if(name.length === 0 ){
+    return callback(new Error('Empty name'));
+  }
+
+  var ic = new ItemPackaging();
+  ic.create(name, function(r){
+    callback(r);
+  });  
+};
+
+
+
 
 module.exports.item = ItemsObject;
 
@@ -733,18 +487,9 @@ module.exports.routes = function(app){
       title: 'Stock Down Points'
     });
   });
-  app.get('/items/dispensary',function(req, res){
-    res.render('index',{
-      title: 'Dispense Drugs'
-    });
-  });
 
-  //Move this route to seperate file
-  app.get('/bills', function(req, res){
-      res.render('index');
-  });
-  //Lookup all bills
-  app.get('/api/bills', item.getBills);
+
+
 
   /**
   *Items Routes
@@ -769,16 +514,6 @@ module.exports.routes = function(app){
   //Nafdac Typeahead Route
   app.get('/api/nafdacdrugs/typeahead/needle/:needle',item.nafdacTypeAhead);
 
-  //Dashboard Count Items
-  app.get('/api/items/count',function(req, res){
-    item.count(function(lowCount, totalCount){
-      res.json(200, {"count": totalCount, "low": lowCount});
-    });
-  });
-
-  // get all stock down locations and basic information
-  app.get('/api/items/location',item.getAllLocations);
-
   //Create a new Item 
   app.post('/api/items',function(req,res){
     item.create(req.body, function(result){
@@ -792,20 +527,6 @@ module.exports.routes = function(app){
     });
   });
 
-  //Create a stock down location
-  app.post('/api/items/location',item.createLocation);
-
-  //Gets a prescription record by locationId
-  app.get('/api/items/locations/records', item.getDispenseRecord);
-
-  //Creates a new record for a prescription
-  app.post('/api/items/dispense', item.dispenseThis);
-
-  // Process stockdown request
-  app.post('/api/items/stockdown', item.stockDown);
-
-  // Get stock down records for a location
-  app.get('/api/items/stockdown/:locationId', item.getStockDown);
 
   //Delete Item
   app.del('/api/items/:itemId', function(req, res){
@@ -820,17 +541,17 @@ module.exports.routes = function(app){
       if(utils.isError(r)){
         next(r);
       }else{
-        res.json(200, true);
+        res.json(200, r);
       }
     });
   });
 
   app.get('/api/items/category', function(req, res, next){
-    item.listCategory(function(i){
+    item.listCategory(function(r){
       if(utils.isError(r)){
         next(r);
       }else{
-        res.json(200, true);
+        res.json(200, r);
       }      
     });
   });
@@ -838,8 +559,70 @@ module.exports.routes = function(app){
   app.del('/api/items/category/:categoryId', function(req, res, next){
     var catId = req.params.categoryId;
     item.removeCategory(catId, function(i){
+      if(utils.isError(i)){
+        next(i);
+      }else{
+        res.json(200, true);
+      }       
+    });
+  });
+  //Item Form Routes.///
+  app.post('/api/items/form', function(req, res, next){
+    item.addForm(req.body.name, function(r){
       if(utils.isError(r)){
         next(r);
+      }else{
+        res.json(200, r);
+      }
+    });
+  });
+
+  app.get('/api/items/form', function(req, res, next){
+    item.listForm(function(r){
+      if(utils.isError(r)){
+        next(r);
+      }else{
+        res.json(200, r);
+      }      
+    });
+  });
+
+  app.del('/api/items/category/:form_id', function(req, res, next){
+    var catId = req.params.form_id;
+    item.removeForm(catId, function(i){
+      if(utils.isError(i)){
+        next(i);
+      }else{
+        res.json(200, true);
+      }       
+    });
+  });
+  //Item Packaging Routes.///
+  app.post('/api/items/packaging', function(req, res, next){
+    item.addPackaging(req.body.name, function(r){
+      if(utils.isError(r)){
+        next(r);
+      }else{
+        res.json(200, r);
+      }
+    });
+  });
+
+  app.get('/api/items/packaging', function(req, res, next){
+    item.listPackaging(function(r){
+      if(utils.isError(r)){
+        next(r);
+      }else{
+        res.json(200, r);
+      }      
+    });
+  });
+
+  app.del('/api/items/category/:package_id', function(req, res, next){
+    var catId = req.params.package_id;
+    item.removePackage(catId, function(i){
+      if(utils.isError(i)){
+        next(i);
       }else{
         res.json(200, true);
       }       

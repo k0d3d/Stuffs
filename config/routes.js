@@ -2,8 +2,7 @@
 /*!
  * Module dependencies.
  */
-
-var async = require('async')
+var async = require('async');
 
 /**
  * Route middlewares
@@ -23,6 +22,16 @@ module.exports = function (app, passport) {
   orders.routes(app);
   var suppliers = require('../app/controllers/suppliers');
   suppliers.routes(app);
+  var reports = require('../app/controllers/reports');
+  reports.routes(app);
+  var dispense = require('../app/controllers/dispense');
+  dispense.routes(app);
+  var bills = require('../app/controllers/bills');
+  bills.routes(app);
+  var admin = require('../app/controllers/admin');
+  admin.routes(app);
+  var stock = require('../app/controllers/stock');
+  stock.routes(app);
 
   app.get('/', function(req, res){
       res.render('index',{

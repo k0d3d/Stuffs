@@ -1,8 +1,11 @@
 block body
-  include ../includes/modals/modal-item.jade
+  include ../includes/modals/items/modal-item.jade
+  include ../includes/dialogs/items/category.jade
+  include ../includes/dialogs/items/form.jade
+  include ../includes/dialogs/items/packaging.jade
   .row-fluid.row-break
     .span2.actioncol
-      button.btn.btn-large.btn-block.btn-primary(ng-init="saveButtonText='Save Item'", ng-click="saveitem()", modal-Pop, ng-class="saveButtonClass") {{saveButtonText}}
+      button.btn.btn-large.btn-block.btn-primary(ng-click="updateItem()") Update
       button.btn.btn-large.btn-block.btn-primary(ng-click="commons.backBtn()") Go Back
     .span8
       .row-fluid
@@ -17,32 +20,26 @@ block body
             label(for="sci-name") Scientific Name
             input.input-medium(type="text", name="sci-name",ng-model="form.sciName", required)
             label(for="man-name") Manufacturer
-            input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName", required)
-            label(for="supplier") Importer
-            input.input-medium(type="text", name="supplier",ng-model="form.importer")                 
-            label(for="supplier") NAFDAC Number
-            input.input-medium(type="text", name="supplier",ng-model="form.nadfac", readonly)                 
-            label(for="category") Category
-            select(multiple="true",ng-model="form.itemCategory")
-              option Alimentary Tract and Metabolism
-              option Blood and Blood Forming Organs
-              option Cardiovascular System
-              option Dermatologicals
-              option Genito-uninary System
-              option Hormanal
-              option Anti-infectives
-              option Anti-neoplastic and Immunomodulating Agents
-              option Musculo-skeletal System
-              option Nervous System
-              option Antiparasitic, Insecticides and Repellants
-              option Respiratory System
-              option Sensory Organs
-              option Various
+            input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName", required)                
+            label.lister(for="category") Category
+              button.btn.btn-mini.btn-info.nop(new-modal="#dialog-category")
+                i.fa.fa-ellipsis-horizontal
+            ul#itemCategory.fa-ul.listing(ng-model="form.itemCategory")
+              li(ng-repeat="itemCat in form.itemCategory ", ng-click="removeItemCat($index)")
+                | {{itemCat.categoryName}}
+            p {{form.itemCategory.length}} categories selected.
+
             label(for="itemdesc") Item Description
             textarea(name="itemdesc",ng-model="form.itemDescription")
           .span4.offset2            
-            label(for="supplier") Supplier
-            input.input-medium(type="text", name="supplier",ng-model="form.supplierName", required)
+            label.lister(for="supplier") Supplier  
+            ul#itemSuppliers.fa-ul.listing(ng-model="form.suppliers")
+              li(ng-repeat="itemSup in form.suppliers", ng-click="removeItemSup($index)")
+                | {{itemSup.supplierName}}
+            input.input-medium(type="text", name="supplier", supplier-name-type-ahead)                
+            p {{form.suppliers.length}} suppliers selected.
+            label(for="icd") ICD Code
+            input.input-small(type="text",name="icd",ng-model="form.icdcode")           
             label(for="bp") Boiling Point
             input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint", required, ng-minlength=0, ng-maxlength=100)
             label(for="itemsize") Package Size

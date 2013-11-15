@@ -20,7 +20,7 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
     p 
       button.btn.btn-block.btn-warning(data-ng-click="commons.href('/dashboard/order/'+summary._id)") Place Order    
     p 
-      button.btn.btn-block.btn-warning(data-ng-click="commons.href('/dashboard/order/'+summary._id)") Stock History
+      button.btn.btn-block.btn-warning(data-ng-click="commons.href('/dashboard/order/'+summary._id)") Reduce Stock
     p 
       button.btn.btn-block.btn-danger(data-ng-click="delConfirm = !delConfirm; delBtnText = 'Are you sure ?'", ng-init="delConfirm = true") {{delBtnText}}
       div(ng-show="!delConfirm")

@@ -2,7 +2,7 @@ block body
   include ../includes/modals/modal.jade
   .row-fluid.row-break
     .span2.actioncol
-      button.btn.btn-large.btn-block.btn-primary(ng-init="saveButtonText='Save Item'", type="button",ng-click='submitOrder()', ng-disabled="newOrder.$invalid") {{saveButtonText}}
+      button.btn.btn-large.btn-block.btn-primary(type="button",ng-click='submitOrder()', ng-disabled="newOrder.$invalid") Place Order
       button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
     .span4
       .row-fluid
@@ -12,7 +12,7 @@ block body
             option Medication
             option Medical Equipment
           label(for="itemname") Item / Drug Name
-          input#itemname.span6(type="text",name="itemName",ng-model="form.itemData.itemName",type-ahead, th-name="itemname", required)
+          input#itemname.span6(type="text",name="itemName",ng-model="form.itemData.itemName",order-item-type-ahead, required)
           input#itemname(type="hidden",name="itemID",ng-model="form.itemData.itemID")          
           label(for="orderdate") Order Date
           input#orderdate.span5(type="date", name="orderDate", ng-model="form.orderDate")
@@ -21,7 +21,7 @@ block body
           label(for="orderdesc") Order Description
           textarea#orderdesc.span6(ng-model="form.orderDescription",name="orderDescription")
           label(for="orderamount") Order Supplier
-          input#order-supplier-name.span6(type="text",name="orderSupplierName",ng-model="form.orderSupplierName",type-ahead, th-name="suppliername", required) 
+          input#order-supplier-name.span6(type="text",name="orderSupplierName",ng-model="form.suppliers.supplierName",order-supplier-type-ahead, required) 
     .span3.offset2
       .row-fluid
         #item-summary.open-summary(summary-data="summary", ng-class="ordersummary")

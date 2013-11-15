@@ -67,7 +67,7 @@ SupplierController.list = function(options, callback){
  */
 SupplierController.update = function(supplierData, callback){
   var omitted = _.omit(supplierData, "_id");
-  Supplier.update({_id: suppplierData._id}, omitted, function(err, i){
+  Supplier.update({_id: supplierData._id}, omitted, function(err, i){
     if(err){
       callback(err);
     }else{
@@ -108,6 +108,22 @@ SupplierController.remove= function(supplier_id, callback){
   });
 }
 
+/**
+ * [typeahead typeahead functions ]
+ * @param  {[type]}   query    [description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+SupplierController.typeahead  = function(query, callback){
+  Supplier.autocomplete(query, function(err, i){
+    if(err){
+      callback(err);
+    }else{
+      callback(i);
+    }    
+  });
+}
+
 module.exports.routes = function(app){
 
   app.get('/suppliers', function(req, res){
@@ -133,7 +149,7 @@ module.exports.routes = function(app){
   });
 
   app.get("/api/supplier/:supplierId", function(req, res){
-    SupplierController.one(req.param.supplierId, function(i){
+    SupplierController.one(req.params.supplierId, function(i){
       if(utils.isError(i)){
         next(i);
       }else{
@@ -173,4 +189,15 @@ module.exports.routes = function(app){
       }
     });
   });
+
+  //Typeahead for suppliers' name
+  app.get('/api/supplier/typeahead/term/supplierName/query/:query', function(req, res, next){
+    SupplierController.typeahead(req.params.query, function(i){
+      if(utils.isError(i)){
+        next(i);
+      }else{
+        res.json(200, i);
+      }
+    });
+  })
 };

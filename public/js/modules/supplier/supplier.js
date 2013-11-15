@@ -46,8 +46,8 @@ angular.module('supplier', ['ui.bootstrap'])
 	};
 })
 .controller('supplierEditController', function supplierEditController($scope, $location, $routeParams, supplierServices){
+	$scope.supplierForm = {};
 	function init(){
-		$scope.supplierForm = {};
 		if($routeParams.supplierId.length > 0){
 			supplierServices.one($routeParams.supplierId, function(r){
 				$scope.supplierForm = r;
@@ -56,9 +56,8 @@ angular.module('supplier', ['ui.bootstrap'])
 	}
 	init();
 	$scope.update = function(){
-		supplierServices.one($scope.supplierForm, function(r){
+		supplierServices.update($scope.supplierForm, function(r){
 			if(r !== false){
-				alert("Supplier Updated");
 			}
 		});
 	};
@@ -110,9 +109,17 @@ angular.module('supplier', ['ui.bootstrap'])
 		var supplierId = supplierData._id;
 		$http.put("/api/supplier/"+supplierId, supplierData )
 		.success(function(data, status){
+			Notification.notifier({
+				message: Lang.eng.supplier.update.success,
+				type:'success'
+			});			
 			callback(data);
 		})
 		.error(function(data, status){
+			Notification.notifier({
+				message: Lang.eng.supplier.update.error,
+				type: 'error'
+			});
 			callback(false);
 		});			
 	};

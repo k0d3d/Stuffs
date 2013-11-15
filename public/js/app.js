@@ -2,10 +2,13 @@
 
 angular.module('integraApp', [
   'ui.bootstrap',
+  'admin',
   'order',
   'stock',
+  'report',
   'item',
   'bills',
+  'dispense',
   'supplier',
   'dashboard',
   'directives',
@@ -20,9 +23,10 @@ angular.module('integraApp').config(function ($routeProvider, $locationProvider)
   $locationProvider.html5Mode(true);
 });
 
-angular.module('integraApp').controller('MainController', function($scope, $http, $location, Notification){
+angular.module('integraApp').controller('MainController', function($scope, $http, $location, Notification, itemsService){
   $scope.modal = {};
   $scope.notification = {};
+  $scope.waiting = '';
   function href(target){
     $scope.modal = {};
     $location.path(target);
@@ -30,6 +34,11 @@ angular.module('integraApp').controller('MainController', function($scope, $http
   function backBtn(){
     history.back();
   }
+
+  //Fetches waiting list of patients
+  itemsService.fetchDispenseRecords("pending", function(r){
+    $scope.waiting = r;
+  });   
 
   //List of Item forms 
   var itemForm = [
@@ -82,4 +91,10 @@ angular.module('integraApp').controller('MainController', function($scope, $http
   $scope.$on('newEvent', function(){
     $scope.modal = Notification.message;
   });
+});
+angular.module('integraApp').filter('moment', function(){
+    return function(time){
+        var m = moment(time);
+        return m.fromNow();
+    };
 });

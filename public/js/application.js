@@ -47,6 +47,10 @@ String.prototype.repeat = function(num) {
       e.preventDefault();
     });
 
+    $('.bell a').on('click', function(e){
+      e.preventDefault();
+    });
+
     // Switch
     $("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
 

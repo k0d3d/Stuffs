@@ -1,0 +1,73 @@
+append head
+  link(rel='stylesheet', href='/css/table-fixed-header.css')
+
+block body
+  include ../includes/modals/modal-order-supplied.jade
+  .row-fluid.row-break
+    .span2.actioncol
+      button.btn.btn-large.btn-block.btn-primary(ng-click="commons.backBtn()") Items
+      button.btn.btn-large.btn-block.btn-primary(ng-click="commons.backBtn()") Orders
+      button.btn.btn-large.btn-block.btn-primary(ng-click="commons.backBtn()") Suppliers
+      button.btn.btn-large.btn-block.btn-primary(ng-click="commons.backBtn()") Dispensary
+      button.btn.btn-large.btn-block.btn-primary(ng-click="commons.backBtn()") Stock Down
+      button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
+    .span10
+      .row-fluid.fixed-table
+        .table-content
+          table#list-orders.table.table-fixed-header
+            thead.header
+              tr
+                th Order Type
+                th Item
+                th Quantity
+                th Order Date
+                th Description
+                th Supplier
+                th Status
+                th Action
+            tbody
+              tr(ng-repeat="order in orders | filter: ordersfilter", on-finish="tableheader")
+                td {{order.orderType}}
+                td 
+                  a(href="/items/{{order.itemData[0]._id}}/edit") {{order.itemData[0].itemName}}
+                td {{order.orderAmount}}
+                td {{order.orderDate | date:'medium'}}
+                td.orderDesc {{order.orderDescription}}
+                td {{order.orderSupplier[0].supplierName}} 
+                td.order-status 
+                  .btn-group.dropdown
+                    a.btn.btn-mini.btn-info {{order.orderStatus}}
+                    a.btn.btn-dropdown-toggle.btn-info(data-toggle="dropdown")
+                      span.caret
+                    ul.dropdown-menu.alt-text
+                      p
+                        | Please confirm the following <br>
+                        | was supplied. <br>
+                        | Enter an invoice number.
+                      dl
+                        dt Item Ordered: 
+                        dd(style="color: #3498db") {{order.itemData[0].itemName}}
+                        dt Amount Ordered: 
+                        dd(style="color:#3498db") {{order.orderAmount}}
+                        dt Invoice Number
+                        dd {{orders[$index].orderInvoice}}
+
+                      form.new-stock-down
+                        .control-group
+                          label.control-label Invoice Number
+                          .controls
+                            input.input-medium.input-block-level(type="text",ng-model="orders[$index].orderInvoice")
+                            span.help-block {{addHelpText}}
+                        .control-group
+                          .controls
+                            button.btn.btn-inverse.input-block-level(order-action-button="orders[$index].orderInvoice", order-item-data="order.itemData[0]", order-amount="order.orderAmount", order-id="order._id", index="{{$index}}", style="text-transform: uppercase", ng-disabled="orders[$index].orderStatus == 'paid'") {{orders[$index].next}}
+                td                      
+                  .btn-group
+                    a.btn.btn-mini Return
+                    a.btn.btn-mini.btn-danger(ng-click="removeOrder($event, order._id)") <i class="icon-remove"></i>
+
+
+
+append foot
+  script(src="js/table-fixed-header.js")                
+

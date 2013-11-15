@@ -51,12 +51,13 @@ block body
                       dl
                         dt Item Ordered: 
                         dd(style="color: #3498db") {{order.itemData[0].itemName}}
-                        dt Amount Ordered: 
-                        dd(style="color:#3498db") {{order.orderAmount}}
-                        dt Invoice Number
-                        dd {{orders[$index].orderInvoice}}
 
                       form.new-stock-down
+                        .control-group
+                          label.control-label Amount Supplied
+                          .controls
+                            input.input-medium.input-block-level(type="number",ng-model="orders[$index].amountSupplied")
+                            span.help-block {{addHelpText}}
                         .control-group
                           label.control-label Invoice Number
                           .controls
@@ -64,7 +65,7 @@ block body
                             span.help-block {{addHelpText}}
                         .control-group
                           .controls
-                            button.btn.btn-inverse.input-block-level(order-action-button="orders[$index].orderInvoice", order-item-data="order.itemData[0]", order-amount="order.orderAmount", order-id="order._id", index="{{$index}}", style="text-transform: uppercase", ng-disabled="orders[$index].orderStatus == 'paid'") {{orders[$index].next}}
+                            button.btn.btn-inverse.input-block-level(order-action-button="orders[$index].orderInvoice", index="{{$index}}", style="text-transform: uppercase", ng-disabled="orders[$index].orderStatus == 'paid'", kush="orders[$index]") {{orders[$index].next}}
                 td                      
                   .btn-group
                     a.btn.btn-mini Return
