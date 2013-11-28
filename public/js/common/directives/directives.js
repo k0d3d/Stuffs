@@ -138,7 +138,6 @@
             amountSupplied: scope.kush.amountSupplied
           }
           //scope.$apply();
-          console.log(index);
           ordersService.updateOrder(o, function(r){
             scope.kush.orderStatus = r.result;
             scope.kush.next = getStatus(r.result);
@@ -176,4 +175,32 @@
               });
           }
       };
-  }); 
+  });
+  angular.module('directives').directive('pagination', ["supplierServices", function(ss){
+    function link(scope, element, attrs){
+      scope.pageno = 1;
+      $('button.prevbtn', element).on('click', function(e){
+        var page = scope.pageno - 1;
+        if(scope.pageno <= 1) return false;
+        ss.all(page, function(r){
+          scope.pagination = r;
+          console.log(typeof(scope.pageno));
+          scope.pageno--;
+        });
+      });
+      $('button.nextbtn', element).on('click', function(e){
+        var page = scope.pageno + 1;
+        ss.all(page, function(r){
+          scope.pagination = r;
+          scope.pageno++;
+        });
+      });    
+    }
+    return {
+      link: link,
+      scope: {
+        pagination: "=",
+      },
+      template:"<button class='btn btn-success prevbtn'>Previous</button><span>{{pageno}}</span><button class='btn btn-success nextbtn'>Next</button>"
+    }
+  }]);

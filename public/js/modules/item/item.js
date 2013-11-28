@@ -3,7 +3,7 @@
 *
 * Description
 */
-angular.module('item', ['ui.bootstrap'])
+angular.module('item', [])
 
 .config(['$routeProvider', function ($routeProvider){
 	$routeProvider.when('/items', {templateUrl: '/items/index', controller: 'itemIndexController'})

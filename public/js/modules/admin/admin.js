@@ -3,7 +3,7 @@
 *
 * Description
 */
-angular.module('admin', ['ui.bootstrap'])
+angular.module('admin', [])
 
 .config(['$routeProvider', function ($routeProvider){
   $routeProvider.when('/admin', {templateUrl: '/admin/index', controller: 'adminController'});

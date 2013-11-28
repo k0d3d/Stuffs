@@ -651,3 +651,34 @@ border: solid 1px #D6D6D6;
 .ph-bx input{
   color: black;
 }
+.nav, .pagination, .carousel a { cursor: pointer; }
+
+.pagination button.prevbtn{
+  float: left;
+}
+.pagination button.nextbtn{
+  float: right;
+}
+.pagination span{
+text-align: center;
+font-size: x-large;
+width: 50px;
+position: relative;
+left: 50%;
+margin-left: -100px;
+border-radius: 5px;
+background-color: #1C2935;
+padding: 7px;
+box-sizing: border-box;
+display: inline-block;
+float: left;
+}
+.pagination{
+  width: 100%
+}
+.table-hover tbody tr {
+  cursor: pointer;
+}
+.table-hover tbody tr:hover{
+  color: #000;
+}

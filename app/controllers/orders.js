@@ -10,21 +10,25 @@ var mongoose = require('mongoose'),
   StockHistory = mongoose.model('StockHistory'),
   StockCount = mongoose.model('StockCount'),
   Supplier = mongoose.model('Supplier'),
+  Ndl = require('./nafdacs').ndl,
+  rest  = require('restler'),
+  _ = require('underscore'),
   utils = require("util");
+
+var online_api_url = 'http://localhost:3001';
 
 /**
  * Create an order
  */
 var createOrder = function (req, res) {
   var order = new Order(req.body);
-  var itemObj = {itemName: req.body.itemData.itemName, itemID: req.body.itemData.itemID, _id: req.body.itemData._id};
+  var itemObj = {itemName: req.body.itemData.itemName, _id: req.body.itemData._id};
   order.orderSupplier =  req.body.suppliers;
   order.itemData.push(itemObj);
   order.save(function (err) {
     if (!err) {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.write(JSON.stringify({"task":"save-order","success": true}));
-      res.end();
+      postOrders();
+      res.json({"task":"save-order","success": true});
     }else{
       console.log(err);
     }
@@ -72,7 +76,7 @@ var updateOrder = function(req, res, next){
 
       //Creates a new record to show when this order was
       //updated and what action was taken.
-      orderstatus = new OrderStatus();
+      var orderstatus = new OrderStatus();
       orderstatus.status = req.body.status;
       orderstatus.order_id = req.param('orderId');
       orderstatus.save(function(err){
@@ -222,6 +226,43 @@ var removeOrder = function(order_id, callback){
   }, callback);
 };
 
+var updateTracking = function(r){
+  _.each(r, function(v, i){
+    Order.update({_id: v.client}, {
+      onlineId: v.online,
+      orderStatus: 'received'
+    }, function(err){
+      if(err){
+        utils.puts(err);
+      }
+    });
+  });
+};
+
+var postOrders = function(){
+  Order.find({orderStatus: 'pending order'}, 'itemData orderAmount orderDate orderSupplier nafdacRegNo nafdacRegName')
+  .exec(function(err, i){
+    var one = JSON.stringify(i);
+    if(err){
+      utils.puts(err);
+    }else{
+      rest.postJson(online_api_url + '/api/orders', { data: one, hid: 1008} )
+      .on('success', function(r){
+        updateTracking(r);
+      })
+      .on('error', function(err){
+        utils.puts(err);
+      })
+      .on('fail', function(err){
+        utils.puts(err);
+      });
+    }
+  });
+};
+
+
+var ndls = new Ndl();
+
 
 module.exports.routes = function(app){
 
@@ -261,12 +302,49 @@ module.exports.routes = function(app){
   app.delete('/api/orders/:order_id', function(req, res){
     removeOrder(req.param('order_id'), function(err, i){
       if(utils.isError(err)){
-        res.json(500, err);
+        next(err);
         return;
       }else{
         res.json(200, {state: 1});
       }
     });
   });
+
+  //Search for nafdac reg drugs by composition
+  app.get('/api/orders/ndl/:needle/composition/:page', function(req, res, next){
+    ndls.searchComposition(req.params.needle, req.params.page, function(r){
+      if(utils.isError(r)){
+        next(r);
+        return;
+      }else{
+        res.json(200, r);
+      }
+    });
+  });
+
+  //Search for nafdac reg drugs by category
+  app.get('/api/orders/ndl/:needle/category/:page', function(req, res, next){
+    ndls.searchCategory(req.params.needle, req.params.page, function(r){
+      if(utils.isError(r)){
+        next(r);
+        return;
+      }else{
+        res.json(200, r);
+      }
+    });
+  });
+  //Search for nafdac reg drugs by category
+  app.get('/api/orders/ndl/:drugId/summary', function(req, res, next){
+    ndls.summary(req.params.drugId, function(r){
+      if(utils.isError(r)){
+        next(r);
+        return;
+      }else{
+        res.json(200, r);
+      }
+    });
+  });
+
+  app.post('/postorder', postOrders);
 
 };

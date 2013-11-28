@@ -5,7 +5,7 @@ div#frontpage.container-fluid
       h2 
         a(href="/") Drug Store
       span=title 
-    .offset8.span2
+    .offset7.span3
       .btn-toolbar
         .btn-group
           button.btn.btn-bell.btn-small(type="button", data-toggle="dropdown")
@@ -26,3 +26,11 @@ div#frontpage.container-fluid
                   td {{w.class}}
                   td {{w.doctorName}}
                   td {{w.issueDate | moment}}
+          button.btn.btn-bell.btn-small(type="button", data-toggle="dropdown")
+            i.fa.fa-message
+            |  Updates  
+            span.label.label-info {{waiting.length}}
+          ul.bell.dropdown-menu.alt-text.pr-btn-drpdwn(role="menu", style="text-transform: capitalize;")
+            li
+              a(href="#")
+                | Panadol by Jide Co. price updates to N50

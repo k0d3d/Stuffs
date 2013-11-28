@@ -243,7 +243,9 @@ ItemsObject.prototype.listOne = function(req,res){
             packageSize: r.packageSize,
             suppliers : r.suppliers,
             currentStock: (stock === null)? 0 : stock.amount,
-            lastSupplyDate: (stock === null)? '' : stock.lastOrderDate
+            lastSupplyDate: (stock === null)? '' : stock.lastOrderDate,
+            nafdacId: r.nafdacId,
+            nafdacRegNo: r.nafdacRegNo
           };
           res.json(200, it);
         });
@@ -317,9 +319,13 @@ ItemsObject.prototype.nafdacTypeAhead = function(req, res){
  * @return {[type]}     [description]
  */
 ItemsObject.prototype.updateItem = function(req, res){
-  console.log(req.body);
   var itemId = req.body._id;
-  var o = _.omit(req.body, ["_id", "itemID"]);
+  var category = [];
+  _.each(req.body.itemCategory, function(v){
+    category.push(v._id);
+  });
+  var o = _.omit(req.body, ["_id", "itemID", "itemCategory"]);
+  o.itemCategory = category;
   Item.update({_id: itemId}, {
     $set: o
   }, function(err, i){
@@ -350,7 +356,6 @@ ItemsObject.prototype.itemFields = function (req, res){
     }
 
     Item.listOne(options, function(err, r){
-      console.log(r);
       if (err) return res.json(500,{"mssg": 'Darn Fault!!!'});
       res.json(200, r);
     });

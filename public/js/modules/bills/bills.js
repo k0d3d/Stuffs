@@ -3,7 +3,7 @@
 *
 * Description
 */
-angular.module('bills', ['ui.bootstrap'])
+angular.module('bills', [])
 
 .config(['$routeProvider', function ($routeProvider){
   $routeProvider.when('/bills', {templateUrl: '/bills/index', controller: 'billsController'});

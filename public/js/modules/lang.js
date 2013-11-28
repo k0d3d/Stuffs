@@ -4,6 +4,7 @@
 angular.module('language', [])
 
 .constant('Language', {
+	"set":"eng",	
 	"eng":{
 		"items": {
 			"save": {
@@ -75,7 +76,15 @@ angular.module('language', [])
 			"place":{
 				"success": "You've succesfull placed an order.",
 				"error":"Failed to place a new order. An error occured. Please try again"
+			},
+			"search":{
+				"error": "Error searching through drug register",
+				"notfound": "Drug not found"
+			},
+			"summary":{
+				"error": "Can not fetch more information now."
 			}
+					
 		},
 		"dispense":{
 			"confirm":{

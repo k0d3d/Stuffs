@@ -30,9 +30,6 @@ String.prototype.repeat = function(num) {
     // Tags Input
     $(".tagsinput").tagsInput();
 
-    // Placeholders for input/textarea
-    $("input, textarea").placeholder();
-
     // Make pagination demo work
     $(".pagination a").on('click', function() {
       $(this).parent().siblings("li").removeClass("active").end().addClass("active");

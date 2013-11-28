@@ -10,7 +10,7 @@ config(['$routeProvider',function($routeProvider){
   .when('/dashboard/order', {templateUrl: '/orders/add', controller: 'orderAddController'})
   .when('/dashboard/order/:itemId', {templateUrl: '/orders/add', controller: 'orderAddController'});
 }]).
-controller('ordersIndexController', function($scope, $http, $location, $dialog, ordersService){
+controller('ordersIndexController', function($scope, $http, $location, ordersService){
   (function(){
     ordersService.orders(function(r){
       $scope.orders = r;
@@ -49,14 +49,52 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
     itemsService.summary($routeParams.itemId, 'main', function(r){
       $scope.summary = r;
       $scope.form.itemData.itemName = r.itemName;
-      $scope.form.itemData.itemID = r.itemID;
       $scope.form.itemData._id = r._id;
+      $scope.form.nafdacRegNo = r.nafdacRegNo;
+      $scope.form.nafdacRegName = r.itemName;
       $scope.form.suppliers = {
         supplierName : r.supplierName,
         supplierID : r.supplierID
       };
     });
   }
+
+  $scope.toggle = function(){
+    $scope.plcordr = !$scope.plcordr;
+    $scope.searchndl = !$scope.searchndl;
+  };
+
+  $scope.searchcmp = function(){
+    $scope.ds = '';
+    ordersService.searchCmp($scope.drugcmp,'composition', 0, function(r){
+      $scope.cmps = r;
+    });
+  };
+
+
+  $scope.more = function (index) {
+    ordersService.moreInfo($scope.cmps[index]._id, function(r){
+      $scope.ds = r;
+      $scope.ds.index = index;
+    });
+  };
+
+  $scope.orderthis = function(){
+    if($scope.ds.length === 0) return false;
+    $scope.form = {
+      orderType: 'Medication',
+      itemData : {
+        itemName: $scope.ds.productName
+      },
+      suppliers:{
+        supplierName: $scope.ds.man_imp_supp
+      },
+      nafdacRegNo: $scope.ds.composition,
+      nafdacRegName: $scope.ds.productName
+    };
+    $scope.toggle();
+  };
+
   $scope.saveButtonClass = 'btn-primary';
   $scope.submitOrder = function(){
     ordersService.save($scope.form, function(data){
@@ -66,6 +104,24 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
 })
 .factory('ordersService',['$http', 'Notification','Language', function($http, Notification, Lang){
     var f = {};
+    f.searchCmp = function(srchstr, catrcmp, page, callback){
+      $http.get('/api/orders/ndl/'+srchstr+'/'+catrcmp+'/'+page)
+      .success(function(d, r){
+        if(_.isEmpty(d)){
+          Notification.notifier({
+            message: Lang.eng.order.search.notfound,
+            type: 'error'
+          });          
+        }
+        callback(d);
+      })
+      .error(function(d, r){
+        Notification.notifier({
+          message: Lang.eng.order.search.error,
+          type: 'error'
+        });
+      });
+    }
     f.getAllSuppliers = function(callback){
       $http.get('/api/orders/suppliers/'+escape(query)).success(function(data){
         callback(data);
@@ -140,6 +196,18 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
       $http.delete('/api/orders/'+order_id)
       .success(callback);
     };
+    f.moreInfo = function (id, callback) {
+      $http.get('/api/orders/ndl/' + id + '/summary')
+      .success(function (d) {
+        callback(d);
+      })
+      .error(function (d) {
+        Notification.notifier({
+          message: Lang[Lang.set].order.summary.error,
+          type: 'error'
+        });
+      });
+    };
 
     return f;
 }]).directive('orderSupplierTypeAhead', ['itemsService', function(itemsService){
@@ -184,12 +252,13 @@ controller('ordersIndexController', function($scope, $http, $location, $dialog, 
         updater: function(name){
           itemsService.summary(name,'main', function(r){
             scope.form.itemData.itemName = r.itemName;
-            scope.form.itemData.itemID = r.itemID;
             scope.form.itemData._id = r._id;
             scope.form.suppliers = {
               supplierID : r.suppliers[0]._id,
               supplierName: r.suppliers[0].supplierName
             };
+            scope.form.nafdacRegNo = r.nafdacRegNo;
+            scope.form.nafdacRegName = r.itemName;            
             scope.summary = r;
           });
           scope.$apply();

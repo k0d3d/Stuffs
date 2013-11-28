@@ -14,6 +14,7 @@ var mongoose = require('mongoose'),
     StockCount = mongoose.model('StockCount'),
     Supplier = mongoose.model('Supplier'),
     _ = require("underscore"),
+    paginate = require('mongoose-paginate');
     utils = require("util");
 
 
@@ -50,7 +51,11 @@ SupplierController.add = function(supplierData, callback){
  * @return {[type]}            [description]
  */
 SupplierController.list = function(options, callback){
-  Supplier.find({}, function(err, i){
+  Supplier
+  .find({})
+  .limit(10)
+  .skip(options.page * 10)
+  .exec(function(err, i){
     if(err){
       callback(err);
     }else{
@@ -138,8 +143,11 @@ module.exports.routes = function(app){
     });    
   })
 
-  app.get("/api/supplier", function(req, res){
-    SupplierController.list({}, function(i){
+  app.get("/api/supplier/:page", function(req, res, next){
+    var options = {
+      page: req.params.page || 1
+    };
+    SupplierController.list(options, function(i){
       if(utils.isError(i)){
         next(i);
       }else{

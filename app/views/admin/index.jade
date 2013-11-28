@@ -5,7 +5,9 @@ block body
   include ../includes/modals/modal-order-supplied.jade
   .row-fluid.row-break
     .span2.actioncol
-      button.btn.btn-large.btn-block.btn-primary(ng-click="commons.backBtn()") Manage Billing
+      button.btn.btn-large.btn-block.btn-primary() Hospital Info
+      button.btn.btn-large.btn-block.btn-primary() Manage Billing
+      button.btn.btn-large.btn-block.btn-primary() Manage Item Groups
     .span10
       .row-fluid.fixed-table
         .span3.span-rgt-brd
@@ -77,6 +79,13 @@ block body
                         td {{rlz.value}}
                         td {{rlz.directive}}
                         td
+    .span10
+        form#login(name="login", novalidate)
+          label(for="itemname") Email Address
+          input#email.span6(type="text",name="email",ng-model="email",order-item-type-ahead, required)      
+          label(for="orderdate") Password
+          input#password.span5(type="password", name="password", ng-model="password", required)
+          button.btn.btn-info(type="submit") Log In
 
 
 append foot

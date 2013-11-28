@@ -17,6 +17,9 @@ var NafdacdrugSchema = new Schema ({
   mis_regDate : {type: String, default: '', required: true},
   mis_expDate : {type: String, default: '', required: true},
   category : {type: String, default: '', required: true},
+  onlineId: {type: Schema.ObjectId},
+  currentPrice:{type: Number},
+  lastUpdated: {type: Date}
 });
 
 NafdacdrugSchema.statics = {

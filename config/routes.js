@@ -57,7 +57,6 @@ module.exports = function (app, passport) {
     var child = req.params.child;
       res.render(parent+'/'+child);
       //res.render('/');
-    }
-  );
+  });
 
 }

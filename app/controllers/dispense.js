@@ -277,6 +277,8 @@ module.exports.routes = function(app){
 
   //Creates a new record for a prescription
   app.post('/api/items/prescribe', function(req, res, next){
+    console.log(req.body);
+    return res.json(200, true);
     DispenseController.prescribeThis(o, function(r){
 
     });

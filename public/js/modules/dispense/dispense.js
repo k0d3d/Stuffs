@@ -3,7 +3,7 @@
 *
 * Description
 */
-angular.module('dispense', ['ui.bootstrap'])
+angular.module('dispense', [])
 
 .config(['$routeProvider', function ($routeProvider){
 	$routeProvider.when('/dispensary', {templateUrl: '/items/dispense', controller: 'dispensaryController'})
