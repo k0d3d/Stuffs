@@ -111,17 +111,17 @@ ItemsObject.prototype.create = function (itemBody, callback) {
     var stockhistory = new StockHistory();
     // Check if this record has been created for this order using the orderid and the reference field 
     // on the StockHistoryShema
-    StockHistory.count({'reference': 'create-'+req.params.orderId}, function(err, count){
+    StockHistory.count({'reference': 'create-'+order._id}, function(err, count){
       if(count > 0){
-        callback(400);
+        callback(new Error('Invalid Order::old'));
       }else{
         var itemObj = {
-          id: req.body.itemData._id,
-          amount: req.body.amount
+          id: it._id,
+          amount: itemBody.item.amount
         };
         var options = {
           action: 'Stock Up',
-          reference: 'create-'+req.param('orderId')
+          reference: 'create-'+order._id
         };
         //Create a stock history record.
         stockhistory.log(itemObj, location, options ,function(g){
@@ -227,9 +227,9 @@ ItemsObject.prototype.listOne = function(req,res){
        * Since dispensing is carried out from a stockdown location,
        * we pass in the location object when fetching stock amount
        */
-      if(req.param('locationId') === 'main'){
+      if(req.param('locationId') === 'main' || req.param('locationId') === 'Main'){
         //Get Stock count by name
-        StockCount.getStockAmountbyId(r._id,{name: 'Main'} ,function(stock){
+        StockCount.getStockAmountbyName(r._id,{name: 'Main'} ,function(stock){
           it = {
             _id: r._id,
             itemID: r.itemID,
@@ -252,7 +252,6 @@ ItemsObject.prototype.listOne = function(req,res){
       }else{
         //Get stock count by location id
         StockCount.getStockAmountbyId(r._id,{id: req.param('locationId')} ,function(stock){
-          console.log(stock);
           it = {
             _id: r._id,
             itemID: r.itemID,
@@ -338,6 +337,17 @@ ItemsObject.prototype.updateItem = function(req, res){
 };
 
 
+ItemsObject.prototype.updateByReg = function(upd){
+  _.each(upd, function(v, i){
+    Item.update({nafdacRegNo: v.product_id.regNo}, {
+      itemPurchaseRate: v.price
+    }, function(err){
+      if(err) util.puts(err);
+    })
+  });
+}
+
+
 
 /**
  * [itemFields used for querying an item document e.g. when editing / updating an item]
@@ -408,6 +418,20 @@ ItemsObject.prototype.listCategory = function(callback){
   });
 };
 
+
+/**
+ * [delCat description]
+ * @param  {[type]}   cat_id [description]
+ * @param  {Function} cb     [description]
+ * @return {[type]}          [description]
+ */
+ItemsObject.prototype.delCat = function(cat_id, cb){
+  ItemCategory.remove({_id: cat_id, categoryType: 'user'}, function(err, i){
+    if(err) return cb(err);
+    cb(i);
+  });
+}
+
 /**
  * [addForm Adds an item form ]
  * @param {[type]}   name     [description]
@@ -421,7 +445,7 @@ ItemsObject.prototype.addForm = function(name, callback){
   ic.create(name, function(r){
     console.log(r);
     callback(r);
-  });
+  }); 
 };
 
 /**
@@ -563,7 +587,7 @@ module.exports.routes = function(app){
 
   app.del('/api/items/category/:categoryId', function(req, res, next){
     var catId = req.params.categoryId;
-    item.removeCategory(catId, function(i){
+    item.delCat(catId, function(i){
       if(utils.isError(i)){
         next(i);
       }else{

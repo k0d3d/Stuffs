@@ -6,26 +6,20 @@ append mainbody
   include ../includes/dialogs/bills/view.jade
 .row-fluid.row-break
   .span2.actioncol
-    h4 Location
-    select(ng-model="dispenseform.location", ng-change="clrForm()", ng-options="l.locationName for l in locations", required)
-    button.btn.btn-large.btn-block.btn-primary(ng-click="n_w = !n_w;all = !all;btnState = !btnState", ng-disabled="btnState") Prescribe
     button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
+    h4(style="margin-top: 11px;border-bottom: solid 3px #0AC4FF;") Location
+    p(style="border: solid 1px #fff;padding: 6px;") {{dispenseform.location.locationName}}
   .span8.offset1(ng-show="n_w")
     h3 Dispense Prescription
     form.newdispense
       .control-group
           label.control-label Patient Name
           .controls
-              input.input-large(type="text",name="patientname", ng-model="dispenseform.patientName")
+              input.input-large(type="text",name="patientname", ng-model="dispenseform.patientName", readonly)
       .control-group
-          label.control-label Patient Class / Company
+          label.control-label Doctor Name
           .controls
-              input.input-large(type="text",name="class_company", ng-model="dispenseform.class")
-              select(ng-options="a.profileName for a in profiles", ng-model="dispenseform.class")
-      .control-group
-          label.control-label Patient Hospital Number
-          .controls
-              input.input-large(type="text",name="patientnumber", ng-model="dispenseform.patientno")
+              input.input-large(type="text",name="patientnumber", ng-model="dispenseform.doctorName", readonly)
       .control-group
           label.control-label Drug Name
           .controls
@@ -54,7 +48,7 @@ append mainbody
                 option(value="purchase") Immediate Purchase
                 option(value="appointment") Supply on appointment
                 option(value="rx") RX
-              select(ng-model="d[$index].dosage",placeholder="Dosage", ng-change="adjust_amount($index)",)
+              select(ng-model="d[$index].dosage",placeholder="Dosage", ng-change="adjust_amount($index)")
                 option(value="1") Once Daily (OD)
                 option(value="2") Bi-Daily (BD)
                 option(value="3") 3 Daily (TDS)
@@ -67,38 +61,6 @@ append mainbody
               i.icon-remove.icon-white.pull-right(ng-click="removeDrug($index)")
       button.btn.btn-default(ng-click="n_w = !n_w;all = !all;btnState = !btnState") Back
       button.btn.btn-primary(ng-click="approveThis()",ng-init="saveButtonText='Approve'") {{saveButtonText}}
-  .span8.offset1(ng-show="all")
-    .row-fluid.fixed-table
-      .span12
-        .table-content
-          table#list-orders.table.table-fixed-header
-            thead.header
-              tr
-                th Patient Name
-                th Doctor
-                th Date Requested
-                th List of Drugs
-                th Actions
-            tbody
-              tr(ng-repeat="record in dispenseHistory")
-                td {{record.patientName}}
-                td <a href="/doctors/lookup/{{record.doctorId}}">{{record.doctorName}}</a>
-                td {{record.issueDate | date: 'medium'}}
-                td
-                  .btn-group.dropdown
-                    a.btn.btn-mini.btn-info {{record.drugs.length}}
-                    a.btn.btn-dropdown-toggle.btn-info(data-toggle="dropdown")
-                      span.caret
-                    ul.dropdown-menu.alt-text
-                      li.listofdrugs(ng-repeat="listofdrugs in record.drugs") 
-                        a(href="#")
-                          p {{listofdrugs.itemName}}
-                          span.label.label-info {{listofdrugs.amount}}
-                  button.btn.btn-danger
-                    i.fa.fa-print(title="Print Prescription")
-                td
-                  button.btn.btn-primary(type="button", new-modal="#dialog-view-bill", ng-click="viewBill(record._id)") View Bill
-
 
 append foot
   script(src="js/table-fixed-header.js")                

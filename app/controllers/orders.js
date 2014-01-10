@@ -17,10 +17,53 @@ var mongoose = require('mongoose'),
 
 var online_api_url = 'http://localhost:3001';
 
+function OrderController () {
+
+}
+
+OrderController.prototype.constructor = OrderController;
+
+
+var postOrders = function(){
+  Order.find({orderStatus: 'pending order'}, 'itemData orderAmount orderDate orderSupplier nafdacRegNo nafdacRegName')
+  .exec(function(err, i){
+    var one = JSON.stringify(i);
+    if(err){
+      utils.puts(err);
+    }else{
+      rest.postJson(online_api_url + '/api/orders', { data: one, hid: 1008} )
+      .on('success', function(r){
+        updateTracking(r);
+      })
+      .on('error', function(err){
+        utils.puts(err);
+      })
+      .on('fail', function(err){
+        utils.puts(err);
+      });
+    }
+  });
+};
+
+var updateTracking = function(r){
+  _.each(r, function(v, i){
+    Order.update({_id: v.client}, {
+      onlineId: v.online,
+      orderStatus: 'received'
+    }, function(err){
+      if(err){
+        utils.puts(err);
+      }
+    });
+  });
+};
+
+
+
 /**
  * Create an order
  */
-var createOrder = function (req, res) {
+OrderController.prototype.createOrder = function (req, res) {
   var order = new Order(req.body);
   var itemObj = {itemName: req.body.itemData.itemName, _id: req.body.itemData._id};
   order.orderSupplier =  req.body.suppliers;
@@ -40,7 +83,7 @@ var createOrder = function (req, res) {
  * List All Orders
  */
 
-var getOrders = function(req, res){
+OrderController.prototype.getOrders = function(req, res){
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
   var perPage = 30;
   var options = {
@@ -59,7 +102,7 @@ var getOrders = function(req, res){
  * Updates an order status and creates a stock record 
  */
 
-var updateOrder = function(req, res, next){
+OrderController.prototype.updateOrder = function(req, res, next){
   //Updates the order statuses, these are useful for order history
   //queries, etc
   var doOrderStatusUpdates = function (){
@@ -95,13 +138,13 @@ var updateOrder = function(req, res, next){
     var stockhistory = new StockHistory();
     // Check if this record has been created for this order using the orderid and the reference field 
     // on the StockHistoryShema
-    StockHistory.count({'reference': 'orders-'+req.param('orderId')}, function(err, count){
+    StockHistory.count({'reference': 'orders-'+req.param('orderId')+'-'+req.body.orderStatus}, function(err, count){
       if(count > 0){
         res.json(400,{"message": "Invalid Order"});
       }else{
         var itemObj = {
           id: req.body.itemData._id,
-          amount: req.body.amount
+          amount: req.body.amountSupplied
         };
         var options = {
           action: 'Stock Up',
@@ -151,7 +194,7 @@ var updateOrder = function(req, res, next){
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-var count = function(req, res){
+OrderController.prototype.count = function(req, res){
   var d = Order.count({orderVisibility: true});
   var m  = Order.count({orderVisibility: true});
   m.where('orderStatus').equals('pending order');
@@ -205,7 +248,7 @@ var getSupplier = function(req, res){
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-var suppliersTypeahead = function(req, res){
+OrderController.prototype.suppliersTypeahead = function(req, res){
   Supplier.autocomplete(req.param('query'), function(err, suppliers){
     if (err) return res.render('500');
      res.json(suppliers);
@@ -218,7 +261,7 @@ var suppliersTypeahead = function(req, res){
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-var removeOrder = function(order_id, callback){
+OrderController.prototype.removeOrder = function(order_id, callback){
   Order.update({_id: order_id}, {
     $set:{
       orderVisibility: false
@@ -226,43 +269,35 @@ var removeOrder = function(order_id, callback){
   }, callback);
 };
 
-var updateTracking = function(r){
-  _.each(r, function(v, i){
-    Order.update({_id: v.client}, {
-      onlineId: v.online,
-      orderStatus: 'received'
+
+OrderController.prototype.isDispatched = function(order){
+  var lala = [];
+  _.each(order, function(v, i){
+    var orderId = v.order_id.h_order_Id.substr(v.hospitalId.length + 1);
+    Order.update({_id: orderId}, {
+      orderStatus: 'dispatched'
     }, function(err){
       if(err){
         utils.puts(err);
       }
     });
-  });
-};
 
-var postOrders = function(){
-  Order.find({orderStatus: 'pending order'}, 'itemData orderAmount orderDate orderSupplier nafdacRegNo nafdacRegName')
-  .exec(function(err, i){
-    var one = JSON.stringify(i);
-    if(err){
-      utils.puts(err);
-    }else{
-      rest.postJson(online_api_url + '/api/orders', { data: one, hid: 1008} )
-      .on('success', function(r){
-        updateTracking(r);
-      })
-      .on('error', function(err){
+    var o = new OrderStatus();
+    o.status = 'dispatched';
+    o.order_id = orderId;
+    o.save(function(err){
+      if(err){
         utils.puts(err);
-      })
-      .on('fail', function(err){
-        utils.puts(err);
-      });
-    }
-  });
-};
+      }      
+    });
 
+  });
+}
 
 var ndls = new Ndl();
 
+module.exports.order = OrderController;
+var orders = new OrderController();
 
 module.exports.routes = function(app){
 
@@ -284,23 +319,29 @@ module.exports.routes = function(app){
       });
     }
   );
+  app.get('/dashboard/orders/cart', function(req, res){
+      res.render('index',{
+        title: 'Order Cart'
+      });
+    }
+  );
   //Order  GET routes
-  app.get('/api/orders',getOrders);
-  app.get('/api/orders/count',count);
-  app.get('/api/orders/supplier', allSuppliers);
-  app.get('/api/orders/supplier/:id', getSupplier);
-  app.get('/api/orders/supplier/typeahead/:query', suppliersTypeahead);
+  app.get('/api/orders',orders.getOrders);
+  app.get('/api/orders/count',orders.count);
+  // app.get('/api/orders/supplier', orders.allSuppliers);
+  // app.get('/api/orders/supplier/:id', orders.getSupplier);
+  app.get('/api/orders/supplier/typeahead/:query', orders.suppliersTypeahead);
 
   // Order POST Routes
-  app.post('/api/orders',createOrder);
-  app.post('/api/orders/supplier', createSupplier);
+  app.post('/api/orders',orders.createOrder);
+  //app.post('/api/orders/supplier', orders.createSupplier);
 
   //Order PUT Routes
-  app.put('/api/orders/:orderId',updateOrder);
+  app.put('/api/orders/:orderId',orders.updateOrder);
 
   //Delete Order (logically)
   app.delete('/api/orders/:order_id', function(req, res){
-    removeOrder(req.param('order_id'), function(err, i){
+    orders.removeOrder(req.param('order_id'), function(err, i){
       if(utils.isError(err)){
         next(err);
         return;
@@ -344,7 +385,4 @@ module.exports.routes = function(app){
       }
     });
   });
-
-  app.post('/postorder', postOrders);
-
 };

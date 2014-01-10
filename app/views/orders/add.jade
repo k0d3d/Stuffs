@@ -25,7 +25,9 @@ block body
                 label(for="orderdate") Order Date
                 input#orderdate.span5(type="date", name="orderDate", ng-model="form.orderDate")
                 label(for="orderamount") Order Amount
-                input#orderamount.span4(type="number",name="orderAmount",ng-model="form.orderAmount", required)
+                .input-append
+                    input#orderamount.span4(type="number",name="orderAmount",ng-model="form.orderAmount", required)
+                    span.add-on 
                 label(for="orderdesc") Order Description
                 textarea#orderdesc.span6(ng-model="form.orderDescription",name="orderDescription")
                 label(for="orderamount") Order Supplier
@@ -74,7 +76,7 @@ block body
                   tr(ng-repeat="cmp in cmps", ng-click="more($index)")
                     td {{cmp.productName}}
                     td {{cmp.composition}}
-                    td {{cmp.price}}
+                    td {{cmp.currentPrice}}
           .span4.offset1
             .row-fluid
               #item-summary.open-summary()
@@ -88,11 +90,11 @@ block body
                     dt Manufacturer / Supplier
                     dd {{ds.man_imp_supp}}
                     dt Current Price
-                    dd {{ds.currentStock}}
+                    dd {{ds.currentPrice}}
                     dt Category
                     dd {{ds.category}}
                     dt Last Updated
-                    dd {{ds.itemPurchaseRate}}
+                    dd {{ds.lastUpdated | date:medium}}
                     dt 
                     dd
                       button.btn.btn-mini.btn-success(ng-disabled="!ds", ng-click="orderthis()") Order this

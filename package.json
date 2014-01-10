@@ -13,7 +13,7 @@
   "author": "Michael Rhema <mykel@pxlart.in>",
   "engines": {
     "node": "0.10.x",
-    "npm":  "1.2.x"
+    "npm": "1.2.x"
   },
   "scripts": {
     "start": "NODE_ENV=development ./node_modules/.bin/nodemon server.js",
@@ -40,7 +40,10 @@
     "forever": "latest",
     "jasmine-node": "latest",
     "sinon": "latest",
-    "mongoose-pureautoinc": "latest"
+    "mongoose-pureautoinc": "latest",
+    "restler": "~2.0.1",
+    "mongoose-paginate": "~0.1.5",
+    "cron": "~1.0.1"
   },
   "devDependencies": {
     "supertest": "latest",

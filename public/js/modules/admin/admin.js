@@ -8,13 +8,15 @@ angular.module('admin', [])
 .config(['$routeProvider', function ($routeProvider){
   $routeProvider.when('/admin', {templateUrl: '/admin/index', controller: 'adminController'});
 }])
-.controller('adminController', ['$scope', 'billsService', function adminController($scope, biller){
+.controller('adminController', ['$scope', 'billsService', 'adminService', function adminController($scope, biller, as){
 
     function init(){
         //Holds the new rule form
         $scope.newrule = {
            reference:{}
         };
+
+        $scope.activePane = '';
 
         //holds the list of all created billing profiles
         $scope.p = [];
@@ -64,6 +66,7 @@ angular.module('admin', [])
     $scope.popRules = function(){
         biller.allrules(function(r){
             $scope.rulez =r;
+            $scope.billingPaneActive = true;
         });
     };
 
@@ -99,6 +102,64 @@ angular.module('admin', [])
             });
         }
     };
+
+    $scope.trylogin = function(){
+        console.log($scope.email);
+        as.login($scope.email, $scope.password, function(r){
+
+        });
+    }
+}])
+.factory('adminService', ['$http', 'Notification', 'Language',  function(http, N, L){
+    var a = {};
+
+    a.getUpdates = function(cb){
+        http.get('/api/admin/updates')
+        .success(function(d){
+            cb(d);
+        })
+        .error(function(er){
+            N.notifier({
+                message: L[L.set].admin.update.error,
+                type: 'error'
+            });
+        });
+    };
+
+    a.clear = function(cb){
+        http.delete('/api/admin/updates')
+        .success(function(d){            
+            cb(d);
+        })
+        .error(function(er){
+            N.notifier({
+                message: L[L.set].admin.clear.error,
+                type: 'error'
+            });
+        });
+    }
+
+    a.login = function(email, password, cb){
+        http.post('/admin/session', {
+            email: email,
+            password: password
+        })
+        .success(function(d){
+            N.notifier({
+                message: L[L.set].admin.login.success,
+                type: 'success'
+            });            
+            cb(d)
+        })
+        .error(function(d){
+            N.notifier({
+                message: L[L.set].admin.login.error,
+                type: 'error'
+            })
+        })
+    }
+
+    return a;
 }])
 .directive('propdrug', ["itemsService", function(itemsService){
   var linker = function(scope, element, attrs){

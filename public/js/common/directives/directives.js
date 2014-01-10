@@ -204,3 +204,15 @@
       template:"<button class='btn btn-success prevbtn'>Previous</button><span>{{pageno}}</span><button class='btn btn-success nextbtn'>Next</button>"
     }
   }]);
+  angular.module('directives').directive('panorama', function(){
+    return {
+      link: function (scope, element, attrs){
+        element.panorama({
+           //nicescroll: false,
+           showscrollbuttons: false,
+           keyboard: true,
+           parallax: false
+        });         
+      }
+    }
+  })  

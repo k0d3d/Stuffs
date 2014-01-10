@@ -51,4 +51,4 @@ block body
             p.disabled-input(ng-click="itemPackagingShow = !itemPackagingShow", ng-init="itemPackagingShow = false", ng-show="!itemPackagingShow") {{form.itemPackaging}}
             select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging", ng-show="itemPackagingShow")
             label(for="rate") Purchase Rate
-            input.input-medium(name="rate",type="number",ng-model="form.itemPurchaseRate", required)
+            input.input-medium(name="rate",type="number",ng-model="form.itemPurchaseRate", required, readonly)

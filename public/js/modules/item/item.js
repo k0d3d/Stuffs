@@ -13,16 +13,16 @@ angular.module('item', [])
 	.when('/items/dispensary', {templateUrl: '/items/dispense', controller: 'itemDispensaryController'})
   .when('/items/:itemId/:action',{templateUrl: '/items/edit', controller: 'itemAddController'});
 }])
-.controller('itemIndexController', function itemIndexController($scope, $location, $routeParams,itemsService){
+.controller('itemIndexController', ['$scope', '$location', '$routeParams','itemsService', '$localStorage', function itemIndexController($scope, $location, $routeParams,itemsService, $localStorage){
     function init(){
       var currentItem;
       $scope.summary = {};
       $scope.form = {};
       $scope.itemsList = '';
       $scope.hasItems = false;
+      $scope.$storage = $localStorage;
       itemsService.items(function(data){
         if(data.length > 0){
-          console.log(data);
           $scope.hasItems = true;
           sortItems(data, function(lol){
             $scope.itemsList = lol;
@@ -31,7 +31,7 @@ angular.module('item', [])
         }
       });
       $scope.$on('onFinishLoaded', function(event, data){
-        if(data == true){
+        if(data === true){
           if($routeParams.state == 'low'){
             $('.card').not('.low-stock').hide();
           }
@@ -85,8 +85,13 @@ angular.module('item', [])
         $scope.delBtnText = 'Delete Item';
         $scope.summary = res;
         $scope.spmenu = 'cbp-spmenu-open';
-        $('html').click(function(){
+
+        //Click out closes side panel
+        $('html').one('click', function(){
           $scope.spmenu = '';
+          $scope.smpane = '';
+          $scope.shpane = '';
+          $scope.a2cpane = '';
           $scope.$apply();
         });
         $('nav.cbp-spmenu').click(function(event){
@@ -102,9 +107,44 @@ angular.module('item', [])
           $scope.spmenu = '';
         }
       });
-    }
+    };
 
-})
+    $scope.stockhistory = function (id){
+      itemsService.stockhistory(id, 'Main', function(r){
+        //$scope.shpane = {right: 0};
+        $scope.smpane = {right:'240px'};
+        $scope.shpane = {right:'0px'};
+        $scope.a2cpane = {right:'-240px'};
+        $scope.shz = r;
+      });
+    };
+
+    $scope.addToCart = function (){
+      var summary = $scope.summary;
+      var toOrder = {
+        _id: summary._id,
+        itemName: summary.itemName,
+        sciName: summary.sciName,
+        orderAmount: $scope.sdqty,
+        orderPrice: ($scope.sdprice > 0)? $scope.sdprice : summary.itemPurchaseRate,
+        supplier: $scope.toOrderSupplier,
+        orderDate: Date.now()
+      };
+
+      $scope.orderCart.push(toOrder);
+      $scope.sdqty = $scope.sdprice = $scope.toOrderSupplier = '';
+      //Store Cart Locally
+      $scope.$storage.orderCart = JSON.stringify($scope.orderCart);
+    };
+
+    $scope.addPane = function(){
+      $scope.smpane = {right:'240px'};
+      $scope.a2cpane = {right:'0px'};
+      $scope.shpane = {right:'-240px'};
+    };
+
+
+}])
 .controller('itemAddController', function itemAddController ($scope, $location, $routeParams,itemsService){
   $scope.form = {
     itemCategory: [],
@@ -172,7 +212,9 @@ angular.module('item', [])
 
   //Remove/Delete a Category
   $scope.removeCat = function(index){
-    $scope.catList.splice(index, 1);
+    itemsService.delCategory($scope.catList[index]._id, function(){
+      $scope.catList.splice(index, 1);
+    });
   };
 
   //Add a category to the item's category list
@@ -347,7 +389,7 @@ angular.module('item', [])
         type: 'error'
       });
     });
-  }
+  };
   i.getNafdacDrug = function(query, callback){
     $.getJSON('/api/nafdacdrugs/typeahead/needle/'+escape(query), function(s) {
         var results = [];
@@ -450,7 +492,8 @@ angular.module('item', [])
       Notification.notifier({
         message : Language.eng.stock.down.success,
         type: 'success'
-      });      
+      });
+      callback(data);
     })
     .error(function(data, res){
       Notification.notifier({
@@ -497,6 +540,23 @@ angular.module('item', [])
     .error(function(data, status){
       Notification.notifier({
         message: Language.eng.items.category.add.error,
+        type: "error"
+      }); 
+    });
+  };
+  //remove an item category
+  i.delCategory = function(name, callback){
+    $http.delete('/api/items/category/'+ name)
+    .success(function(data, status){
+      Notification.notifier({
+        message: Language.eng.items.category.delete.success,
+        type: "success"
+      });
+      callback();
+    })
+    .error(function(data, status){
+      Notification.notifier({
+        message: Language.eng.items.category.delete.error,
         type: "error"
       }); 
     });
@@ -548,7 +608,7 @@ angular.module('item', [])
         type: "error"
       });       
     });
-  }
+  };
   //List Forms
   i.listForm = function(callback){
     $http.get("/api/items/form")
@@ -561,7 +621,7 @@ angular.module('item', [])
         type: "error"
       });       
     });
-  }
+  };
   //List packaging
   i.listPackaging = function(callback){
     $http.get("/api/items/packaging")
@@ -574,7 +634,34 @@ angular.module('item', [])
         type: "error"
       });       
     });
-  }
+  };
+
+  i.stockhistory = function(id, location, cb){
+    $http.get('/api/items/'+ id + '/location/'+ location +'/history')
+    .success(function(d){
+      cb(d);
+    })
+    .error(function(d){
+      Notification.notifier({
+        message: Language.eng.items.location.history.fetch.error,
+        type: "error"
+      });       
+    });
+  };
+
+  //Prescription Record
+  i.prdt = function(id, cb){
+    $http.get('/api/items/prescribe/'+id)
+    .success(function(d){
+      cb(d);
+    })
+    .error(function(d){
+      Notification.notifier({
+        message: Language.eng.dispense.prescribe.error,
+        type: "error"
+      });       
+    });    
+  };
 
   return i;
 }])
@@ -641,27 +728,60 @@ angular.module('item', [])
 .directive('supplierNameTypeAhead', ['itemsService', function(itemsService){
   var linker = function(scope, element, attrs){
     var nx;
-      element.typeahead({
-        source: function(query, process){
-          return itemsService.getSupplierName(query,function(results, s){
-            nx = s;
-            return process(results);
-          });
-        },
-        updater: function(name){
-          _.some(nx, function(v,i){
-            if(v.supplierName === name){
-              scope.form.suppliers.push({
-                supplierID : v._id,
-                supplierName: v.supplierName
-              });
-              return true;
-            }
-          });          
-          scope.$apply();
-          return '';
-        }
-      });
+    var typeFunc = {
+      source: function(query, process){
+        return itemsService.getSupplierName(query,function(results, s){
+          nx = s;
+          return process(results);
+        });
+      },
+      updater: function(name){
+        _.some(nx, function(v,i){
+          if(v.supplierName === name){
+            scope.form.suppliers.push({
+              supplierID : v._id,
+              supplierName: v.supplierName
+            });
+            return true;
+          }
+        });          
+        scope.$apply();
+        return '';
+      }
+    };
+
+    element.typeahead(typeFunc);
+  };
+  return {
+    link: linker
+  };
+}])
+.directive('cartSupplier', ['itemsService', function(itemsService){
+  var linker = function(scope, element, attrs){
+    var nx;
+    var typeFunc = {
+      source: function(query, process){
+        return itemsService.getSupplierName(query,function(results, s){
+          scope.checker = nx = s;
+          return process(results);
+        });
+      },
+      updater: function(name){
+        _.some(nx, function(v,i){
+          if(v.supplierName === name){
+            scope.toOrderSupplier = {
+              supplierID : v._id,
+              supplierName: v.supplierName
+            };
+            return true;
+          }
+        });          
+        scope.$apply();
+        return name;
+      }
+    };
+
+    element.typeahead(typeFunc);
   };
   return {
     link: linker

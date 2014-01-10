@@ -6,6 +6,6 @@ block body
   div.notification-bar.navbar.navbar-fixed-bottom(ng-class="notification.type", ng-show="notification.message.length > 0", style="z-index: 99999")
     .navbar-inner
         p.navbar-text
-            i.fa(ng-class="notification.icon")
-            {{notification.message}}
+          i.fa(ng-class="notification.icon")
+          span(ng-bind-html="notification.message")
         

@@ -15,6 +15,7 @@ Schema = mongoose.Schema;
 var DispenseSchema = new Schema({
   patientName: {type: String},
   patientId: {type: Number},
+  class: {type: Schema.ObjectId},
   locationId: {type: Schema.ObjectId, ref: 'Location'},
   drugs: [{
     itemId: {type: Schema.ObjectId, ref: 'Item'},
@@ -28,8 +29,9 @@ var DispenseSchema = new Schema({
   doctorId: String,
   doctorName: String,
   issueDate: {type: Date, default: Date.now},
-  prescribeDate: {type: Date},
-  status: {type: String, default: 'pending'}
+  dispenseDate: {type: Date},
+  status: {type: String, default: 'pending'},
+  timerId: {type: String}
 });
 
 

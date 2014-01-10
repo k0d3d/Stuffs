@@ -4,9 +4,16 @@
 angular.module('language', [])
 
 .constant('Language', {
-	"set":"eng",	
+	"set":"eng",
 	"eng":{
 		"items": {
+			"location":{
+				"history":{
+					"fetch":{
+						"error": "Error loading item stock history"
+					}
+				}
+			},
 			"save": {
 				"success":"You've succesfully added an order. Note: Items placed with invoice numbers and stock amounts will have their current stock updated. To add another item, close this dialog or return to the dashboard",
 				"error": "Something went wrong while carrying out your last request. If it's nothing serious, you can try again. If this error happens again, please inform the Admin"
@@ -22,6 +29,10 @@ angular.module('language', [])
 				},
 				"list":{
 					"error": "Error Fetching Categories"
+				},
+				"delete":{
+					"success":"Category Deleted",
+					"error":"Error! Deleting category failed"
 				}
 			},
 			"list":{
@@ -71,7 +82,8 @@ angular.module('language', [])
 		"order":{
 			"update":{
 				"success": "This order has been updated",
-				"error": "Order update failed"
+				"error": "Order update failed",
+				"amountDis": "The amount supplied is lesser than the amount ordered for. Do you want to place another order? <a href=\"\/dashboard\/orders\">Yes<\/a >"
 			},
 			"place":{
 				"success": "You've succesfull placed an order.",
@@ -109,6 +121,9 @@ angular.module('language', [])
 					"success": "Bill payment recorded",
 					"error": "Error recording bill payment"
 				}
+			},
+			"prescribe":{
+				"error": "Error processing prescription request, Please try again"
 			}
 		},
 		"bills":{
@@ -145,6 +160,18 @@ angular.module('language', [])
 					"success": "Created a new stock down loaction",
 					"error": "Could not create a new stock down location"
 				}
+			}
+		},
+		"admin":{
+			"update":{
+				"error": "Error fetching updates from server"
+			},
+			"clear":{
+				"error":"Last request failed. Try again : Clear updates"
+			},
+			"login":{
+				"success": "You are now logged in",
+				"error": "Error login into Integra Online."
 			}
 		}
 	}

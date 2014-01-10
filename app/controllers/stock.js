@@ -82,11 +82,11 @@ StockController.prototype.stockDown = function(obj, callback){
     name: obj.location.locationName
   };
 
-  //Create a stock record for each dispensed drug item
+  //Create a stock record for each requested stock down drug item
   function create_record(itemObj, cb){
     var others = {
           action: 'Requested Stock',
-          reference: 'dispense-'+o.dispenseID
+          reference: 'stockdown-'+ Date.now()
     };
     sh.log(itemObj, location, others, function(r){
       if(util.isError(r)){
@@ -218,6 +218,23 @@ StockController.prototype.count = function(callback){
   }
 };
 
+/**
+ * [history Fetches item stock history]
+ * @param  {[type]}   item_Id [description]
+ * @param  {Function} cb      [description]
+ * @return {[type]}           [description]
+ */
+StockController.prototype.history = function (item_Id, location,  cb){
+  StockHistory.find({item: item_Id, locationName: location})
+  .sort({date: -1})
+  .exec(function(err, i){
+    if(err){
+      cb(err);
+    }else{
+      cb(i);
+    }
+  });
+};
 
 module.exports.item = StockController;
 
@@ -253,7 +270,7 @@ module.exports.routes = function(app){
         if(util.isError(r)){
             next(r);
         }else{
-            res.json(200, true);
+            res.json(200, r);
         }         
     });
   });
@@ -271,8 +288,20 @@ module.exports.routes = function(app){
         if(util.isError(r)){
             next(r);
         }else{
-            res.json(200, r);
+          res.header("Access-Control-Allow-Origin", "*");
+          res.header("Access-Control-Allow-Headers", "X-Requested-With");              
+          res.json(200, r);
         }
+    });
+  });
+
+  app.get('/api/items/:itemId/location/:location/history', function(req, res, next){
+    sc.history(req.params.itemId, req.params.location, function(r){
+      if(util.isError(r)){
+          next(r);
+      }else{
+          res.json(200, r);
+      }
     });
   });
 };

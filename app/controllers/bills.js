@@ -444,6 +444,8 @@ module.exports.routes = function(app){
 
   //Fetches all billing profiles
   app.get('/api/bills/profiles', function(req, res, next){
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");    
     bills.allProfiles(function(r){
         if(utils.isError(r)){
             next(r);

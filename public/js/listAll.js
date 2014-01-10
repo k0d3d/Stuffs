@@ -8,8 +8,5 @@ $(document).ready(function(){
 		e.preventDefault();
 		$(this).parents('nav.cbp-spmenu').removeClass('cbp-spmenu-open');
 	});
-	$('[data-arhref]').bind('click',function(){
-		var hv = $(this).data('arhref');
-		window.location.href=hv;
-	});
+
 });

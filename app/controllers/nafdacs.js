@@ -3,13 +3,14 @@
  */
 var mongoose = require('mongoose');
 var Ndl = mongoose.model('nafdacdrug'),
+    _ = require('underscore'),
     util = require('util');
 
-function ndlController () {
+function NdlController () {
 
 }
 
-ndlController.prototype.constructor = ndlController;
+NdlController.prototype.constructor = NdlController;
 
 /**
  * [searchComposition Searches list by drug composition]
@@ -17,9 +18,8 @@ ndlController.prototype.constructor = ndlController;
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-ndlController.prototype.searchComposition = function(string, page, callback) {
-  console.log('ive been');
-  var wit = Ndl.find({},'productName composition category');
+NdlController.prototype.searchComposition = function(string, page, callback) {
+  var wit = Ndl.find({},'productName composition category currentPrice');
   wit.regex('composition',
     new RegExp(string, 'i')
   )
@@ -40,11 +40,11 @@ ndlController.prototype.searchComposition = function(string, page, callback) {
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-ndlController.prototype.searchCategory = function(catString, page, callback) {
+NdlController.prototype.searchCategory = function(catString, page, callback) {
   var wit = Ndl.find({
     category: catString
   },
-    'productName composition category'
+    'productName composition category currentPrice'
   )
   .limit(10)
   .skip(page * 10)
@@ -63,7 +63,7 @@ ndlController.prototype.searchCategory = function(catString, page, callback) {
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-ndlController.prototype.summary = function (id, callback) {
+NdlController.prototype.summary = function (id, callback) {
   Ndl.findOne({ _id : id})
   .exec(function (err, i) {
     if(err){
@@ -73,5 +73,19 @@ ndlController.prototype.summary = function (id, callback) {
     }    
   });
 };
-module.exports.ndl = ndlController;
-//var ndls = new ndlController();
+
+NdlController.prototype.priceUpdated = function (data) {
+  _.each(data, function(v, i){
+    Ndl.update({regNo : v.product_id.regNo},{
+      currentPrice: v.price,
+      lastUpdated: v.lastUpdated
+    }, function(err){
+      if(err) util.puts(err);
+    })
+
+  });
+}
+
+
+module.exports.ndl = NdlController;
+//var ndls = new NdlController();

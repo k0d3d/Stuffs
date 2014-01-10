@@ -1,3 +1,5 @@
+"use strict";
+
 var mongoose = require("mongoose"),
     Dispense = mongoose.model('Dispense'),
     StockHistory = mongoose.model('StockHistory'),
@@ -5,6 +7,7 @@ var mongoose = require("mongoose"),
     Biller = require("./bills").bills,
     Bill = mongoose.model('Bill'),
     _ = require("underscore"),
+    rest = require("restler"),
     util = require("util");
 
 /**
@@ -25,10 +28,12 @@ DispenseController.prototype.constructor = DispenseController;
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-DispenseController.getDispenseRecord = function(req, res){
+DispenseController.prototype.getDispenseRecord = function(req, res){
   var status = req.params.status;
-  var q  = Dispense.find({status: status});
+  var fields = (status === 'pending')?'patientName doctorName issueDate':'';
+  var q  = Dispense.find({status: status}, fields);
   q.populate('locationId');
+  q.populate('drugs.itemId');
   q.sort({issueDate: -1});
   q.exec(function(err, i){
     res.json(200, i);
@@ -36,30 +41,82 @@ DispenseController.getDispenseRecord = function(req, res){
 };
 
 /**
+ * [stockbylocation private function that populates the ]
+ * @param  {[type]}   i  [description]
+ * @param  {Function} cb [description]
+ * @return {[type]}      [description]
+ */
+function stockbylocation(i, cb){
+  var location = {
+    id: i.locationId._id
+  };
+
+  function c_s (){
+    var l = i.drugs.length,
+        ds = i.drugs.pop(),
+        fx = [];
+
+    StockCount.getStockAmountbyId(ds.itemId._id, location, function(n){
+      var h = {
+        itemId: ds.itemId,
+        currentStock: n.amount,
+        amount: ds.amount,
+        cost: ds.cost,
+        dosage: ds.dosage,
+        period: ds.period
+      };
+      fx.push(h);
+      if(--l){
+        c_s();
+      }else{
+        cb(fx);
+      }
+    });
+  }
+  c_s();  
+}
+
+DispenseController.prototype.getPrescription = function(id, cb){
+  var q = Dispense.findOne({_id: id});
+  q.populate('locationId');
+  q.populate('drugs.itemId', 'itemName sciName itemForm');
+  q.exec(function(err, i){
+    if(err){
+      cb(err);
+    }else{
+      stockbylocation(i, function(w){
+        i.drugs = w;
+        cb(i);
+      });
+    }
+  });  
+}
+
+/**
  * [dispenseThis description]
  * @param  {[type]} req [description]
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-DispenseController.dispenseThis = function(o, callback){
-  var dispense = new Dispense();
+DispenseController.prototype.dispenseThis = function(o, callback){
+  var dispense = (_.isUndefined(o.id))? new Dispense() : {_id: o.id, drugs: []};
   o.dispenseID = dispense._id;
   var sh = new StockHistory();
   var sc = new StockCount();
 
   //Get the location to dispense from
   var location = {
-    id : o.location.id,
-    name: o.location.name
+    id : o.location._id,
+    name: o.location.locationName
   };
   
   //Saves a dispense record
   function saveDispenseRecord(){
     //Create a new record
-    if(_.isUndefined(o._id)){
+    if(_.isUndefined(o.id)){
       dispense.patientName = o.patientName;
       dispense.patientId =  o.patientId;
-      dispense.company = o.company;
+      dispense.class = o.class;
       dispense.doctorId = o.doctorId;
       dispense.doctorName = o.doctorName;
       dispense.locationId = location.id;
@@ -68,14 +125,26 @@ DispenseController.dispenseThis = function(o, callback){
         if(err){
           return callback(err);
         }else{
-          saveBillRecord();
+          
         }
       });      
-    }else if(!_.isUndefined(o._id)){
-      Dispense.update({_id: o._id}, {
-
-      },function(err, i){
-
+    }else if(!_.isUndefined(o.id)){
+      Dispense.findOne({_id: o.id}, 'timerId')
+      .exec(function(err, timer){
+        if(err) return callback(err);
+        //Update the record to complete
+        Dispense.update({_id: o.id}, {
+          status: 'complete',
+          dispenseDate: Date.now(),
+          drugs: dispense.drugs
+        },function(err, i){
+          //Process a new bill record
+          rest.get('http://192.168.1.102/integra/deactivate.php?remove=0&id='+timer.timerId)
+          .on('success', function(d, r){
+            console.log(r.statusCode);
+          });
+          saveBillRecord();
+        });
       });
     }
 
@@ -155,111 +224,63 @@ DispenseController.dispenseThis = function(o, callback){
  * @param  {Function} next [description]
  * @return {[type]}        [description]
  */
-DispenseController.prescribeThis = function(o, callback){     
-  var dispense = new Dispense();
-  var bill = new Bill();
+DispenseController.prototype.prescribeThis = function(o, cb){
+  var prescribe = new Dispense();
   var drugslist = [];
 
   //Get the location to dispense from
-  var location = {
-    id : req.body.location._id,
-    name: req.body.location.locationName
-  };
+  var location = o.location;
   
   //Saves a dispense record
-  function saveDispenseRecord(){
+  function savePrescribeRecord(){
     //Create a new record
-    if(req.method === 'POST'){
-      dispense.patientName = req.body.patientName;
-      dispense.patientId =  req.body.patientId;
-      dispense.company = req.body.company;
-      dispense.doctorId = req.body.doctorId;
-      dispense.doctorName = req.body.doctorName;
-      dispense.locationId = location.id;
-      dispense.save(function(err, i){
-        if(err){
-          return next(err);
-        }else{
-          saveBillRecord();
-        }
-      });      
-    }
-
+      prescribe.patientName = o.patientName;
+      prescribe.patientId =  o.patientId;
+      prescribe.company = o.company;
+      prescribe.doctorId = o.doctorId;
+      prescribe.doctorName = o.doctorName;
+      prescribe.locationId = location.id;
+      prescribe.class = o.class;
+      
+      //Make Query to Timer API
+      rest.get('http://192.168.1.102/integra/activate.php?receive=0&patientid='+o.patientId+'&pharmacyid=4&docid='+o.doctorId)
+      .on('success', function(data){
+        prescribe.timerId = data;
+        prescribe.save(function(err, i){
+          if(err){
+            return cb(err);
+          }else{
+            cb(true);
+          }
+        });
+      });
   }
 
-  //Saves a bill record
-  function saveBillRecord(){
-    bill.dispenseID = dispense._id;
-    bill.patientName = req.body.patientName;
-    bill.patientId =  req.body.patientId;    
-    bill.save(function(err, i){
-      if(err) res.json('500',{"message": err});
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "X-Requested-With");      
-      res.json(200, {});
-    })
-  }
-
-  //Create a stock record for each dispensed drug item
-  function create_record(itemObj, cb){
-    var stockhistory = new StockHistory();
-    stockhistory.item = itemObj.id;
-    stockhistory.locationId = location.id;
-    stockhistory.locationName = location.name;
-    stockhistory.amount = itemObj.amount;
-    stockhistory.action = 'Dispense';
-    stockhistory.reference = 'dispense-'+dispense._id;
-    stockhistory.save(function(err, i){
-      cb(i);
-    });
-
-  }
-
-  var total = req.body.drugs.length, result= [];
+  var total = o.drugs.length, result= [];
 
   function saveAll (){
-    var request = req.body.drugs;
-    var record = request.pop();
+    var record = o.drugs.pop();
 
-    // Call the create_record function
-    create_record({id: record._id, amount: record.amount}, function(p){
-      // Create or update this locations stock count
-      StockCount.update({
-        item: p.item,
-        $or:[{
-            locationName : location.name
-          },{
-            locationId: location.id
-          }]
-        },{
-          $inc: {
-            amount: -p.amount
-          }
-        }, function(err, i){
-          if(err){
-            if(err) res.json(400, {"message": err});
-          }
-        }, true);
-      // Push the drugs into dispense.drugs instance array
-      dispense.drugs.push({
-        item: record._id,
-        amount: record.amount,
-        status: record.status,
-        cost: record.itemPurchaseRate,
-        dosage: record.dosage,
-        period: record.period
-      });      
-      if(--total){
-        saveAll();
-      }else{
-        saveDispenseRecord();
-      }
-    });
+    // Push the drugs into dispense.drugs instance array
+    prescribe.drugs.push({
+      itemId: record._id,
+      amount: record.amount,
+      cost: record.itemPurchaseRate,
+      dosage: record.dosage,
+      period: record.period
+    });      
+    if(--total){
+      saveAll();
+    }else{
+      savePrescribeRecord();
+    }
   }
   saveAll();
 };
 
-module.exports.dispense = DispenseController();
+module.exports.dispense = DispenseController;
+var dispense = new DispenseController();
+
 module.exports.routes = function(app){
   app.get('/dispensary',function(req, res){
     res.render('index',{
@@ -273,35 +294,44 @@ module.exports.routes = function(app){
   });
 
   //Gets a prescription record by locationId
-  app.get('/api/items/locations/records/status/:status', DispenseController.getDispenseRecord);
+  app.get('/api/items/locations/records/status/:status', dispense.getDispenseRecord);
+
+  app.get('/api/items/prescribe/:prescribeId', function(req, res, next){
+    dispense.getPrescription(req.params.prescribeId, function(r){
+      if(util.isError(r)){
+        next(r);
+      }else{
+        res.json(200, r);
+      }
+    });
+  });
 
   //Creates a new record for a prescription
   app.post('/api/items/prescribe', function(req, res, next){
-    console.log(req.body);
-    return res.json(200, true);
-    DispenseController.prescribeThis(o, function(r){
-
+    var o = {
+      location: {
+        id: req.body.location.locationId,
+        name: req.body.location.locationName,
+        authority: req.body.location.locationAuthority
+      },
+      patientName : req.body.patientName,
+      patientId:  req.body.patientId,
+      doctorId: req.body.doctorId,
+      doctorName: req.body.doctorName,
+      drugs: req.body.drugs,
+      class: req.body.class
+    }; 
+    dispense.prescribeThis(o, function(r){
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "X-Requested-With");
+      return res.json(200, true);
     });
   });
 
   //Creates a new record for a prescription
   app.post('/api/items/dispense', function(req, res, next){
-    var o = {
-      location: {
-        id: req.body.location._id,
-        name: req.body.location.locationName
-      },
-      patientName : req.body.patientName,
-      patientId:  req.body.patientId,
-      company: req.body.company,
-      doctorId: req.body.doctorId,
-      doctorName: req.body.doctorName,
-      drugs: req.body.drugs,
-      class: req.body.class
-    };
-    DispenseController.dispenseThis(o, function(r){
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    var o = req.body;
+    dispense.dispenseThis(o, function(r){
       if(util.isError(r)){
         next(r);
       }else{
@@ -312,7 +342,7 @@ module.exports.routes = function(app){
 
   //Updates a presciption record to show its been dispensed
   app.put('/api/items/dispense', function(req, res, next){
-    DispenseController.dispenseThis(o, function(r){
+    dispense.dispenseThis(o, function(r){
 
     });
   });

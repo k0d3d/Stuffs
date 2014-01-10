@@ -54,7 +54,12 @@ String.prototype.repeat = function(num) {
     $('.md-close').on('click', function(e){
       $(this).parents('.md-modal').removeClass('md-show');
     });
-    
+    $('#home.panorama').panorama({
+       //nicescroll: false,
+       showscrollbuttons: false,
+       keyboard: true,
+       parallax: false
+    });     
   });
   
 })(jQuery);

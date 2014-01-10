@@ -7,7 +7,7 @@ angular.module('dispense', [])
 
 .config(['$routeProvider', function ($routeProvider){
 	$routeProvider.when('/dispensary', {templateUrl: '/items/dispense', controller: 'dispensaryController'})
-  .when('/dispensary/:dispenseID', {templateUrl: '/items/dispense', controller: 'dispensaryController'});
+  .when('/dispensary/:dispenseID', {templateUrl: '/items/prescribe', controller: 'dispensaryController'});
 }])
 .controller('dispensaryController', ["$scope","$location","$routeParams","itemsService", "Notification", "Language", "billsService", function itemDispensaryController($scope,$location,$routeParams,itemsService, Notification, Lang, biller){
   function init(){
@@ -39,15 +39,15 @@ angular.module('dispense', [])
 
   //populates the waiting list object
   function chip_form(wl){
-    console.log(wl);
     return {
       "patientName": wl.patientName,
       "class": wl.class,
       "patientno": wl.patientId,
       "doctorName": wl.doctorName,
       "doctorId": wl.doctorId,
-      "_id": wl._id,
-      "location" : wl.locationId
+      "id": wl._id,
+      "location" : wl.locationId,
+      "prescription": []
 
     };
   }
@@ -56,9 +56,11 @@ angular.module('dispense', [])
     var u = [];
     _.some(wl.drugs, function(v, i){
       u.push({
-        item: v.item,
-        itemName: v.item.itemName,
+        itemName: v.itemId.itemName,
         amount: v.amount,
+        cost: v.cost,
+        dosage: v.dosage,
+        period: v.period,
         status: v.status
       });
       if(wl.drugs.length === i + 1) return true;
@@ -66,10 +68,11 @@ angular.module('dispense', [])
     return u;
   }
 
+  // Populates drugsList array
   function chip_dl(wl){
     var u = [];
     _.some(wl.drugs, function(v, i){
-      u.push(v.item.itemName);
+      u.push(v.itemId.itemName);
       if(wl.drugs.length === i + 1) return true;
     });
     return u;    
@@ -80,13 +83,16 @@ angular.module('dispense', [])
     $scope.n_w = true;
     $scope.all = false;
     $scope.btnState = true;
-    //chip_form function copies and formats the waiting list object properties 
-    // into the dispense form
-    $scope.dispenseform = chip_form($scope.waiting[$routeParams.dispenseID]);
-    //chip_d function copies and formats the drugs prescribed
-    $scope.d = chip_d($scope.waiting[$routeParams.dispenseID]);
-    //Push item Names into drug list 
-    $scope.drugsList = chip_dl($scope.waiting[$routeParams.dispenseID]);
+    itemsService.prdt($scope.waiting[$routeParams.dispenseID]._id, function(r){
+      //chip_form function copies and formats the waiting list object properties 
+      // into the dispense form
+      $scope.dispenseform = chip_form(r);
+      //chip_d function copies and formats the drugs prescribed
+      $scope.d = chip_d(r);
+      //Push item Names into drug list 
+      $scope.drugsList = chip_dl(r);
+
+    })
   }else{
     $scope.n_w = false;
     $scope.all = true;    
@@ -141,6 +147,8 @@ angular.module('dispense', [])
     }
   };
 
+  $scope.clrForm = init();
+
   //Pull up modal with summary
   $scope.approveThis = function(){
     if($scope.dispenseform.prescription.length === 0){
@@ -174,7 +182,10 @@ angular.module('dispense', [])
     var toSend = {
       "patientName":$scope.dispenseform.patientName,
       "patientId": $scope.dispenseform.patientno,
-      "class": $scope.dispenseform.class._id,
+      "id": $scope.dispenseform.id,
+      "doctorName": $scope.dispenseform.doctorName,
+      "doctorId": $scope.dispenseform.doctorId,      
+      "class": $scope.dispenseform.class._id || $scope.dispenseform.class,
       "drugs": drugs,
       "location": $scope.dispenseform.location
     };
@@ -213,16 +224,16 @@ angular.module('dispense', [])
   $scope.adjust_amount = function(index){
     var val;
     switch($scope.d[index].dosage){
-      case "Once Daily (OD)":
+      case "1":
         val = 1;
       break;
-      case "Bi-Daily (BD)":
+      case "2":
         val = 2;
       break;
-      case "3 Daily (TDS)":
+      case "3":
         val = 3;
       break;
-      case "4 Daily (QDS)":
+      case "4":
         val = 4;
       break;
       default:

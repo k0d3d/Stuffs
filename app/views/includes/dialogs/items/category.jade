@@ -5,11 +5,13 @@
     input(type="text", ng-model="catInput")
     button.btn.btn-success(type="submit", ng-click="addCat()") Add
     h4 Select Categories
-    ul
+    ul.cat-li
       li(ng-repeat="cat in catList")
-        {{cat.categoryName}}
-        button.btn.btn-mini(href="#", ng-click="removeCat($index)")  Delete        
-        button.btn.btn-mini(href="#", ng-click="addToItem($index)")  Add
+        p.ct-name {{cat.categoryName}}
+        p.ctrl
+          button.btn.btn-mini(href="#", ng-click="removeCat($index)", ng-disabled="cat.categoryType == 'system'", ng-show="cat.categoryType != 'system'")  Delete        
+          button.btn.btn-mini(href="#", ng-click="addToItem($index)")  Add
+        .clearfix
     p {{catList.length}} categories.
   .modal-footer
     button.btn.btn-default(new-modal="#dialog-category") Close

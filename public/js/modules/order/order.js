@@ -7,13 +7,47 @@ angular.module('order', []).
 
 config(['$routeProvider',function($routeProvider){
   $routeProvider.when('/orders', {templateUrl: '/orders/all', controller: 'ordersIndexController'})
+  .when('/dashboard/orders/cart', {templateUrl: '/orders/cart', controller: 'orderCartController'})
   .when('/dashboard/order', {templateUrl: '/orders/add', controller: 'orderAddController'})
   .when('/dashboard/order/:itemId', {templateUrl: '/orders/add', controller: 'orderAddController'});
-}]).
-controller('ordersIndexController', function($scope, $http, $location, ordersService){
+}])
+.controller('orderCartController', ['$scope', '$http', 'ordersService', '$localStorage', function($scope, $http, oS, $localStorage){
+  console.log($scope.orderCart);
+}])
+.controller('ordersIndexController', function($scope, $http, $location, ordersService){
+  $scope.getStatus = function getStatus (status){
+    var d;
+    switch(status){
+      case 'pending order':
+        d = 'supplied';
+        //scope.orders[attrs.thisIndex].next ="Supplied";
+      break;
+      case 'supplied':
+        d = 'paid';
+        //scope.orders[attrs.thisIndex].next ="Paid";
+      break;
+      case 'paid':
+       d = 'Complete';
+      break;
+      case 'received':
+        d = 'supplied';
+      break;
+      case 'dispatched':
+        d = 'supplied';
+      break;
+      default:
+      d = null;
+      break;
+    }
+    return d;
+  };  
   (function(){
+    $scope.orders = [];
     ordersService.orders(function(r){
-      $scope.orders = r;
+      angular.forEach(r, function(v, i){
+        v.nextStatus = $scope.getStatus(v.orderStatus);
+        $scope.orders.push(v);
+      });
     });
   }());
 
@@ -268,5 +302,56 @@ controller('ordersIndexController', function($scope, $http, $location, ordersSer
   };
   return {
     link: linker
+  };
+}])
+.directive('orderList', ['ordersService','Notification','Language', function(OS, N, L){
+  function link (scope, element, attrs) {
+    
+
+  }
+  function Ctrlr ($scope){
+  
+    $scope.updateOrder = function(index){
+      var o ={
+        status : $scope.orderList[index].nextStatus,
+        itemData : $scope.orderList[index].itemData[0],
+        amount : $scope.orderList[index].orderAmount,
+        order_id : $scope.orderList[index]._id,
+        invoiceno : $scope.orderList[index].orderInvoice,
+        amountSupplied: $scope.orderList[index].amountSupplied
+      };
+      OS.updateOrder(o, function(r){
+        $scope.orderList[index].orderStatus = r.result;
+        $scope.orderList[index].nextStatus = $scope.getStatus(r.result);
+        if(r.result == 'supplied' && $scope.orderList[index].amountSupplied !== $scope.orderList[index].amount){
+          N.notifier({
+            message: L[L.set].order.update.amountDis,
+            type: 'info'
+          });
+        }
+      });
+    };
+
+
+    $scope.removeOrder = function(event, order_id){
+      var currentItem = event.currentTarget;
+      console.log(currentItem);
+      OS.remove(order_id, function(o){
+        if(o.state === 1){
+          $(currentItem).parents('tr').remove();
+        }
+      });
+    };    
+
+  }
+  return {
+    link: link,
+    controller: Ctrlr,
+    scope: {
+      orderList: '=',
+      ordersFilter: '=',
+      getStatus: '&'
+    },
+    templateUrl: '/orders/order-list'
   };
 }]);

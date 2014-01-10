@@ -1,4 +1,28 @@
-nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
+append head
+  link(rel='stylesheet', href='/css/extra/timeline/component.css')
+
+nav.shpane.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu",ng-style="a2cpane")
+  h3(style="padding-top: 60px") Add to cart
+  form.cartOrder(role="form", ng-submit="addToCart()", style="padding: 5px")
+    label Quantity
+    input(type="number", ng-model="sdqty", required)
+    label Current Price: <b>{{summary.itemPurchaseRate}}</b>
+    label Order Price
+    input(type="number", ng-model="sdprice")
+    label Supplier
+    input(type="text", placeholder="Supplier", cart-supplier, ng-model="toOrderSupplier.supplierName", required)
+    button.btn.btn-warning.btn-block(type="submit", ng-disabled="cartOrder.$invalid") Add to Cart
+nav.shpane.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu",ng-style="shpane")
+  ul.cbp_tmtimeline
+    li(ng-repeat="sh in shz")
+      time.cbp_tmtime(datetime="{{sh.date}}")
+        span  {{sh.date| date: 'fullDate'}}
+        span  {{sh.amount}}
+      i.cbp_tmicon.fa.fa-level-up
+      .cbp_tmlabel
+        h2 {{sh.action}}
+        p <strong>At: </strong> {{sh.date| date:'shortTime'}}
+nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu", ng-style="smpane")
   h3 Item Summary
   div.summary
     dl
@@ -18,9 +42,9 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
     p 
       button.btn.btn-block.btn-warning(data-ng-click="commons.href('/items/'+summary._id+'/edit')") Edit Item
     p 
-      button.btn.btn-block.btn-warning(data-ng-click="commons.href('/dashboard/order/'+summary._id)") Place Order    
+      button.btn.btn-block.btn-warning(data-ng-click="addPane()") Add to cart    
     p 
-      button.btn.btn-block.btn-warning(data-ng-click="commons.href('/dashboard/order/'+summary._id)") Reduce Stock
+      button.btn.btn-block.btn-warning(ng-click="stockhistory(summary._id)") Stock History
     p 
       button.btn.btn-block.btn-danger(data-ng-click="delConfirm = !delConfirm; delBtnText = 'Are you sure ?'", ng-init="delConfirm = true") {{delBtnText}}
       div(ng-show="!delConfirm")
@@ -38,7 +62,7 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu")
         option(value="Medication") Medication
         option(value="Medical Equipement") Medical Equipment
     .row-fluid
-      select.select-block(name="categorylist",value="Category")
+      select.select-block(name="categorylist",value="Category", ng-show="false")
         option(value="") Category
         option(value="0") Antibiotics & Antimicrobal
         option(value="1") Anti Malaria

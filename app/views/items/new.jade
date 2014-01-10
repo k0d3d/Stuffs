@@ -22,9 +22,9 @@ block body
             label(for="man-name") Manufacturer
             input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName", required)
             label(for="supplier") Importer
-            input.input-medium(type="text", name="supplier",ng-model="form.importer", readonly, style="color:black;" )  
+            input.input-medium(type="text", name="supplier",ng-model="form.importer", style="color:black;" )  
             label(for="supplier") NAFDAC Number
-            input.input-medium(type="text", name="supplier",ng-model="form.nafdacRegNo", readonly, style="color:black;") 
+            input.input-medium(type="text", name="supplier",ng-model="form.nafdacRegNo", style="color:black;") 
             label.lister(for="category") Category
               button.btn.btn-mini.btn-info.nop(new-modal="#dialog-category")
                 i.fa.fa-ellipsis-horizontal
@@ -61,5 +61,3 @@ block body
             select(name="itemform",ng-model="form.itemForm", ng-options="c for c in commons.itemForm", required)
             label(for="itempackaging") Item Packaging
             select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging", required)
-            label(for="rate") Purchase Rate
-            input.input-medium(name="rate",type="number",ng-model="form.itemPurchaseRate", placeholder="Amount / Packaging", required)

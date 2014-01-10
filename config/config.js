@@ -11,7 +11,10 @@ var path = require('path')
       key: 'POSTMARK_KEY',
       parseAppId: 'PARSE_APP_ID',
       parseApiKey: 'PARSE_MASTER_KEY'
-    }
+    },
+    cronJob = require('cron').CronJob;
+
+
 
 module.exports = {
   development: {
