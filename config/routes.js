@@ -50,6 +50,11 @@ module.exports = function (app, passport) {
       res.render('partials/' + name);
     }
   );
+  app.get('/templates/:name', function (req, res) {
+      var name = req.params.name;
+      res.render('templates/' + name);
+    }
+  );
   
   // home route
   app.get('/:parent/:child', function(req, res){

@@ -108,6 +108,9 @@
           case 'paid':
            d = 'Complete';
           break;
+          case 'received':
+           d = 'paid';
+          break;
           default:
           break;
         }
@@ -176,33 +179,36 @@
           }
       };
   });
-  angular.module('directives').directive('pagination', ["supplierServices", function(ss){
+  angular.module('directives').directive('pagination', [function(){
     function link(scope, element, attrs){
       scope.pageno = 1;
+      scope.limit = 10;
       $('button.prevbtn', element).on('click', function(e){
         var page = scope.pageno - 1;
-        if(scope.pageno <= 1) return false;
-        ss.all(page, function(r){
-          scope.pagination = r;
-          console.log(typeof(scope.pageno));
-          scope.pageno--;
-        });
+        if(scope.pageno === 1) return false;
+        scope.pageTo({pageNo: page, limit: scope.limit, cb: function(r){
+          if(r) scope.pageno--;
+        }});
       });
       $('button.nextbtn', element).on('click', function(e){
         var page = scope.pageno + 1;
-        ss.all(page, function(r){
-          scope.pagination = r;
-          scope.pageno++;
-        });
-      });    
+        scope.pageTo({pageNo: page, limit: scope.limit, cb: function(r){
+          if(r) scope.pageno++;
+        }});
+      });
+      scope.pagelimit = function(limit){
+        scope.pageTo({pageNo: scope.pageno, limit: limit, cb: function(r){
+          if(r) scope.limit = limit;
+        }});        
+      };
     }
     return {
       link: link,
       scope: {
-        pagination: "=",
+        pageTo: '&'
       },
-      template:"<button class='btn btn-success prevbtn'>Previous</button><span>{{pageno}}</span><button class='btn btn-success nextbtn'>Next</button>"
-    }
+      templateUrl: '/templates/pagination'
+    };
   }]);
   angular.module('directives').directive('panorama', function(){
     return {

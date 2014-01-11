@@ -13,7 +13,7 @@ div#frontpage.container-fluid
             |  Cart  
             span.label.label-info {{orderCart.length}}
           .dropdown-menu.alt-text.pr-btn-drpdwn(role="menu", style="text-transform: capitalize;z-index: 99999")
-            table.table.table-hover
+            table.table.table-hover(cart-table="orderCart")
               thead
                 tr
                   th Item

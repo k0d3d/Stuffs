@@ -25,9 +25,7 @@ block body
                 label(for="orderdate") Order Date
                 input#orderdate.span5(type="date", name="orderDate", ng-model="form.orderDate")
                 label(for="orderamount") Order Amount
-                .input-append
-                    input#orderamount.span4(type="number",name="orderAmount",ng-model="form.orderAmount", required)
-                    span.add-on 
+                input#orderamount.span4(type="number",name="orderAmount",ng-model="form.orderAmount", required)
                 label(for="orderdesc") Order Description
                 textarea#orderdesc.span6(ng-model="form.orderDescription",name="orderDescription")
                 label(for="orderamount") Order Supplier
@@ -66,17 +64,20 @@ block body
                 label(for="itemtype") Drug Composition
                 input.input-large(type="search", ng-model="drugcmp")
                 button.btn.btn-primary(type="submit") Search Composition
-              table.table.table-hover.table-bordered
-                thead
-                  tr
-                    th Drug Name
-                    th Composition
-                    th Price / Packaging
-                tbody
-                  tr(ng-repeat="cmp in cmps", ng-click="more($index)")
-                    td {{cmp.productName}}
-                    td {{cmp.composition}}
-                    td {{cmp.currentPrice}}
+              .result(ng-show="cmps.length > 0")
+                table.table.table-hover.table-bordered
+                  thead
+                    tr
+                      th Drug Name
+                      th Composition
+                      th Price / Packaging
+                  tbody
+                    tr(ng-repeat="cmp in cmps", ng-click="more($index)")
+                      td {{cmp.productName}}
+                      td {{cmp.composition}}
+                      td {{cmp.currentPrice}}
+                .x-pagination(pagination, page-to="searchcmp(pageNo, cb)")
+
           .span4.offset1
             .row-fluid
               #item-summary.open-summary()

@@ -13,18 +13,16 @@ config(['$routeProvider',function($routeProvider){
 }])
 .controller('orderCartController', ['$scope', '$http', 'ordersService', '$localStorage', function($scope, $http, oS, $localStorage){
   
-  $scope.placeOrder =function(){
+  $scope.placeOrder = function(){
     oS.postCart($scope.basket, function(list){
       var clone = _.clone($scope.orderCart);
-      console.log(clone, list);
+
       _.each(clone, function(v ,i){
         if(_.indexOf(list, v.itemId) > -1){
           $scope.orderCart.splice(i, 1);
-          console.log(i);
         }
       });
       $scope.$storage.orderCart = __cleanJSON($scope.orderCart);
-      console.log($scope.orderCart);
     });
   };
 
@@ -113,10 +111,18 @@ config(['$routeProvider',function($routeProvider){
     $scope.searchndl = !$scope.searchndl;
   };
 
-  $scope.searchcmp = function(){
+  $scope.searchcmp = function(p, cb){
     $scope.ds = '';
-    ordersService.searchCmp($scope.drugcmp,'composition', 0, function(r){
+    var page = p || 0;
+    ordersService.searchCmp($scope.drugcmp,'composition', page, function(r){
       $scope.cmps = r;
+      //Callback passed to paginate directive
+      if(r !== false && !_.isEmpty(r)){
+        $scope.supplierList = r;
+        if(typeof(cb) === 'function')cb(true);
+      }else{
+        if(typeof(cb) === 'function')cb(false);
+      }      
     });
   };
 
@@ -383,6 +389,6 @@ config(['$routeProvider',function($routeProvider){
       ordersFilter: '=',
       getStatus: '&'
     },
-    templateUrl: '/orders/order-list'
+    templateUrl: '/templates/order-list'
   };
 }]);

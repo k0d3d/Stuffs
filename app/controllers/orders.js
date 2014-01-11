@@ -250,6 +250,7 @@ OrderController.prototype.count = function(req, res){
   var d = Order.count({orderVisibility: true});
   var m  = Order.count({orderVisibility: true});
   m.where('orderStatus').equals('pending order');
+  m.where('orderStatus').equals('received');
   d.where('orderStatus').equals('supplied');
   d.exec(function(err,y){
     if(err)console.log(err);

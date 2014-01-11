@@ -13,7 +13,7 @@ angular.module('supplier', [])
   function init(){
     $scope.supplierList = {};
     $scope.supplierView = {};
-    supplierServices.all(1, function(r){
+    supplierServices.all(1, 10, function(r){
       if(r !== false)$scope.supplierList = r;
     });
   }
@@ -22,14 +22,26 @@ angular.module('supplier', [])
   $scope.viewMore = function(index){
     $('#modal-supplier-view').modal('toggle');
     $scope.supplierView = $scope.supplierList[index];
-  }
+  };
 
   $scope.removeSupplier = function(index){
     var id = $scope.supplierList[index]._id;
     supplierServices.remove(id, function(after){
       //Any other callback logic after success or error
     });
-  }
+  };
+
+  $scope.page = function(pageNo, limit, cb){
+    console.log(limit);
+    supplierServices.all(pageNo, limit, function(r){
+      if(r !== false && !_.isEmpty(r)){
+        $scope.supplierList = r;
+        cb(true);
+      }else{
+        cb(false);
+      }
+    });
+  };
 
 })
 .controller('supplierAddController', function supplierAddController($scope, $location, $routeParams, supplierServices){
@@ -65,7 +77,7 @@ angular.module('supplier', [])
 .factory("supplierServices", ['$http','Notification','Language', function($http, Notification, Lang){
   var a = {};
 
-  a.all = function(page, callback){
+  a.all = function(page, limit, callback){
     $http.get('/api/supplier/'+page)
     .success(function(data, status){
       callback(data);
