@@ -12,7 +12,22 @@ config(['$routeProvider',function($routeProvider){
   .when('/dashboard/order/:itemId', {templateUrl: '/orders/add', controller: 'orderAddController'});
 }])
 .controller('orderCartController', ['$scope', '$http', 'ordersService', '$localStorage', function($scope, $http, oS, $localStorage){
-  console.log($scope.orderCart);
+  
+  $scope.placeOrder =function(){
+    oS.postCart($scope.basket, function(list){
+      var clone = _.clone($scope.orderCart);
+      console.log(clone, list);
+      _.each(clone, function(v ,i){
+        if(_.indexOf(list, v.itemId) > -1){
+          $scope.orderCart.splice(i, 1);
+          console.log(i);
+        }
+      });
+      $scope.$storage.orderCart = __cleanJSON($scope.orderCart);
+      console.log($scope.orderCart);
+    });
+  };
+
 }])
 .controller('ordersIndexController', function($scope, $http, $location, ordersService){
   $scope.getStatus = function getStatus (status){
@@ -180,6 +195,22 @@ config(['$routeProvider',function($routeProvider){
         angular.copy(r,res);
         return callback(res);
       });
+    };
+    f.postCart = function(form, callback){
+      $http.post('/api/orders/cart', form).
+        success(function(data) {
+          Notification.notifier({
+            message : Lang.eng.order.place.success,
+            type: 'success'
+          });
+            callback(data);
+        }).
+        error(function(err){
+          Notification.notifier({
+            message : Lang.eng.order.place.error,
+            type: 'error'
+          });          
+        });
     };
     f.save = function(form, callback){
       $http.post('/api/orders', form).

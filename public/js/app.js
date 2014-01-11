@@ -63,8 +63,8 @@ angular.module('integraApp').controller('MainController', [ '$scope', '$http', '
   refreshUpdates();
 
   //Fetch updates
-  setInterval(refreshUpdates, 15000);
-  setInterval(fetchwaiting, 15000);
+  //setInterval(refreshUpdates, 15000);
+  //setInterval(fetchwaiting, 15000);
 
 
   //Refresh updates
@@ -145,7 +145,7 @@ angular.module('integraApp').controller('MainController', [ '$scope', '$http', '
 
   $scope.removeFromCart = function(index){
     $scope.orderCart.splice(index, 1);
-    $scope.$storage.orderCart = $.parseJSON($scope.orderCart);
+    $scope.$storage.orderCart = __cleanJSON($scope.orderCart);
   };
 }]);
 angular.module('integraApp').filter('moment', function(){

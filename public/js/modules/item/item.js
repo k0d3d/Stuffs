@@ -122,7 +122,7 @@ angular.module('item', [])
     $scope.addToCart = function (){
       var summary = $scope.summary;
       var toOrder = {
-        _id: summary._id,
+        itemId: summary._id,
         itemName: summary.itemName,
         sciName: summary.sciName,
         orderAmount: $scope.sdqty,
@@ -134,7 +134,7 @@ angular.module('item', [])
       $scope.orderCart.push(toOrder);
       $scope.sdqty = $scope.sdprice = $scope.toOrderSupplier = '';
       //Store Cart Locally
-      $scope.$storage.orderCart = JSON.stringify($scope.orderCart);
+      $scope.$storage.orderCart = __cleanJSON($scope.orderCart);
     };
 
     $scope.addPane = function(){

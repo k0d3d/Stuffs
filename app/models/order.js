@@ -33,7 +33,8 @@ var OrderSchema = new Schema({
   orderStatus: {type: String, default: 'pending order'},
   orderVisibility: {type: Boolean, default: true},
   onlineId:{type: Schema.ObjectId},
-  orderExpDate: {type: Date}
+  orderExpDate: {type: Date},
+  orderPrice: Number
 });
 
 var OrderStatusSchema = new Schema({

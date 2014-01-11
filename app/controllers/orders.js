@@ -58,22 +58,74 @@ var updateTracking = function(r){
   });
 };
 
+OrderController.prototype.placeCart = function(cartObj, cb){
+  var self = this;
+  var doneIds = [];
+
+  function _create(){
+    var item = cartObj.pop();
+    var l = cartObj.length;
+
+
+    var itemName = item.itemName;
+    var supplier = item.supplier;
+    var id = item.itemId;
+
+    var order = new Order(item);
+    var itemObj = {itemName: itemName, _id: id};
+    order.orderSupplier =  supplier;
+
+    order.itemData.push(itemObj);
+    
+    order.save(function (r) {
+      //Check if the object returned is an error
+      if(utils.isError(r)){
+        //if we have some processed results
+        //return that
+        if(doneIds.length > 0){ 
+          return cb(doneIds);
+        }else{
+          return cb(r);
+        }
+
+      }else{
+        //Add another done/placed order
+        doneIds.push(id);
+        if(l--){
+          _create();
+        }else{
+          postOrders();
+          cb(doneIds);
+        }
+      }
+    });    
+  }
+
+  _create();
+};
+
 
 
 /**
  * Create an order
  */
-OrderController.prototype.createOrder = function (req, res) {
-  var order = new Order(req.body);
-  var itemObj = {itemName: req.body.itemData.itemName, _id: req.body.itemData._id};
-  order.orderSupplier =  req.body.suppliers;
+OrderController.prototype.createOrder = function (orderObj, cb) {
+  var itemName = orderObj.itemName || orderObj.itemData.itemName;
+  var supplier = orderObj.supplier || orderObj.suppliers;
+  var id = orderObj._id || orderObj.itemData._id;
+
+  var order = new Order(orderObj);
+  var itemObj = {itemName: itemName, _id: id};
+  order.orderSupplier =  supplier;
+
   order.itemData.push(itemObj);
+  
   order.save(function (err) {
     if (!err) {
       postOrders();
-      res.json({"task":"save-order","success": true});
+      cb(true);
     }else{
-      console.log(err);
+      cb(new Error(err));
     }
   });
 };
@@ -333,7 +385,25 @@ module.exports.routes = function(app){
   app.get('/api/orders/supplier/typeahead/:query', orders.suppliersTypeahead);
 
   // Order POST Routes
-  app.post('/api/orders',orders.createOrder);
+  app.post('/api/orders', function(req, res,next){
+    orders.createOrder(req.body, function(r){
+      if(utils.isError(r)){
+        next(r);
+      }else{
+        res.json(200, true);
+      }
+    });
+  });
+  // Order POST Routes
+  app.post('/api/orders/cart', function(req, res,next){
+    orders.placeCart(req.body, function(r){
+      if(utils.isError(r)){
+        next(r);
+      }else{
+        res.json(200, r);
+      }
+    });
+  });
   //app.post('/api/orders/supplier', orders.createSupplier);
 
   //Order PUT Routes

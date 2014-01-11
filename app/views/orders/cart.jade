@@ -6,12 +6,16 @@ block body
   .row-fluid.row-break
     .span2.actioncol
       .search-bar
-        input.input-medium(type="search", ng-model="ordersfilter.orderSupplier", placeholder="Search Suppliers")
-        select.input-medium(ng-model="ordersfilter.orderStatus")
-          option
-          option Supplied
-          option Paid
-          option Pending Order
+        input.input-medium(type="search", ng-model="cartFilter.supplier", placeholder="Search Suppliers")
+      button.btn.btn-large.btn-block.btn-success(ng-click="placeOrder()")
+        i.fa.fa-shopping-cart.pull-left
+        |   Place Order
+      button.btn.btn-large.btn-block.btn-success(ng-click="commons.backBtn()")
+        i.fa.fa-envelope-o.pull-left
+        |   Send SMS
+      button.btn.btn-large.btn-block.btn-success(ng-click="commons.backBtn()") 
+        i.fa.fa-envelope-o.pull-left
+        |   Print
       button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
     .span10(ng-show="orderCart.length > 0")
       .row-fluid.fixed-table
@@ -25,7 +29,7 @@ block body
                 th Supplier
                 th Action
             tbody
-              tr(ng-repeat="or in orderCart")
+              tr(ng-repeat="or in (basket = (orderCart | filter: cartFilter))")
                 td {{or.itemName}}
                 td {{or.orderAmount}}
                 td {{or.orderDate | moment}}

@@ -63,3 +63,10 @@ String.prototype.repeat = function(num) {
   });
   
 })(jQuery);
+
+var __cleanJSON = function(jsonObj){
+  return JSON.stringify(jsonObj, function(k, v){
+        if(k == '$$hashKey') return undefined;
+        return v;
+  });
+};
