@@ -20,12 +20,11 @@ append mainbody
       .control-group
           label.control-label Patient Class / Company
           .controls
-              input.input-large(type="text",name="class_company", ng-model="dispenseform.class")
               select(ng-options="a.profileName for a in profiles", ng-model="dispenseform.class")
       .control-group
           label.control-label Patient Hospital Number
           .controls
-              input.input-large(type="text",name="patientnumber", ng-model="dispenseform.patientno")
+              input.input-large(disabled, type="text",name="patientnumber", ng-model="dispenseform.patientno")
       .control-group
           label.control-label Drug Name
           .controls
@@ -55,8 +54,8 @@ append mainbody
                 option(value="appointment") Supply on appointment
                 option(value="rx") RX
               select(ng-model="d[$index].dosage",placeholder="Dosage", ng-change="adjust_amount($index)",)
-                option(value="1") Once Daily (OD)
-                option(value="2") Bi-Daily (BD)
+                option(value="1") 1 Daily (OD)
+                option(value="2") 2 Daily (BD)
                 option(value="3") 3 Daily (TDS)
                 option(value="4") 4 Daily (QDS)
                 option(value="5") When Necessary (PRN)

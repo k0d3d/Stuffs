@@ -15,20 +15,23 @@ config(['$routeProvider',function($routeProvider){
   
   $scope.placeOrder = function(){
     oS.postCart($scope.basket, function(list){
-      var clone = _.clone($scope.orderCart);
 
-      _.each(clone, function(v ,i){
-        if(_.indexOf(list, v.itemId) > -1){
-          $scope.orderCart.splice(i, 1);
-        }
+      //map the itemId on the order cart to an array.
+      var cartIds = _.map($scope.orderCart, function(val){
+        return val.itemId;
       });
+      //using _.difference, we remove the orders which
+      //have been placed from the whole cart.
+      $scope.orderCart = _.difference(cartIds, list);
+
+      //then we save it back in our localStorage
       $scope.$storage.orderCart = __cleanJSON($scope.orderCart);
     });
   };
 
 }])
 .controller('ordersIndexController', function($scope, $http, $location, ordersService){
-  $scope.getStatus = function getStatus (status){
+  $scope.getStatus = function (status){
     var d;
     switch(status){
       case 'pending order':
@@ -359,8 +362,8 @@ config(['$routeProvider',function($routeProvider){
       };
       OS.updateOrder(o, function(r){
         $scope.orderList[index].orderStatus = r.result;
-        $scope.orderList[index].nextStatus = $scope.getStatus(r.result);
-        if(r.result == 'supplied' && $scope.orderList[index].amountSupplied !== $scope.orderList[index].amount){
+        $scope.orderList[index].nextStatus = $scope.getStatus({status: r.result});
+        if(r.result == 'supplied' && ($scope.orderList[index].amountSupplied < $scope.orderList[index].orderAmount)){
           N.notifier({
             message: L[L.set].order.update.amountDis,
             type: 'info'
@@ -372,7 +375,6 @@ config(['$routeProvider',function($routeProvider){
 
     $scope.removeOrder = function(event, order_id){
       var currentItem = event.currentTarget;
-      console.log(currentItem);
       OS.remove(order_id, function(o){
         if(o.state === 1){
           $(currentItem).parents('tr').remove();

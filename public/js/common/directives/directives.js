@@ -220,5 +220,45 @@
            parallax: false
         });         
       }
+    };
+  });
+  angular.module('directives').directive('editable', [function(){
+    function link(scope, element, attrs){
+
+      // $(document).on('focusout','.editable-input', function(e){
+      //   var changed = $(e.currentTarget).val();
+      //   if(changed.length > 0){
+      //     console.log(attrs.index);
+      //   }
+      // });
+      element.on('click', function(e){
+        var ct = e.currentTarget;
+
+        if($(ct).hasClass('on-edit')) return false;
+        $('<input type="text" focus class="editable-input" placeholder="'+$(element).text()+'">').insertAfter(ct);
+        $(ct).addClass('on-edit');
+
+        var inputElement = $(element).next('input.editable-input')[0];
+        $(inputElement).one('focusout', function(e){
+          var changed = $(e.currentTarget).val();
+          if(changed.length > 0){
+            scope.lcn({name: changed, index: attrs.index});
+          }
+          $(ct).removeClass('on-edit');
+          inputElement.remove();
+        });
+      });
+
+      $(document).one('click', function(e){
+        $(ct).removeClass('on-edit');
+        inputElement.remove();
+      });      
+
     }
-  })  
+    return {
+      link:link,
+      scope: {
+        lcn: '&editable'
+      }
+    };
+  }]);

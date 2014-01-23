@@ -19,5 +19,5 @@
           dd {{supplierView.contactPersonPhone}}
       .modal-footer
         button.btn.btn-default(data-dismiss="modal") Back
-        button.btn.btn-primary(ng-click="commons.href('/suppliers/'+supplierView._id+'/edit')") Edit
-        button.btn.btn-primary(ng-click="commons.href('/suppliers/'+supplierView._id+'/edit')") Supplier Report
+        button.btn.btn-primary(ng-click="closeMore(); commons.href('/suppliers/'+supplierView._id+'/edit')") Edit
+        button.btn.btn-primary(ng-click="closeMore(); commons.href('/suppliers/'+supplierView._id+'/edit')") Supplier Report

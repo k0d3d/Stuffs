@@ -184,7 +184,7 @@ li.index.active{
   width: 240px;
   height: 100%;
   top: 0;
-  z-index: 1000;
+  z-index: 1021;
 }
 
 .cbp-spmenu-vertical a {
@@ -472,6 +472,7 @@ input.date-input-field[type='text']{
   box-sizing: border-box;
   border-bottom: solid 1px rgba(22, 160, 133, 0.31);
   opacity: 0.9;
+  position: relative;
 }
 .list-block li.active{
   background-color: #2ECC71;
@@ -745,4 +746,72 @@ box-sizing: border-box;
 }
 .shpane form>input{
   padding: 2px;
+}
+.cbp_tmtimeline{
+  overflow-y: scroll;
+}
+.skdwn-hstry{
+  height: calc(100% - 123px); 
+}
+.stup-hstry{
+  height: calc(100% - 50px); 
+}
+
+.skdwn-summary{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 141px;  
+}
+
+.skdwn-bp{
+ border: solid 1px #941111;
+border-radius: 0;
+height: 25px;
+width: 100%;
+padding: 0 5px;
+} 
+
+[editable]:hover{
+  border: solid 1px white;
+}
+.editable-input{
+  position: absolute;
+  top: 0
+}
+
+.slide-animate-container {
+  position:relative;
+  overflow:hidden;
+}
+ 
+.slide-animate {
+  padding:10px;
+}
+ 
+.slide-animate.ng-enter, .slide-animate.ng-leave {
+  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+ 
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  display:block;
+  padding:10px;
+}
+ 
+.slide-animate.ng-enter {
+  top:-50px;
+}
+.slide-animate.ng-enter.ng-enter-active {
+  top:0;
+}
+ 
+.slide-animate.ng-leave {
+  top:0;
+}
+.slide-animate.ng-leave.ng-leave-active {
+  top:50px;
 }

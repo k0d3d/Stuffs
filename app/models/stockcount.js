@@ -15,7 +15,8 @@ var StockCountSchema = new Schema({
   locationId: {type: Schema.ObjectId, ref: 'Location'},
   locationName: String,
   amount: {type:Number,min: 0},
-  lastOrderDate: {type: Date, default: Date.now}
+  lastOrderDate: {type: Date, default: Date.now},
+  boilingPoint: {type: Number}
 });
 
 StockCountSchema.statics = {
@@ -72,8 +73,13 @@ StockCountSchema.statics = {
         var q = this.find({locationId: locationId});
         q.populate('item','itemName itemID');
         q.sort({date: -1});
+        q.lean();
         q.exec(function(err, i){
-          callback(i);
+            if(err){
+                callback(err);
+            }else{
+                callback(i);
+            }
       });
     },
     /**

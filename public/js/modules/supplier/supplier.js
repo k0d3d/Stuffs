@@ -24,6 +24,10 @@ angular.module('supplier', [])
     $scope.supplierView = $scope.supplierList[index];
   };
 
+  $scope.closeMore = function(index){
+    $('#modal-supplier-view').modal('hide');
+  };
+
   $scope.removeSupplier = function(index){
     var id = $scope.supplierList[index]._id;
     supplierServices.remove(id, function(after){
@@ -39,6 +43,14 @@ angular.module('supplier', [])
         cb(true);
       }else{
         cb(false);
+      }
+    });
+  };
+
+  $scope.searchSuppliers = function(){
+    supplierServices.search({name: $scope.searchInput}, function(r){
+      if(r !== false && !_.isEmpty(r)){
+        $scope.supplierList = r;
       }
     });
   };
@@ -78,7 +90,7 @@ angular.module('supplier', [])
   var a = {};
 
   a.all = function(page, limit, callback){
-    $http.get('/api/supplier/'+page)
+    $http.get('/api/suppliers/page/'+page+'/limit/'+limit)
     .success(function(data, status){
       callback(data);
     })
@@ -88,7 +100,7 @@ angular.module('supplier', [])
   };
 
   a.post = function(supplierData, callback){
-    $http.post("/api/supplier", supplierData)
+    $http.post("/api/suppliers", supplierData)
     .success(function(data, status){
       Notification.modal({
         heading: 'Supplier Added',
@@ -107,8 +119,19 @@ angular.module('supplier', [])
     });
   };
 
+  a.search = function(query, callback){
+    console.log(query);
+    $http.get("/api/suppliers/search/query?"+$.param(query))
+    .success(function(data, status){
+      callback(data);
+    })
+    .error(function(data, status){
+      callback(false);
+    });   
+  };
   a.one = function(supplierId, callback){
-    $http.get("/api/supplier/"+supplierId)
+    console.log(supplierId);
+    $http.get("/api/suppliers/"+supplierId)
     .success(function(data, status){
       callback(data);
     })
@@ -119,7 +142,7 @@ angular.module('supplier', [])
 
   a.update = function(supplierData, callback){
     var supplierId = supplierData._id;
-    $http.put("/api/supplier/"+supplierId, supplierData )
+    $http.put("/api/suppliers/"+supplierId, supplierData )
     .success(function(data, status){
       Notification.notifier({
         message: Lang.eng.supplier.update.success,
@@ -137,7 +160,7 @@ angular.module('supplier', [])
   };
 
   a.remove = function(id, callback){
-    $http.delete("/api/supplier/"+id)
+    $http.delete("/api/suppliers/"+id)
     .success(function(data, success){
       Notification.notifier({
         message: "Supplier Deleted",

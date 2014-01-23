@@ -14,10 +14,12 @@ $(document).ready(function(){
         var inpx = '-'+totalOffset+'px';
         $('.sectionAZ').css({"margin-left":inpx});
      });
-     $('select.stockFilter').on('change',function(e){
+     $(document).on('change', 'select.stockFilter', function(e){
+        console.log(e);
         e.preventDefault();
         $('.card').show();
         var toHide = $(this).find('option:selected').val();
+        console.log(toHide);
         if(toHide.length > 0)$('.card').not('.'+toHide).hide();
      });
     //$("select.select-block").selectpicker({style: 'btn-primary', menuStyle: 'dropdown-inverse'});

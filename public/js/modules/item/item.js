@@ -9,13 +9,11 @@ angular.module('item', [])
 	$routeProvider.when('/items', {templateUrl: '/items/index', controller: 'itemIndexController'})
   .when('/items/view/:state', {templateUrl: '/items/index', controller: 'itemIndexController'})
   .when('/items/add', {templateUrl: '/items/new', controller: 'itemAddController'})
-  .when('/items/locations', {templateUrl: '/items/stockdown', controller: 'itemStockController'})
-	.when('/items/dispensary', {templateUrl: '/items/dispense', controller: 'itemDispensaryController'})
   .when('/items/:itemId/:action',{templateUrl: '/items/edit', controller: 'itemAddController'});
 }])
-.controller('itemIndexController', ['$scope', '$location', '$routeParams','itemsService', '$localStorage', function itemIndexController($scope, $location, $routeParams,itemsService, $localStorage){
+.controller('itemIndexController', ['$scope', '$location', '$routeParams','itemsService', '$localStorage','stockService', function itemIndexController($scope, $location, $routeParams,itemsService, $localStorage, sS){
+    var currentItem;
     function init(){
-      var currentItem;
       $scope.summary = {};
       $scope.form = {};
       $scope.itemsList = '';
@@ -44,10 +42,11 @@ angular.module('item', [])
       angular.forEach(data, function(ele,index,arr){
         if(ele.itemName){
           var fchar = ele.itemName.split("");
-          if(o[fchar[0]] ===  undefined){
-            o[fchar[0]] = [];
+          var fCharUpper  = fchar[0].toUpperCase();
+          if(o[fCharUpper] ===  undefined){
+            o[fCharUpper] = [];
           }
-          o[fchar[0]].push(ele);
+          o[fCharUpper].push(ele);
         }
         if(arr.length === index + 1){
          callback(o);
@@ -110,7 +109,7 @@ angular.module('item', [])
     };
 
     $scope.stockhistory = function (id){
-      itemsService.stockhistory(id, 'Main', function(r){
+      sS.stockhistory(id, 'Main', function(r){
         //$scope.shpane = {right: 0};
         $scope.smpane = {right:'240px'};
         $scope.shpane = {right:'0px'};
@@ -258,109 +257,25 @@ angular.module('item', [])
     });
   };
 })
-.controller('itemStockController',['$scope','$location','$routeParams','itemsService',function itemAddController ($scope, $location, $routeParams,itemsService){
-  
-  function init(){
-    //Location Array
-    $scope.locations = [];
 
-    //Stores the requested drugs / items list
-    $scope.requestform = {
-      request: [],
-      requestList : [],
-      location: ''
-    };
-
-    //Text on the buttons
-    $scope.addButtonText = 'Add';
-    $scope.addHelpText = '';
-    var thisItemName = '';
-    $scope.stockDownRecord = [] ;
-    $scope.hasItems = false;
-  }
-  init();
-
-
-  // Watch for changes in the selectedItem model scope and 
-  $scope.$watch('selectedItem.itemname', function(newValue, oldValue){
-    if(newValue !== oldValue){
-      thisItemName = newValue;
-    }
-  });
-  $scope.addDrug = function(){
-    $scope.addHelpText = '';
-    if($scope.drugname.length === 0) return false;
-    itemsService.summary(thisItemName,'main',function(c){
-      if(_.indexOf($scope.requestform.requestList, thisItemName) < 0){
-        $scope.requestform.requestList.push(thisItemName);
-        $scope.requestform.request.push(c);
-      }else{
-        alert('This item is in the list already');
-      }
-    });
-  };
-  $scope.sendIt = function(){
-    var drugs = [];
-    _.forEach($scope.requestform.request, function(i,v){
-      if(i.amount !== 0 && i.amount.length !== 0){
-        drugs.push({"_id":i._id,"amount":i.amount,"itemName":i.itemName,"itemID": i.itemID});
-      }
-    });
-    var sendDis = {"location":$scope.requestform.location,"request": $scope.requestform.request};
-    itemsService.stockdown(sendDis, function(c){
-      $scope.requestform.request.length = 0;
-      $scope.requestform.requestList.length = 0;
-      $('#modal-request-stock-down').modal('hide');
-    });
-  };
-  $scope.removeDrug = function(index){
-    $scope.requestform.request.splice(index, 1);
-    $scope.requestform.requestList.splice(index, 1);
-    $scope.$apply();
-  };
-
-
-  // Gets the stock down points from the server
-  itemsService.getPoints(function(res){
-    $scope.locations = res;
-  });
-  $scope.saveButtonClass = 'btn-primary';
-
-  $scope.createPoint = function(){
-    $scope.saveButtonText = 'saving';
-    $scope.saveButtonClass = 'btn-info';
-    itemsService.saveLocation($scope.location, function(res){
-      $scope.saveButtonText = 'SAVED';
-      $scope.saveButtonClass= 'btn-success';
-      $scope.modalstate = false;
-      $scope.locations.push(res);
-    });
-  };
-  $scope.onLocation = function(id){
-    itemsService.showStockDown(id, function(data, response){
-      $scope.hasItems = true;
-      $scope.stockDownRecord = data;
-    });
-  }
-}])
 .factory('itemsService', ['$http', 'Language','Notification', function($http, Language, Notification){
   var i = {};
   i.items =  function(callback){
-      $http.get('/api/items/listAll')
-      .success(function(data, status){
-        Notification.notifier({
-          message: Language.eng.items.list.fetch.success,
-          type: "success"
-        });
-        callback(data);
-      })
-      .error(function(data, status){
-        Notification.notifier({
-          message: Language.eng.items.list.fetch.error,
-          type: 'error'
-        })
+    $http.get('/api/items/listAll')
+    .success(function(data, status){
+      Notification.notifier({
+        message: Language.eng.items.list.fetch.success,
+        type: "success"
       });
-    };
+      callback(data);
+    })
+    .error(function(data, status){
+      Notification.notifier({
+        message: Language.eng.items.list.fetch.error,
+        type: 'error'
+      });
+    });
+  };
 
   //Typeahead Query
   i.getItemName = function(query, callback){
@@ -422,12 +337,7 @@ angular.module('item', [])
         callback(false, status);
       });
     };
-  i.count =  function(callback){
-    $http.get('/api/items/count').
-    success(function(data,status){
-      callback(data);
-    });
-  };
+
   i.saveLocation = function(post,callback){
     $http.post('/api/items/location',post)
     .success(function(data, status){
@@ -444,12 +354,7 @@ angular.module('item', [])
       });
     });
   };
-  i.getPoints = function(callback){
-    $http.get('/api/items/location').
-    success(function(data, status){
-      callback(data);
-    });
-  };
+
   //Gets dispense records from the server
   i.fetchDispenseRecords = function(status,callback){
     $http.get('/api/items/locations/records/status/'+status).
@@ -480,28 +385,7 @@ angular.module('item', [])
   i.getItemFields = function(itemId, callback){
     $http.get('/api/items/'+escape(itemId)+'/edit').success(callback);
   };
-  //Fetches all items for a location
-  i.showStockDown = function(location_id, callback){
-    $http.get('/api/items/stockdown/'+location_id).success(callback);
-  };
 
-  //sends a stockdown request, 
-  i.stockdown = function(list, callback){
-    $http.post('/api/items/stockdown', list)
-    .success(function(data, res){
-      Notification.notifier({
-        message : Language.eng.stock.down.success,
-        type: 'success'
-      });
-      callback(data);
-    })
-    .error(function(data, res){
-      Notification.notifier({
-        message : Language.eng.stock.down.error,
-        type: 'error'
-      });      
-    });
-  };
 
   //Post updated item fields 
   i.update = function(form, callback){
@@ -631,19 +515,6 @@ angular.module('item', [])
     .error(function(data, status){
       Notification.notifier({
         message: Language.eng.items.packaging.list.error,
-        type: "error"
-      });       
-    });
-  };
-
-  i.stockhistory = function(id, location, cb){
-    $http.get('/api/items/'+ id + '/location/'+ location +'/history')
-    .success(function(d){
-      cb(d);
-    })
-    .error(function(d){
-      Notification.notifier({
-        message: Language.eng.items.location.history.fetch.error,
         type: "error"
       });       
     });

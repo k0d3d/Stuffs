@@ -511,14 +511,6 @@ module.exports.routes = function(app){
       title: 'Update Item',
     });
   });
-  app.get('/items/locations',function(req, res){
-    res.render('index',{
-      title: 'Stock Down Points'
-    });
-  });
-
-
-
 
   /**
   *Items Routes

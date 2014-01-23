@@ -159,6 +159,16 @@ angular.module('language', [])
 				"create": {
 					"success": "Created a new stock down loaction",
 					"error": "Could not create a new stock down location"
+				},
+				"edit":{
+					"success": "Update request completed",
+					"error": "Update request failed"
+				}
+			},
+			"items":{
+				"boilingPoint":{
+					"success":"Item Boiling Point updated",
+					"error": "Error updating item boiling point"
 				}
 			}
 		},

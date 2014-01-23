@@ -70,3 +70,10 @@ var __cleanJSON = function(jsonObj){
         return v;
   });
 };
+$(document).on('click focus', 'input.editable-input', function(e){
+  e.stopPropagation();
+});
+// $(document).on('click', function(e){
+//   $('.on-edit').removeClass('on-edit');
+//   $('.editable-input').remove();
+// });

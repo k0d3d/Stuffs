@@ -42,6 +42,13 @@ append mainbody
               input.input-large(type="tel",name="contactPersonPhone", ng-model="supplierForm.contactPersonPhone", required)                                            
       button.btn.btn-primary(ng-click="addSupplier()",ng-init="saveButtonText='Save'", ng-disabled="newsupplier.$invalid") {{saveButtonText}}
   .span10(ng-show="all")
+    .row-fluid
+      form.form-search(ng-submit="searchSuppliers()")
+        .control-group
+          .controls
+            input.input-large.search-query(ng-model="searchInput", type="search", name="searchSupplier", placeholder="Find a Supplier")
+            button.btn(type="reset") Reset
+            button.btn(type="submit") Submit
     .row-fluid.fixed-table
       .span12
         .table-content(ng-show="supplierList.length > 0")

@@ -51,10 +51,14 @@ SupplierController.add = function(supplierData, callback){
  * @return {[type]}            [description]
  */
 SupplierController.list = function(options, callback){
+  var limit = options.limit || 10;
   Supplier
   .find({})
-  .limit(10)
-  .skip(options.page * 10)
+  .limit(limit)
+  .skip(options.page * limit)
+  .sort({
+    supplierName: 1
+  })
   .exec(function(err, i){
     if(err){
       callback(err);
@@ -79,7 +83,7 @@ SupplierController.update = function(supplierData, callback){
       callback(i);
     }
   });
-}
+};
 
 /**
  * [one fetches data on a supplier]
@@ -94,6 +98,22 @@ SupplierController.one = function(supplierId, callback){
     }else{
       callback(i);
     }
+  });
+};
+/**
+ * [one fetches data on a supplier]
+ * @param  {[type]}   supplierId [description]
+ * @param  {Function} callback   [description]
+ * @return {[type]}              [description]
+ */
+SupplierController.search = function(query, callback){
+  query.limit = 20;
+  Supplier.search(query, function(err, i){
+    if(err){
+      callback(err);
+    }else{
+      callback(i);
+    }    
   });
 };
 
@@ -127,7 +147,7 @@ SupplierController.typeahead  = function(query, callback){
       callback(i);
     }    
   });
-}
+};
 
 module.exports.routes = function(app){
 
@@ -141,11 +161,12 @@ module.exports.routes = function(app){
     res.render('index',{
       title: 'Edit Suppliers'
     });    
-  })
+  });
 
-  app.get("/api/supplier/:page", function(req, res, next){
+  app.get("/api/suppliers/page/:page/limit/:limit", function(req, res, next){
     var options = {
-      page: req.params.page || 1
+      page: req.params.page || 1,
+      limit: req.params.limit
     };
     SupplierController.list(options, function(i){
       if(utils.isError(i)){
@@ -156,7 +177,19 @@ module.exports.routes = function(app){
     });
   });
 
-  app.get("/api/supplier/:supplierId", function(req, res){
+  //Search for suppliers by name
+  app.get('/api/suppliers/search/query', function(req, res, next){
+    SupplierController.search(req.query, function(i){
+      if(utils.isError(i)){
+        next(i);
+      }else{
+        res.json(200, i);
+      }
+    });
+  });  
+
+  //Fetch one supplier record
+  app.get("/api/suppliers/:supplierId/", function(req, res){
     SupplierController.one(req.params.supplierId, function(i){
       if(utils.isError(i)){
         next(i);
@@ -166,7 +199,19 @@ module.exports.routes = function(app){
     });
   });
 
-  app.post('/api/supplier', function(req, res, next){
+
+  //Typeahead for suppliers' name
+  app.get('/api/supplier/typeahead/term/supplierName/query/:query', function(req, res, next){
+    SupplierController.typeahead(req.params.query, function(i){
+      if(utils.isError(i)){
+        next(i);
+      }else{
+        res.json(200, i);
+      }
+    });
+  });
+
+  app.post('/api/suppliers', function(req, res, next){
     //return next(new Error('lol'));
     SupplierController.add(req.body, function(i){
       if(utils.isError(i)){
@@ -178,7 +223,7 @@ module.exports.routes = function(app){
     });
   });
 
-  app.put('/api/supplier/:supplierId', function(req, res, next){
+  app.put('/api/suppliers/:supplierId', function(req, res, next){
     SupplierController.update(req.body, function(i){
       if(utils.isError(i)){
         next(i);
@@ -188,7 +233,7 @@ module.exports.routes = function(app){
     });
   });
 
-  app.delete('/api/supplier/:supplierId', function(req, res, next){
+  app.delete('/api/suppliers/:supplierId', function(req, res, next){
     SupplierController.remove(req.params.supplierId, function(i){
       if(utils.isError(i)){
         next(i);
@@ -198,14 +243,5 @@ module.exports.routes = function(app){
     });
   });
 
-  //Typeahead for suppliers' name
-  app.get('/api/supplier/typeahead/term/supplierName/query/:query', function(req, res, next){
-    SupplierController.typeahead(req.params.query, function(i){
-      if(utils.isError(i)){
-        next(i);
-      }else{
-        res.json(200, i);
-      }
-    });
-  })
+
 };

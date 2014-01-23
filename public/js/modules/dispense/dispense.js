@@ -9,7 +9,7 @@ angular.module('dispense', [])
 	$routeProvider.when('/dispensary', {templateUrl: '/items/dispense', controller: 'dispensaryController'})
   .when('/dispensary/:dispenseID', {templateUrl: '/items/prescribe', controller: 'dispensaryController'});
 }])
-.controller('dispensaryController', ["$scope","$location","$routeParams","itemsService", "Notification", "Language", "billsService", function itemDispensaryController($scope,$location,$routeParams,itemsService, Notification, Lang, biller){
+.controller('dispensaryController', ["$scope","$location","$routeParams","itemsService", "Notification", "Language", "billsService",'stockService', function itemDispensaryController($scope,$location,$routeParams,itemsService, Notification, Lang, biller, sS){
   function init(){
     //Holds the form for dispensing drugs to a patient.
     //Patient Name, Number, Type and the Drugs list
@@ -17,7 +17,7 @@ angular.module('dispense', [])
       prescription: []
     };
     // Gets the stock down points from the server
-    itemsService.getPoints(function(res){
+    sS.getPoints(function(res){
       $scope.locations = res;
     });  
     $scope.drugsList = [];
@@ -58,6 +58,7 @@ angular.module('dispense', [])
       u.push({
         itemName: v.itemId.itemName,
         amount: v.amount,
+        currentStock: v.currentStock,
         cost: v.cost,
         dosage: v.dosage,
         period: v.period,
