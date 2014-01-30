@@ -100,7 +100,7 @@ StockCountSchema.statics = {
 
 StockCountSchema.pre('save', function(next){
     var self = this;
-    console.log(this);
+
     var model = mongoose.models['StockCount'];
     model.findOne({
         item: this.item
@@ -110,7 +110,7 @@ StockCountSchema.pre('save', function(next){
         }else if(!a){
           next();
         }
-        else if (a.amount < 0){
+        else if (a.amount - this.amount){
             seld.invalidate('amount', 'Stock requested is unavailable;');
             next(new Error('Amount is: '+ s.amount));
         }else{

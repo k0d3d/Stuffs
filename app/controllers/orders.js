@@ -244,7 +244,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
       //return console.log(stockman);
 
       //For reference 
-      data.location.origin.options = {
+      data.location.destination.options = {
         action: 'Stock Up',
         reference: 'orders-'+ data.orderId     
       };
@@ -256,14 +256,14 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
 
       var reqObject = [
         {
-          item: data.orderbody.itemData._id,
+          id: data.orderbody.itemData._id,
           itemName: data.orderbody.itemData.itemName,
           amount: data.orderbody.amountSupplied,
         }      
       ];
 
       //This will handle stocking down
-      stockman.stockUp(reqObject, data.location,  function(d){
+      stockman.stocking(reqObject, data.location, 'order',  function(d){
         isDone(data);
       })
   });
@@ -276,7 +276,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
           isDone(err);
         }else{
           data.location = {
-            origin:{
+            destination:{
               id: i._id,
               name: i.locationName
             }

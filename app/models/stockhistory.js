@@ -33,7 +33,7 @@ StockHistorySchema.methods = {
    * @return {[type]}            [description]
    */
   log: function log(itemObj, location, others, callback){
-    this.item = itemObj.id || itemObj._id;
+    this.item = itemObj.id;
     this.locationId = location.id || location._id;
     this.locationName = location.name || location.locationName;
     this.amount = itemObj.amount;

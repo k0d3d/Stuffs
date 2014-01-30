@@ -84,10 +84,10 @@ angular.module('stock', [])
     var drugs = [];
     _.forEach($scope.requestform.request, function(i,v){
       if(i.amount !== 0 && i.amount.length !== 0){
-        drugs.push({"_id":i._id,"amount":i.amount,"itemName":i.itemName,"itemID": i.itemID});
+        drugs.push({"id":i._id,"amount":i.amount,"itemName":i.itemName,"itemID": i.itemID});
       }
     });
-    var sendDis = {"location":$scope.requestform.location,"request": $scope.requestform.request};
+    var sendDis = {"location":$scope.requestform.location,"request": drugs};
     sS.stockdown(sendDis, function(c){
       $scope.requestform.request.length = 0;
       $scope.requestform.requestList.length = 0;

@@ -59,7 +59,7 @@ TransactionController.prototype.insertRecord = function(request, originLocation,
         break;
     }
     var self = this;
-    self.transModel.origin = originLocation.id;
+    self.transModel.origin = (originLocation) ? originLocation.id : undefined;
     self.transModel.destination = (destinationLocation) ? destinationLocation.id : undefined;
     self.transModel.item = request.item;
     self.transModel.operation = operation;
@@ -127,26 +127,26 @@ TransactionController.prototype.makeCommited = function(cb){
     });
 };
 
-TransactionController.prototype.cleanPending = function(dependency, cb){
+TransactionController.prototype.cleanPending = function(dependency, locationId, itemId,  cb){
     var self = this;
-
-    var orCond = [{_id: self.currentTransaction.origin.id}];
-
-    if(self.currentTransaction.destination){
-        or.push({_id: self.currentTransaction.destination.id});
-    }
-    console.log(self);
+    console.log(locationId, itemId);
     dependency.update({ 
-        $or: orCond
+        locationId: locationId,
+        item: itemId
     }, {
         $pull: {pendingTransactions: self.currentTransaction.id}
     }, function(err, i){
+        console.log(err, i);
         if(err){
             cb(err);
         }else{
             cb(true);
         }        
     });
+
+    var pullOrigin = function(){
+
+    }
 };
 
 TransactionController.prototype.makeDone = function(cb){
