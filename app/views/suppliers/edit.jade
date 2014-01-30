@@ -21,7 +21,7 @@ append mainbody
       .control-group
           label.control-label Phone Number
           .controls
-              input.input-medium(type="tel",name="phoneNumber", ng-model="supplierForm.phoneNumber", required)
+              input.input-large(type="text",name="phoneNumber", ng-model="supplierForm.phoneNumber", required)
       .control-group
           label.control-label Other Contact
           .controls
@@ -37,6 +37,7 @@ append mainbody
       .control-group
           label.control-label Contact Person Phone
           .controls
-              input.input-large(type="tel",name="contactPersonPhone", ng-model="supplierForm.contactPersonPhone", required)                                            
+              input.input-large(type="text",name="contactPersonPhone", ng-model="supplierForm.contactPersonPhone", required)                                            
+              
 append foot
   script(src="js/table-fixed-header.js")                

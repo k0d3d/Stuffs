@@ -17,7 +17,8 @@ var StockHistorySchema = new Schema({
   date: {type: Date, default: Date.now},
   amount: {type: Number, min: 0},
   action: String,
-  reference: {type: String, unique: true}
+  reference: {type: String, unique: true},
+  visible: {type: Number, default: 1}
 });
 
 
@@ -41,7 +42,7 @@ StockHistorySchema.methods = {
       if(err){
         callback(err);
       }else{
-        callback(i);
+        callback(i.toJSON());
       }
     });
   }

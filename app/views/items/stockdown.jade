@@ -35,7 +35,7 @@ block body
     .span2
       h4 Locations
       ul.list-block(toggle-active-list)
-        li(data-ng-repeat="location in locations", ng-click="onLocation(location._id)")
+        li(data-ng-repeat="location in sub_locations", ng-click="onLocation(location._id)")
           h5(editable="locationNameChange(name, index)", index="{{$index}}") {{location.locationName}}
 
     .span8

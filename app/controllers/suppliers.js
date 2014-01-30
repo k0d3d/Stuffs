@@ -149,6 +149,34 @@ SupplierController.typeahead  = function(query, callback){
   });
 };
 
+SupplierController.sendNotice = function(id, type, cb){
+
+  function put_notice (d) {
+    console.log(d);
+    if(type === 'sms' && !_.isUndefined(d.contactPersonPhone)){
+      var phones = d.contactPersonPhone.split(",");
+      phones = _.map(phones, function(v){
+        return v.trim();
+      });
+
+      return phones;
+    }
+
+    return(new Error('no phone numbers found'));
+  }
+
+  Supplier.findOne({
+    _id: id
+  }, function(err, i){
+    if(err){
+      cb(err);
+    }else{
+      cb(put_notice(i));
+    }
+  });
+
+};
+
 module.exports.routes = function(app){
 
   app.get('/suppliers', function(req, res){
@@ -189,7 +217,8 @@ module.exports.routes = function(app){
   });  
 
   //Fetch one supplier record
-  app.get("/api/suppliers/:supplierId/", function(req, res){
+  app.get("/api/suppliers/:supplierId", function(req, res){
+    
     SupplierController.one(req.params.supplierId, function(i){
       if(utils.isError(i)){
         next(i);
@@ -211,6 +240,7 @@ module.exports.routes = function(app){
     });
   });
 
+  //requests to add a new supplier
   app.post('/api/suppliers', function(req, res, next){
     //return next(new Error('lol'));
     SupplierController.add(req.body, function(i){
@@ -220,6 +250,16 @@ module.exports.routes = function(app){
         res.json(200, {});
       }
 
+    });
+  });
+
+  app.post('/api/suppliers/:supplierId/notify', function(req, res, next){
+    SupplierController.sendNotice(req.params.supplierId, req.query.type, function(r){
+      if(utils.isError(r)){
+        next(r);
+      }else{
+        res.json(200, r);
+      }
     });
   });
 

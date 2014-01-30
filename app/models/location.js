@@ -12,27 +12,29 @@ var mongoose = require('mongoose')
 /**
  * Stock Down Location Schema 
  */
-var StockDownSchema = new Schema({
+var LocationSchema = new Schema({
   locationId: {type: Number},
   locationName: {type: String},
   locationAuthority:{type: String},
   locationDescription: {type: String},
-  locationBoilingPoint: {type: Number},
+  locationType: {type: String},
   createdAt: {type: Date, default: Date.now}
 });
 
-StockDownSchema.plugin(pureautoinc.plugin, {
+LocationSchema.plugin(pureautoinc.plugin, {
   model: 'location',
   field: 'locationId'
 });
 
-StockDownSchema.statics = {
+LocationSchema.statics = {
   /**
   *List All Stock Down Points
   */
-  list: function(callback){
-    this.find().exec(callback);
+  list: function(type, callback){
+    this.find()
+    .where('locationType', type)
+    .exec(callback);
   }
 }
 
-mongoose.model('Location', StockDownSchema);
+mongoose.model('Location', LocationSchema);

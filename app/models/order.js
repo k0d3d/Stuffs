@@ -17,7 +17,7 @@ var OrderSchema = new Schema({
   orderType: {type: String, default: 'Medical Equipment'},
   itemData: [{
             itemName: {type: String, default: ''},
-            _id: {type: Schema.ObjectId, ref: 'Item'}
+            id: {type: Schema.ObjectId, ref: 'Item'}
             }],
   nafdacRegNo: {type: String},
   nafdacRegName: {type: String},
@@ -34,7 +34,8 @@ var OrderSchema = new Schema({
   orderVisibility: {type: Boolean, default: true},
   onlineId:{type: Schema.ObjectId},
   orderExpDate: {type: Date},
-  orderPrice: Number
+  orderPrice: Number,
+  orderReference: {type: String}
 });
 
 var OrderStatusSchema = new Schema({

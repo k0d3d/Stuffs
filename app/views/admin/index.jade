@@ -5,95 +5,16 @@ block body
   include ../includes/modals/modal-order-supplied.jade
   .row-fluid.row-break
     .span2.actioncol
-      button.btn.btn-large.btn-block.btn-primary(ng-click="activePane = 'hinfo'") Hospital Info
-      button.btn.btn-large.btn-block.btn-primary(ng-click="activePane = 'billing'") Manage Billing
-      button.btn.btn-large.btn-block.btn-primary() Manage Item Groups
+      button.btn.btn-large.btn-block.btn-primary(ng-click="template.url = 'templates/admin-configuration-tpl'") Settings
+      button.btn.btn-large.btn-block.btn-primary(ng-click="template.url = 'templates/admin-transactions-tpl'") Stock Transactions
+      button.btn.btn-large.btn-block.btn-primary(ng-click="template.url = 'templates/admin-bill-profile-tpl'") Manage Billing
     .span10
-      .row()
-        .span11(ng-show="activePane == 'billing'", style="margin-left: 20px")
-          .row-fluid.fixed-table
-            .span3.span-rgt-brd(style="width:235px")
-              h4 Billing Profiles            
-                select(ng-options="a.profileName for a in profiles", ng-model="activeProfile")
-              .btn-toolbar
-                .btn-group            
-                  button.btn.btn-primary(type="submit") New Rule            
-                    i.fa.fa-plus-square
-                  button.btn.btn-primary(ng-click="popRules()") Bind Rules 
-                    i.fa.fa-list-ul
-              .b-ru-bx
-                h4 New Rule
-                form(novalidate)
-                  label Rule Name
-                  input.input-medium(type="text", ng-model="newrule.name", placeholder="Rule Name", required)
-                  label Property
-                  select.input-medium(type="text", ng-model="newrule.reference.type", placeholder="Property", required, ng-init="newrule.reference.type = 'drug'")
-                    option(value="drug") Drug Item
-                    option(value="meqp") Medical Equipment
-                    option(value="other") Other
-                  label Subject
-                  input(type="text", ng-model="newrule.reference.name", placeholder="Item", required, title="Type ALL or * To apply rule to all items", propdrug, ng-show="newrule.reference.type =='drug'")
-                  label Adjust by
-                  select.input.small(ng-model="newrule.by", placeholder="By", required)
-                    option Percentage
-                    option Value
-                  label(ng-show="newrule.by == 'Percentage'") Value (%)
-                  input.input-small(type="Number", min="0", max="100", ng-show="newrule.by == 'Percentage'", ng-model="newrule.value", required)
-                  label(ng-show="newrule.by == 'Value'") Value (N)
-                  input.input-small(type="Number", min="0", ng-show="newrule.by == 'Value'", ng-model="newrule.value", required)
-                  label Process
-                  select.input.small(ng-model="newrule.directive", required)
-                    option Increment
-                    option Decrement
-                  button.btn.btn-primary.btn-block(type="submit", ng-click="newruleC()") Add Rule
-            section.span8
-              .row(style="width: 865px")
-                .scroll-pane.span4(ng-show="billingPaneActive", style="border-right: solid 5px rgba(221, 221, 221, 0.31);padding-left: 10px;min-height: 556px")
-                  .al-rulz-cont
-                    .hdr
-                      h4 Rules
-                      i.fa.fa-times(ng-click="billingPaneActive = false")
-                    ul.listing
-                      li(ng-repeat="r in rulez", ng-click="pushrule($index)")
-                        p {{r.name}}
-                        span {{r.directive}} {{r.servicename}} by {{r.value}} ({{r.by}})
-                .span8
-                  .profile-name
-                    form.form-horizontal
-                      input.input-large(type="text", ng-model="profileInput.name", required)
-                      .btn-group
-                        button.btn.btn-large.btn-block.btn-warning.dropdown-toggle(data-toggle="dropdown", ng-click="saveProfile()")
-                          i.fa.fa-save(style="margin-right: 5px")
-                          | Save         
-                  .table-content
-                    table#list-rules.table.table-fixed-header
-                      thead.header
-                        tr
-                          th Rule name
-                          th Subject
-                          th Adjust by
-                          th Value
-                          th Process
-                          th Action
-                      tbody
-                        tr(ng-repeat="rlz in listrules")
-                          td {{rlz.name}}
-                          td {{rlz.servicename}}
-                          td {{rlz.by}}
-                          td {{rlz.value}}
-                          td {{rlz.directive}}
-                          td
-        .span11.offset1(ng-show="activePane == 'hinfo'")
-          form#login(novalidate, ng-submit="trylogin()")
-            label(for="email") Email Address
-            input#email.span6(type="email",name="email",ng-model="email", required)      
-            label(for="password") Password
-            input#password.span5(type="password", name="password", ng-model="password", required)
-            button.btn.btn-info(type="submit") Log In
-        .span11.offset1(ng-show="activePane.length == 0")
+      .row(ng-include="template.url")
+        .span11.offset1()
           .midheader(style="padding: 20px")
             h3 Click on the buttons on the left
             h5 and I'll go away.
+
 
 
 append foot

@@ -4,8 +4,11 @@
       .modal-body
         form.newstockdown
           .control-group
-            label.control-label Location
-            select(name="locationselect", ng-model="requestform.location", ng-options="l.locationName for l in locations", required)
+            label.control-label Origin
+            select(name="main_locationselect", ng-model="requestform.location.origin", ng-options="l.locationName for l in main_location", required)
+          .control-group
+            label.control-label Destination
+            select(name="sub_locationselect", ng-model="requestform.location.destination", ng-options="l.locationName for l in sub_locations", required)
           .control-group
               label.control-label Dispense
               .controls

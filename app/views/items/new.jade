@@ -17,7 +17,7 @@ block body
               option Medical Equipment
             label(for="name") Brand Name 
             input.input-medium(type="text",name="name", ng-model="form.itemName", brand-name-type-ahead, required, autocomplete="off")              
-            label(for="sci-name") Scientific Name
+            label(for="sci-name") Scientific Name / Composition
             input.input-medium(type="text", name="sci-name",ng-model="form.sciName", required)
             label(for="man-name") Manufacturer
             input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName", required)
@@ -54,7 +54,7 @@ block body
             label(for="icd") ICD Code
             input.input-small(type="text",name="icd",ng-model="form.icdcode")
             label(for="bp") Boiling Point
-            input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint", required, min=0, max=100)
+            input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint", required, min=0)
             label(for="itemsize") Package Size
             input.input-small(name="itemsize",type="number",ng-model="form.packageSize", required)
             label(for="itemform") Item Form

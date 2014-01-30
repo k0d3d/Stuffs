@@ -181,7 +181,7 @@
   });
   angular.module('directives').directive('pagination', [function(){
     function link(scope, element, attrs){
-      scope.pageno = 1;
+      scope.pageno = 0;
       scope.limit = 10;
       $('button.prevbtn', element).on('click', function(e){
         var page = scope.pageno - 1;
@@ -248,12 +248,6 @@
           inputElement.remove();
         });
       });
-
-      $(document).one('click', function(e){
-        $(ct).removeClass('on-edit');
-        inputElement.remove();
-      });      
-
     }
     return {
       link:link,

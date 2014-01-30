@@ -32,6 +32,8 @@ module.exports = function (app, passport) {
   admin.routes(app);
   var stock = require('../app/controllers/stock');
   stock.routes(app);
+  var transaction = require('../app/controllers/transactions');
+  transaction.routes(app);
 
   app.get('/', function(req, res){
       res.render('index',{

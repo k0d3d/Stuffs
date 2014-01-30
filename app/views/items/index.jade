@@ -9,8 +9,9 @@ nav.shpane.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu",ng-
     label Current Price: <b>{{summary.itemPurchaseRate}}</b>
     label Order Price
     input(type="number", ng-model="sdprice", ng-required="!summary.itemPurchaseRate")
+    label Current Supplier: <b>{{summary.suppliers[0].supplierName}}</b>
     label Supplier
-    input(type="text", placeholder="Supplier", cart-supplier, ng-model="toOrderSupplier.supplierName", required)
+    input(type="text", placeholder="Supplier", cart-supplier, ng-model="toOrderSupplier.supplierName")
     button.btn.btn-warning.btn-block(type="submit", ng-disabled="cartOrder.$invalid") Add to Cart
 nav.shpane.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu",ng-style="shpane")
   ul.cbp_tmtimeline.stup-hstry

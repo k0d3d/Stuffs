@@ -34,7 +34,8 @@ NafdacdrugSchema.statics = {
     wit.regex('productName',new RegExp(name, 'i')).exec(cb);
     //wit.exec(cb);
   }
-}
+};
+
 
 mongoose.model('nafdacdrug', NafdacdrugSchema);
 module.exports = mongoose.model('nafdacdrug');

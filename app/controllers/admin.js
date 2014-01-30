@@ -113,8 +113,30 @@ AdminController.prototype.login = function(email, password, cb){
   })
   .on('fail', function(d, r){
     cb(new Error(d));
-  })
-}
+  });
+};
+
+AdminController.prototype.createMainLocation = function(cb){
+  //Check for a default location
+  PointLocation.findOne({
+    locationType: 'default'
+  }, function(err, i){
+    if(!_.isEmpty(i)){
+      console.log('found');
+      cb(i);
+    }else{
+      //Create a default loaction
+      var pl = new PointLocation();
+      pl.locationName =  'Main';
+      pl.locationType = 'default';
+      pl.locationDescription = 'Main Stock Location';
+      pl.save(function(err, i){
+        cb(i);
+      });
+    }
+  });
+};
+
 
 module.exports.admin = AdminController;
 var admin = new AdminController();
@@ -134,6 +156,16 @@ module.exports.routes = function(app){
       }else{
         res.json(200, r);
       }
+    });
+  });
+
+  app.post('/api/admin/setup', function(req, res, next){
+    admin.createMainLocation(function(r){
+      if(util.isError(r)){
+        next(r);
+      }else{
+        res.json(200, r);
+      }      
     });
   });
 

@@ -29,6 +29,20 @@ config(['$routeProvider',function($routeProvider){
     });
   };
 
+  $scope.send_sms = function(){
+    var allSuppliers = _.map($scope.basket, function(v, i){
+      return v.supplier.supplierID;
+    });
+    var uniqSupId = _.uniq(allSuppliers);
+    if(uniqSupId.length > 1){
+      return alert('Cannot send SMS to '+ uniqSupId.length +' suppliers at once');
+    }else{
+      oS.notifySupplier(uniqSupId, 'sms', function(d){
+
+      });
+    }
+  };
+
 }])
 .controller('ordersIndexController', function($scope, $http, $location, ordersService){
   $scope.getStatus = function (status){
@@ -142,12 +156,13 @@ config(['$routeProvider',function($routeProvider){
     $scope.form = {
       orderType: 'Medication',
       itemData : {
-        itemName: $scope.ds.productName
+        itemName: $scope.ds.productName,
+        sciName: $scope.ds.composition
       },
       suppliers:{
         supplierName: $scope.ds.man_imp_supp
       },
-      nafdacRegNo: $scope.ds.composition,
+      nafdacRegNo: $scope.ds.regNo,
       nafdacRegName: $scope.ds.productName
     };
     $scope.toggle();
@@ -280,6 +295,16 @@ config(['$routeProvider',function($routeProvider){
           message: Lang[Lang.set].order.summary.error,
           type: 'error'
         });
+      });
+    };
+
+    f.notifySupplier = function(id, type, cb){
+      $http.post('/api/suppliers/'+id+'/notify?type='+type)
+      .success(function(d){
+        cb(d);
+      })
+      .error(function(err){
+        //Fit in error here
       });
     };
 

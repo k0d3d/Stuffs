@@ -4,6 +4,10 @@
  */
 
 var mongoose = require('mongoose'),
+  Item = require('./items').item,
+  EventRegister = require('../../lib/event_register').register,
+  StockManager = require('./stock').manager,
+  PointLocation = mongoose.model('Location'),
   Order = mongoose.model('Order'),
   OrderStatus = mongoose.model('OrderStatus'),
   Item = mongoose.model('Item'),
@@ -112,7 +116,14 @@ OrderController.prototype.placeCart = function(cartObj, cb){
 OrderController.prototype.createOrder = function (orderObj, cb) {
   var itemName = orderObj.itemName || orderObj.itemData.itemName;
   var supplier = orderObj.supplier || orderObj.suppliers;
+
+  var register = new EventRegister();
+
   var id = orderObj._id || orderObj.itemData._id;
+
+  if(!id){
+
+  }
 
   var order = new Order(orderObj);
   var itemObj = {itemName: itemName, _id: id};
@@ -128,6 +139,24 @@ OrderController.prototype.createOrder = function (orderObj, cb) {
       cb(new Error(err));
     }
   });
+
+  register.once('checkforId', function(data, isDone){
+
+  });
+
+  
+
+  register
+  .queue()
+  .onError(function(err){
+
+  })
+  .onEnd(function(i){
+
+  })
+  .start();
+
+
 };
 
 
@@ -154,89 +183,105 @@ OrderController.prototype.getOrders = function(req, res){
  * Updates an order status and creates a stock record 
  */
 
-OrderController.prototype.updateOrder = function(req, res, next){
-  //Updates the order statuses, these are useful for order history
-  //queries, etc
-  var doOrderStatusUpdates = function (){
-      //Updates the order status 
-      Order.update({'_id':req.param('orderId')},{
-        $set: {
-          'orderStatus':req.body.status,
-          'orderInvoice': req.body.orderInvoiceNumber,
-          'amountSupplied': req.body.amountSupplied
-        }
-      }).exec(function(err,numberAffected){
-        if(err)console.log(err);
-      });
+OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
 
-      //Creates a new record to show when this order was
-      //updated and what action was taken.
-      var orderstatus = new OrderStatus();
-      orderstatus.status = req.body.status;
-      orderstatus.order_id = req.param('orderId');
-      orderstatus.save(function(err){
-        if(err)return err;
-        res.json(200, {"task": true, "result": req.body.status});
+  var register = new EventRegister();
+
+  //Switch / Conditional Event Queue
+  var whatOrder;
+
+  register.once('statusUpdate', function(data, isDone){
+    //Updates the order statuses, these are useful for order history
+    //queries, etc
+
+    //Updates the order status 
+    Order.update({
+      '_id':data.orderId
+    },{
+      $set: {
+        'orderStatus':data.orderbody.status,
+        'orderInvoice': data.orderbody.orderInvoiceNumber,
+        'amountSupplied': data.orderbody.amountSupplied
+      }
+    })
+    .exec(function(err,numberAffected){
+
+      if(err)isDone(err);
+
+    });
+
+    //Creates a new record to show when this order was
+    //updated and what action was taken.
+    var orderstatus = new OrderStatus();
+    orderstatus.status = data.orderbody.status;
+    orderstatus.order_id = data.orderId;
+    orderstatus.save(function(err){
+      if(err)return isDone(err);
+      isDone(data.orderbody.status);
+    });    
+  })
+
+  register.once('supplyOrder', function(data, isDone){
+
+      var stockman = new StockManager();
+
+      //For reference 
+      data.options = {
+        action: 'Stock Up',
+        reference: 'orders-'+req.param('orderId')        
+      };
+
+      //Since Orders for main stock have no 
+      //internal source location (they come from the supplier)
+      //set this to true to overide our source.
+      data.isMain = true;
+
+      //This will handle stocking down
+      stockman.stockUp(data, function(d){
+        isDone(d);
+      })
+  });
+
+
+  register.once('getMainLocation', function(data, isDone){    
+    PointLocation.findOne({locationType: 'default'}, 
+      function(err, i){
+        if(err){
+          isDone(err);
+        }else{
+          data.location = {
+            origin:{
+              id: i._id,
+              name: i.locationName
+            }
+          };
+          isDone(data);
+        }
       });
+  });  
+
+  //Switch / Conditional Event Queue
+  switch(orderbody.status){
+    case 'paid':
+      whatOrder = ['statusUpdate'];
+      break;
+    case 'supplied':
+      whatOrder = ['getMainLocation', 'supplyOrder', 'statusUpdate'];
+      break;
+    default:
+      whatOrder = ['statusUpdate'];
+      break;
   };
 
-  //If this order gets supplied.
-  if(req.body.status == 'supplied'){
-    //Set the location to 'Main'
-    var location ={
-      name: 'Main'
-    };
-
-    var stockhistory = new StockHistory();
-    // Check if this record has been created for this order using the orderid and the reference field 
-    // on the StockHistoryShema
-    StockHistory.count({'reference': 'orders-'+req.param('orderId')+'-'+req.body.orderStatus}, function(err, count){
-      if(count > 0){
-        res.json(400,{"message": "Invalid Order"});
-      }else{
-        var itemObj = {
-          id: req.body.itemData._id,
-          amount: req.body.amountSupplied
-        };
-        var options = {
-          action: 'Stock Up',
-          reference: 'orders-'+req.param('orderId')
-        };
-        //Create a stock history record.
-        stockhistory.log(itemObj, location, options ,function(g){      
-          // Updates or creates a stock count for the item 
-          var u = StockCount.update({
-            item: g.item,
-            $or:[{
-                locationName : g.locationName
-              },{
-                locationId: g.locationId
-              }]
-            },{
-              $inc: {
-                amount: g.amount
-              },
-              $set: {
-                date: Date.now
-              }
-            }, function(err, i){
-              if(i === 0){
-                var stockcount = new StockCount(g);
-                stockcount.save(function(err, i){
-                  doOrderStatusUpdates();
-                });
-              }else{
-                doOrderStatusUpdates();
-              }
-            });
-        });
-      }
-    });
-  }
-
-  if(req.body.status == 'paid'){
-    doOrderStatusUpdates();
-  }
+  register
+  .queue(whatOrder)
+  .onError(function(r){
+    cb(err)
+  })
+  .onEnd(function(r){
+    cb(r)
+  })
+  .start({orderbody: orderbody, orderId: orderId});
 
 };
 
@@ -408,7 +453,18 @@ module.exports.routes = function(app){
   //app.post('/api/orders/supplier', orders.createSupplier);
 
   //Order PUT Routes
-  app.put('/api/orders/:orderId',orders.updateOrder);
+  app.put('/api/orders/:orderId', function(req, res, next){
+    var orderbody = req.body;
+    var orderId = req.params.orderId;
+
+    orders.updateOrder(orderbody, orderId, function(r){
+      if(utils.isError(r)){
+        next(r);
+      }else{
+        res.json(200, {"task": true, "result": r});
+      }      
+    });
+  });
 
   //Delete Order (logically)
   app.delete('/api/orders/:order_id', function(req, res){

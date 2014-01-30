@@ -90,3 +90,28 @@ angular.module('services', [])
 	}
 	return d;
 })
+.factory('Transaction', ['$http', '$q', function($http, $q){
+	return {
+		getTransactions: function(cb){
+			return $http.get('/api/transactions')
+			.then(cb, function(err){
+				//Error Hander
+				return $q.reject();
+			});
+		},
+		rollbackTransactions: function(transactionId, cb){
+			return $http.post('/api/transaction/'+transactionId+'?task=rollback')
+			.then(cb, function(err){
+				//Error Handler
+				return $q.reject();
+			}); 
+		},
+		cancelTransaction: function(transactionId, cb){
+			return $http.post('/api/transaction/'+transactionId+'?task=cancel')
+			.then(cb, function(err){
+				//Error Handler
+				return $q.reject();
+			});
+		}
+	};
+}]);

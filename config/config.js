@@ -1,8 +1,8 @@
 
-var path = require('path')
-  , rootPath = path.normalize(__dirname + '/..')
-  , templatePath = path.normalize(__dirname + '/../app/mailer/templates')
-  , notifier = {
+var path = require('path'),
+    rootPath = path.normalize(__dirname + '/..'),
+    templatePath = path.normalize(__dirname + '/../app/mailer/templates'),
+    notifier = {
       service: 'postmark',
       APN: false,
       email: false, // true
@@ -21,6 +21,7 @@ module.exports = {
     db: 'mongodb://192.168.1.4:27017/local',
     root: rootPath,
     notifier: notifier,
+    main_stock_id: "52e4c39fd8699d5c09000008",
     app: {
       name: 'Integra Drug Store'
     },

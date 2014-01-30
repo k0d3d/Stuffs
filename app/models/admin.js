@@ -9,6 +9,9 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 var updaterSchema = new Schema ({
+	mainStock: {type: Schema.ObjectId, ref: 'Location'},
+	hospitalId: {type: String},
+	access_token: {type: String},
   lastUpdate: {type: Date, default: Date.now}
 });
 

@@ -126,7 +126,7 @@ angular.module('item', [])
         sciName: summary.sciName,
         orderAmount: $scope.sdqty,
         orderPrice: ($scope.sdprice > 0)? $scope.sdprice : summary.itemPurchaseRate,
-        supplier: $scope.toOrderSupplier,
+        supplier: $scope.toOrderSupplier || summary.suppliers[0],
         orderDate: Date.now()
       };
 

@@ -4,9 +4,6 @@
  */
 var mongoose = require('mongoose'),
     Item = mongoose.model('Item'),
-    ItemCategory = mongoose.model('ItemCategory'),
-    ItemForm = mongoose.model('ItemForm'),
-    ItemPackaging = mongoose.model('ItemPackaging'),
     Order = mongoose.model('Order'),
     OrderStatus = mongoose.model('OrderStatus'),
     Dispense = mongoose.model('Dispense'),
@@ -15,14 +12,18 @@ var mongoose = require('mongoose'),
     StockHistory = mongoose.model('StockHistory'),
     StockCount = mongoose.model('StockCount'),
     _ = require("underscore"),
-    NafdacDrugs = mongoose.model("nafdacdrug"),
-    EventRegister = require('../../lib/event_register').register,    
+    cors = require('../../config/middlewares/cors'),
+    EventRegister = require('../../lib/event_register').register,
+    Transaction = require('./transactions'),
     util = require("util");
 
 
 function StockController (){
-
+  //Very important #Combination Inheritance(pseudoclassical inheritance)
+  Transaction.transaction.call(this);
 }
+
+util.inherits(StockController, Transaction.transaction);
 
 StockController.prototype.constructor = StockController;
 
@@ -46,8 +47,22 @@ StockController.prototype.createLocation = function(obj, callback){
   });
 };
 
-StockController.prototype.getAllLocations = function(callback){
-  PointLocation.list(function(err, r){
+/**
+ * Fetches locations by type. A facility should possess 
+ * just one Default/Main stock location where orders from 
+ * suppliers will be processed. All other lcoations are regarded
+ * as stock-down points /locations. The 'type' argument should
+ * determine if the result is the main stock location or the 
+ * available stock down points.
+ * @param  {[type]}   type     [description]
+ * @param  {Function} callback [description]
+ * @return {[type]}            [description]
+ */
+StockController.prototype.getAllLocations = function(type, callback){
+  if(type.length === 0){
+    type = undefined;
+  }
+  PointLocation.list(type, function(err, r){
     if(err) return callback(err);
     callback(r);
   });
@@ -76,27 +91,34 @@ StockController.prototype.getStockDown = function (location_id, callback){
  */
 StockController.prototype.stockDown = function(obj, callback){
 
-  //Using different model instances for updates
- 
-
-
-  var sh = new StockHistory();
-
+  var sc_self = this;
+  //Inherited from transactions.
+  //Loads the transaction model into 
+  //the transModel property
+  sc_self.initiate();
+  //return ;
+  
   var eventRegister = new EventRegister();
 
-  //If this order gets supplied.
-  var location = {
-    id : obj.location._id,
-    name: obj.location.locationName
+  var destLocation = {
+    id : obj.location.destination._id,
+    name: obj.location.destination.locationName
+  };
+
+  var originLocation = {
+    id : obj.location.origin._id,
+    name: obj.location.origin.locationName    
   };
 
   //Create a stock record for each requested stock down drug item
   function __createRecord(itemObj, cb){
+    var sh = new StockHistory();
+
     var others = {
-          action: 'Requested Stock',
-          reference: 'stockdown-'+ Date.now()
+      action: 'Requested Stock',
+      reference: 'stockdown-'+ Date.now()
     };
-    sh.log(itemObj, location, others, function(r){
+    sh.log(itemObj, destLocation, others, function(r){
       if(util.isError(r)){
         callback(r);
       }else{
@@ -106,31 +128,99 @@ StockController.prototype.stockDown = function(obj, callback){
   }
 
   eventRegister.on('createRecord', function(data, isDone){
-    // console.log('Im creating a record with:');
-    // console.log(data);
+    //console.log('Im creating a record with:');
 
     // Call the create_record function on it
     __createRecord({id: data._id, amount: data.amount}, function(r){
-      console.log(r);
+      //console.log(r);
+
       // Pass the result to the next event
       isDone(r);
     });
   });
 
+  eventRegister.on('initial', function(data, isDone){
+
+    //Insert the new stock history record 
+    //on the transaction model.
+    sc_self.insertRecord(data, originLocation, destLocation, function(r){
+      if(util.isError(r)){
+        isDone(r);
+      }else{
+        data.currentTransaction = r;
+        isDone(data);
+      }
+    });
+  });
+
+  eventRegister.on('pending', function(data, isDone){
+    sc_self.makePending(function(r){
+      if(util.isError(r)){
+        isDone(r);
+      }else{
+        isDone(data);
+      }
+    });   
+  });
+  
+  eventRegister.on('commit', function(data, isDone){
+    sc_self.makeCommited(function(r){
+      if(util.isError(r)){
+        isDone(r);
+      }else{
+        isDone(data);
+      }
+    });
+  });  
+  
+  eventRegister.on('cleanPending', function(data, isDone){
+    sc_self.cleanPending(StockCount, function(r){
+      if(util.isError(r)){
+        isDone(r);
+      }else{
+        isDone(data);
+      }
+    });
+  });  
+  eventRegister.on('done', function(data, isDone){
+    sc_self.makeDone(function(r){
+      if(util.isError(r)){
+        isDone(r);
+      }else{
+        isDone(data);
+      }
+    });
+  });
+
   eventRegister.on('mainUpdate', function(data, isDone){
     // console.log('Im at main update with:');
-    // console.log(data);
-    var mainUpdate = mongoose.model("StockCount");
+    var sc_self = this;
+    var originUpdate = mongoose.model("StockCount");
+
     
     //Deducts the amount from each items main stock count.
     //Important:: Stock down means decrementing the 
     //amount from the main stock count
-    mainUpdate.update({
+    originUpdate.update({
       item: data.item,
-      locationName : 'Main'
+      locationId : originLocation.id,
+      //Checking / filtering with $ne ensures that
+      //this particular transaction does not already 
+      //exist
+      pendingTransactions: data.currentTransaction.id
+      
       },{
         $inc: {
           amount: -data.amount
+        },
+        //pushing this transactions id into the 
+        //pending transaction's array serves as a check
+        //if this trasaction for any reason becomes a duplicate
+        //or is repeated. Possibly because of failure, the presence
+        //of this value will provide the admin with options to rollback
+        //or disallow a repeat transaction.
+        $push:{
+          pendingTransactions: data.currentTransaction.id
         }
       }, function(err, i){
           if(err) {
@@ -143,21 +233,30 @@ StockController.prototype.stockDown = function(obj, callback){
   });
 
   eventRegister.on('locationUpdate', function(data, isDone){
-    // console.log('At location with:');
-    // console.log(data);
+    var sc_self = this;
 
-    var locationUpdate = mongoose.model("StockCount");
+    var destUpdate = mongoose.model("StockCount");
     // Create or update this locations stock count
-    locationUpdate.update({
+    // by adding / incrementing the amount to its stock
+    destUpdate.update({
       item: data.item,
       $or:[{
-          locationName : location.name
+          locationName : destLocation.name
         },{
-          locationId: location.id
+          locationId: destLocation.id
         }]
       },{
         $inc: {
           amount: data.amount
+        },
+        //pushing this transactions id into the 
+        //pending transaction's array serves as a check
+        //if this trasaction for any reason becomes a duplicate
+        //or is repeated. Possibly because of failure, the presence
+        //of this value will provide the admin with options to rollback
+        //or disallow a repeat transaction.        
+        $push:{
+          pendingTransactions: data.currentTransaction.id
         }
       }, function(err, i){
         if(err){
@@ -180,7 +279,20 @@ StockController.prototype.stockDown = function(obj, callback){
   });
 
   eventRegister.on('stockDown', function(data, isDone, self){
-      self.until(data, ['createRecord', 'mainUpdate', 'locationUpdate'], function(r){
+      //Repeats theses events on every element in data.
+      self.until(data, [
+        //Inserts a transaction record and status to 'initial'
+        'initial',
+        //Makes the transaction pending
+        'pending',
+
+        'mainUpdate',
+        'locationUpdate',
+        'commit',
+        'cleanPending',
+        'createRecord',
+        'done'
+        ], function(r){
           isDone(r);
       });
  
@@ -204,7 +316,8 @@ StockController.prototype.stockDown = function(obj, callback){
  * @param  {[type]} callback [description]
  * @return {[type]}     [description]
  */
-StockController.prototype.count = function(callback){
+StockController.prototype.count = function(id, callback){
+  return callback(0, 0);
   var d = Item.count();
   var m  = Item.find();
   //m.$where(function(){return this.currentStock < this.itemBoilingPoint && this.currentStock > 0;});
@@ -222,7 +335,7 @@ StockController.prototype.count = function(callback){
 
   //get all items from the 'items' collectioin
   function gl (){
-    StockCount.find({locationName: 'Main'}, function(err, i){
+    StockCount.find({locationId: id}, function(err, i){
       total = i.length;
       stockcountlist = i;
       if(stockcountlist.length === 0){
@@ -399,19 +512,17 @@ module.exports.routes = function(app){
 
   //Dashboard Count Items
   app.get('/api/stock/count',function(req, res){
-    sc.count(function(lowCount, totalCount){
+    sc.count(null, function(lowCount, totalCount){
       res.json(200, {"count": totalCount, "low": lowCount});
     });
   });
 
   // get all stock down locations and basic information
-  app.get('/api/stock/location',function(req, res, next){
-    sc.getAllLocations(function(r){
+  app.get('/api/stock/location', cors, function(req, res, next){
+    sc.getAllLocations(req.query.type, function(r){
         if(util.isError(r)){
             next(r);
         }else{
-          res.header("Access-Control-Allow-Origin", "*");
-          res.header("Access-Control-Allow-Headers", "X-Requested-With");              
           res.json(200, r);
         }
     });

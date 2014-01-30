@@ -3,11 +3,12 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , mongoStore = require('connect-mongo')(express)
-  , flash = require('connect-flash')
-  , helpers = require('view-helpers')
-  , pkg = require('../package.json');
+var express = require('express'),
+    mongoStore = require('connect-mongo')(express),
+    flash = require('connect-flash'),
+    helpers = require('view-helpers'),
+    lingua = require('lingua'),
+    pkg = require('../package.json');
 
 module.exports = function (app, config, passport) {
 
@@ -32,6 +33,12 @@ module.exports = function (app, config, passport) {
   // set views path, template engine and default layout
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'jade');
+
+  // Lingua configuration
+  app.use(lingua(app, {
+      defaultLocale: 'en',
+      path: __dirname + '/i18n'
+  }));  
 
   app.configure(function () {
     // expose package.json to views

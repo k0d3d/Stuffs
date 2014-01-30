@@ -27,6 +27,15 @@ angular.module('stock', [])
     var thisItemName = '';
     $scope.stockDownRecord = [] ;
     $scope.hasItems = false;
+
+    // Gets the stock down points from the server
+    sS.getPoints('', function(res){
+      $scope.sub_locations = res;
+    });  
+    // Gets the top / main stockl location from the server
+    sS.getPoints('default', function(res){
+      $scope.main_location = res;
+    });    
   }
   init();
 
@@ -88,14 +97,8 @@ angular.module('stock', [])
   $scope.removeDrug = function(index){
     $scope.requestform.request.splice(index, 1);
     $scope.requestform.requestList.splice(index, 1);
-    $scope.$apply();
   };
 
-
-  // Gets the stock down points from the server
-  sS.getPoints(function(res){
-    $scope.locations = res;
-  });
   $scope.saveButtonClass = 'btn-primary';
 
   $scope.createPoint = function(){
@@ -144,8 +147,8 @@ angular.module('stock', [])
   };
 
   //Gets all stock down locations and basic information
-  i.getPoints = function(callback){
-    $http.get('/api/stock/location').
+  i.getPoints = function(type, callback){
+    $http.get('/api/stock/location?type='+type).
     success(function(data, status){
       callback(data);
     });

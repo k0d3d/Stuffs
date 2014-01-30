@@ -12,6 +12,7 @@ var mongoose = require('mongoose'),
     StockCount = mongoose.model('StockCount'),
     _ = require("underscore"),
     NafdacDrugs = mongoose.model("nafdacdrug"),
+    EventRegister = require('../../lib/event_register').register,
     utils = require("util");
 /**
  * Module dependencies.
@@ -43,110 +44,194 @@ function ItemsObject(){
 ItemsObject.prototype.constructor = ItemsObject;
 
 /**
- * Create an item
+ * Creates a new drug item or medical equipment.
+ * It also checks if an invoice number is present in
+ * the request. If an invoice number is found, a new 
+ * order is placed, set to supplied, here by increasing
+ * the stock amount to the amount sent with the invoice
+ * number. 
+ * 
+ * @param  {[type]}   itemBody [description]
+ * @param  {Function} cb [description]
+ * @return {[type]}            [description]
  */
+ItemsObject.prototype.create = function (itemBody, cb) {
+  var register = new EventRegister(), 
+    stockHistory = new StockHistory(),
+    hasOrder = false, 
+    itemObject = null,
+    result = null;
 
-ItemsObject.prototype.create = function (itemBody, callback) {
-  // callback(200);
-  // return;
-  if(itemBody.item.length === 0){
-    return callback(400);
-  }
-  //copy the item category property into a variable
-  var shark = itemBody.item.itemCategory;
 
-  //omit the itemCategory property
-  var joel = _.omit(itemBody.item, "itemCategory");
+  register.once('checksort', function(data, isDone){
+    // return;
+    if(data.item.length === 0){
+      return isDone(new Error('Empty Request Item'));
+    }
+    //copy the item category property into a variable
+    var shark = data.item.itemCategory;
 
-  var it = new Item(joel);
-  ObjectId = mongoose.Types.ObjectId;
-  //supplierObj = {};
-  // if(itemBody.item.suppliers){
-  //   var sn = itemBody.item.suppliers.supplierName || '';
-  //   supplierObj = {supplierName: sn};
-  // }
+    //omit the itemCategory property
+    var joel = _.omit(data.item, "itemCategory");
 
-  //Push in categories
-  //var c = [];
-  _.each(shark, function(v,i){
-    it.itemCategory.push(v._id);
+    itemObject = new Item(joel);
+
+    if(shark){
+      _.each(shark, function(v,i){
+        itemObject.itemCategory.push(v._id);
+      });
+    }
+
+    isDone(data);
   });
 
-  //Create a new order if the invoice number was entered
-  if(itemBody.item.orderInvoiceData !== undefined){
-    
-    //Creates a new order.
-    var order = new Order();
-    itemObj = {itemName: itemBody.item.itemName};
-    order.itemData.push(itemObj);
-    order.orderSupplier = (itemBody.item.suppliers);
-    order.orderInvoice = itemBody.item.orderInvoiceData.orderInvoiceNumber;
-    order.orderStatus = 'Supplied'            ;
-    order.orderType = itemBody.item.itemType;
-    order.orderAmount= itemBody.item.orderInvoiceData.orderInvoiceAmount;
-    order.orderDate= itemBody.item.orderInvoiceDate;
-    order.save(function(err){
-      if(utils.isError(err))return callback(err);
+  register.once('getMainLocation', function(data, isDone){
+    //Skip to the next is hasOrder is false;
+    if(!hasOrder) return isDone(data);    
+    PointLocation.findOne({locationType: 'default'}, 
+      function(err, i){
+        if(err){
+          isDone(err);
+        }else{
+          data.location = {
+            id: i._id,
+            name: i.locationName
+          };
+          isDone(data);
+        }
+      });
+  });
+
+  //This registers this new item as an order which has been supplied 
+  //if the invoice data is available 
+  register.once('checkInvoice', function(data, isDone){
+    if(data.item.orderInvoiceData !== undefined){
+      hasOrder = true;
+
+      //Creates a new order.
+      var order = new Order();
+
+      //Push the itemName and Item ObjectId into the itemData array
+      //on the order object.
+      order.itemData.push({itemName: data.item.itemName, id: data.item.id});
+
+      order.orderSupplier = (data.item.suppliers);
+      order.orderInvoice = data.item.orderInvoiceData.orderInvoiceNumber;
+      order.orderStatus = 'Supplied'            ;
+      order.orderType = data.item.itemType;
+      order.orderAmount= data.item.orderInvoiceData.orderInvoiceAmount;
+      order.orderDate= data.item.orderInvoiceDate;
+      order.save(function(err, i){
+        if(utils.isError(err)){
+          isDone(err);
+        }else{
+          data.order = i;
+          isDone(data);
+        }
+      });      
+    }else{
+      isDone(data);
+    }
+  });
+
+  register.once('saveItem', function(data, isDone){
+    itemObject.save(function (err, i) {
+      if (!err) {
+        result = {
+          _id: i._id,
+          itemName: i.itemName,
+          itemCategory: i.itemCategory,
+          //Saving this on the stockcount collection
+          itemBoilingPoint: data.item.itemBoilingPoint
+        };
+
+        data.item.id = i._id;
+        isDone(data);
+
+      }else{
+        isDone(err);
+      }
     });
+  });
+
+  register.once('stockCountpre', function(data, isDone){
+    //Skip to the next is hasOrder is false;
+    if(!hasOrder) return isDone(data);
+    // Check if this record has been created for this order using the orderid and the reference field 
+    // on the StockHistoryShema
+    StockHistory.count({'reference': 'create-'+data.order._id}, function(err, count){
+      if(count > 0){
+        isDone(new Error('Invalid Order::old'));
+      }else{
+        isDone(data);
+      }
+    });    
+  });
+
+  register.once('stockHistory', function(data, isDone){
+    //Skip to the next if hasOrder is false;
+    if(!hasOrder) return isDone(data);  
+    var itemObj = {
+      id: data.item.id,
+      amount: data.item.orderInvoiceData.orderInvoiceAmount
+    };
+
+    var options = {
+      action: 'Stock Up',
+      reference: 'create-'+data.order._id
+    };    
+
+    //Create a stock history record.
+    stockHistory.log(itemObj, data.location, options ,function(g){
+      data.stock = g;
+      isDone(data);
+    });    
+  });
+
+  register.once('stockCountpost', function(data, isDone){
+    // Creates a stock count for the item 
+    var stockcount = new StockCount(data.stock);
+    stockcount.itemBoilingPoint = data.item.itemBoilingPoint;
+
+    stockcount.save(function(err, i){
+      if(err){
+        isDone(err);
+      }else{
+        isDone(data);
+      }
+    });
+  });
+
+
+  register.once('statusUpdate', function(data, isDone){
+    //Skip to the next if hasOrder is false;
+    if(!hasOrder) return isDone(data);    
 
     //Updates the order statuses, these are useful for order history
     //queries, etc.
-    var doOrderStatusUpdates = function (){
-        //Creates a new record to show when this order was
-        //updated and what action was taken.
-        orderstatus = new OrderStatus();
-        orderstatus.status = 'Supplied';
-        orderstatus.order_id = order._id;
-        orderstatus.save(function(err){
-          if(err)return err;
-          callback(200);
-        });
-    };
-
-    //Set the location to 'Main'
-    var location ={
-      name: 'Main'
-    };
-
-    var stockhistory = new StockHistory();
-    // Check if this record has been created for this order using the orderid and the reference field 
-    // on the StockHistoryShema
-    StockHistory.count({'reference': 'create-'+order._id}, function(err, count){
-      if(count > 0){
-        callback(new Error('Invalid Order::old'));
+    //Creates a new record to show when this order was
+    //updated and what action was taken.
+    var orderstatus = new OrderStatus();
+    orderstatus.status = 'Supplied';
+    orderstatus.order_id = data.order._id;
+    orderstatus.save(function(err){
+      if(err){
+        isDone(err);
       }else{
-        var itemObj = {
-          id: it._id,
-          amount: itemBody.item.amount
-        };
-        var options = {
-          action: 'Stock Up',
-          reference: 'create-'+order._id
-        };
-        //Create a stock history record.
-        stockhistory.log(itemObj, location, options ,function(g){
-          // Creates a stock count for the item 
-          var stockcount = new StockCount(g);
-          stockcount.amount = itemBody.item.orderInvoiceData.orderInvoiceAmount;
-          stockcount.save(function(err, i){
-            doOrderStatusUpdates();
-          });
-        });
+        isDone(true);
       }
     });
-  }
-
-  it.save(function (err) {
-    if (!err) {
-      var s = Item.findOne({"_id": it._id});
-      s.select('itemID itemName itemCategory');
-      s.exec(function(err, item){
-        callback(item);
-      });
-    }else{
-      callback(err);
-    }
   });
+
+  register
+  .queue('checksort', 'saveItem', 'checkInvoice', 'getMainLocation', 'stockCountpre', 'stockHistory', 'stockCountpost', 'statusUpdate')
+  .onError(function(err){
+    cb(err);
+  })
+  .onEnd(function(err){
+    cb(result);
+  })
+  .start(itemBody);
 };
 
 
@@ -379,6 +464,7 @@ ItemsObject.prototype.itemFields = function (req, res){
  * @return {[type]}            [description]
  */
 ItemsObject.prototype.deleteItem = function(itemId, callback){
+  var register = new EventRegister();
   Item.remove({_id: itemId}, function(err, i){
     if(utils.isError(err)){
       callback(err);
@@ -386,6 +472,7 @@ ItemsObject.prototype.deleteItem = function(itemId, callback){
     }
     callback(i);
   });
+
 };
 
 /**

@@ -21,7 +21,6 @@ var ItemSchema = new Schema({
     {type: Schema.ObjectId, ref: 'ItemCategory'}
   ],
   itemDescription: {type: String},
-  itemBoilingPoint:{type: Number},
   itemPackaging:{type: String},
   itemForm: {type: String},
   itemPurchaseRate: {type: Number},
@@ -230,7 +229,7 @@ ItemPackagingSchema.statics = {
       }
     });
   }
-}
+};
 
 /**
  * ItemPackaing Schema Methods
@@ -248,7 +247,7 @@ ItemPackagingSchema.methods = {
       }      
     });
   }  
-}
+};
 
 mongoose.model('ItemForm', ItemFormSchema);
 mongoose.model('ItemPackaging', ItemPackagingSchema);
