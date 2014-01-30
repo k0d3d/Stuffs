@@ -18,7 +18,8 @@ var StockHistorySchema = new Schema({
   amount: {type: Number, min: 0},
   action: String,
   reference: {type: String, unique: true},
-  visible: {type: Number, default: 1}
+  visible: {type: Number, default: 1},
+  transactionId: {type: Schema.ObjectId}
 });
 
 
@@ -32,12 +33,13 @@ StockHistorySchema.methods = {
    * @return {[type]}            [description]
    */
   log: function log(itemObj, location, others, callback){
-    this.item = itemObj.id;
-    this.locationId = location.id;
-    this.locationName = location.name;
+    this.item = itemObj.id || itemObj._id;
+    this.locationId = location.id || location._id;
+    this.locationName = location.name || location.locationName;
     this.amount = itemObj.amount;
     this.action = others.action;
     this.reference = others.reference;
+    this.transactionId = others.transactionId;
     this.save(function(err, i){
       if(err){
         callback(err);

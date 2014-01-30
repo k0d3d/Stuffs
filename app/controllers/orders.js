@@ -4,7 +4,7 @@
  */
 
 var mongoose = require('mongoose'),
-  Item = require('./items').item,
+  Items = require('./items').item,
   EventRegister = require('../../lib/event_register').register,
   StockManager = require('./stock').manager,
   PointLocation = mongoose.model('Location'),
@@ -114,47 +114,65 @@ OrderController.prototype.placeCart = function(cartObj, cb){
  * Create an order
  */
 OrderController.prototype.createOrder = function (orderObj, cb) {
-  var itemName = orderObj.itemName || orderObj.itemData.itemName;
-  var supplier = orderObj.supplier || orderObj.suppliers;
 
   var register = new EventRegister();
 
-  var id = orderObj._id || orderObj.itemData._id;
+  //Checks if an itemId is present in a request.
+  //the absence of an itemId creates a new item
+  register.once('checkId', function(data, isDone){
+    var id = data._id || data.itemData._id;
 
-  if(!id){
-
-  }
-
-  var order = new Order(orderObj);
-  var itemObj = {itemName: itemName, _id: id};
-  order.orderSupplier =  supplier;
-
-  order.itemData.push(itemObj);
-  
-  order.save(function (err) {
-    if (!err) {
-      postOrders();
-      cb(true);
+    if(!id){
+      //Lets go create a new Item and return its id
+      var item = new Items();
+      item.create({
+        item:{
+          itemName: data.itemData.itemName,
+          nafdacRegNo: data.nafdacRegNo,
+          sciName: data.sciName
+        }
+      }, function(d){
+        data.id = d._id
+        isDone(data);
+      });
     }else{
-      cb(new Error(err));
+      data.id = id;
+      isDone(data);
     }
   });
 
-  register.once('checkforId', function(data, isDone){
+  register.once('saveOrder', function(data, isDone){
+    var itemName = data.itemName || data.itemData.itemName;
+    var supplier = data.supplier || data.suppliers;
 
-  });
+    var order = new Order(data);
+    var itemObj = {itemName: itemName, _id: data.id};
 
-  
+    order.orderSupplier =  supplier;
+
+    order.itemData.push(itemObj);
+    
+    order.save(function (err) {
+      if (!err) {
+        postOrders();
+        isDone(true);
+      }else{
+        isDone(new Error(err));
+      }
+    });
+  })
+
+
 
   register
-  .queue()
+  .queue('checkId', 'saveOrder')
   .onError(function(err){
-
+    cb(err);
   })
   .onEnd(function(i){
-
+    cb(i);
   })
-  .start();
+  .start(orderObj);
 
 
 };
@@ -222,13 +240,13 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
   })
 
   register.once('supplyOrder', function(data, isDone){
-
       var stockman = new StockManager();
+      //return console.log(stockman);
 
       //For reference 
-      data.options = {
+      data.location.origin.options = {
         action: 'Stock Up',
-        reference: 'orders-'+req.param('orderId')        
+        reference: 'orders-'+ data.orderId     
       };
 
       //Since Orders for main stock have no 
@@ -236,9 +254,17 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
       //set this to true to overide our source.
       data.isMain = true;
 
+      var reqObject = [
+        {
+          item: data.orderbody.itemData._id,
+          itemName: data.orderbody.itemData.itemName,
+          amount: data.orderbody.amountSupplied,
+        }      
+      ];
+
       //This will handle stocking down
-      stockman.stockUp(data, function(d){
-        isDone(d);
+      stockman.stockUp(reqObject, data.location,  function(d){
+        isDone(data);
       })
   });
 

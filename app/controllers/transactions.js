@@ -60,7 +60,7 @@ TransactionController.prototype.insertRecord = function(request, originLocation,
     }
     var self = this;
     self.transModel.origin = originLocation.id;
-    self.transModel.destination = destinationLocation.id;
+    self.transModel.destination = (destinationLocation) ? destinationLocation.id : undefined;
     self.transModel.item = request.item;
     self.transModel.operation = operation;
     self.transModel.status = 'initial';
@@ -70,9 +70,12 @@ TransactionController.prototype.insertRecord = function(request, originLocation,
     //self.transModel.historyId = request._id;
     self.transModel.amount = request.amount;
     self.transModel.save(function(err, i){
+
         if(err){
+            
             //Should log this.
             cb(err);
+
         }else{
             //Id like to save the current transaction
             //and some other info into a public property
@@ -83,7 +86,6 @@ TransactionController.prototype.insertRecord = function(request, originLocation,
             };
             //delete the trans object
             delete self.transModel;
-            //console.log(self);
             cb(self.currentTransaction);
         }
     });
@@ -127,11 +129,15 @@ TransactionController.prototype.makeCommited = function(cb){
 
 TransactionController.prototype.cleanPending = function(dependency, cb){
     var self = this;
+
+    var orCond = [{_id: self.currentTransaction.origin.id}];
+
+    if(self.currentTransaction.destination){
+        or.push({_id: self.currentTransaction.destination.id});
+    }
+    console.log(self);
     dependency.update({ 
-        $or:[
-            {_id: self.currentTransaction.origin.id},
-            {_id: self.currentTransaction.destination.id}
-        ]
+        $or: orCond
     }, {
         $pull: {pendingTransactions: self.currentTransaction.id}
     }, function(err, i){

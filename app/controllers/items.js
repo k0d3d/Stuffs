@@ -159,7 +159,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
     if(!hasOrder) return isDone(data);
     // Check if this record has been created for this order using the orderid and the reference field 
     // on the StockHistoryShema
-    StockHistory.count({'reference': 'create-'+data.order._id}, function(err, count){
+    StockCount.count({'reference': 'create-'+data.order._id}, function(err, count){
       if(count > 0){
         isDone(new Error('Invalid Order::old'));
       }else{

@@ -24,7 +24,6 @@ var TransactionSchema = new Schema({
 	stage:[],
 	updated: {type: Date},
 	operation: {type: String},
-	historyId: {type: Schema.ObjectId}
 });
 
 mongoose.model('transaction', TransactionSchema);
