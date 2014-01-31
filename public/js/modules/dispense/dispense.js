@@ -17,7 +17,7 @@ angular.module('dispense', [])
       prescription: []
     };
     // Gets the stock down points from the server
-    sS.getPoints(function(res){
+    sS.getAllLocations(function(res){
       $scope.locations = res;
     });  
     $scope.drugsList = [];

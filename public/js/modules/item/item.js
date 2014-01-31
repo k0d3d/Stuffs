@@ -240,6 +240,17 @@ angular.module('item', [])
       $scope.saveButtonText = 'Save Item';
     });
   };
+
+  $scope.getByRegNo = function(){
+    itemsService.getByRegNo($scope.form.nafdacRegNo, function(r){
+      $scope.form.itemName = r.productName;
+      $scope.form.nafdacRegNo = r.regNo;
+      $scope.form.importer = r.man_imp_supp;
+      $scope.form.sciName = r.composition;
+      $scope.form.nafdacId = r._id;      
+    }); 
+  }
+
 })
 .controller('itemEditController', function itemEditController($scope, $location, $routeParams,itemsService){
   $scope.form = {
@@ -534,38 +545,19 @@ angular.module('item', [])
     });    
   };
 
+  i.getByRegNo = function(query, cb){
+    console.log(query);
+    $http.get('/api/nafdacdrugs/typeahead?q='+query)
+    .success(function(d){
+      cb(d)
+    })
+    .error(function(data, isDone){
+      alert('An Error Occurred');
+    });
+  }
+
   return i;
 }])
-.directive('newModal', function(){
-    function link($scope, element, attributes){
-      element.on('click', function(){
-        $(attributes.newModal).modal('toggle');
-      });
-    }
-    return {
-      link: link
-    };
-})
-.filter('stockclass',function(){
-    return function(cs, bp){
-      if(cs === 0){
-        return "empty-stock";
-      }else if(cs <= bp){
-        return "low-stock";
-      }else{
-        return "good-stock";
-      }
-    };
-  })
-.filter('indexclass',function(){
-    return function (enabledIndex, index){
-      if($.inArray(index, enabledIndex) > -1){
-        return "active";
-      }else{
-        return "inactive";
-      }
-    };
-  })
 .directive('brandNameTypeAhead', ['itemsService', function(itemsService){
   var linker = function(scope, element, attrs){
     var nx;
@@ -657,4 +649,62 @@ angular.module('item', [])
   return {
     link: linker
   };
-}]);
+}])
+.directive('newModal', function(){
+    function link($scope, element, attributes){
+      element.on('click', function(){
+        $(attributes.newModal).modal('toggle');
+      });
+    }
+    return {
+      link: link
+    };
+})
+.directive('nafdacTypeahead', ['itemsService', function(itemsService){
+  var linker = function(scope, element, attrs){
+      element.typeahead({
+        source: function(query, process){
+          return itemsService.getByRegNo(query,function(results, s){
+            return process(results);
+          });
+        },
+        updater: function(item){
+          scope.form.itemName = item;
+          _.some(nx, function(v,i){
+            if(v.productName === item){
+              scope.form.nafdacRegNo = v.regNo;
+              scope.form.importer = v.man_imp_supp;
+              scope.form.sciName = v.composition;
+              scope.form.nafdacId = v._id;
+              return true;
+            }
+          });
+          scope.$apply();
+          return item;
+        }
+      });
+  };
+  return {
+    link: linker
+  };
+}])
+.filter('stockclass',function(){
+    return function(cs, bp){
+      if(cs === 0){
+        return "empty-stock";
+      }else if(cs <= bp){
+        return "low-stock";
+      }else{
+        return "good-stock";
+      }
+    };
+  })
+.filter('indexclass',function(){
+    return function (enabledIndex, index){
+      if($.inArray(index, enabledIndex) > -1){
+        return "active";
+      }else{
+        return "inactive";
+      }
+    };
+  })

@@ -61,7 +61,7 @@ TransactionController.prototype.insertRecord = function(request, originLocation,
     var self = this;
     self.transModel.origin = (originLocation) ? originLocation.id : undefined;
     self.transModel.destination = (destinationLocation) ? destinationLocation.id : undefined;
-    self.transModel.item = request.item;
+    self.transModel.item = request.id;
     self.transModel.operation = operation;
     self.transModel.status = 'initial';
     //The _id on the request object is the ObjectId 
@@ -129,14 +129,12 @@ TransactionController.prototype.makeCommited = function(cb){
 
 TransactionController.prototype.cleanPending = function(dependency, locationId, itemId,  cb){
     var self = this;
-    console.log(locationId, itemId);
     dependency.update({ 
         locationId: locationId,
         item: itemId
     }, {
         $pull: {pendingTransactions: self.currentTransaction.id}
     }, function(err, i){
-        console.log(err, i);
         if(err){
             cb(err);
         }else{

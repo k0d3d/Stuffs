@@ -564,6 +564,19 @@ ItemsObject.prototype.addPackaging = function(name, callback){
   });  
 };
 
+ItemsObject.prototype.fetchByRegNo = function(query, cb){
+  console.log(query);
+  NafdacDrugs.findOne({
+    regNo: query
+  }, function(err, i){
+    if(err){
+      cb(err);
+    }else{
+      cb(i);
+    }
+  })
+}
+
 
 
 
@@ -621,6 +634,19 @@ module.exports.routes = function(app){
 
   //Nafdac Typeahead Route
   app.get('/api/nafdacdrugs/typeahead/needle/:needle',item.nafdacTypeAhead);
+
+  //NAFDAC Fetch item by Registeration Number
+  app.get('/api/nafdacdrugs/typeahead', function(req, res, next){
+    item.fetchByRegNo(req.query.q, function(r){
+      if(utils.isError(r)){
+        next(r);
+      }else if(_.isEmpty(r)){
+        res.json(400, false);
+      }else{
+        res.json(200, r);
+      }
+    })
+  });
 
   //Create a new Item 
   app.post('/api/items',function(req,res){

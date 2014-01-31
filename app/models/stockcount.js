@@ -14,7 +14,7 @@ var StockCountSchema = new Schema({
   item: {type: Schema.ObjectId, ref: 'Item'},
   locationId: {type: Schema.ObjectId, ref: 'Location'},
   locationName: String,
-  amount: {type:Number, min: 0},
+  amount: {type:Number, min: 1},
   lastOrderDate: {type: Date, default: Date.now},
   itemBoilingPoint:{type: Number},
   pendingTransactions:[]
@@ -97,27 +97,6 @@ StockCountSchema.statics = {
       });
     }
 };
-
-StockCountSchema.pre('save', function(next){
-    var self = this;
-
-    var model = mongoose.models['StockCount'];
-    model.findOne({
-        item: this.item
-    }, 'amount', function(err, a){
-        if(err){
-            next(err);
-        }else if(!a){
-          next();
-        }
-        else if (a.amount - this.amount){
-            seld.invalidate('amount', 'Stock requested is unavailable;');
-            next(new Error('Amount is: '+ s.amount));
-        }else{
-            next();
-        }
-    });
-});
 
 
 mongoose.model('StockCount', StockCountSchema);

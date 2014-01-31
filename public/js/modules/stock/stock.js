@@ -28,14 +28,12 @@ angular.module('stock', [])
     $scope.stockDownRecord = [] ;
     $scope.hasItems = false;
 
-    // Gets the stock down points from the server
-    sS.getPoints('', function(res){
-      $scope.sub_locations = res;
-    });  
-    // Gets the top / main stockl location from the server
-    sS.getPoints('default', function(res){
-      $scope.main_location = res;
-    });    
+    sS.getAllLocations(function(r){
+      $scope.sub_locations = r;
+    });
+    sS.getMainLocations(function(r){
+      $scope.main_location =  r;
+    });
   }
   init();
 
@@ -147,8 +145,15 @@ angular.module('stock', [])
   };
 
   //Gets all stock down locations and basic information
-  i.getPoints = function(type, callback){
-    $http.get('/api/stock/location?type='+type).
+  i.getAllLocations = function(callback){
+    $http.get('/api/stock/location?type=').
+    success(function(data, status){
+      callback(data);
+    });
+  };
+  //Gets all stock down locations and basic information
+  i.getMainLocations = function(callback){
+    $http.get('/api/stock/location?type=default').
     success(function(data, status){
       callback(data);
     });

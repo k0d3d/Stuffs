@@ -93,11 +93,10 @@ angular.module('services', [])
 .factory('Transaction', ['$http', '$q', function($http, $q){
 	return {
 		getTransactions: function(cb){
-			return $http.get('/api/transactions')
-			.then(cb, function(err){
-				//Error Hander
-				return $q.reject();
-			});
+			$http.get('/api/transactions')
+			.success(function(d){
+				cb(d);
+			})
 		},
 		rollbackTransactions: function(transactionId, cb){
 			return $http.post('/api/transaction/'+transactionId+'?task=rollback')

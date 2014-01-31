@@ -9,15 +9,18 @@
             th Destination
             th Item
             th Status
-            th Operation
+            th Started
+            th Last Update
             th Action
         tbody
-          tr(ng-repeat="t in transactions")
+          tr(ng-repeat="t in transactions | orderBy: 'updated': true")
             td {{t.origin.locationName}}
             td {{t.amount}}
             td {{t.destination.locationName}}
             td {{t.item.itemName}}
             td {{t.status}}
+            td {{t.started | date: 'medium'}}
+            td {{t.updated | date: 'medium'}}
             td {{t.operation}}
             td
               button.btn.btn-primary() Rollback

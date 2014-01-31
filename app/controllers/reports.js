@@ -1,7 +1,7 @@
 /*
 Module dependencies
  */
-var Stock = require('./stock').stock,
+var Stock = require('./stock').manager,
     util = require('util');
 
 /*
@@ -54,6 +54,7 @@ module.exports.routes = function(app){
   //app.get('/api/bills', item.getBills); 
   
   app.get('/api/reports/location', function(req, res, next){
+    console.log(req.query);
     report.itemBylocation(
       req.query._id, 
       req.query.location._id,

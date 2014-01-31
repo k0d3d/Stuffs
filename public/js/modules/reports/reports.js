@@ -16,7 +16,7 @@ controller('reportsDashboardController', ['$scope', '$http', '$location', 'order
 }])
 .controller('reportsLocation',['$scope','itemsService', 'reportsService', 'stockService', function($scope, itemsService, rS, sS){
     // Gets the stock down points from the server
-    sS.getPoints(function(res){
+    sS.getAllLocations(function(res){
       $scope.locations = res;
     });
 
