@@ -24,15 +24,16 @@ var ItemSchema = new Schema({
   itemPackaging:{type: String},
   itemForm: {type: String},
   itemPurchaseRate: {type: Number},
-  packageSize: Number,
+  packageSize: {type: Number},
   icdcode: {type: String},
   suppliers: [{
     supplierID: {type: Schema.ObjectId},
-    supplierName: String,
+    supplierName: {type: String},
   }],
   nafdacId: {type: Schema.ObjectId},
-  importer: String,
-  nafdacRegNo: String
+  importer: {type: String},
+  nafdacRegNo: {type: String},
+  itemBoilingPoint: {type: Number}
 });
 
 
@@ -254,3 +255,4 @@ mongoose.model('ItemPackaging', ItemPackagingSchema);
 mongoose.model('ItemCategory', ItemCategorySchema);
 mongoose.model('Item', ItemSchema);
 module.exports = mongoose.model('Item');
+xports = mongoose.model('Item');

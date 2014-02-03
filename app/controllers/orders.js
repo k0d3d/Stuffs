@@ -120,6 +120,7 @@ OrderController.prototype.createOrder = function (orderObj, cb) {
   //Checks if an itemId is present in a request.
   //the absence of an itemId creates a new item
   register.once('checkId', function(data, isDone){
+    console.log(data);
     var id = data._id || data.itemData._id;
 
     if(!id){
@@ -129,7 +130,7 @@ OrderController.prototype.createOrder = function (orderObj, cb) {
         item:{
           itemName: data.itemData.itemName,
           nafdacRegNo: data.nafdacRegNo,
-          sciName: data.sciName
+          sciName: data.itemData.sciName
         }
       }, function(d){
         data.id = d._id
@@ -208,7 +209,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
   //Switch / Conditional Event Queue
   var whatOrder;
 
-  register.once('statusUpdate', function(data, isDone){
+  register.once('supplyUpdate', function(data, isDone){
     //Updates the order statuses, these are useful for order history
     //queries, etc
 
@@ -219,15 +220,45 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
       $set: {
         'orderStatus':data.orderbody.status,
         'orderInvoice': data.orderbody.orderInvoiceNumber,
-        'amountSupplied': data.orderbody.amountSupplied
+        'amountSupplied': data.orderbody.amountSupplied,
+      }
+    })
+    .exec(function(err,numberAffected){
+      if(err){
+        isDone(new Error(err.message));
+      }else{
+        isDone(data);
+      }
+
+    });  
+  });
+
+  register.once('paidUpdate', function(data, isDone){
+    //Updates the order statuses, these are useful for order history
+    //queries, etc
+
+    //Updates the order status 
+    Order.update({
+      '_id':data.orderId
+    },{
+      $set: {
+        'orderStatus':data.orderbody.status,
+        'paymentReferenceType': data.orderbody.paymentReferenceType,
+        'paymentReferenceID': data.orderbody.paymentReferenceID
       }
     })
     .exec(function(err,numberAffected){
 
-      if(err)isDone(err);
+      if(err){
+        isDone(new Error(err.message));
+      }else{
+        isDone(data);
+      }
 
-    });
+    });   
+  });
 
+  register.once('statusUpdate', function(data, isDone){
     //Creates a new record to show when this order was
     //updated and what action was taken.
     var orderstatus = new OrderStatus();
@@ -236,8 +267,8 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
     orderstatus.save(function(err){
       if(err)return isDone(err);
       isDone(data.orderbody.status);
-    });    
-  })
+    }); 
+  });
 
   register.once('supplyOrder', function(data, isDone){
       var stockman = new StockManager();
@@ -289,10 +320,10 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
   //Switch / Conditional Event Queue
   switch(orderbody.status){
     case 'paid':
-      whatOrder = ['statusUpdate'];
+      whatOrder = ['paidUpdate', 'statusUpdate'];
       break;
     case 'supplied':
-      whatOrder = ['getMainLocation', 'supplyOrder', 'statusUpdate'];
+      whatOrder = ['getMainLocation', 'supplyOrder', 'supplyUpdate', 'statusUpdate'];
       break;
     default:
       whatOrder = ['statusUpdate'];
@@ -302,7 +333,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
   register
   .queue(whatOrder)
   .onError(function(r){
-    cb(err)
+    cb(r);
   })
   .onEnd(function(r){
     cb(r)
@@ -313,24 +344,51 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
 
 /**
  * [count description]
+ * 
  * @param  {[type]} req [description]
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-OrderController.prototype.count = function(req, res){
-  var d = Order.count({orderVisibility: true});
-  var m  = Order.count({orderVisibility: true});
-  m.where('orderStatus').equals('pending order');
-  m.where('orderStatus').equals('received');
-  d.where('orderStatus').equals('supplied');
-  d.exec(function(err,y){
-    if(err)console.log(err);
-    m.exec(function(err, o){
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.write(JSON.stringify({"pendingpayment":y,"pendingorders":o}));
-      res.end();
-    });
+OrderController.prototype.count = function(cb){
+
+  //TODO:: Use mongodb agreegators for this
+  var register = new EventRegister();
+
+  register.once('doInvoice', function(data, isDone){
+    var d = Order.count({orderVisibility: true});
+    d.or([{orderStatus: 'Supplied'}, {orderStatus: 'supplied'}]);
+    d.exec(function(err,y){
+      if(err){
+        cb(err);
+      }else{
+        data.pendingpayment = y;
+        isDone(data);
+      }
+    });    
   });
+
+  register.once('doOrder', function(data, isDone){
+    var d = Order.count({orderVisibility: true});
+    d.or([{orderStatus: 'pending order'}, {orderStatus: 'Pending Order'}, {orderStatus: 'PENDING ORDER'}]);
+    d.exec(function(err,y){
+      if(err){
+        cb(err);
+      }else{
+        data.pendingorders = y;
+        isDone(data);
+      }
+    });    
+  })
+
+  register
+  .queue('doInvoice', 'doOrder')
+  .onError(function(err){
+    cb(err);
+  })
+  .onEnd(function(r){
+    cb(r);
+  })
+  .start({"pendingpayment":0,"pendingorders":0});
 };
 
 /**
@@ -437,7 +495,15 @@ module.exports.routes = function(app){
       });
     }
   );
+
   app.get('/orders', function(req, res){
+      res.render('index',{
+        title: 'All orders'
+      });
+    }
+  );
+
+  app.get('/orders/pending/:type', function(req, res){
       res.render('index',{
         title: 'All orders'
       });
@@ -451,7 +517,15 @@ module.exports.routes = function(app){
   );
   //Order  GET routes
   app.get('/api/orders',orders.getOrders);
-  app.get('/api/orders/count',orders.count);
+  app.get('/api/orders/count', function(req, res, next){
+    orders.count(function(r){
+      if(utils.isError(r)){
+        next(r);
+      }else{
+        res.json(200, r);
+      }
+    })
+  });
   // app.get('/api/orders/supplier', orders.allSuppliers);
   // app.get('/api/orders/supplier/:id', orders.getSupplier);
   app.get('/api/orders/supplier/typeahead/:query', orders.suppliersTypeahead);

@@ -1,8 +1,6 @@
 .row(ng-controller="reportsLocation")
   .span4
     form(style="padding: 0 30px;", ng-submit="getReport()")
-      label Location
-      select(ng-model="searchform.location", ng-options="l.locationName for l in locations", required)
       label Drug name
       input.input-medium(type="text", location-item, ng-model="searchform.itemName", required)
       label From <em>Start date</em>

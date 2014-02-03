@@ -552,7 +552,7 @@ angular.module('item', [])
       cb(d)
     })
     .error(function(data, isDone){
-      alert('An Error Occurred');
+      alert('An Error Occurred, please check your request');
     });
   }
 

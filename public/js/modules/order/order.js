@@ -7,6 +7,7 @@ angular.module('order', []).
 
 config(['$routeProvider',function($routeProvider){
   $routeProvider.when('/orders', {templateUrl: '/orders/all', controller: 'ordersIndexController'})
+  .when('/orders/pending/:type', {templateUrl: '/orders/all', controller: 'ordersIndexController'})
   .when('/dashboard/orders/cart', {templateUrl: '/orders/cart', controller: 'orderCartController'})
   .when('/dashboard/order', {templateUrl: '/orders/add', controller: 'orderAddController'})
   .when('/dashboard/order/:itemId', {templateUrl: '/orders/add', controller: 'orderAddController'});
@@ -44,7 +45,7 @@ config(['$routeProvider',function($routeProvider){
   };
 
 }])
-.controller('ordersIndexController', function($scope, $http, $location, ordersService){
+.controller('ordersIndexController', function($scope, $http, $location, $routeParams, ordersService){
   $scope.getStatus = function (status){
     var d;
     switch(status){
@@ -71,15 +72,36 @@ config(['$routeProvider',function($routeProvider){
     }
     return d;
   };  
+  $scope.ordersfilter = {
+    orderStatus : ''
+  };
   (function(){
     $scope.orders = [];
+    
     ordersService.orders(function(r){
       angular.forEach(r, function(v, i){
         v.nextStatus = $scope.getStatus(v.orderStatus);
         $scope.orders.push(v);
       });
+      console.log($routeParams.type);
+      switch($routeParams.type){
+        case 'invoices':
+        $scope.ordersfilter.orderStatus = "Supplied";
+        break;
+        case 'order':
+        console.log('message');
+        $scope.ordersfilter.orderStatus = "Pending Order";
+        break;
+        default:
+        $scope.ordersfilter.orderStatus = "";
+        break;
+      }
+      console.log($scope.ordersfilter.orderStatus);
+
+
     });
   }());
+
 
   $scope.removeOrder = function(event, order_id){
     var currentItem = event.currentTarget;
@@ -258,7 +280,9 @@ config(['$routeProvider',function($routeProvider){
           "itemData":o.itemData,
           "amount":o.amount,
           "orderInvoiceNumber": o.invoiceno,
-          "amountSupplied": o.amountSupplied || undefined
+          "amountSupplied": o.amountSupplied || undefined,
+          "paymentReferenceType": o.paymentReferenceType,
+          "paymentReferenceID": o.paymentReferenceID
         })
       .success(function(data){
         Notification.notifier({
@@ -377,13 +401,27 @@ config(['$routeProvider',function($routeProvider){
   function Ctrlr ($scope){
   
     $scope.updateOrder = function(index){
+      if($scope.orderList[index].nextStatus == 'supplied' && 
+        (!$scope.orderList[index].amountSupplied || 
+          !$scope.orderList[index].orderInvoice)){
+        alert('Please check the required fields: Missing Amount / Invoice Number');
+        return false;
+      }
+      if($scope.orderList[index].nextStatus == 'paid' && 
+        (!$scope.orderList[index].paymentReferenceType || 
+          !$scope.orderList[index].paymentReferenceID)){
+        alert('Please check the required fields: Payment ID / Payment Type');
+        return false;
+      } 
       var o ={
         status : $scope.orderList[index].nextStatus,
         itemData : $scope.orderList[index].itemData[0],
         amount : $scope.orderList[index].orderAmount,
         order_id : $scope.orderList[index]._id,
         invoiceno : $scope.orderList[index].orderInvoice,
-        amountSupplied: $scope.orderList[index].amountSupplied
+        amountSupplied: $scope.orderList[index].amountSupplied,
+        paymentReferenceType: $scope.orderList[index].paymentReferenceType,
+        paymentReferenceID: $scope.orderList[index].paymentReferenceID
       };
       OS.updateOrder(o, function(r){
         $scope.orderList[index].orderStatus = r.result;

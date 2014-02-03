@@ -35,7 +35,8 @@ var OrderSchema = new Schema({
   onlineId:{type: Schema.ObjectId},
   orderExpDate: {type: Date},
   orderPrice: Number,
-  orderReference: {type: String}
+  paymentReferenceType: {type: String},
+  paymentReferenceID: {type: String}
 });
 
 var OrderStatusSchema = new Schema({

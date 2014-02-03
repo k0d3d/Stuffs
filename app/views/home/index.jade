@@ -39,12 +39,12 @@
                 h4 View Orders 
         .row-fluid.row-break
           .span4
-            .tile.palette-turquoise(ng-click="commons.href('orders/pending')")
+            .tile.palette-turquoise(ng-click="commons.href('orders/pending/order')")
               .tile-sub  
                 h4 {{ordersCount.pendingorders}}
                 span pending orders
           .span4
-            .tile.palette-turquoise(ng-click="commons.href('invoices/pending')")
+            .tile.palette-turquoise(ng-click="commons.href('orders/pending/invoices')")
               .tile-sub
                 h4 {{ordersCount.pendingpayment}} 
                 span pending payments                 

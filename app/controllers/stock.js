@@ -170,7 +170,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
         item: data.id,
         locationId: location.origin.id
     }, 'amount', function(err, a){
-      console.log(data);
+      console.log(location, data);
       console.log((a.amount - data.amount));
         if(err){
             isDone(err);
@@ -240,7 +240,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
   eventRegister.on('stockHistory', function(data, isDone){
     //Create a stock record for each requested stock down drug item
     var sh = new StockHistory();
-
+    console.log(data);
     sh.log(data, data.forLocation, data.forLocation.options, function(r){
         isDone(data);
     });   
@@ -388,7 +388,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
  * @return {[type]}     [description]
  */
 StockController.prototype.count = function(id, callback){
-  return callback(0, 0);
+  //return callback(0, 0);
   var d = Item.count();
   var m  = Item.find();
   //m.$where(function(){return this.currentStock < this.itemBoilingPoint && this.currentStock > 0;});
@@ -406,7 +406,7 @@ StockController.prototype.count = function(id, callback){
 
   //get all items from the 'items' collectioin
   function gl (){
-    StockCount.find({locationId: id}, function(err, i){
+    StockCount.find({locationId: "52e4c39fd8699d5c09000008"}, function(err, i){
       total = i.length;
       stockcountlist = i;
       if(stockcountlist.length === 0){
@@ -423,10 +423,12 @@ StockController.prototype.count = function(id, callback){
   //pass in the StockCount list
   function hl (){
     var countItem = stockcountlist.pop();
+    console.log(countItem);
     //Find one 
     Item.load(countItem.item, function(err, i){
+      var bp = (i) ? i.itemBoilingPoint : 0;
       //When found compare boilingPoint to the result amount
-      if(countItem.amount < i.itemBoilingPoint){
+      if(countItem.amount < bp){
         lowCount++;
       }
       --total;
@@ -439,6 +441,33 @@ StockController.prototype.count = function(id, callback){
     });
   }
 };
+
+
+/**
+ * Updates an items boiling point.
+ * @param  {[type]}   locationId [description]
+ * @param  {[type]}   itemId     [description]
+ * @param  {[type]}   BP         [description]
+ * @param  {Function} cb         [description]
+ * @return {[type]}              [description]
+ */
+StockController.prototype.updateBP = function(locationId, itemId, BP, cb){
+  StockCount.update({
+    item: itemId,
+    locationId: locationId
+  }, {
+    $set : {
+      itemBoilingPoint: BP
+    }
+  }, function(err, i){
+    if(err){
+      cb(err);
+    }else{
+      cb(i);
+    }
+  })
+}
+
 
 /**
  * history Fetches item stock history.
@@ -460,11 +489,11 @@ StockController.prototype.history = function (item_Id, location, date,  cb){
   options.item = item_Id;
 
   //Checks if a date query is necessary
-  if(date){
-    var start = new Date(date.start);
-    var end = new Date(date.end);
-    options.date = {$gte: start, $lt: end};
-  }
+  // if(date){
+  //   var start = new Date(date.start);
+  //   var end = new Date(date.end);
+  //   options.date = {$gte: start, $lt: end};
+  // }
 
   console.log(options);
   StockHistory.find(options)

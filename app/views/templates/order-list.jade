@@ -32,8 +32,21 @@ tr(ng-repeat="order in orderList | filter: ordersFilter", on-finish="tableheader
               input.input-medium.input-block-level(type="text",ng-model="order.orderInvoice", required)
               span.help-block {{addHelpText}}
           .control-group
+            label.control-label Payment Type
             .controls
-              button.btn.btn-inverse.input-block-level(ng-click="updateOrder($index)", ng-disabled="order.nextStatus == null || (order.nextStatus == 'supplied' && order.amountSupplied.length == 0 && order.orderInvoice.length == 0)") {{order.nextStatus}}
+              select.input-medium.input-block-level(type="text",ng-model="order.paymentReferenceType", ng-required="order.nextStatus == 'paid'")
+                option Cheque
+                option Cash
+                option Bank Transfer
+              span.help-block {{addHelpText}}
+          .control-group
+            label.control-label Reference ID
+            .controls
+              input.input-medium.input-block-level(type="text",ng-model="order.paymentReferenceID", ng-required="order.nextStatus == 'paid'", placeholder="Cheque No, Cash Slip ID or Transaction ID")
+              span.help-block {{addHelpText}}
+          .control-group
+            .controls
+              button.btn.btn-inverse.input-block-level(ng-click="updateOrder($index)") {{order.nextStatus}}
               button.btn.btn-danger.input-block-level(ng-click="cancelOrder($index)", ng-disabled="order.nextStatus == null") Cancel
   td                      
     .btn-group

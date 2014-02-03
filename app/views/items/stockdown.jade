@@ -56,7 +56,8 @@ block body
                   td {{lo.amount}}
                   td 
                     .btn-group.dropdown
-                      button.btn.btn-primary(data-toggle="dropdown", title="Boiling Point") BP
+                      button.btn.btn-primary(data-toggle="dropdown", title="Boiling Point")
+                        i.fa.fa-flask
                       .dropdown-menu.alt-text
                         form.new-stock-down
                           .control-group
@@ -65,7 +66,8 @@ block body
                               input.input-medium.input-block-level(type="number",ng-model="lo.boilingPoint", required)
                             .controls
                               button.btn.btn-inverse.input-block-level(style="border-radius: 0", ng-click="postBp($index)") Update 
-                    button.btn.btn-primary(ng-click="doHistory($event, lo.locationId, lo.item._id)", title="Stock History") History
+                    button.btn.btn-primary(ng-click="doHistory($event, lo.locationId, lo.item._id)", title="Stock History") 
+                      i.fa.fa-clock-o
           .no-item-holder(ng-show="!hasItems")
             h4 Choose a location.  
 

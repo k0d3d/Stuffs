@@ -10,6 +10,7 @@ var mongoose = require('mongoose'),
     PointLocation = mongoose.model('Location'),
     StockHistory = mongoose.model('StockHistory'),
     StockCount = mongoose.model('StockCount'),
+    Stock = require('./stock'),
     _ = require("underscore"),
     NafdacDrugs = mongoose.model("nafdacdrug"),
     EventRegister = require('../../lib/event_register').register,
@@ -235,6 +236,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
 };
 
 
+
 /**
  * List
  */
@@ -402,23 +404,50 @@ ItemsObject.prototype.nafdacTypeAhead = function(req, res){
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-ItemsObject.prototype.updateItem = function(req, res){
-  var itemId = req.body._id;
-  var category = [];
-  _.each(req.body.itemCategory, function(v){
-    category.push(v._id);
+ItemsObject.prototype.updateItem = function(itemId, body, cb){
+  var register = new EventRegister();
+
+  console.log(itemId);
+
+  register.once('updateItem', function(data, isDone){
+    var category = [];
+    
+    _.each(data.itemCategory, function(v){
+      category.push(v._id);
+    });
+
+    var o = _.omit(data, ["_id", "itemID", "itemCategory"]);
+
+    o.itemCategory = category;
+
+    Item.update({_id: itemId}, {
+      $set: o
+    }, function(err, i){
+      console.log(err, i);
+      if(err){
+        isDone(err);
+      }else{
+        isDone(i);
+      }
+    });
   });
-  var o = _.omit(req.body, ["_id", "itemID", "itemCategory"]);
-  o.itemCategory = category;
-  Item.update({_id: itemId}, {
-    $set: o
-  }, function(err, i){
-    if(err){
-      res.json(400,err);
-    }else{
-      res.json(i);
-    }
-  });
+
+  register.once('updateBP', function(data, isDone){
+    //TODO:
+    //Update BP code here
+    isDone(data);
+  })
+
+  register
+  .queue('updateItem', 'updateBP')
+  .onError(function(err){
+    cb(err);
+  })
+  .onEnd(function(i){
+    cb(i);
+  })
+  .start(body);
+
 };
 
 
@@ -627,7 +656,18 @@ module.exports.routes = function(app){
   app.get('/api/items/:item_id/edit', item.itemFields );
 
   //Updates an Item
-  app.post('/api/items/:id/edit',item.updateItem);
+  //TODO: change to put verb
+  app.post('/api/items/:id/edit', function(req, res, next){
+    var itemId = req.params.id;
+    var body = req.body;
+    item.updateItem(itemId, body, function(r){
+      if(utils.isError(r)){
+        next(r);
+      }else{
+        res.json(200, true);
+      }
+    })
+  });
 
   //Typeahead Route
   app.get('/api/items/typeahead/term/:term/query/:needle',item.typeahead);
