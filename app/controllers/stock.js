@@ -387,59 +387,94 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
  * @param  {[type]} callback [description]
  * @return {[type]}     [description]
  */
-StockController.prototype.count = function(id, callback){
-  //return callback(0, 0);
-  var d = Item.count();
-  var m  = Item.find();
-  //m.$where(function(){return this.currentStock < this.itemBoilingPoint && this.currentStock > 0;});
-  var r = {}, lowCount = 0, totalCount = 0, total, stockcountlist;
-  d.exec(function(err,y){
-    if(err)return callback(err);
-    totalCount = y;
-    gl();
+StockController.prototype.count = function(id, cb){
+  var register = new EventRegister();
+
+  // //return callback(0, 0);
+  // var d = Item.count();
+  // var m  = Item.find();
+  // //m.$where(function(){return this.currentStock < this.itemBoilingPoint && this.currentStock > 0;});
+  // var r = {}, lowCount = 0, totalCount = 0, total, stockcountlist;
+  // d.exec(function(err,y){
+  //   if(err)return callback(err);
+  //   totalCount = y;
+  //   gl();
+  // });
+
+  // //When set, please send respion
+  // function respond(lowCount, totalCount){
+  //   callback(lowCount, totalCount);
+  // }
+
+  // //get all items from the 'items' collectioin
+  // function gl (){
+  //   StockCount.find({locationId: "52e4c39fd8699d5c09000008"}, function(err, i){
+  //     total = i.length;
+  //     stockcountlist = i;
+  //     if(stockcountlist.length === 0){
+  //       respond(0, totalCount);
+  //     }else{
+  //       // Run the cross check function
+  //       hl();
+  //     }
+  //   });
+  // }
+
+
+  // //Cross check the currentStock against the itemBoilingPoint
+  // //pass in the StockCount list
+  // function hl (){
+  //   var countItem = stockcountlist.pop();
+  //   console.log(countItem);
+  //   //Find one 
+  //   Item.load(countItem.item, function(err, i){
+  //     var bp = (i) ? i.itemBoilingPoint : 0;
+  //     //When found compare boilingPoint to the result amount
+  //     if(countItem.amount < bp){
+  //       lowCount++;
+  //     }
+  //     --total;
+  //     if(total > 0){
+  //       hl();
+  //       return;
+  //     }else{
+  //       respond(lowCount, totalCount);
+  //     }
+  //   });
+  // }
+
+  register.once('getAllCount', function(data, isDone){
+    Item.count({}, function(err, y){
+      data.totalCount = y;
+      isDone(data);
+    });
   });
 
-  //When set, please send respion
-  function respond(lowCount, totalCount){
-    callback(lowCount, totalCount);
-  }
-
-  //get all items from the 'items' collectioin
-  function gl (){
-    StockCount.find({locationId: "52e4c39fd8699d5c09000008"}, function(err, i){
-      total = i.length;
-      stockcountlist = i;
-      if(stockcountlist.length === 0){
-        respond(0, totalCount);
+  register.once('getLowCount', function(data, isDone){
+    StockCount.count({})
+    .$where(function(){
+      return this.amount < this.itemBoilingPoint;
+    })
+    .exec(function(err, i){
+      if(err){
+        isDone(err);
       }else{
-        // Run the cross check function
-        hl();
+        data.lowCount = i;
+        isDone(data);
       }
     });
-  }
+  });
 
+  register
+  .queue('getAllCount', 'getLowCount')
+  .onError(function(err){
+    cb(err);
+  })
+  .onEnd(function(i){
+    cb(i);
+  })
+  .start({});
 
-  //Cross check the currentStock against the itemBoilingPoint
-  //pass in the StockCount list
-  function hl (){
-    var countItem = stockcountlist.pop();
-    console.log(countItem);
-    //Find one 
-    Item.load(countItem.item, function(err, i){
-      var bp = (i) ? i.itemBoilingPoint : 0;
-      //When found compare boilingPoint to the result amount
-      if(countItem.amount < bp){
-        lowCount++;
-      }
-      --total;
-      if(total > 0){
-        hl();
-        return;
-      }else{
-        respond(lowCount, totalCount);
-      }
-    });
-  }
 };
 
 
@@ -517,18 +552,23 @@ StockController.prototype.history = function (item_Id, location, date,  cb){
  * @return {[type]}            [description]
  */
 StockController.prototype.updateBp = function(id, bp, location, cb){
-  StockCount.update({
-    _id: id,
-    locationId: location
-  }, {
-    boilingPoint: bp
-  }, function(err, i){
-    if(err){
-      cb(err);
-    }else{
+  console.log(arguments);
+    StockCount.update({
+      item: id,
+      locationId: location
+    }, {
+      $set: {
+        itemBoilingPoint: bp
+      }
+    }, function(err, i){
+      console.log(err, i);
+      // if(err){
+      //   cb(err);
+      // }else{
+      //   cb(i);
+      // }
       cb(i);
-    }
-  }, true);
+    });
 };
 
 /**
@@ -636,9 +676,14 @@ module.exports.routes = function(app){
 
 
   //Dashboard Count Items
-  app.get('/api/stock/count',function(req, res){
-    sc.count(null, function(lowCount, totalCount){
-      res.json(200, {"count": totalCount, "low": lowCount});
+  app.get('/api/stock/count',function(req, res, next){
+    sc.count(null, function(l){
+      if(util.isError(l)){
+        next(l);
+      }else{
+        res.json(200, {"count": l.totalCount, "low": l.lowCount});
+      }
+      
     });
   });
 

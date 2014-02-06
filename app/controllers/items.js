@@ -10,11 +10,14 @@ var mongoose = require('mongoose'),
     PointLocation = mongoose.model('Location'),
     StockHistory = mongoose.model('StockHistory'),
     StockCount = mongoose.model('StockCount'),
-    Stock = require('./stock'),
+    Stock = require('./stock').manager,
     _ = require("underscore"),
     NafdacDrugs = mongoose.model("nafdacdrug"),
     EventRegister = require('../../lib/event_register').register,
-    utils = require("util");
+    nconf = require('nconf'),
+    P = require('../../lib/promisify'),
+    Q = require('q'),
+    util = require("util");
 /**
  * Module dependencies.
  */
@@ -88,7 +91,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
 
   register.once('getMainLocation', function(data, isDone){
     //Skip to the next is hasOrder is false;
-    if(!hasOrder) return isDone(data);    
+    //if(!hasOrder) return isDone(data);    
     PointLocation.findOne({locationType: 'default'}, 
       function(err, i){
         if(err){
@@ -123,7 +126,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
       order.orderAmount= data.item.orderInvoiceData.orderInvoiceAmount;
       order.orderDate= data.item.orderInvoiceDate;
       order.save(function(err, i){
-        if(utils.isError(err)){
+        if(util.isError(err)){
           isDone(err);
         }else{
           data.order = i;
@@ -191,9 +194,14 @@ ItemsObject.prototype.create = function (itemBody, cb) {
 
   register.once('stockCountpost', function(data, isDone){
     // Creates a stock count for the item 
-    var stockcount = new StockCount(data.stock);
+    // This event stage is very important cause it 
+    // saves the boiling point on  the stock 
+    // count collection.
+    var stockcount = new StockCount();
     stockcount.itemBoilingPoint = data.item.itemBoilingPoint;
-
+    stockcount.item = data.item.id;
+    stockcount.locationId = data.location.id;
+    stockcount.locationName = data.location.name;
     stockcount.save(function(err, i){
       if(err){
         isDone(err);
@@ -263,7 +271,7 @@ ItemsObject.prototype.list = function(req, res){
         var it = {
           _id: _item._id,
           itemName: _item.itemName,
-          itemBoilingPoint: _item.itemBoilingPoint,
+          itemBoilingPoint: stock.itemBoilingPoint,
           itemCategory: _item.itemCategory,
           currentStock: (stock === null)? 0 : stock.amount,
         };
@@ -407,8 +415,6 @@ ItemsObject.prototype.nafdacTypeAhead = function(req, res){
 ItemsObject.prototype.updateItem = function(itemId, body, cb){
   var register = new EventRegister();
 
-  console.log(itemId);
-
   register.once('updateItem', function(data, isDone){
     var category = [];
     
@@ -423,11 +429,10 @@ ItemsObject.prototype.updateItem = function(itemId, body, cb){
     Item.update({_id: itemId}, {
       $set: o
     }, function(err, i){
-      console.log(err, i);
       if(err){
         isDone(err);
       }else{
-        isDone(i);
+        isDone(data);
       }
     });
   });
@@ -435,8 +440,12 @@ ItemsObject.prototype.updateItem = function(itemId, body, cb){
   register.once('updateBP', function(data, isDone){
     //TODO:
     //Update BP code here
-    isDone(data);
-  })
+    var stock = new Stock();
+    stock.updateBp(itemId, data.itemBoilingPoint, nconf.get("app:main_stock_id"), function(r){
+      isDone(data);
+    });
+    
+  });
 
   register
   .queue('updateItem', 'updateBP')
@@ -469,21 +478,52 @@ ItemsObject.prototype.updateByReg = function(upd){
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-ItemsObject.prototype.itemFields = function (req, res){
-  var options = {criteria: {}, fields: {}};
-  var reg = /^[0-9a-fA-F]{24}$/;
-  if(req.param('item_id').length > 0){
-    if(reg.test(req.param('item_id'))){
-      options.criteria = {"_id": req.param('item_id')};
-    }else{
-      options.criteria = {"itemName": req.param('item_id')};
-    }
+ItemsObject.prototype.itemFields = function (itemId, body, cb){
+  var register = new EventRegister();
 
-    Item.listOne(options, function(err, r){
-      if (err) return res.json(500,{"mssg": 'Darn Fault!!!'});
-      res.json(200, r);
-    });
-  }
+  register.once('checknSave', function(data, isDone){
+    var options = {criteria: {}, fields: {}};    
+    var reg = /^[0-9a-fA-F]{24}$/;
+    if(itemId.length > 0){
+      if(reg.test(itemId)){
+        options.criteria = {"_id": itemId};
+      }else{
+        options.criteria = {"itemName": itemId};
+      }
+
+      Item.listOne(options, function(err, r){
+        if (err){
+          isDone(err);
+        }else{
+          isDone(r.toJSON());
+        } 
+      });
+    }
+  });
+
+  register.once('getBP', function(data, isDone){
+    StockCount.findOne({
+      item: data._id,
+      locationId: nconf.get("app:main_stock_id")
+    }, function(err, i){
+      if(err){
+        isDone(err);
+      }else{
+        data.itemBoilingPoint = i.itemBoilingPoint;
+        isDone(data);
+      }
+    });    
+  });
+
+  register
+  .queue('checknSave', 'getBP')
+  .onError(function(err){
+    cb(err);
+  })
+  .onEnd(function(r){
+    cb(r);
+  })
+  .start({});
 };
 
 /**
@@ -495,7 +535,7 @@ ItemsObject.prototype.itemFields = function (req, res){
 ItemsObject.prototype.deleteItem = function(itemId, callback){
   var register = new EventRegister();
   Item.remove({_id: itemId}, function(err, i){
-    if(utils.isError(err)){
+    if(util.isError(err)){
       callback(err);
       return;
     }
@@ -603,8 +643,8 @@ ItemsObject.prototype.fetchByRegNo = function(query, cb){
     }else{
       cb(i);
     }
-  })
-}
+  });
+};
 
 
 
@@ -653,7 +693,18 @@ module.exports.routes = function(app){
   app.get('/api/items/:id/options/:option/locations/:locationId',item.listOne);
 
   //Fetches data for an item when editing
-  app.get('/api/items/:item_id/edit', item.itemFields );
+  app.get('/api/items/:item_id/edit', function(req, res, next){
+    var body = req.body;
+    var itemId = req.params.item_id;
+    item.itemFields(itemId, body, function(r){
+      if(util.isError(r)){
+        next(r);
+      }else{
+        console.log(r);
+        res.json(200, r);
+      }
+    });
+  });
 
   //Updates an Item
   //TODO: change to put verb
@@ -661,12 +712,12 @@ module.exports.routes = function(app){
     var itemId = req.params.id;
     var body = req.body;
     item.updateItem(itemId, body, function(r){
-      if(utils.isError(r)){
+      if(util.isError(r)){
         next(r);
       }else{
         res.json(200, true);
       }
-    })
+    });
   });
 
   //Typeahead Route
@@ -678,14 +729,14 @@ module.exports.routes = function(app){
   //NAFDAC Fetch item by Registeration Number
   app.get('/api/nafdacdrugs/typeahead', function(req, res, next){
     item.fetchByRegNo(req.query.q, function(r){
-      if(utils.isError(r)){
+      if(util.isError(r)){
         next(r);
       }else if(_.isEmpty(r)){
         res.json(400, false);
       }else{
         res.json(200, r);
       }
-    })
+    });
   });
 
   //Create a new Item 
@@ -712,7 +763,7 @@ module.exports.routes = function(app){
   //Item Category Routes.///
   app.post('/api/items/category', function(req, res, next){
     item.addCategory(req.body.name, req.body.parent, function(r){
-      if(utils.isError(r)){
+      if(util.isError(r)){
         next(r);
       }else{
         res.json(200, r);
@@ -722,7 +773,7 @@ module.exports.routes = function(app){
 
   app.get('/api/items/category', function(req, res, next){
     item.listCategory(function(r){
-      if(utils.isError(r)){
+      if(util.isError(r)){
         next(r);
       }else{
         res.json(200, r);
@@ -733,7 +784,7 @@ module.exports.routes = function(app){
   app.del('/api/items/category/:categoryId', function(req, res, next){
     var catId = req.params.categoryId;
     item.delCat(catId, function(i){
-      if(utils.isError(i)){
+      if(util.isError(i)){
         next(i);
       }else{
         res.json(200, true);
@@ -743,7 +794,7 @@ module.exports.routes = function(app){
   //Item Form Routes.///
   app.post('/api/items/form', function(req, res, next){
     item.addForm(req.body.name, function(r){
-      if(utils.isError(r)){
+      if(util.isError(r)){
         next(r);
       }else{
         res.json(200, r);
@@ -753,7 +804,7 @@ module.exports.routes = function(app){
 
   app.get('/api/items/form', function(req, res, next){
     item.listForm(function(r){
-      if(utils.isError(r)){
+      if(util.isError(r)){
         next(r);
       }else{
         res.json(200, r);
@@ -764,7 +815,7 @@ module.exports.routes = function(app){
   app.del('/api/items/category/:form_id', function(req, res, next){
     var catId = req.params.form_id;
     item.removeForm(catId, function(i){
-      if(utils.isError(i)){
+      if(util.isError(i)){
         next(i);
       }else{
         res.json(200, true);
@@ -774,7 +825,7 @@ module.exports.routes = function(app){
   //Item Packaging Routes.///
   app.post('/api/items/packaging', function(req, res, next){
     item.addPackaging(req.body.name, function(r){
-      if(utils.isError(r)){
+      if(util.isError(r)){
         next(r);
       }else{
         res.json(200, r);
@@ -784,7 +835,7 @@ module.exports.routes = function(app){
 
   app.get('/api/items/packaging', function(req, res, next){
     item.listPackaging(function(r){
-      if(utils.isError(r)){
+      if(util.isError(r)){
         next(r);
       }else{
         res.json(200, r);
@@ -795,7 +846,7 @@ module.exports.routes = function(app){
   app.del('/api/items/category/:package_id', function(req, res, next){
     var catId = req.params.package_id;
     item.removePackage(catId, function(i){
-      if(utils.isError(i)){
+      if(util.isError(i)){
         next(i);
       }else{
         res.json(200, true);

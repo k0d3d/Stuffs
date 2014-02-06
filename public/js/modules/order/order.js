@@ -25,8 +25,16 @@ config(['$routeProvider',function($routeProvider){
       //have been placed from the whole cart.
       $scope.orderCart = _.difference(cartIds, list);
 
+      console.log($scope.orderCart);
+
       //then we save it back in our localStorage
-      $scope.$storage.orderCart = __cleanJSON($scope.orderCart);
+      if(_.isEmpty($scope.orderCart)){
+        delete $localStorage.orderCart;
+      }else{
+        $scope.$storage.orderCart = __cleanJSON($scope.orderCart);
+      }
+      $scope.$apply();
+      console.log($scope.$storage.orderCart);
     });
   };
 

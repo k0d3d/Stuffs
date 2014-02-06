@@ -63,8 +63,8 @@ angular.module('integraApp').controller('MainController', [ '$scope', '$http', '
   refreshUpdates();
 
   //Fetch updates
-  setInterval(refreshUpdates, 15000);
-  setInterval(fetchwaiting, 15000);
+  //setInterval(refreshUpdates, 15000);
+  //setInterval(fetchwaiting, 15000);
 
 
   //Refresh updates

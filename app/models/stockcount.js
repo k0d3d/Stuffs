@@ -3,14 +3,15 @@
  * Module dependencies.
  */
 
-var mongoose = require('mongoose'),
-  env = process.env.NODE_ENV || 'development',
-  config = require('../../config/config')[env],
-  Schema = mongoose.Schema,
-  pureautoinc  = require('mongoose-pureautoinc');
+ var mongoose = require('mongoose'),
+ env = process.env.NODE_ENV || 'development',
+ nconf = require('nconf'),
+ Schema = mongoose.Schema,
+
+ pureautoinc  = require('mongoose-pureautoinc');
 
 
-var StockCountSchema = new Schema({
+ var StockCountSchema = new Schema({
   item: {type: Schema.ObjectId, ref: 'Item'},
   locationId: {type: Schema.ObjectId, ref: 'Location'},
   locationName: String,
@@ -20,7 +21,7 @@ var StockCountSchema = new Schema({
   pendingTransactions:[]
 });
 
-StockCountSchema.statics = {
+ StockCountSchema.statics = {
     /**
      * [getStockAmountbyId description]
      * @param  {[type]}   id       [description]
@@ -28,14 +29,14 @@ StockCountSchema.statics = {
      * @param  {Function} callback [description]
      * @return {[type]}            [description]
      */
-    getStockAmountbyId: function(id, location, callback){        
-        this.findOne({item: id, locationId: location.id}, function(err, i){
-            if(err){
-                callback(err);
-            }else{
-                callback(i);
-            }
-        });
+     getStockAmountbyId: function(id, location, callback){        
+      this.findOne({item: id, locationId: location.id}, function(err, i){
+        if(err){
+          callback(err);
+        }else{
+          callback(i);
+        }
+      });
     },
 
     /**
@@ -45,14 +46,14 @@ StockCountSchema.statics = {
      * @param  {Function} callback [description]
      * @return {[type]}            [description]
      */
-    getStockAmountbyName: function(id, location, callback){        
-        this.findOne({item: id, locationName: location.name}, function(err, i){
-            if(err){
-                callback(err);
-            }else{
-                callback(i);
-            }
-        });
+     getStockAmountbyName: function(id, location, callback){        
+      this.findOne({item: id, locationName: location.name}, function(err, i){
+        if(err){
+          callback(err);
+        }else{
+          callback(i);
+        }
+      });
     },    
     /**
      * [findItembyLocation gets stock information by location]
@@ -61,9 +62,9 @@ StockCountSchema.statics = {
      * @param  {Function} callback [description]
      * @return {[type]}            [description]
      */
-    findStockbyLocation: function(itemId, location, callback){
+     findStockbyLocation: function(itemId, location, callback){
         //this.findOne({item: itemId, locat})
-    },
+      },
     /**
     * [fetchStockDownbyId locates all t]
     * @param  {[type]}   locationId       [description]
@@ -71,16 +72,16 @@ StockCountSchema.statics = {
     * @return {[type]}            [description]
     */
     fetchStockDownRecordbyId: function fetchStockDownRecordbyId (locationId, callback){
-        var q = this.find({locationId: locationId});
-        q.populate('item','itemName itemID');
-        q.sort({date: -1});
-        q.lean();
-        q.exec(function(err, i){
-            if(err){
-                callback(eyahrr);
-            }else{
-                callback(i);
-            }
+      var q = this.find({locationId: locationId});
+      q.populate('item','itemName itemID');
+      q.sort({date: -1});
+      q.lean();
+      q.exec(function(err, i){
+        if(err){
+          callback(eyahrr);
+        }else{
+          callback(i);
+        }
       });
     },
     /**
@@ -90,13 +91,14 @@ StockCountSchema.statics = {
     * @return {[type]}            [description]
     */
     mainStockCount: function mainStockCount(id, callback){
-        var q = this.findOne({item: id, locationName: 'Main'});
-        q.limit(1);
-        q.exec(function(err, i){
-          callback(i);
+      var q = this.findOne({item: id, locationId: nconf.get("app:main_stock_id")});
+      q.lean();
+      q.exec(function(err, i){
+        i.amount = i.amount || 0;
+        callback(i);
       });
     }
-};
+  };
 
 
-mongoose.model('StockCount', StockCountSchema);
+  mongoose.model('StockCount', StockCountSchema);

@@ -4,13 +4,25 @@
  */
 
 var express = require('express'),
+    path = require('path'),
+    rootPath = path.normalize(__dirname + '/..'),
     mongoStore = require('connect-mongo')(express),
     flash = require('connect-flash'),
     helpers = require('view-helpers'),
     lingua = require('lingua'),
+    nconf = require('nconf'),
     pkg = require('../package.json');
 
 module.exports = function (app, config, passport) {
+  //Set Configuaration Module using
+  //environment 
+  nconf
+  .argv()
+  .env()
+  .file({file: process.ENV+'.json'});
+
+  //Set other config params
+  nconf.set('app:root', rootPath);
 
   app.set('showStackError', true);
 
@@ -23,7 +35,7 @@ module.exports = function (app, config, passport) {
   }));
 
   app.use(express.favicon());
-  app.use(express.static(config.root + '/public'));
+  app.use(express.static(rootPath + '/public'));
 
   // don't use logger for test env
   if (process.env.NODE_ENV !== 'test') {
@@ -31,7 +43,7 @@ module.exports = function (app, config, passport) {
   }
 
   // set views path, template engine and default layout
-  app.set('views', config.root + '/app/views');
+  app.set('views', rootPath + '/app/views');
   app.set('view engine', 'jade');
 
   // Lingua configuration
@@ -58,7 +70,7 @@ module.exports = function (app, config, passport) {
     app.use(express.session({
       secret: 'edb00nt0bi4s',
       store: new mongoStore({
-        url: config.db,
+        url: config.database.host,
         collection : 'sessions'
       })
     }));

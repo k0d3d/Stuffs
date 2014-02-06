@@ -32,8 +32,7 @@ var ItemSchema = new Schema({
   }],
   nafdacId: {type: Schema.ObjectId},
   importer: {type: String},
-  nafdacRegNo: {type: String},
-  itemBoilingPoint: {type: Number}
+  nafdacRegNo: {type: String}
 });
 
 

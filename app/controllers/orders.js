@@ -378,7 +378,7 @@ OrderController.prototype.count = function(cb){
         isDone(data);
       }
     });    
-  })
+  });
 
   register
   .queue('doInvoice', 'doOrder')

@@ -116,6 +116,25 @@ AdminController.prototype.login = function(email, password, cb){
   });
 };
 
+AdminController.prototype.removeAllStockCount = function(cb){
+  StockCount.remove({}, function(err, n){
+    if(err){
+      cb(err);
+    }else{
+      cb(n);
+    }
+  });
+};
+AdminController.prototype.removeAllItems = function(cb){
+  Item.remove({}, function(err, n){
+    if(err){
+      cb(err);
+    }else{
+      cb(n);
+    }
+  });
+};
+
 AdminController.prototype.createMainLocation = function(cb){
   //Check for a default location
   PointLocation.findOne({
@@ -167,6 +186,26 @@ module.exports.routes = function(app){
         res.json(200, r);
       }      
     });
+  });
+
+  app.del('/api/admin/reset', function(req, res, next){
+    function cb(r){
+      if(util.isError(r)){
+        next(r);
+      }else{
+        res.json(200, {count: r});
+      }
+    }
+    switch(req.query.aspect){
+      case 'items':
+        admin.removeAllItems(cb);
+        break;
+      case 'stock':
+        admin.removeAllStockCount(cb);
+        break;
+      default:
+      break;
+    }
   });
 
   app.delete('/api/admin/updates', function(req, res){
