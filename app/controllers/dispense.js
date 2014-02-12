@@ -5,8 +5,10 @@ var mongoose = require("mongoose"),
     StockCount = mongoose.model('StockCount'),
     Biller = require("./bills").bills,
     Bill = mongoose.model('Bill'),
+    config = require('config'),
     _ = require("underscore"),
     rest = require("restler"),
+    cors = require ('../../config/middlewares/cors'),
     EventRegister = require('../../lib/event_register').register,
     util = require("util");
 
@@ -193,7 +195,7 @@ DispenseController.prototype.dispenseThis = function(o, callback){
         drugs: dispense.drugs
       },function(err, i){
         //Process a new bill record
-        rest.get('http://192.168.1.102/integra/deactivate.php?remove=0&id='+timer.timerId)
+        rest.get(config.api.hmis_url+'/integra/deactivate.php?remove=0&id='+timer.timerId)
         .on('success', function(d, r){
           //Log the result to the console
           util.puts('Timer deactivated for '+ data.patientName);
@@ -309,8 +311,11 @@ DispenseController.prototype.prescribeThis = function(o, cb){
       prescribe.class = o.class;
       
       //Make Query to Timer API
-      rest.get('http://192.168.1.102/integra/activate.php?receive=0&patientid='+o.patientId+'&pharmacyid=4&docid='+o.doctorId)
-      .on('success', function(data){
+      rest.get(config.api.hmis_url+'/integra/activate.php?receive=0&patientid='+o.patientId+'&pharmacyid=4&docid='+o.doctorId)
+      .on('complete', function(data){
+        if(util.isError(data)){ 
+          return cb(new Error('Error Prescibing Medication'));
+        }
         prescribe.timerId = data;
         prescribe.save(function(err, i){
           if(err){
@@ -373,7 +378,7 @@ module.exports.routes = function(app){
   });
 
   //Creates a new record for a prescription
-  app.post('/api/items/prescribe', function(req, res, next){
+  app.post('/api/items/prescribe',cors,  function(req, res, next){
     var o = {
       location: {
         id: req.body.location.locationId,
@@ -388,9 +393,12 @@ module.exports.routes = function(app){
       class: req.body.class
     }; 
     dispense.prescribeThis(o, function(r){
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "X-Requested-With");
-      return res.json(200, true);
+
+      if(util.isError(r)){
+        next(r);
+      }else{
+        res.json(200, r);
+      }
     });
   });
 

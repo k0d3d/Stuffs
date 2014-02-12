@@ -6,5 +6,8 @@
         "name": "Integra Drug Store",
         "main_stock_id": "",
         "root":""
+    },
+    "api":{
+			"hmis_url": "http://192.168.0.102"
     }
 }
