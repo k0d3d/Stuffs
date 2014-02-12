@@ -818,3 +818,7 @@ padding: 0 5px;
 .slide-animate.ng-leave.ng-leave-active {
   top:50px;
 }
+em.versiontxt{
+  text-transform: lowercase;
+  font-size: smaller;
+}

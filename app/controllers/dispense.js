@@ -57,7 +57,7 @@ function stockbylocation(i, cb){
     var l = i.drugs.length,
         ds = i.drugs.pop(),
         fx = [];
-
+    if(!ds.itemId) return cb(new Error('Error dispensing medication'));
     StockCount.getStockAmountbyId(ds.itemId._id, location, function(n){
       var h = {
         itemId: ds.itemId,
@@ -164,6 +164,7 @@ DispenseController.prototype.dispenseThis = function(o, callback){
     dispense.class = data.class;
     dispense.doctorId = data.doctorId;
     dispense.doctorName = data.doctorName;
+    dispense.dispenseDate = Date.now();
     dispense.locationId = location.id;
     dispense.status = "complete";
     dispense.save(function(err, i){
@@ -183,8 +184,8 @@ DispenseController.prototype.dispenseThis = function(o, callback){
     //timer request.
     //data {object} contains the original request.body document
     //sent from the client.
-    Dispense.findOne({_id: data.id}, 'timerId')
-    .exec(function(err, timer){
+    Dispense.findOne({_id: data.id})
+    .exec(function(err, t){
       //If there's an error, send it to
       //the error handler.
       if(err) return isDone(new Error(err));
@@ -195,19 +196,23 @@ DispenseController.prototype.dispenseThis = function(o, callback){
         drugs: dispense.drugs
       },function(err, i){
         //Process a new bill record
-        rest.get(config.api.hmis_url+'/integra/deactivate.php?remove=0&id='+timer.timerId)
+        rest.get(config.api.hmis_url+'/integra/deactivate.php?remove=0&id='+t.timerId)
         .on('success', function(d, r){
           //Log the result to the console
           util.puts('Timer deactivated for '+ data.patientName);
         });
         //When done pass in the original document
         //to the next event. saveBill
-        isDone(data);
+        isDone(_.extend(
+          data,
+          t.toJSON()
+        ));
       });
     });
   });
 
   eventRegister.once('saveBill', function(data, isDone){
+    console.log(data);
     Biller.serveBill(o, function(r){
       isDone(r);
     });
@@ -225,23 +230,18 @@ DispenseController.prototype.dispenseThis = function(o, callback){
       //var total = data.drugs.length;
       var record = data.drugs.pop();
       
-      //console.log(total);
-
       // Call the create_record function
       __createRecord({id: record._id, amount: record.amount}, function(p){
         // Create or update this locations stock count
         StockCount.update({
           item: p.item,
-          $or:[{
-              locationName : location.name
-            },{
-              locationId: location.id
-            }]
+          locationId: location.id
           },{
             $inc: {
               amount: -p.amount
             }
           }, function(err, i){
+            console.log('Dispense '+ i);
             if(err){
               if(err) return callback(err);
             }

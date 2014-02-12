@@ -46,7 +46,7 @@ config(['$routeProvider',function($routeProvider){
       });
       //using _.difference, we remove the orders which
       //have been placed from the whole cart.
-      $scope.orderCart = _.difference(cartIds, list);
+      $scope.$parent.orderCart = _.difference(cartIds, list);
 
       console.log($scope.orderCart);
 

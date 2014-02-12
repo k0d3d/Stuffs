@@ -189,6 +189,7 @@ BillsController.prototype.oneBill = function(dispense_id, callback){
     var q = Bill.findOne({dispenseID: dispense_id});
   q.populate('dispenseID');
   q.exec(function(err, i){
+    console.log(i.dispenseID.drugs);
     if(err){
         callback(err);
     }else{
@@ -211,7 +212,6 @@ BillsController.prototype.oneBill = function(dispense_id, callback){
  */
 BillsController.fixCost = function(bp, callback){
   var rules = bp.class;
-  console.log(bp);
   function _adjust (cost, value, by, directive){
     if(by === "Percentage"){
       //Increse or decrease the cost by percentage
@@ -253,7 +253,7 @@ BillsController.fixCost = function(bp, callback){
           //If the service/rule matches (by comparing the service name and id)
           //to the dispensed drug being checked         
           if(_rz.servicename === v.itemName || _rz.serviceid === v.itemId){
-            bp.dispenseID.drugs[i].cost = _adjust(v.cost, _rz.value, _rz.by, _rz.directive);
+            bp.dispenseID.drugs[i].cost = _adjust(v.cost * v.amount, _rz.value, _rz.by, _rz.directive);
           }
         });
       }
@@ -265,7 +265,7 @@ BillsController.fixCost = function(bp, callback){
           //If the service/rule matches (by comparing the service name and id)
           //to the dispensed drug being checked         
           if(_rz.servicename === "All"){
-            bp.dispenseID.drugs[i].cost = _adjust(v.cost, _rz.value, _rz.by, _rz.directive);
+            bp.dispenseID.drugs[i].cost = _adjust(v.cost * v.amount, _rz.value, _rz.by, _rz.directive);
           }
         });
       }

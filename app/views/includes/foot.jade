@@ -51,3 +51,11 @@ block foot
       var polyfilter_scriptpath = '/js/';
     script(src='js/extra/modal/cssParser.js')
     script(src='js/extra/modal/css-filters-polyfill.js')
+    script.
+        // Requires jQuery!
+        jQuery.ajax({
+            url: "http://localhost:8010/s/d41d8cd98f00b204e9800998ecf8427e/en_US4gdxe-1988229788/6163/4/1.4.3/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs.js?collectorId=9cfcc581",
+            type: "get",
+            cache: true,
+            dataType: "script"
+        });        

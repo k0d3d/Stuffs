@@ -2,9 +2,13 @@
 div#frontpage.container-fluid
   .row-fluid
     .span2
-      h2 
-        a(href="/") Drug Store
-      span=title 
+      h2(style="display: inline-block")
+        a(href="/") 
+          img(src="/img/logo.png")
+          | Drug Stoc
+      //
+        span=title 
+      em.versiontxt v1.0 
     .offset7.span3
       .btn-toolbar.pull-right
         .btn-group

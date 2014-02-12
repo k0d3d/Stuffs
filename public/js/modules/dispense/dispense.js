@@ -53,30 +53,26 @@ angular.module('dispense', [])
   }
   // Populates the list of drugs to be prescribed
   function chip_d(wl){
-    var u = [];
-    _.some(wl.drugs, function(v, i){
-      u.push({
+    return _.map(wl.drugs, function(v){
+      return {
+        _id: v.itemId._id,
         itemName: v.itemId.itemName,
         amount: v.amount,
         currentStock: v.currentStock,
-        cost: v.cost,
+        itemPurchaseRate: v.cost,
         dosage: v.dosage,
         period: v.period,
         status: v.status
-      });
-      if(wl.drugs.length === i + 1) return true;
+      };
     });
-    return u;
   }
 
   // Populates drugsList array
   function chip_dl(wl){
-    var u = [];
-    _.some(wl.drugs, function(v, i){
-      u.push(v.itemId.itemName);
-      if(wl.drugs.length === i + 1) return true;
-    });
-    return u;    
+
+    return _.map(wl.drugs, function(v){
+      return v.itemId.itemName;
+    }) ;   
   }
 
   //If a dispense Id is present, work out a form
@@ -93,7 +89,7 @@ angular.module('dispense', [])
       //Push item Names into drug list 
       $scope.drugsList = chip_dl(r);
 
-    })
+    });
   }else{
     $scope.n_w = false;
     $scope.all = true;    
@@ -195,6 +191,9 @@ angular.module('dispense', [])
       $scope.dispenseform = '';
       $scope.d = '';
       $scope.drugsList = '';
+      if($scope.waiting.length > 0 || $routeParams.dispenseID){
+        $scope.waiting.splice($routeParams.dispenseID, 1);
+      }
     });
   };
   $scope.removeDrug = function(index){

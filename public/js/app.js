@@ -49,8 +49,9 @@ angular.module('integraApp').controller('MainController', [ '$scope', '$http', '
     });    
   };
 
-  var refreshUpdates = function (){
+  $scope.refreshUpdates = function (){
     $scope.isr = 'fa-spin';
+    fetchwaiting();
     aS.getUpdates(function(r){
       _.each(r, function(v){
         $scope.updates.push(v);
@@ -59,16 +60,11 @@ angular.module('integraApp').controller('MainController', [ '$scope', '$http', '
     });
   };
 
-  fetchwaiting();
-  refreshUpdates();
+  //Run Update
+  $scope.refreshUpdates();
 
   //Fetch updates
-  //setInterval(refreshUpdates, 15000);
-  //setInterval(fetchwaiting, 15000);
-
-
-  //Refresh updates
-  $scope.refreshUpdates = refreshUpdates();
+  //setInterval($scope.refreshUpdates, 15000);
 
   $scope.clearUpdates = function(){
     aS.clear(function(r){
