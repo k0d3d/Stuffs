@@ -8,104 +8,147 @@ angular.module('admin', [])
 .config(['$routeProvider', function ($routeProvider){
   $routeProvider.when('/admin', {templateUrl: '/admin/index', controller: 'adminController'});
 }])
-.controller('adminController', ['$scope', 'billsService', 'adminService', 'Transaction', function adminController($scope, biller, as, T){
+.controller('adminController', ['$scope', 'billsService', 'adminService', 'Transaction', 'serviceService', function adminController($scope, biller, as, T, serviceService){
 
   function init(){
-        //Holds the new rule form
-        $scope.newrule = {
-         reference:{}
-       };
 
-       $scope.activePane = '';
+    //Objects holds scope properties 
+    //for the bill management template
+    $scope.bill = {}; 
 
-        //holds the list of all created billing profiles
-        $scope.p = [];
+    //Object holds scope properties 
+    //for the services management template
+    $scope.srvs = {};
 
-        //Holds the list of select billing profiles
-        $scope.activeProfile = [];
+    //Holds the new rule form
+    $scope.bill.newrule = {
+       reference:{}
+     };
 
-        //Holds the list of visible rules
-        $scope.listrules = [];
-        $scope.l = [];
+    //holds the list of all created billing profiles
+    $scope.bill.p = [];
 
-        $scope.profileInput = {
-          name: '',
-          id: 0
-        };
+    //Holds the list of select billing profiles
+    $scope.bill.activeProfile = null;
 
-        //Calls for the list of created profiles
-        biller.profiles(function(r){
-          $scope.profiles = r;
-          angular.forEach(r, function(value, index){
-            $scope.p.push(value.profileName);
-          });
-        });
+    //Holds the list of visible rules
+    $scope.bill.listrules = [];
 
-        //Loads our template
-        $scope.template = {};
+    //Holds just the names as elements of an array
+    $scope.bill.l = [];
 
-      }
-      init();
+    $scope.bill.profileInput = {
+      name: '',
+      id: 0
+    };
 
-      function keisha (){
+    //the array holds all d list of all 
+    //services loaded from the server and 
+    //created.
+    $scope.service = [];
 
-      }
-
-    // //Watch the profile name input field for changes
-    // $scope.$watch("profile_name_input", function(newV, oldV){
-    //     if(newV === oldV) return newV;
-    //     $scope.activeProfile.unshift({
-    //         id: 0,
-    //         name: newV
-    //     });
-    // });
-
-    // Saves a new rule. 
-    $scope.newruleC = function(){
-      biller.newruleR($scope.newrule, function(){
-
+    //Calls for the list of created profiles
+    biller.profiles(function(r){
+      $scope.bill.profiles = r;
+      angular.forEach(r, function(value, index){
+        $scope.bill.p.push(value.profileName);
       });
-    };
+    });
 
-    $scope.popRules = function(){
-      biller.allrules(function(r){
-        $scope.rulez =r;
-        $scope.billingPaneActive = true;
-      });
-    };
+    //Fetches all services 
+    serviceService.all(function(r){
+      $scope.srvs.services = r;
+    });
 
-    $scope.pushrule = function(index){
-      if(_.indexOf($scope.l, $scope.rulez[index].name) > -1) return false;
-      $scope.l.push($scope.rulez[index].name);
-      $scope.listrules.push($scope.rulez[index]);
-    };
+    //Loads our template
+    $scope.template = {};
 
-    $scope.$watch('activeProfile', function(n, o){
-      if(n.length === 0) return false;
-      $scope.profileInput.name = n.profileName;
-      $scope.profileInput.id = n._id;
+  }
+  //Run the init code
+  init();
+
+  // Saves a new rule. 
+  $scope.bill.newruleC = function(){
+    biller.newruleR($scope.bill.newrule, function(){
+
+    });
+  };
+
+  $scope.bill.popRules = function(){
+    biller.allrules(function(r){
+      $scope.bill.rulez =r;
+    });
+  };
+
+  $scope.bill.pushrule = function(index){
+    if(_.indexOf($scope.bill.l, $scope.bill.rulez[index].name) > -1) return false;
+    $scope.bill.l.push($scope.bill.rulez[index].name);
+    $scope.bill.listrules.push($scope.bill.rulez[index]);
+  };
+
+  $scope.bill.js = function(){
+    if($scope.bill.activeProfile){
+      var n = $scope.bill.activeProfile;
+      $scope.bill.profileInput.name = n.profileName;
+      $scope.bill.profileInput.id = n._id;  
+
+      //Fetch the rules belonging to this billing profile
       biller.brules(n._id, function(r){
-        $scope.l =[];
-        angular.forEach(r, function(value, index){
-          $scope.l.push(value.name);
+        //Holds just the names as elements of an array
+        $scope.bill.l =[];
+        //use angular or underscore maping function
+        $scope.bill.l = _.map(r, function(value, index){
+          return value.name;
         });
-        $scope.listrules =  r;
+        // angular.forEach(r, function(value, index){
+        //   $scope.l.push(value.name);
+        // });
+        $scope.bill.listrules =  r;
+      });          
+    }
+  };
+
+  $scope.bill.removeFromList = function(index){
+    $scope.bill.listrules.splice(index, 1);
+  };
+
+  //Creates a new billing profile
+  $scope.bill.saveProfile = function(){
+    //If No Profile Name is Set or Selected
+    if($scope.bill.profileInput.name.length === 0){
+      alert('No Profile Name! Select a Profile or Enter a name to save.');
+      return false;
+    }
+    //If we can find the profile name in the list of profiles created.
+    //Update the profile wit the rules displayed.
+    //If we cant, create a new profile and save the rules to it
+    if(_.indexOf($scope.bill.p, $scope.bill.profileInput.name) > -1){
+      biller.updateProfile($scope.bill.profileInput, $scope.bill.listrules, function(r){
+
       });
-    }, true);
+    }else{
+      biller.createProfile($scope.bill.profileInput, $scope.bill.listrules, function(r){
+        $scope.bill.p.push($scope.bill.profileInput.name);
+      });
+    }
+  };
+  // send the request to remove a service from the list
+  $scope.srvs.removeService = function(index){
+    serviceService.delService($scope.srvs.services[index]._id, function(r){
+      $scope.srvs.services.splice(index, 1);
+    });
+  };
 
-    //Creates a new billing profile
-    $scope.saveProfile = function(){
-      if($scope.profileInput.name.length === 0) return false;
-      if(_.indexOf($scope.p, $scope.profileInput.name) > -1){
-        biller.updateProfile($scope.profileInput, $scope.listrules, function(r){
+  // send a request to make/ create a new service
+  $scope.srvs.makeNewService = function(){
+    serviceService.newService($scope.srvs.new_name, function(r){
+      //Add the item to d list.
+      $scope.srvs.services.push(r);
+      //reset the field
+      $scope.srvs.new_name = '';
+    });
+  };
 
-        });
-      }else{
-        biller.createProfile($scope.profileInput, $scope.listrules, function(r){
-          $scope.p.push($scope.profileInput.name);
-        });
-      }
-    };
 
     $scope.trylogin = function(){
       console.log($scope.email);
@@ -118,7 +161,6 @@ angular.module('admin', [])
 .controller('configController', ['$scope', 'adminService', function($scope, adminService){
   //$scope.run_setup =  adminService.initSetup();
 }])
-
 .controller('transactionController', ['$scope', 'Transaction', function($scope, T){
 
     //Load Transactions 
@@ -201,8 +243,37 @@ angular.module('admin', [])
       updater: function(name){
         _.some(nx, function(v,i){
           if(v.itemName === name){
-            scope.newrule.reference.id = v._id;
-            scope.newrule.reference.name = v.itemName;
+            scope.bill.newrule.reference.id = v._id;
+            scope.bill.newrule.reference.name = v.itemName;
+            return true;
+          }
+        });          
+        scope.$apply();
+        return name;
+      }
+    });
+  };
+  return {
+    link: linker
+  };
+}])
+.directive('propmedserv', ["serviceService", function(serviceService){
+  var linker = function(scope, element, attrs){
+    var nx;
+    element.typeahead({
+      source: function(query, process){
+        if(query === "all" || query === "ALL" || query === "All" || query === "*" ) return process(["All"]);
+        return serviceService.getItemName(query,function(results, s){
+          console.log(results);
+          nx = s;
+          return process(results);
+        });
+      },
+      updater: function(name){
+        _.some(nx, function(v,i){
+          if(v.name === name){
+            scope.bill.newrule.reference.id = v._id;
+            scope.bill.newrule.reference.name = v.name;
             return true;
           }
         });          

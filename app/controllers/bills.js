@@ -6,6 +6,8 @@ var mongoose = require('mongoose'),
     Bill = mongoose.model('Bill'),
     BillingProfile = mongoose.model('BillingProfile'),
     BillRule = mongoose.model('BillRule'),
+    BillService = mongoose.model('BillService'),
+    lingua = require('lingua'),
     _ = require("underscore"),
     utils = require("util");
 
@@ -421,6 +423,102 @@ BillsController.prototype.postpay = function(amount, bill_id, callback){
   });
 };
 
+/**
+ * Adds a new billable service to the database. An example of 
+ * a billable service is consultation, admission hours/days, tests
+ * etc.
+ * @param  {String}   name The name of the billing service to create
+ * @param  {Function} cb   executes with returned object as an argument.
+ * @return {Object}        a json object with the objectId
+ */
+BillsController.prototype.newService = function(name, cb){
+  if(name.length === 0) return cb(new Error(lingua.general.errors.required));
+  var service = new BillService();
+  service.name = name;
+  service.save(function(err, i){
+    if(err){
+      cb(err);
+    }else{
+      cb(i.toJSON());
+    }
+  });
+};
+
+/**
+ * Fetches all billables services from the database including 
+ * system defaults and user entries.
+ * 
+ * @param  {Function} cb [description]
+ * @return {[type]}      [description]
+ */
+BillsController.prototype.allServices = function(cb){
+  BillService.find({})
+  .exec(function(err, i){
+    if(err){
+      cb(err);
+    }else{
+      cb(i);
+    }
+  });
+};
+
+/**
+ * Removes user entered services from the database. 
+ * Setting the serviceType field on the query to 'user', 
+ * request to remove system default services will be
+ * denied. 
+ * @param  {ObjectId}   serviceId The ObjectId for the service to be removed
+ * @param  {Function} cb        [description]
+ * @return {[type]}             [description]
+ */
+BillsController.prototype.deleteService = function(serviceId, cb){
+  BillService.remove({
+    _id: serviceId,
+    serviceType: 'user'
+  })
+  .exec(function(err, i){
+    if(err){
+      cb(err);
+    }else{
+      cb(i);
+    }
+  });
+};
+
+/**
+ * Changes a the name of the service. 
+ * Setting the serviceType field on the query to 'user', 
+ * request to remove system default services will be
+ * denied.  
+ * @param  {ObjectId}   serviceId The ObjectId for the service to be changed
+ * @param  {String}   newName   A string thats the new name of the service
+ * @param  {Function} cb        [description]
+ * @return {[type]}             [description]
+ */
+BillsController.prototype.updateService = function(serviceId, newName, cb){
+  BillService.update({
+    _id: serviceId,
+    serviceType: 'user'
+  }, {
+    $set:{
+      name: newName
+    }
+  }, function(err, i){
+    if(err){
+      cb(err);
+    }else{
+      cb(i);
+    }
+  });
+};
+
+BillsController.prototype.autoCompleteService = function(query, cb){
+  BillService.autocomplete(query, function(r){
+    console.log(r);
+    cb(r);
+  });
+};
+
 module.exports.bills = BillsController;
 var bills = new BillsController();
 
@@ -439,7 +537,7 @@ module.exports.routes = function(app){
         }else{
             res.json(200, true);
         }
-    })
+    });
   });
 
   //Fetches all billing profiles
@@ -488,6 +586,38 @@ module.exports.routes = function(app){
     });
   });
 
+  //Fetches all billable services for this facility
+  app.get('/api/bills/services', function(req, res, next){
+    bills.allServices(function(r){
+      if(utils.isError(r)){
+        next(r);
+      }else{
+        res.json(200, r);
+      } 
+    });   
+  });
+
+  app.get('/api/bills/services/s', function(req, res, next){
+    bills.autoCompleteService(req.query.s, function(r){
+      if(utils.isError(r)){
+        next(r);
+      }else{
+        res.json(200, r);
+      }       
+    });
+  });
+
+  //Creates a new billable service
+  app.post('/api/bills/services', function(req, res, next){
+    bills.newService(req.body.name, function(r){
+      if(utils.isError(r)){
+        next(r);
+      }else{
+        res.json(200, r);
+      }      
+    });
+  });
+
   //Creates a new billing profile and attaches it's rules if any provided
   app.post('/api/bills/profiles', function(req, res, next){
     bills.createNewProfile(req.body.name, req.body.rules, function(r){
@@ -497,6 +627,15 @@ module.exports.routes = function(app){
             res.json(200, r);
         }        
     });
+  });
+
+  //updates a billable service
+  app.put('/api/bills/services/:serviceId', function(r){
+    if(utils.isError(r)){
+        next(r);
+    }else{
+        res.json(200, true);
+    }    
   });
   
 
@@ -530,6 +669,16 @@ module.exports.routes = function(app){
         }else{
             res.json(200, true);
         }
+    });
+  });
+
+  app.del('/api/bills/services/:serviceId', function(req, res, next){
+    bills.deleteService(req.params.serviceId, function(r){
+      if(utils.isError(r)){
+          next(r);
+      }else{
+          res.json(200, true);
+      }
     });
   });
 

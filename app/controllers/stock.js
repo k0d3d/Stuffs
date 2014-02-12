@@ -170,8 +170,6 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
         item: data.id,
         locationId: location.origin.id
     }, 'amount', function(err, a){
-      console.log(location, data);
-      console.log((a.amount - data.amount));
         if(err){
             isDone(err);
         }else if(!a){
@@ -389,59 +387,6 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
  */
 StockController.prototype.count = function(id, cb){
   var register = new EventRegister();
-
-  // //return callback(0, 0);
-  // var d = Item.count();
-  // var m  = Item.find();
-  // //m.$where(function(){return this.currentStock < this.itemBoilingPoint && this.currentStock > 0;});
-  // var r = {}, lowCount = 0, totalCount = 0, total, stockcountlist;
-  // d.exec(function(err,y){
-  //   if(err)return callback(err);
-  //   totalCount = y;
-  //   gl();
-  // });
-
-  // //When set, please send respion
-  // function respond(lowCount, totalCount){
-  //   callback(lowCount, totalCount);
-  // }
-
-  // //get all items from the 'items' collectioin
-  // function gl (){
-  //   StockCount.find({locationId: "52e4c39fd8699d5c09000008"}, function(err, i){
-  //     total = i.length;
-  //     stockcountlist = i;
-  //     if(stockcountlist.length === 0){
-  //       respond(0, totalCount);
-  //     }else{
-  //       // Run the cross check function
-  //       hl();
-  //     }
-  //   });
-  // }
-
-
-  // //Cross check the currentStock against the itemBoilingPoint
-  // //pass in the StockCount list
-  // function hl (){
-  //   var countItem = stockcountlist.pop();
-  //   console.log(countItem);
-  //   //Find one 
-  //   Item.load(countItem.item, function(err, i){
-  //     var bp = (i) ? i.itemBoilingPoint : 0;
-  //     //When found compare boilingPoint to the result amount
-  //     if(countItem.amount < bp){
-  //       lowCount++;
-  //     }
-  //     --total;
-  //     if(total > 0){
-  //       hl();
-  //       return;
-  //     }else{
-  //       respond(lowCount, totalCount);
-  //     }
-  //   });
-  // }
 
   register.once('getAllCount', function(data, isDone){
     Item.count({}, function(err, y){

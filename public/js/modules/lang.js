@@ -182,6 +182,17 @@ angular.module('language', [])
 			"login":{
 				"success": "You are now logged in",
 				"error": "Error login into Integra Online."
+			},
+			"services":{
+				"addService": {
+					"success":"Successfully saved a new facility service"
+				},
+				"allService":{
+					"success": "Loaded all facility services"
+				},
+				"removeService":{
+					"success": "Removed facility service from the list"
+				}
 			}
 		}
 	}

@@ -80,7 +80,39 @@ var BillRulesSchema = new Schema({
   directive: String,
 });
 
+/**
+ * [ServicesSchema description]
+ * @type {Schema}
+ */
+var ServicesSchema = new Schema({
+  name: {type: String, unique: true},
+  serviceType: {type: String, default: 'user'}
+});
+
+ServicesSchema.statics = {
+
+
+  /**
+  * Auto Complete
+  * @param {regex} itemName
+  * @param {function} cb
+  * @api private
+  */
+  autocomplete: function(name, cb){
+    var wit = this.find({},'name');
+    wit.regex('name',new RegExp(name, 'i'))
+    .exec(function(err, i){
+      if(err){
+        cb(err);
+      }else{
+        cb(i);
+      }
+    });
+  }
+};
+
 
 mongoose.model('BillingProfile', BillingProfileSchema);
 mongoose.model('BillRule', BillRulesSchema);
 mongoose.model('Bill', BillSchema);
+mongoose.model('BillService', ServicesSchema);

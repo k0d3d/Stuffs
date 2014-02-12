@@ -15,6 +15,29 @@ config(['$routeProvider',function($routeProvider){
 .controller('orderCartController', ['$scope', '$http', 'ordersService', '$localStorage', function($scope, $http, oS, $localStorage){
   
   $scope.placeOrder = function(){
+    if(!confirm('Confirm you want to place an order for these items!')) return false;
+
+    var doc = new jsPDF('p','in', 'letter');
+
+    // We'll make our own renderer to skip this editor
+    var specialElementHandlers = {
+      '#frontpage': function(element, renderer){
+        return true;
+      },
+      '.search-bar': function(element, renderer){
+        return true;
+      }
+    };
+
+    // All units are in the set measurement for the document
+    // This can be changed to "pt" (points), "mm" (Default), "cm", "in"
+    doc.fromHTML($('.table-content').get(0), 0.5, 0.5, {
+      'width': 800,
+      'elementHandlers': specialElementHandlers
+    });
+
+    doc.save('Order Cart'+ Date.now());
+
     oS.postCart($scope.basket, function(list){
 
       //map the itemId on the order cart to an array.
@@ -88,10 +111,9 @@ config(['$routeProvider',function($routeProvider){
     
     ordersService.orders(function(r){
       angular.forEach(r, function(v, i){
-        v.nextStatus = $scope.getStatus(v.orderStatus);
+        v.nextStatus = $scope.getStatus(v.orderStatus.toLowerCase());
         $scope.orders.push(v);
       });
-      console.log($routeParams.type);
       switch($routeParams.type){
         case 'invoices':
         $scope.ordersfilter.orderStatus = "Supplied";
@@ -104,9 +126,6 @@ config(['$routeProvider',function($routeProvider){
         $scope.ordersfilter.orderStatus = "";
         break;
       }
-      console.log($scope.ordersfilter.orderStatus);
-
-
     });
   }());
 

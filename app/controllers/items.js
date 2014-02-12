@@ -121,9 +121,10 @@ ItemsObject.prototype.create = function (itemBody, cb) {
 
       order.orderSupplier = (data.item.suppliers);
       order.orderInvoice = data.item.orderInvoiceData.orderInvoiceNumber;
-      order.orderStatus = 'Supplied'            ;
+      order.orderStatus = 'supplied'            ;
       order.orderType = data.item.itemType;
       order.orderAmount= data.item.orderInvoiceData.orderInvoiceAmount;
+      order.amountSupplied= data.item.orderInvoiceData.orderInvoiceAmount;
       order.orderDate= data.item.orderInvoiceDate;
       order.save(function(err, i){
         if(util.isError(err)){
@@ -197,7 +198,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
     // This event stage is very important cause it 
     // saves the boiling point on  the stock 
     // count collection.
-    var stockcount = new StockCount();
+    var stockcount = new StockCount(data.stock);
     stockcount.itemBoilingPoint = data.item.itemBoilingPoint;
     stockcount.item = data.item.id;
     stockcount.locationId = data.location.id;

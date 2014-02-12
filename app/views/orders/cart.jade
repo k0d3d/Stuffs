@@ -13,14 +13,11 @@ block body
       button.btn.btn-large.btn-block.btn-success(ng-click="send_sms()")
         i.fa.fa-envelope-o.pull-left
         |   Send SMS
-      button.btn.btn-large.btn-block.btn-success(ng-click="commons.backBtn()") 
-        i.fa.fa-envelope-o.pull-left
-        |   Print
       button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
     .span10(ng-show="orderCart.length > 0")
       .row-fluid.fixed-table
         .table-content
-          table#list-orders.table.table-fixed-header
+          table#list-cart.table.table-fixed-header
             thead.header
               tr
                 th Item

@@ -58,7 +58,7 @@ angular.module('bills', [])
 
   //Typeahead for billing profiles
   i.pt = function(query, callback){
-    $.getJSON('/api/bills/profiles/typeahead/'+escape(query), function(s) {
+    $.getJSON('/api/bills/profiles/typeahead/'+encodeURI(query), function(s) {
         var results = [];
         $.each(s,function(){
           results.push(this.profileName);

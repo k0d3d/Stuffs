@@ -181,6 +181,11 @@
 				"success": "You are now logged in",
 				"error": "Error login into Integra Online."
 			}
+		},
+		"general": {
+			"errors":{
+				"required": "Opps! We think you omitted a required field."
+			}
 		}
 	}
 	

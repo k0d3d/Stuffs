@@ -113,4 +113,75 @@ angular.module('services', [])
 			});
 		}
 	};
+}])
+.factory('serviceService', ['$http', 'Notification', 'Language', function($http, N, L){
+	return {
+		all: function(cb){
+			$http.get('/api/bills/services')
+			.success(function(r){
+				N.notifier({
+					message: L.eng.admin.services.allService.success,
+					type: 'success'
+				});
+				cb(r);
+			})
+			.error(function(err){
+				N.notifier({
+					message: err,
+					type: 'error'
+				});
+			});
+		},
+		delService: function(service_id, cb){
+			$http.delete('/api/bills/services/'+service_id)
+			.success(function(r){
+				N.notifier({
+					message: L.eng.admin.services.removeService.success,
+					type: 'success'
+				});
+				cb(true);
+			})
+			.error(function(err){
+				N.notifier({
+					message: err,
+					type: 'error'
+				});
+			});
+		},
+		newService: function(name, cb){
+			$http.post('/api/bills/services/',{
+				name: encodeURI(name)
+			})
+			.success(function(r){
+				N.notifier({
+					message: L.eng.admin.services.addService.success,
+					type: 'success'
+				});
+				cb(r);
+			})
+			.error(function(err){
+				N.notifier({
+					message: err,
+					type: 'error'
+				});
+			});
+		},
+		getItemName: function(query, cb){
+			$http.get('/api/bills/services/s?s='+encodeURI(query))
+			.success(function(r){
+
+				cb(_.map(r, function(v){
+					return v.name;
+				}), r);
+			})
+			.error(function(err){
+				N.notifier({
+					message: err,
+					type: 'error'
+				});
+			});
+		}
+
+	};
+
 }]);

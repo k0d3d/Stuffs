@@ -63,6 +63,7 @@ var updateTracking = function(r){
 };
 
 OrderController.prototype.placeCart = function(cartObj, cb){
+  if(_.isEmpty(cartObj)) return cb(new Error('Empty Request'));
   var self = this;
   var doneIds = [];
 

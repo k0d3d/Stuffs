@@ -290,7 +290,7 @@ angular.module('item', [])
 
   //Typeahead Query
   i.getItemName = function(query, callback){
-    $.getJSON('/api/items/typeahead/term/itemName/query/'+escape(query), function(s) {
+    $.getJSON('/api/items/typeahead/term/itemName/query/'+encodeURI(query), function(s) {
         var results = [];
         $.each(s,function(){
           results.push(this.itemName);
@@ -301,7 +301,7 @@ angular.module('item', [])
 
   //Query Supplier Typeahead
   i.getSupplierName = function(query, callback){
-    $http.get('/api/supplier/typeahead/term/supplierName/query/'+escape(query))
+    $http.get('/api/supplier/typeahead/term/supplierName/query/'+encodeURI(query))
     .success(function(s, status){
       var results = [];
       $.each(s,function(){
@@ -317,7 +317,7 @@ angular.module('item', [])
     });
   };
   i.getNafdacDrug = function(query, callback){
-    $.getJSON('/api/nafdacdrugs/typeahead/needle/'+escape(query), function(s) {
+    $.getJSON('/api/nafdacdrugs/typeahead/needle/'+encodeURI(query), function(s) {
         var results = [];
         $.each(s,function(){
           results.push(this.productName);
@@ -325,11 +325,11 @@ angular.module('item', [])
         callback(results, s);
     });    
   };
-  i.summary = function(id,lId, callback){
-    var itemId = _.escape(id);
-    var locationId = _.escape(lId);
-      $http.get('/api/items/'+itemId+'/options/quick/locations/'+locationId).success(callback);
-    };
+
+  i.summary = function(id, locationId, callback){
+      $http.get('/api/items/'+encodeURI(id)+'/options/quick/locations/'+encodeURI(locationId)).success(callback);
+  };
+
   i.save =  function(post, callback){
       $http.post('/api/items', {item: post}).success(function(data, status){
         Notification.modal({
@@ -394,13 +394,13 @@ angular.module('item', [])
   };
   //Fetches fields data for an Item
   i.getItemFields = function(itemId, callback){
-    $http.get('/api/items/'+escape(itemId)+'/edit').success(callback);
+    $http.get('/api/items/'+encodeURI(itemId)+'/edit').success(callback);
   };
 
 
   //Post updated item fields 
   i.update = function(form, callback){
-    $http.post('/api/items/'+escape(form._id)+'/edit', form)
+    $http.post('/api/items/'+encodeURI(form._id)+'/edit', form)
     .success(function(data, res){
       Notification.notifier({
         message : Language.eng.items.update.success,
@@ -547,14 +547,14 @@ angular.module('item', [])
 
   i.getByRegNo = function(query, cb){
     console.log(query);
-    $http.get('/api/nafdacdrugs/typeahead?q='+query)
+    $http.get('/api/nafdacdrugs/typeahead?q='+encodeURI(query))
     .success(function(d){
-      cb(d)
+      cb(d);
     })
     .error(function(data, isDone){
       alert('An Error Occurred, please check your request');
     });
-  }
+  };
 
   return i;
 }])
