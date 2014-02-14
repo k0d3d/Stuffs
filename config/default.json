@@ -3,7 +3,17 @@
         "host": "mongodb://localhost:27017/local"
     },
     "app": {
-        "name": "Integra Drug Store",
-        "main_stock_id": ""
+        "name": "Integra Drug Stoc",
+        "main_stock_id": "",
+        "facility":{
+        	"type": "hospital",
+	        "name": "New Ikeja Hospital",
+	        "address": "Gbajobi Str, Ikeja",
+	        "phone_number":"08095959393",
+	        "email_address":"new@newikeja.com"
+        }
+    },
+    "api":{
+			"hmis_url": "http://192.168.0.104"
     }
 }

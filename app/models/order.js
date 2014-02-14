@@ -34,7 +34,7 @@ var OrderSchema = new Schema({
   orderVisibility: {type: Boolean, default: true},
   onlineId:{type: Schema.ObjectId},
   orderExpDate: {type: Date},
-  orderPrice: Number,
+  orderPrice: {type: Number},
   paymentReferenceType: {type: String},
   paymentReferenceID: {type: String}
 });

@@ -59,6 +59,11 @@ module.exports = function (app, config, passport) {
       next();
     });
 
+    app.use(function(req, res, next){
+      res.locals.facility = config.app.facility;
+      next();
+    });
+
     // cookieParser should be above session
     app.use(express.cookieParser());
 

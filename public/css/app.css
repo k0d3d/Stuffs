@@ -822,3 +822,11 @@ em.versiontxt{
   text-transform: lowercase;
   font-size: smaller;
 }
+.print-div
+{
+  /*display: none;*/
+}
+.btn-bordered{
+  background-color: transparent !important;
+  border: solid 1px #fff;
+}

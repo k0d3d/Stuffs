@@ -35,13 +35,17 @@ append mainbody
         thead.header
           tr
             th Drug Name
+            th Price@
             th Stock
             th Amount
             th Options
             th 
         tbody
           tr(data-ng-repeat="(i,drugs) in drugsList", ng-class="{faded: d[$index].ready}")
-            td {{d[$index].itemName}}
+            td 
+              | {{d[$index].itemName}}
+            td  
+              | {{d[$index].itemPurchaseRate}}
             td {{d[$index].currentStock}}
             td 
               .control-group(ng-class="{ error: d[$index].amount > d[$index].currentStock }")
@@ -54,17 +58,17 @@ append mainbody
                 option(value="appointment") Supply on appointment
                 option(value="rx") RX
               select(ng-model="d[$index].dosage",placeholder="Dosage", ng-change="adjust_amount($index)",)
-                option(value="1") 1 Daily (OD)
-                option(value="2") 2 Daily (BD)
-                option(value="3") 3 Daily (TDS)
-                option(value="4") 4 Daily (QDS)
+                option(value="1") 1x Daily (OD)
+                option(value="2") 2x Daily (BD)
+                option(value="3") 3x Daily (TDS)
+                option(value="4") 4x Daily (QDS)
                 option(value="5") When Necessary (PRN)
             td
               input.input-small(ng-model="d[$index].period",placeholder="Duration", type="number", min="1", max="31", ng-change="adjust_amount($index)")                
             td
               button.btn.btn-mini.btn-primary(ng-click="prescribeThis($index)", ng-disabled="!d[$index].options.length > 0 || d[$index].ready", ng-init="d[$index].ready = false") Confirm
               i.icon-remove.icon-white.pull-right(ng-click="removeDrug($index)")
-      button.btn.btn-default(ng-click="n_w = !n_w;all = !all;btnState = !btnState") Back
+      button.btn.btn-bordered(ng-click="n_w = !n_w;all = !all;btnState = !btnState") Show Dispense Records
       button.btn.btn-primary(ng-click="approveThis()",ng-init="saveButtonText='Approve'") {{saveButtonText}}
   .span8.offset1(ng-show="all")
     .row-fluid.fixed-table
@@ -97,6 +101,10 @@ append mainbody
                     i.fa.fa-print(title="Print Prescription")
                 td
                   button.btn.btn-primary(type="button", new-modal="#dialog-view-bill", ng-click="viewBill(record._id)") View Bill
+
+
+append foot
+  script(src="js/table-fixed-header.js")                
 
 
 append foot

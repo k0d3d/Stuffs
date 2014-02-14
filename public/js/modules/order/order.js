@@ -17,6 +17,7 @@ config(['$routeProvider',function($routeProvider){
   $scope.placeOrder = function(){
     if(!confirm('Confirm you want to place an order for these items!')) return false;
 
+    return
     var doc = new jsPDF('p','in', 'letter');
 
     // We'll make our own renderer to skip this editor
@@ -482,5 +483,64 @@ config(['$routeProvider',function($routeProvider){
       getStatus: '&'
     },
     templateUrl: '/templates/order-list'
+  };
+}])
+.directive('printable', ['$compile','$http', function($compile, $http){
+  var template = '';
+
+  function link (scope, element, attrs){
+    var templateFile = attrs.printTpl;
+    var toPrint = '#'+attrs.printable;
+    element.on('click', function(e){
+      console.log(scope.basket);
+      //Remove the print-div html if 
+      //it exist in the DOM
+      $('.print-div', toPrint).remove();
+
+      //Get the HTML for the target (element to be printed ) DOM element
+      var sourceHTML = $(toPrint).html();
+
+      //Create a new DOM element
+      var target = $('<div>').addClass('print-div');
+
+      //Fetch the template from the server
+      $http.get('/templates/'+templateFile+'-tpl.jade')
+      .success( function(data){
+        //Add the template returned
+        template = $compile(data)(scope);  
+
+        //insert the template into the new DOM element
+        target.html(template);
+
+        //Add the new DOM element to the 
+        //source DOM element container
+        $(toPrint).append(target);
+
+        //Fix the order sheet html into the template
+        $('.print-div', toPrint).find('.order-sheet').html(sourceHTML);  
+
+        //Remove elements we dont want in our print-out
+        $('.print-div', toPrint).find('.noprint').remove();
+
+        $(".print-div", toPrint).printArea({
+          mode: "iframe"
+        });        
+
+        });
+    });
+
+  }
+  function printfunc(){
+    
+  }
+  return {
+    //templateUrl: '/templates/supplier-cart-tpl.jade',
+    link: link,
+    controller: printfunc,
+    scope: {
+      printable: '@',
+      printTpl: '@',
+      basket: '='
+    }
   };
 }]);

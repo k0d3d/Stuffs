@@ -24,6 +24,7 @@ var ItemSchema = new Schema({
   itemPackaging:{type: String},
   itemForm: {type: String},
   itemPurchaseRate: {type: Number},
+  lastOrderPrice: {type: Number},
   packageSize: {type: Number},
   icdcode: {type: String},
   suppliers: [{

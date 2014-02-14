@@ -7,16 +7,17 @@ block body
     .span2.actioncol
       .search-bar
         input.input-medium(type="search", ng-model="cartFilter.supplier", placeholder="Search Suppliers")
-      button.btn.btn-large.btn-block.btn-success(ng-click="placeOrder()")
+      button.btn.btn-large.btn-block.btn-success(ng-click="placeOrder()", printable="print-table-cart", print-tpl="supplier-cart", basket="basket")
         i.fa.fa-shopping-cart.pull-left
         |   Place Order
-      button.btn.btn-large.btn-block.btn-success(ng-click="send_sms()")
-        i.fa.fa-envelope-o.pull-left
-        |   Send SMS
+      //  
+        button.btn.btn-large.btn-block.btn-success(ng-click="send_sms()")
+          i.fa.fa-envelope-o.pull-left
+          |   Send SMS
       button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
     .span10(ng-show="orderCart.length > 0")
       .row-fluid.fixed-table
-        .table-content
+        #print-table-cart.table-content
           table#list-cart.table.table-fixed-header
             thead.header
               tr
@@ -24,14 +25,14 @@ block body
                 th Quantity
                 th Order Date
                 th Supplier
-                th Action
+                th.noprint Action
             tbody
               tr(ng-repeat="or in (basket = (orderCart | filter: cartFilter))")
                 td {{or.itemName}}
                 td {{or.orderAmount}}
                 td {{or.orderDate | moment}}
                 td {{or.supplier.supplierName}}
-                td
+                td.noprint
                   button.btn.btn-small.btn-danger.btn-bell(ng-click="removeFromCart($index)") 
                     i.fa.fa-times
     .span10(ng-show="orderCart.length === 0")

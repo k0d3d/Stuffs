@@ -3,6 +3,7 @@
  * Module dependencies.
  */
 var async = require('async');
+var config = require('config');
 
 /**
  * Route middlewares

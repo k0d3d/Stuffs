@@ -63,6 +63,7 @@ var updateTracking = function(r){
 };
 
 OrderController.prototype.placeCart = function(cartObj, cb){
+  return;
   if(_.isEmpty(cartObj)) return cb(new Error('Empty Request'));
   var self = this;
   var doneIds = [];
@@ -134,7 +135,7 @@ OrderController.prototype.createOrder = function (orderObj, cb) {
           sciName: data.itemData.sciName
         }
       }, function(d){
-        data.id = d._id
+        data.id = d._id;
         isDone(data);
       });
     }else{
@@ -162,7 +163,7 @@ OrderController.prototype.createOrder = function (orderObj, cb) {
         isDone(new Error(err));
       }
     });
-  })
+  });
 
 
 
