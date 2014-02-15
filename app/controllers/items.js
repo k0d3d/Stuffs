@@ -268,6 +268,7 @@ ItemsObject.prototype.list = function(req, res){
         return res.json(200, {});
       }
       var _item = r.pop();
+
       StockCount.mainStockCount(_item._id, function(stock){
         var it = {
           _id: _item._id,
@@ -509,9 +510,12 @@ ItemsObject.prototype.itemFields = function (itemId, body, cb){
     }, function(err, i){
       if(err){
         isDone(err);
-      }else{
+      }else if (i) {
         data.itemBoilingPoint = i.itemBoilingPoint;
         isDone(data);
+      }else{
+        data.itemBoilingPoint = 0;
+        isDone(data);        
       }
     });    
   });

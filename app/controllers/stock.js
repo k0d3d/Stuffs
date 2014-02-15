@@ -431,22 +431,22 @@ StockController.prototype.count = function(id, cb){
  * @param  {Function} cb         [description]
  * @return {[type]}              [description]
  */
-StockController.prototype.updateBP = function(locationId, itemId, BP, cb){
-  StockCount.update({
-    item: itemId,
-    locationId: locationId
-  }, {
-    $set : {
-      itemBoilingPoint: BP
-    }
-  }, function(err, i){
-    if(err){
-      cb(err);
-    }else{
-      cb(i);
-    }
-  })
-}
+// StockController.prototype.updateBP = function(locationId, itemId, BP, cb){
+//   StockCount.update({
+//     item: itemId,
+//     locationId: locationId
+//   }, {
+//     $set : {
+//       itemBoilingPoint: BP
+//     }
+//   },{upsert: true}, function(err, i){
+//     if(err){
+//       cb(err);
+//     }else{
+//       cb(i);
+//     }
+//   });
+// };
 
 
 /**
@@ -497,7 +497,6 @@ StockController.prototype.history = function (item_Id, location, date,  cb){
  * @return {[type]}            [description]
  */
 StockController.prototype.updateBp = function(id, bp, location, cb){
-  console.log(arguments);
     StockCount.update({
       item: id,
       locationId: location
@@ -505,14 +504,14 @@ StockController.prototype.updateBp = function(id, bp, location, cb){
       $set: {
         itemBoilingPoint: bp
       }
-    }, function(err, i){
+    }, {upsert: true},function(err, i){
       console.log(err, i);
-      // if(err){
-      //   cb(err);
-      // }else{
-      //   cb(i);
-      // }
-      cb(i);
+      if(err){
+        cb(err);
+      }else{
+        cb(i);
+      }
+      //cb(i);
     });
 };
 

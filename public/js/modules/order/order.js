@@ -14,30 +14,29 @@ config(['$routeProvider',function($routeProvider){
 }])
 .controller('orderCartController', ['$scope', '$http', 'ordersService', '$localStorage', function($scope, $http, oS, $localStorage){
   
-  $scope.placeOrder = function(){
+  $scope.placeOrder = function(cb){
     if(!confirm('Confirm you want to place an order for these items!')) return false;
 
-    return
-    var doc = new jsPDF('p','in', 'letter');
+    // var doc = new jsPDF('p','in', 'letter');
 
-    // We'll make our own renderer to skip this editor
-    var specialElementHandlers = {
-      '#frontpage': function(element, renderer){
-        return true;
-      },
-      '.search-bar': function(element, renderer){
-        return true;
-      }
-    };
+    // // We'll make our own renderer to skip this editor
+    // var specialElementHandlers = {
+    //   '#frontpage': function(element, renderer){
+    //     return true;
+    //   },
+    //   '.search-bar': function(element, renderer){
+    //     return true;
+    //   }
+    // };
 
-    // All units are in the set measurement for the document
-    // This can be changed to "pt" (points), "mm" (Default), "cm", "in"
-    doc.fromHTML($('.table-content').get(0), 0.5, 0.5, {
-      'width': 800,
-      'elementHandlers': specialElementHandlers
-    });
+    // // All units are in the set measurement for the document
+    // // This can be changed to "pt" (points), "mm" (Default), "cm", "in"
+    // doc.fromHTML($('.table-content').get(0), 0.5, 0.5, {
+    //   'width': 800,
+    //   'elementHandlers': specialElementHandlers
+    // });
 
-    doc.save('Order Cart'+ Date.now());
+    // doc.save('Order Cart'+ Date.now());
 
     oS.postCart($scope.basket, function(list){
 
@@ -58,7 +57,7 @@ config(['$routeProvider',function($routeProvider){
         $scope.$storage.orderCart = __cleanJSON($scope.orderCart);
       }
       $scope.$apply();
-      console.log($scope.$storage.orderCart);
+      cb();
     });
   };
 
@@ -485,14 +484,13 @@ config(['$routeProvider',function($routeProvider){
     templateUrl: '/templates/order-list'
   };
 }])
-.directive('printable', ['$compile','$http', function($compile, $http){
+.directive('printable', ['$compile','$http','$window','$timeout', function($compile, $http, $window, $timeout){
   var template = '';
 
   function link (scope, element, attrs){
     var templateFile = attrs.printTpl;
     var toPrint = '#'+attrs.printable;
     element.on('click', function(e){
-      console.log(scope.basket);
       //Remove the print-div html if 
       //it exist in the DOM
       $('.print-div', toPrint).remove();
@@ -522,11 +520,13 @@ config(['$routeProvider',function($routeProvider){
         //Remove elements we dont want in our print-out
         $('.print-div', toPrint).find('.noprint').remove();
 
-        $(".print-div", toPrint).printArea({
-          mode: "iframe"
-        });        
+        $timeout(function(){
+          //var w = $window.open(null, 'PrintWindow', "width=420,height=230,resizable,scrollbars=yes,status=1");
+          var w = $window.open();
+          $(w.document.body).html($('.print-div', toPrint).html());
+          });          
+      }, 500);
 
-        });
     });
 
   }

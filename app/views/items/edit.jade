@@ -21,6 +21,11 @@ block body
             input.input-medium(type="text", name="sci-name",ng-model="form.sciName", required)
             label(for="man-name") Manufacturer
             input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName", required)                
+            label(for="supplier") Importer
+            input.input-medium(type="text", name="supplier",ng-model="form.importer", style="color:black;" )  
+            label(for="supplier") NAFDAC Number
+            input.input-medium(type="text", name="supplier",ng-model="form.nafdacRegNo", style="color:black;") 
+            a(ng-click="getByRegNo()",  href="", style="margin-left: 10px; text-transform: Capitalize") Find            
             label.lister(for="category") Category
               button.btn.btn-mini.btn-info.nop(new-modal="#dialog-category")
                 i.fa.fa-ellipsis-horizontal

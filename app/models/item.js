@@ -5,7 +5,7 @@
 var db = require("../../lib/db.js");
 var mongoose = require('mongoose'),
   env = process.env.NODE_ENV || 'development',
-  config = require('../../config/config')[env],
+  config = require('config')[env],
   Schema = mongoose.Schema;
 
 /**
@@ -255,4 +255,3 @@ mongoose.model('ItemPackaging', ItemPackagingSchema);
 mongoose.model('ItemCategory', ItemCategorySchema);
 mongoose.model('Item', ItemSchema);
 module.exports = mongoose.model('Item');
-xports = mongoose.model('Item');

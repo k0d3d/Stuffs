@@ -1,0 +1,2854 @@
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 1 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 2 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 3 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 4 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 5 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 6 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 7 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 8 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 9 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 10 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 11 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 12 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 13 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 14 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 15 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 16 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 17 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 18 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 19 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 20 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 21 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 22 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 23 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 24 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 25 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 26 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 27 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 28 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 29 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 30 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 31 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 32 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 33 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 34 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 35 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 36 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 37 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 38 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 39 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 40 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 41 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 42 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 43 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 44 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 45 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 46 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 47 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 48 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 49 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 50 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 51 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 52 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 53 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 54 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 55 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 56 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 57 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 58 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 59 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 60 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 61 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 62 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 63 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 64 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 65 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 66 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 67 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 68 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 69 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 70 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 71 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 72 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 73 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 74 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 75 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 76 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 77 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 78 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 79 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 80 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 81 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 82 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 83 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 84 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 85 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 86 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 87 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 88 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 89 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 90 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 91 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 92 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 93 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 94 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 95 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 96 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 97 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 98 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 99 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 100 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 101 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 102 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 103 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 104 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 105 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 106 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 107 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 108 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 109 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 110 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 111 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 112 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 113 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 114 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 115 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 116 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 117 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 118 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 119 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 120 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 121 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 122 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 123 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 124 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 125 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 126 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 127 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 128 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 129 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 130 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 131 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 132 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 133 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 134 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 135 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 136 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 137 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 138 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 139 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 140 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 141 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 142 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 143 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 144 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 145 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 146 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 147 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 148 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 149 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 150 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 151 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 152 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 1 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 2 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 3 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 4 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 5 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 6 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 7 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 8 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 9 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 10 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 11 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 12 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 13 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8
+error: Forever restarting script for 14 time
+
+/var/www/html/lib/db.js:10
+	mongoose.connect(config.host);
+	                       ^
+TypeError: Cannot read property 'host' of undefined
+    at Object.<anonymous> (/var/www/html/lib/db.js:10:25)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+    at Module.load (module.js:356:32)
+    at Function.Module._load (module.js:312:12)
+    at Module.require (module.js:364:17)
+    at require (module.js:380:17)
+    at Object.<anonymous> (/var/www/html/app/models/item.js:5:10)
+    at Module._compile (module.js:456:26)
+    at Object.Module._extensions..js (module.js:474:10)
+error: Forever detected script exited with code: 8

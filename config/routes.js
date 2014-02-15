@@ -55,7 +55,9 @@ module.exports = function (app, passport) {
   );
   app.get('/templates/:name', function (req, res) {
       var name = req.params.name;
-      res.render('templates/' + name);
+      res.render('templates/' + name, {
+        headers: req.headers
+      });
     }
   );
   

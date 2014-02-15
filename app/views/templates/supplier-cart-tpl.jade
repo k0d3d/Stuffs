@@ -1,18 +1,30 @@
-.print-tpl.row
-	.offset1.span9
-		header
-			.row
-				.pull-right
-					h2 !{facility.name}
-					h4 !{facility.address}
-					h4 !{facility.phone_number}
-			.row
-				.pull-left
-					h2 {{basket[0].supplier.supplierName}}
-			.row
-				p 
-		.content
-			.order-sheet
-			hr
-			.order-sheet
-		footer
+extends ../layouts/print
+
+append styles
+  link(rel='stylesheet', href='http://#{headers.host}/css/bootstrap.min.css')
+block body
+  .print-tpl.row
+    .offset1.span9
+      header
+        .row
+          em Supplier Copy
+        .row
+          .pull-right
+            h2 !{facility.name}
+            h4 !{facility.address}
+            h4 !{facility.phone_number}
+        .row
+          .pull-left
+            h2 {{basket[0].supplier.supplierName}}
+        .row
+          p 
+      .content
+        .order-sheet
+        hr(style="margin: 50px 0")
+        .row
+          em Facility Copy
+        .row
+          .pull-left
+            h2 {{basket[0].supplier.supplierName}}          
+        .order-sheet
+      footer

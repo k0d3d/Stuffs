@@ -9,6 +9,8 @@ var mongoose = require('mongoose'),
     OrderStatus = mongoose.model('OrderStatus'),
     Dispense = mongoose.model('Dispense'),
     Bill = mongoose.model('Bill'),
+    BillRule = mongoose.model('BillRule'),
+    BillingProfile = mongoose.model('BillingProfile'),
     PointLocation = mongoose.model('Location'),
     StockHistory = mongoose.model('StockHistory'),
     StockCount = mongoose.model('StockCount'),
@@ -116,8 +118,80 @@ AdminController.prototype.login = function(email, password, cb){
   });
 };
 
+AdminController.prototype.removeAllDispense = function(cb){
+  Dispense.remove({}, function(err, n){
+    if(err){
+      cb(err);
+    }else{
+      cb(n);
+    }
+  });
+};
+AdminController.prototype.removeAllBills = function(cb){
+  Bills.remove({}, function(err, n){
+    if(err){
+      cb(err);
+    }else{
+      cb(n);
+    }
+  });
+};
+AdminController.prototype.removeAllBillProfiles = function(cb){
+  BillingProfile.remove({}, function(err, n){
+    if(err){
+      cb(err);
+    }else{
+      cb(n);
+    }
+  });
+};
+AdminController.prototype.removeAllRules = function(cb){
+  BillRules.remove({}, function(err, n){
+    if(err){
+      cb(err);
+    }else{
+      cb(n);
+    }
+  });
+};
+AdminController.prototype.removeAllStockHistory = function(cb){
+  StockHistory.remove({}, function(err, n){
+    if(err){
+      cb(err);
+    }else{
+      cb(n);
+    }
+  });
+};
 AdminController.prototype.removeAllStockCount = function(cb){
   StockCount.remove({}, function(err, n){
+    if(err){
+      cb(err);
+    }else{
+      cb(n);
+    }
+  });
+};
+AdminController.prototype.removeAllOrders = function(cb){
+  Orders.remove({}, function(err, n){
+    if(err){
+      cb(err);
+    }else{
+      cb(n);
+    }
+  });
+};
+AdminController.prototype.removeAllOrderStatus = function(cb){
+  OrderStatuses.remove({}, function(err, n){
+    if(err){
+      cb(err);
+    }else{
+      cb(n);
+    }
+  });
+};
+AdminController.prototype.removeAllTransactions = function(cb){
+  Transactions.remove({}, function(err, n){
     if(err){
       cb(err);
     }else{
@@ -203,7 +277,32 @@ module.exports.routes = function(app){
       case 'stock':
         admin.removeAllStockCount(cb);
         break;
+      case 'dispense':
+        admin.removeAllDispense(cb);
+        break;
+      case 'bills':
+        admin.removeAllBills(cb);
+        break;
+      case 'billprofiles':
+        admin.removeAllBillProfiles(cb);
+        break;
+      case 'billrules':
+        admin.removeAllRules(cb);
+        break;
+      case 'stockhistory':
+        admin.removeAllStockHistory(cb);
+        break;
+      case 'orders':
+        admin.removeAllOrders(cb);
+        break;
+      case 'orderstatuses':
+        admin.removeAllOrderStatus(cb);
+        break;
+      case 'transactions':
+        admin.removeAllTransactions(cb);
+        break;
       default:
+        cb(new Error('Can not find the target aspect; reset failed'));
       break;
     }
   });
@@ -221,7 +320,7 @@ module.exports.routes = function(app){
       }else{
         res.json(200, d);
       }
-    })
-  })
+    });
+  });
 
 }

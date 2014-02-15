@@ -94,8 +94,14 @@
       var q = this.findOne({item: id, locationId: nconf.get("app:main_stock_id")});
       q.lean();
       q.exec(function(err, i){
-        i.amount = i.amount || 0;
-        callback(i);
+        //Might return null so
+        //lets equate that to no stock
+        if(i){
+          i.amount = i.amount || 0;
+          callback(i);
+        }else{
+          callback({amount: 0});
+        }
       });
     }
   };

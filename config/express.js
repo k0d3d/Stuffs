@@ -109,6 +109,7 @@ module.exports = function (app, config, passport) {
     // valid, you can do whatever you like, set
     // properties, use instanceof etc.
     app.use(function(err, req, res, next){
+      var t = new Date();
       // treat as 404
       if  ( err.message && 
           (~err.message.indexOf('not found') || 
@@ -119,6 +120,7 @@ module.exports = function (app, config, passport) {
 
       // log it
       // send emails if you want
+      console.error(t.toString());
       console.error(err.stack);
 
       // error page
