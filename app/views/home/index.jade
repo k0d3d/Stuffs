@@ -39,6 +39,12 @@
                 h4 View Orders 
         .row-fluid.row-break
           .span4
+            .tile.palette-turquoise(ng-click="commons.href('dashboard/order?by=composition', 1)")
+              .tile-sub
+                span
+                  i.fa.fa-search(style="font-size: 70px;display: block;text-align: right;")  
+                span Search By Composition
+          .span4
             .tile.palette-turquoise(ng-click="commons.href('orders/pending/order')")
               .tile-sub  
                 h4 {{ordersCount.pendingorders}}

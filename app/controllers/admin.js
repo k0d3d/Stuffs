@@ -4,8 +4,7 @@ var mongoose = require('mongoose'),
     ItemForm = mongoose.model('ItemForm'),
     ItemPackaging = mongoose.model('ItemPackaging'),
     Items = require('./items').item,
-    Order = mongoose.model('Order'),
-    Orders = require('./orders').order,
+    Orders = mongoose.model('Order'),
     OrderStatus = mongoose.model('OrderStatus'),
     Dispense = mongoose.model('Dispense'),
     Bill = mongoose.model('Bill'),
@@ -14,6 +13,7 @@ var mongoose = require('mongoose'),
     PointLocation = mongoose.model('Location'),
     StockHistory = mongoose.model('StockHistory'),
     StockCount = mongoose.model('StockCount'),
+    Transactions = mongoose.model('transaction'),
     _ = require("underscore"),
     NafdacDrugs = mongoose.model("nafdacdrug"),
     NDL = require("./nafdacs").ndl,
@@ -22,7 +22,7 @@ var mongoose = require('mongoose'),
     querystring = require('querystring'),
     util = require("util");
 
-var online_api_url = 'http://localhost:3001';
+var online_api_url = 'http://integra.vm:3001';
 
 function AdminController () {
 
@@ -182,7 +182,7 @@ AdminController.prototype.removeAllOrders = function(cb){
   });
 };
 AdminController.prototype.removeAllOrderStatus = function(cb){
-  OrderStatuses.remove({}, function(err, n){
+  OrderStatus.remove({}, function(err, n){
     if(err){
       cb(err);
     }else{
@@ -201,6 +201,15 @@ AdminController.prototype.removeAllTransactions = function(cb){
 };
 AdminController.prototype.removeAllItems = function(cb){
   Item.remove({}, function(err, n){
+    if(err){
+      cb(err);
+    }else{
+      cb(n);
+    }
+  });
+};
+AdminController.prototype.removeAllLocations = function(cb){
+  PointLocation.remove({}, function(err, n){
     if(err){
       cb(err);
     }else{
@@ -300,6 +309,9 @@ module.exports.routes = function(app){
         break;
       case 'transactions':
         admin.removeAllTransactions(cb);
+        break;
+      case 'locations':
+        admin.removeAllLocations(cb);
         break;
       default:
         cb(new Error('Can not find the target aspect; reset failed'));

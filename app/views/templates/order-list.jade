@@ -1,8 +1,10 @@
 tr(ng-repeat="order in orderList | filter: ordersFilter", on-finish="tableheader")
   td {{order.orderType}}
   td 
-    a(href="/items/{{order.itemData[0]._id}}/edit") {{order.itemData[0].itemName}}
-  td {{order.orderAmount}}
+    a(href="/items/{{order.itemData.id}}/edit") {{order.itemData.itemName}}
+  td 
+    | {{order.orderAmount}} <span style="color: grey">@ N{{order.orderPrice}}</span>
+  td {{order.orderAmount * order.orderPrice}}
   td {{order.orderDate | date:'medium'}}
   td.orderDesc {{order.orderDescription}}
   td {{order.orderSupplier[0].supplierName}} 

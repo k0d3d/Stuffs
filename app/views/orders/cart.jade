@@ -7,7 +7,7 @@ block body
     .span2.actioncol
       .search-bar
         input.input-medium(type="search", ng-model="cartFilter.supplier", placeholder="Search Suppliers")
-      button.btn.btn-large.btn-block.btn-success(ng-click="placeOrder()", printable="print-table-cart", print-tpl="supplier-cart", basket="basket")
+      button.btn.btn-large.btn-block.btn-success(checkfunc="placeOrder(cb)", printable="print-table-cart", print-tpl="supplier-cart", print-scope="printScope")
         i.fa.fa-shopping-cart.pull-left
         |   Place Order
       //  
@@ -23,15 +23,17 @@ block body
               tr
                 th Item
                 th Quantity
-                th Order Date
-                th Supplier
+                th Price (N)
+                th.noprint Order Date
+                th.noprint Supplier
                 th.noprint Action
             tbody
-              tr(ng-repeat="or in (basket = (orderCart | filter: cartFilter))")
+              tr(ng-repeat="or in (basket = ($parent.orderCart | filter: cartFilter))")
                 td {{or.itemName}}
                 td {{or.orderAmount}}
-                td {{or.orderDate | moment}}
-                td {{or.supplier.supplierName}}
+                td {{or.orderPrice}}
+                td.noprint {{or.orderDate | moment}}
+                td.noprint {{or.supplier.supplierName}}
                 td.noprint
                   button.btn.btn-small.btn-danger.btn-bell(ng-click="removeFromCart($index)") 
                     i.fa.fa-times

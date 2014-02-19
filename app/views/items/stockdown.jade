@@ -51,7 +51,7 @@ block body
                   th Actions
               tbody
                 tr(ng-repeat="lo in stockDownRecord | orderBy: lo.item.itemName", on-finish="tableheader")
-                  td <a href="/items/{{lo.item.itemID}}/edit">{{lo.item.itemName}}</a>
+                  td <a href="/items/{{lo.item._id}}/edit">{{lo.item.itemName}}</a>
                   td {{lo.lastOrderDate | date: 'medium' }}
                   td {{lo.amount}}
                   td 

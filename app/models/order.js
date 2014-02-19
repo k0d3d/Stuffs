@@ -15,10 +15,10 @@ var mongoose = require('mongoose'),
  */
 var OrderSchema = new Schema({
   orderType: {type: String, default: 'Medical Equipment'},
-  itemData: [{
+  itemData: {
             itemName: {type: String, default: ''},
             id: {type: Schema.ObjectId, ref: 'Item'}
-            }],
+            },
   nafdacRegNo: {type: String},
   nafdacRegName: {type: String},
   orderAmount: {type: Number, default: '0'},

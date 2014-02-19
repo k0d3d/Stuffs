@@ -173,7 +173,7 @@ angular.module('dispense', [])
         "status":v.options,
         "dosage": v.dosage,
         "period": v.period,
-        "cost": v.itemPurchaseRate
+        "cost": v.cost
       });
     });
     var toSend = {
@@ -242,7 +242,8 @@ angular.module('dispense', [])
     $scope.d[index].amount = val * $scope.d[index].period;
   };
 
-  $scope.print_bill = function(){
+  $scope.print_bill = function(cb){
+    return cb(true);
     $("#dialog-view-bill .modal-body").printArea({
       mode: "iframe"
     });

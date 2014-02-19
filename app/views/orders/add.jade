@@ -1,6 +1,6 @@
 block body
   include ../includes/modals/modal.jade
-  .row-fluid.row-break(ng-init="plcordr= true;searchndl=false")
+  .row-fluid.row-break()
     .span2.actioncol
       button.btn.btn-large.btn-block.btn-primary(type="button",ng-click='submitOrder()', ng-disabled="newOrder.$invalid") Place Order
       button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back

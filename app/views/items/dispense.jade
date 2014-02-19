@@ -35,7 +35,7 @@ append mainbody
         thead.header
           tr
             th Drug Name
-            th Price@
+            th.span1 Price@
             th Stock
             th Amount
             th Options
@@ -45,7 +45,8 @@ append mainbody
             td 
               | {{d[$index].itemName}}
             td  
-              | {{d[$index].itemPurchaseRate}}
+              select(style="width: 70px", ng-model="d[$index].cost", ng-options="c for c in d[$index].orderPrice", ng-init="d[$index].cost = d[$index].orderPrice[0]")
+                option {{d[$index].itemPurchaseRate}}
             td {{d[$index].currentStock}}
             td 
               .control-group(ng-class="{ error: d[$index].amount > d[$index].currentStock }")
@@ -104,8 +105,4 @@ append mainbody
 
 
 append foot
-  script(src="js/table-fixed-header.js")                
-
-
-append foot
-  script(src="js/table-fixed-header.js")                
+  script(src="js/table-fixed-header.js")                              

@@ -17,6 +17,7 @@ var mongoose = require('mongoose'),
     nconf = require('nconf'),
     P = require('../../lib/promisify'),
     Q = require('q'),
+    cors = require('../../config/middlewares/cors'),
     util = require("util");
 /**
  * Module dependencies.
@@ -299,76 +300,113 @@ ItemsObject.prototype.list = function(req, res){
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-ItemsObject.prototype.listOne = function(req,res){
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  var options = {criteria: {}, fields: {}};
-  var it ={};
-  var reg = /^[0-9a-fA-F]{24}$/;
-  if(req.param('id').length > 0){
-    if(reg.test(req.param('id'))){
-      options.criteria = {"_id": req.param('id')};
-    }else{
-      options.criteria = {"itemName": req.param('id')};
-    }
-    if(req.param('option') == 'quick'){
-      //options.fields = " _id itemID itemName sciName manufacturerName itemSupplier.supplierName itemPurchaseRate itemBoilingPoint";
-      options.fields = "";
-    }
-    Item.listOne(options, function(err, r){
-      //console.log(itemsResult);
-      if (err) return res.json('500',{"mssg": 'Darn Fault!!!'});
-      /**
-       * Get the current stock and last order date and 
-       * add it to the object.
-       * Since dispensing is carried out from a stockdown location,
-       * we pass in the location object when fetching stock amount
-       */
-      if(req.param('locationId') === 'main' || req.param('locationId') === 'Main'){
-        //Get Stock count by name
-        StockCount.getStockAmountbyName(r._id,{name: 'Main'} ,function(stock){
-          it = {
-            _id: r._id,
-            itemID: r.itemID,
-            itemName: r.itemName,
-            sciName: r.sciName,
-            manufacturerName: r.manufacturerName,
-            itemPurchaseRate: r.itemPurchaseRate,
-            itemBoilingPoint: r.itemBoilingPoint,
-            itemForm: r.itemForm,
-            itemPackaging: r.itemPackaging,
-            packageSize: r.packageSize,
-            suppliers : r.suppliers,
-            currentStock: (stock === null)? 0 : stock.amount,
-            lastSupplyDate: (stock === null)? '' : stock.lastOrderDate,
-            nafdacId: r.nafdacId,
-            nafdacRegNo: r.nafdacRegNo
-          };
-          res.json(200, it);
-        });
+ItemsObject.prototype.listOne = function(item, option, location, cb){
+  var register = new EventRegister();
+
+  register.once('findItem', function(data, isDone){
+    var options = {criteria: {}, fields: {}};
+    var it ={};
+    var reg = /^[0-9a-fA-F]{24}$/;
+    if(item){
+      if(reg.test(item)){
+        options.criteria = {"_id": item};
       }else{
-        //Get stock count by location id
-        StockCount.getStockAmountbyId(r._id,{id: req.param('locationId')} ,function(stock){
-          it = {
-            _id: r._id,
-            itemID: r.itemID,
-            itemName: r.itemName,
-            sciName: r.sciName,
-            manufacturerName: r.manufacturerName,
-            itemPurchaseRate: r.itemPurchaseRate,
-            itemBoilingPoint: r.itemBoilingPoint,
-            itemForm: r.itemForm,
-            itemPackaging: r.itemPackaging,
-            packageSize: r.packageSize,            
-            currentStock: (stock === null)? 0 : stock.amount,
-            lastSupplyDate: (stock === null)? '' : stock.lastOr
-          };
-          console.log(it);
-          res.json(200, it);
-        });
+        options.criteria = {"itemName": item};
+      }
+      if(option == 'quick'){
+        //options.fields = " _id itemID itemName sciName manufacturerName itemSupplier.supplierName itemPurchaseRate itemBoilingPoint";
+        options.fields = "";
+      }
+      Item.listOne(options, function(err, r){
+        //console.log(itemsResult);
+        if (err) return isDone(err);
+        data = r.toJSON();
+        isDone(data);
+      });
+    }    
+  });
+  register.once('findStock', function(data, isDone){
+        /**
+         * Get the current stock and last order date and 
+         * add it to the object.
+         * Since dispensing is carried out from a stockdown location,
+         * we pass in the location object when fetching stock amount
+         */
+        if(location === 'main' || location === 'Main'){
+          //Get Stock count by name
+          StockCount.getStockAmountbyName(data._id,{name: 'Main'} ,function(stock){
+            // it = {
+            //   _id: r._id,
+            //   itemID: r.itemID,
+            //   itemName: r.itemName,
+            //   sciName: r.sciName,
+            //   manufacturerName: r.manufacturerName,
+            //   itemPurchaseRate: r.itemPurchaseRate,
+            //   itemBoilingPoint: r.itemBoilingPoint,
+            //   itemForm: r.itemForm,
+            //   itemPackaging: r.itemPackaging,
+            //   packageSize: r.packageSize,
+            //   suppliers : r.suppliers,
+            //   currentStock: (stock === null)? 0 : stock.amount,
+            //   lastSupplyDate: (stock === null)? '' : stock.lastOrderDate,
+            //   nafdacId: r.nafdacId,
+            //   nafdacRegNo: r.nafdacRegNo
+            // };
+            // res.json(200, it);
+            data.currentStock =  (stock === null)? 0 : stock.amount;
+            data.lastSupplyDate =  (stock === null)? '' : stock.lastOrderDate;            
+            isDone(data);
+          });
+        }else{
+          //Get stock count by location id
+          StockCount.getStockAmountbyId(data._id,{id: location} ,function(stock){
+            console.log(stock);
+            data.currentStock =  (stock === null)? 0 : stock.amount;
+            data.lastSupplyDate =  (stock === null)? '' : stock.lastOrderDate;
+
+            isDone(data);
+          });
+        }
+  });
+
+  register.on('itemCosts', function(data, isDone){
+    Order.find({"itemData.id": data._id, 
+      $or:[
+        {"orderStatus": "supplied"},
+        {"orderStatus": "paid"},
+        {"orderStatus": "complete"},
+    ]}, 'orderPrice')
+    .sort({'orderDate': 1})
+    .limit(3)
+    .exec(function(err, i){
+      if(err){
+        isDone(err);
+      }else{
+        data.orderPrice = (function(){
+          var k =  _.map(i, function(v){
+            return v.orderPrice;
+          });
+          k.sort(function(a, b){
+            return b-a;
+          });
+          return k;
+        }());
+        isDone(data);
       }
     });
-  }
+
+  });
+
+
+  register
+  .queue('findItem', 'findStock', 'itemCosts')
+  .onError(function(err){
+    cb(err);
+  })
+  .onEnd(function(r){
+    cb(r);
+  })
+  .start();
 };
 
 /**
@@ -695,7 +733,16 @@ module.exports.routes = function(app){
   //app.get('/api/items/listOne/:id/:option',listOne);
 
   //Fetches data on an item, either full or summary by location
-  app.get('/api/items/:id/options/:option/locations/:locationId',item.listOne);
+  app.get('/api/items/:id/options/:option/locations/:locationId', cors, function(req, res, next){
+    var option = req.params.option, itemId = req.params.id, location = req.params.locationId;
+    item.listOne(itemId, option, location, function(r){
+      if(util.isError(r)){
+        next(r);
+      }else{
+        res.json(200, r);
+      }
+    });
+  });
 
   //Fetches data for an item when editing
   app.get('/api/items/:item_id/edit', function(req, res, next){
@@ -705,7 +752,6 @@ module.exports.routes = function(app){
       if(util.isError(r)){
         next(r);
       }else{
-        console.log(r);
         res.json(200, r);
       }
     });

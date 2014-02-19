@@ -83,7 +83,7 @@ angular.module('language', [])
 			"update":{
 				"success": "This order has been updated",
 				"error": "Order update failed",
-				"amountDis": "The amount supplied is lesser than the amount ordered for. Do you want to place another order? <a href=\"\/dashboard\/orders\">Yes<\/a >"
+				"amountDis": "The amount supplied is lesser than the amount ordered for. Do you want to place another order? <a href=\"\/dashboard\/order\">Yes<\/a >"
 			},
 			"place":{
 				"success": "You've succesfull placed an order.",

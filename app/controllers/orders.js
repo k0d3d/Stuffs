@@ -49,7 +49,7 @@ var postOrders = function(){
   });
 };
 
-var updateTracking = function(r){
+var updateTracking = function (r) {
   _.each(r, function(v, i){
     Order.update({_id: v.client}, {
       onlineId: v.online,
@@ -63,7 +63,6 @@ var updateTracking = function(r){
 };
 
 OrderController.prototype.placeCart = function(cartObj, cb){
-  return;
   if(_.isEmpty(cartObj)) return cb(new Error('Empty Request'));
   var self = this;
   var doneIds = [];
@@ -78,10 +77,10 @@ OrderController.prototype.placeCart = function(cartObj, cb){
     var id = item.itemId;
 
     var order = new Order(item);
-    var itemObj = {itemName: itemName, _id: id};
+    var itemObj = {itemName: itemName, id: id};
     order.orderSupplier =  supplier;
 
-    order.itemData.push(itemObj);
+    order.itemData = itemObj;
     
     order.save(function (r) {
       //Check if the object returned is an error
@@ -123,7 +122,7 @@ OrderController.prototype.createOrder = function (orderObj, cb) {
   //the absence of an itemId creates a new item
   register.once('checkId', function(data, isDone){
     console.log(data);
-    var id = data._id || data.itemData._id;
+    var id = data._id || data.itemData.id;
 
     if(!id){
       //Lets go create a new Item and return its id
@@ -149,11 +148,11 @@ OrderController.prototype.createOrder = function (orderObj, cb) {
     var supplier = data.supplier || data.suppliers;
 
     var order = new Order(data);
-    var itemObj = {itemName: itemName, _id: data.id};
+    var itemObj = {itemName: itemName, id: data.id};
 
     order.orderSupplier =  supplier;
 
-    order.itemData.push(itemObj);
+    order.itemData = itemObj;
     
     order.save(function (err) {
       if (!err) {
@@ -289,7 +288,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
 
       var reqObject = [
         {
-          id: data.orderbody.itemData._id,
+          id: data.orderbody.itemData.id,
           itemName: data.orderbody.itemData.itemName,
           amount: data.orderbody.amountSupplied,
         }      

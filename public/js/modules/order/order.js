@@ -10,12 +10,20 @@ config(['$routeProvider',function($routeProvider){
   .when('/orders/pending/:type', {templateUrl: '/orders/all', controller: 'ordersIndexController'})
   .when('/dashboard/orders/cart', {templateUrl: '/orders/cart', controller: 'orderCartController'})
   .when('/dashboard/order', {templateUrl: '/orders/add', controller: 'orderAddController'})
+  .when('/dashboard/order/by/:by', {templateUrl: '/orders/add', controller: 'orderAddController'})
   .when('/dashboard/order/:itemId', {templateUrl: '/orders/add', controller: 'orderAddController'});
 }])
 .controller('orderCartController', ['$scope', '$http', 'ordersService', '$localStorage', function($scope, $http, oS, $localStorage){
   
-  $scope.placeOrder = function(cb){
-    if(!confirm('Confirm you want to place an order for these items!')) return false;
+  $scope.placeOrder = function (cb) {
+    if (!confirm('Confirm you want to place an order for these items!')) {
+      cb(false);
+      return false;
+    } 
+
+    $scope.printScope = null;
+    $scope.printScope = angular.copy($scope.basket);
+    console.log($scope.printScope);
 
     // var doc = new jsPDF('p','in', 'letter');
 
@@ -38,26 +46,32 @@ config(['$routeProvider',function($routeProvider){
 
     // doc.save('Order Cart'+ Date.now());
 
-    oS.postCart($scope.basket, function(list){
-
-      //map the itemId on the order cart to an array.
-      var cartIds = _.map($scope.orderCart, function(val){
-        return val.itemId;
+    oS.postCart($scope.basket, function (list) {
+      var cartIds = _.map($scope.orderCart, function (a) {
+        return a.itemId;
       });
-      //using _.difference, we remove the orders which
-      //have been placed from the whole cart.
-      $scope.$parent.orderCart = _.difference(cartIds, list);
 
-      console.log($scope.orderCart);
 
-      //then we save it back in our localStorage
-      if(_.isEmpty($scope.orderCart)){
-        delete $localStorage.orderCart;
-      }else{
-        $scope.$storage.orderCart = __cleanJSON($scope.orderCart);
+      var l = list.length;
+
+      function __pop() {
+        var t = list.pop();
+        var o = _.indexOf(cartIds, t);
+
+        if (o > -1) {
+          $scope.orderCart.splice(o, 1);
+        }
+        
+        if (--l) {
+          __pop();
+        } else {
+          //$localStorage.orderCart = angular.toJson($scope.orderCart);
+          cb(true);
+        }
+
       }
-      $scope.$apply();
-      cb();
+
+      __pop();
     });
   };
 
@@ -127,8 +141,9 @@ config(['$routeProvider',function($routeProvider){
         break;
       }
     });
-  }());
 
+
+  }());
 
   $scope.removeOrder = function(event, order_id){
     var currentItem = event.currentTarget;
@@ -162,14 +177,23 @@ config(['$routeProvider',function($routeProvider){
     itemsService.summary($routeParams.itemId, 'main', function(r){
       $scope.summary = r;
       $scope.form.itemData.itemName = r.itemName;
-      $scope.form.itemData._id = r._id;
+      $scope.form.itemData.id = r._id;
       $scope.form.nafdacRegNo = r.nafdacRegNo;
       $scope.form.nafdacRegName = r.itemName;
+      $scope.form.orderPrice = r.itemPurchaseRate;
       $scope.form.suppliers = {
         supplierName : r.supplierName,
         supplierID : r.supplierID
       };
     });
+  }
+
+  console.log($location.search());
+
+  if($location.by === 'composition'){
+    $scope.plcordr = true;
+  }else{
+    $scope.searchndl = true;
   }
 
   $scope.toggle = function(){
@@ -402,13 +426,14 @@ config(['$routeProvider',function($routeProvider){
         updater: function(name){
           itemsService.summary(name,'main', function(r){
             scope.form.itemData.itemName = r.itemName;
-            scope.form.itemData._id = r._id;
+            scope.form.itemData.id = r._id;
             scope.form.suppliers = {
               supplierID : r.suppliers[0]._id,
               supplierName: r.suppliers[0].supplierName
             };
             scope.form.nafdacRegNo = r.nafdacRegNo;
             scope.form.nafdacRegName = r.itemName;            
+            scope.form.orderPrice = r.itemPurchaseRate;            
             scope.summary = r;
           });
           scope.$apply();
@@ -442,7 +467,7 @@ config(['$routeProvider',function($routeProvider){
       } 
       var o ={
         status : $scope.orderList[index].nextStatus,
-        itemData : $scope.orderList[index].itemData[0],
+        itemData : $scope.orderList[index].itemData,
         amount : $scope.orderList[index].orderAmount,
         order_id : $scope.orderList[index]._id,
         invoiceno : $scope.orderList[index].orderInvoice,
@@ -482,65 +507,5 @@ config(['$routeProvider',function($routeProvider){
       getStatus: '&'
     },
     templateUrl: '/templates/order-list'
-  };
-}])
-.directive('printable', ['$compile','$http','$window','$timeout', function($compile, $http, $window, $timeout){
-  var template = '';
-
-  function link (scope, element, attrs){
-    var templateFile = attrs.printTpl;
-    var toPrint = '#'+attrs.printable;
-    element.on('click', function(e){
-      //Remove the print-div html if 
-      //it exist in the DOM
-      $('.print-div', toPrint).remove();
-
-      //Get the HTML for the target (element to be printed ) DOM element
-      var sourceHTML = $(toPrint).html();
-
-      //Create a new DOM element
-      var target = $('<div>').addClass('print-div');
-
-      //Fetch the template from the server
-      $http.get('/templates/'+templateFile+'-tpl.jade')
-      .success( function(data){
-        //Add the template returned
-        template = $compile(data)(scope);  
-
-        //insert the template into the new DOM element
-        target.html(template);
-
-        //Add the new DOM element to the 
-        //source DOM element container
-        $(toPrint).append(target);
-
-        //Fix the order sheet html into the template
-        $('.print-div', toPrint).find('.order-sheet').html(sourceHTML);  
-
-        //Remove elements we dont want in our print-out
-        $('.print-div', toPrint).find('.noprint').remove();
-
-        $timeout(function(){
-          //var w = $window.open(null, 'PrintWindow', "width=420,height=230,resizable,scrollbars=yes,status=1");
-          var w = $window.open();
-          $(w.document.body).html($('.print-div', toPrint).html());
-          });          
-      }, 500);
-
-    });
-
-  }
-  function printfunc(){
-    
-  }
-  return {
-    //templateUrl: '/templates/supplier-cart-tpl.jade',
-    link: link,
-    controller: printfunc,
-    scope: {
-      printable: '@',
-      printTpl: '@',
-      basket: '='
-    }
   };
 }]);

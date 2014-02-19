@@ -32,9 +32,13 @@ angular.module('integraApp').controller('MainController', [ '$scope', '$http', '
   $scope.updates = [];
   $scope.$storage = $localStorage;
 
-  function href(target){
+  function href(target, useUrl){
     $scope.modal = {};
-    $location.path(target);
+    if(useUrl == '1'){
+      $location.url(target);
+    }else{
+      $location.path(target);
+    }
   }
   function backBtn(){
     history.back();
@@ -126,7 +130,7 @@ angular.module('integraApp').controller('MainController', [ '$scope', '$http', '
   });
 
   //Check for Orders in Cart
-  $scope.orderCart =  $.parseJSON($scope.$storage.orderCart) || [];
+  $scope.orderCart =  angular.fromJson($scope.$storage.orderCart) || [];
   
   // if($scope.$storage.orderCart){
   //   $scope.orderCart = $.parseJSON($scope.$storage.orderCart);
@@ -141,7 +145,7 @@ angular.module('integraApp').controller('MainController', [ '$scope', '$http', '
 
   $scope.removeFromCart = function(index){
     $scope.orderCart.splice(index, 1);
-    $scope.$storage.orderCart = __cleanJSON($scope.orderCart);
+    $scope.$storage.orderCart = angular.toJson($scope.orderCart);
   };
 }]);
 angular.module('integraApp').filter('moment', function(){

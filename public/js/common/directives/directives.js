@@ -249,10 +249,76 @@
         });
       });
     }
-    return {
-      link:link,
-      scope: {
-        lcn: '&editable'
-      }
-    };
+    // return {
+    //   link:link,
+    //   scope: {
+    //     lcn: '&editable'
+    //   }
+    // };
   }]);
+
+angular.module('directives').directive('printable', ['$compile','$http','$window','$timeout', function($compile, $http, $window, $timeout){
+  var template = '';
+
+  function link (scope, element, attrs){
+    var templateFile = attrs.printTpl;
+    var toPrint = '#'+attrs.printable;
+    element.on('click', function(e){
+      scope.checkfunc({cb: function(r){
+        console.log(typeof(scope.checkfunc));
+        console.log(scope.printScope);
+        if(!r) return false;
+        //Remove the print-div html if 
+        //it exist in the DOM
+        $('.print-div', toPrint).remove();
+
+        //Get the HTML for the target (element to be printed ) DOM element
+        var sourceHTML = $(toPrint).html();
+
+        //Create a new DOM element
+        var target = $('<div>').addClass('print-div');
+
+        //Fetch the template from the server
+        $http.get('/templates/'+templateFile+'-tpl.jade')
+        .success( function(data){
+          //Add the template returned
+          template = $compile(data)(scope);  
+
+          //insert the template into the new DOM element
+          target.html(template);
+
+          //Add the new DOM element to the 
+          //source DOM element container
+          $(toPrint).append(target);
+
+          //Fix the order sheet html into the template
+          $('.print-div', toPrint).find('.source-html').html(sourceHTML);  
+
+          //Remove elements we dont want in our print-out
+          $('.print-div', toPrint).find('.noprint').remove();
+
+          $timeout(function(){
+            //var w = $window.open(null, 'PrintWindow', "width=420,height=230,resizable,scrollbars=yes,status=1");
+            var w = $window.open();
+            $(w.document.body).html($('.print-div', toPrint).html());
+            });          
+        }, 500);              
+      }});
+    });
+
+  }
+  function printfunc(){
+    
+  }
+  return {
+    //templateUrl: '/templates/supplier-cart-tpl.jade',
+    link: link,
+    controller: printfunc,
+    scope: {
+      printable: '@',
+      printTpl: '@',
+      printScope: '=',
+      checkfunc: '&'
+    }
+  };
+}]);
