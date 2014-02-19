@@ -17,7 +17,7 @@ config(['$routeProvider',function($routeProvider){
   
   $scope.placeOrder = function (cb) {
     if (!confirm('Confirm you want to place an order for these items!')) {
-      cb(false);
+      cb(false); 
       return false;
     } 
 
