@@ -1,5 +1,5 @@
 {
-  "name": "integra-drug-store",
+  "name": "integra-drugstoc",
   "description": "A pharmacy application running on MongDB, Express and Angular JS . Test by Jasmine",
   "keywords": [
     "express",
@@ -10,7 +10,7 @@
   ],
   "version": "1.0.0",
   "private": false,
-  "author": "Michael Rhema <mykel@pxlart.in>",
+  "author": "Michael Rhema <michael.rhema@gmail.com>",
   "engines": {
     "node": "0.10.x",
     "npm": "1.2.x"
@@ -54,6 +54,12 @@
     "supertest": "latest",
     "should": "latest",
     "mocha": "latest",
-    "nodemon": "latest"
+    "nodemon": "latest",
+    "grunt": "~0.4.2",
+    "grunt-bump": "0.0.13",
+    "grunt-contrib-uglify": "~0.3.2",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-contrib-watch": "~0.5.3"
   }
 }
