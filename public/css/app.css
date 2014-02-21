@@ -830,3 +830,7 @@ em.versiontxt{
   background-color: transparent !important;
   border: solid 1px #fff;
 }
+.comp-list [disabled] {
+  background-color: transparent;
+  color: white;
+}

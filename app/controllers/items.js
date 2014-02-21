@@ -13,6 +13,7 @@ var mongoose = require('mongoose'),
     Stock = require('./stock').manager,
     _ = require("underscore"),
     NafdacDrugs = mongoose.model("nafdacdrug"),
+    Ndl = require('./nafdacs').ndl,
     EventRegister = require('../../lib/event_register').register,
     nconf = require('nconf'),
     P = require('../../lib/promisify'),
@@ -695,6 +696,7 @@ ItemsObject.prototype.fetchByRegNo = function(query, cb){
 module.exports.item = ItemsObject;
 
 var item = new ItemsObject();
+var ndls = new Ndl();
 
 module.exports.routes = function(app){
 
@@ -775,6 +777,18 @@ module.exports.routes = function(app){
   app.get('/api/items/typeahead/term/:term/query/:needle',item.typeahead);
 
   //Nafdac Typeahead Route
+  app.get('/api/nafdacdrugs', cors,  function(req, res, next){
+    var limit = req.query.limit;
+    ndls.searchComposition(req.params.needle, req.params.page, limit, function(r){
+      if(utils.isError(r)){
+        next(r);
+        return;
+      }else{
+        res.json(200, r);
+      }
+    });    
+  });
+  
   app.get('/api/nafdacdrugs/typeahead/needle/:needle',item.nafdacTypeAhead);
 
   //NAFDAC Fetch item by Registeration Number

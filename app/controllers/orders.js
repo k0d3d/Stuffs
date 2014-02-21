@@ -581,7 +581,8 @@ module.exports.routes = function(app){
 
   //Search for nafdac reg drugs by composition
   app.get('/api/orders/ndl/:needle/composition/:page', function(req, res, next){
-    ndls.searchComposition(req.params.needle, req.params.page, function(r){
+    var limit = req.query.limit || 10;
+    ndls.searchComposition(req.params.needle, req.params.page, limit, function(r){
       if(utils.isError(r)){
         next(r);
         return;

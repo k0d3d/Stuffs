@@ -18,15 +18,15 @@ NdlController.prototype.constructor = NdlController;
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
  */
-NdlController.prototype.searchComposition = function(string, page, callback) {
-  var wit = Ndl.find({},'productName composition category currentPrice');
+NdlController.prototype.searchComposition = function (string, page, limit, callback) {
+  var wit = Ndl.find({}, 'productName composition category currentPrice');
   wit.regex('composition',
     new RegExp(string, 'i')
   )
-  .limit(10)
-  .skip(page * 10)
-  .exec(function(err, i){
-    if(err){
+  .limit(limit)
+  .skip(page * limit)
+  .exec(function (err, i) {
+    if (err) {
       callback(err);
     } else {
       callback(i);

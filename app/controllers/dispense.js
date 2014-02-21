@@ -77,7 +77,8 @@ function stockbylocation(i, cb){
       }
     });
   }
-  c_s();  
+
+  c_s();
 }
 
 DispenseController.prototype.getPrescription = function(id, cb){
@@ -88,20 +89,26 @@ DispenseController.prototype.getPrescription = function(id, cb){
     q.populate('locationId');
     q.populate('drugs.itemId', 'itemName sciName itemForm');
     q.lean();
-    q.exec(function(err, i){
-      if(err){
-        isDone( new Error(err));
-      }else{
+    q.exec(function (err, i) {
+      if (err) {
+        isDone(new Error(err));
+      } else {
         isDone(i);
       }
     });      
   });
 
-  eventRegister.once('stockbylocation', function(data, isDone){
-    stockbylocation(data, function(w){
-      data.drugs = w;
+  eventRegister.once('stockbylocation', function (data, isDone) {
+    if (data.drugs) {
+      stockbylocation(data, function (w) {
+        data.drugs = w;
+        isDone(data);
+      }); 
+    } else {
+      data.drugs = [];
       isDone(data);
-    });    
+    }
+   
   });
 
   eventRegister
@@ -293,6 +300,7 @@ DispenseController.prototype.dispenseThis = function(o, callback){
  * @return {[type]}        [description]
  */
 DispenseController.prototype.prescribeThis = function(o, cb){
+  console.log(o);
   var prescribe = new Dispense();
   var drugslist = [];
 
@@ -309,10 +317,21 @@ DispenseController.prototype.prescribeThis = function(o, cb){
       prescribe.doctorName = o.doctorName;
       prescribe.locationId = location.id;
       prescribe.class = o.class;
-      
+      prescribe.drugs = o.drugs;
+      prescribe.otherDrugs = o.otherDrugs;
+      console.log(prescribe);
+        prescribe.save(function(err, i){
+          console.log(err);
+          if(err){
+            return cb(err);
+          }else{
+            return cb(true);
+          }
+        });      
       //Make Query to Timer API
       rest.get(config.api.hmis_url+'/integra/activate.php?receive=0&patientid='+o.patientId+'&pharmacyid=4&docid='+o.doctorId)
       .on('complete', function(data){
+        console.log(data);
         if(util.isError(data)){ 
           return cb(new Error('Error Prescibing Medication'));
         }
@@ -326,27 +345,50 @@ DispenseController.prototype.prescribeThis = function(o, cb){
         });
       });
   }
+  savePrescribeRecord();
 
-  var total = o.drugs.length, result= [];
+  // var total = o.drugs.length, result= [];  
+  // var totalComp = o.otherDrugs.length, resultComp= [];
 
-  function saveAll (){
-    var record = o.drugs.pop();
+  // function saveComp (){
+  //   var record = o.otherDrugs.pop();
 
-    // Push the drugs into dispense.drugs instance array
-    prescribe.drugs.push({
-      itemId: record._id,
-      amount: record.amount,
-      cost: record.itemPurchaseRate,
-      dosage: record.dosage,
-      period: record.period
-    });      
-    if(--total){
-      saveAll();
-    }else{
-      savePrescribeRecord();
-    }
-  }
-  saveAll();
+  //   // Push the drugs into dispense.drugs instance array
+  //   prescribe.otherDrugs.push({
+  //     itemName: record.itemName,
+  //     amount: record.amount,
+  //     dosage: record.dosage,
+  //     period: record.period
+  //   });      
+  //   if(--totalComp){
+  //     saveComp();
+  //   }else{
+  //     savePrescribeRecord();
+  //   }
+  // }
+  // function saveItems (){
+  //   var record = o.drugs.pop();
+  //   var reg = /^[0-9a-fA-F]{24}$/;
+  //   if(!reg.test(record._id)){
+  //     record._id = mongoose.Types.ObjectId();
+  //   }
+
+  //   // Push the drugs into dispense.drugs instance array
+  //   prescribe.drugs.push({
+  //     itemId: record._id,
+  //     itemName: record.itemName,
+  //     amount: record.amount,
+  //     cost: record.itemPurchaseRate,
+  //     dosage: record.dosage,
+  //     period: record.period
+  //   });      
+  //   if(--total){
+  //     saveItems();
+  //   }else{
+  //     saveComp();
+  //   }
+  // }
+  // saveItems();
 };
 
 module.exports.dispense = DispenseController;
@@ -390,6 +432,7 @@ module.exports.routes = function(app){
       doctorId: req.body.doctorId,
       doctorName: req.body.doctorName,
       drugs: req.body.drugs,
+      otherDrugs: req.body.otherDrugs,
       class: req.body.class
     }; 
     dispense.prescribeThis(o, function(r){
