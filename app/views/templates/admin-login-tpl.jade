@@ -1,0 +1,7 @@
+.span11.offset1(ng-show="activePane == 'hinfo'")
+  form#login(novalidate, ng-submit="trylogin()")
+    label(for="email") Email Address
+    input#email.span6(type="email",name="email",ng-model="email", required)      
+    label(for="password") Password
+    input#password.span5(type="password", name="password", ng-model="password", required)
+    button.btn.btn-info(type="submit") Log In

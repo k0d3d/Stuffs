@@ -1,0 +1,49 @@
+append head
+  link(rel='stylesheet', href='/css/table-fixed-header.css')
+
+block body
+  include ../includes/modals/modal-order-supplied.jade
+  .row-fluid.row-break
+    .span2.actioncol
+      .search-bar
+        input.input-medium(type="search", ng-model="cartFilter.supplier", placeholder="Search Suppliers")
+      button.btn.btn-large.btn-block.btn-success(checkfunc="placeOrder(cb)", printable="print-table-cart", print-tpl="supplier-cart", print-scope="printScope")
+        i.fa.fa-shopping-cart.pull-left
+        |   Place Order
+      //  
+        button.btn.btn-large.btn-block.btn-success(ng-click="send_sms()")
+          i.fa.fa-envelope-o.pull-left
+          |   Send SMS
+      button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
+    .span10(ng-show="orderCart.length > 0")
+      .row-fluid.fixed-table
+        #print-table-cart.table-content
+          table#list-cart.table.table-fixed-header
+            thead.header
+              tr
+                th Item
+                th Quantity
+                th Price (N)
+                th.noprint Order Date
+                th.noprint Supplier
+                th.noprint Action
+            tbody
+              tr(ng-repeat="or in (basket = ($parent.orderCart | filter: cartFilter))")
+                td {{or.itemName}}
+                td {{or.orderAmount}}
+                td {{or.orderPrice}}
+                td.noprint {{or.orderDate | moment}}
+                td.noprint {{or.supplier.supplierName}}
+                td.noprint
+                  button.btn.btn-small.btn-danger.btn-bell(ng-click="removeFromCart($index)") 
+                    i.fa.fa-times
+    .span10(ng-show="orderCart.length === 0")
+      h4.align-center Order Cart Empty
+
+
+
+
+
+append foot
+  script(src="js/table-fixed-header.js")                
+

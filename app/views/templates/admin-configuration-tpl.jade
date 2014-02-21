@@ -1,0 +1,49 @@
+.row(style="margin-left: 20px", ng-controller="configController")
+  .span6
+    .well.options-well
+      h2 Application Configuration
+      form.form-horizontal
+        label Application Setup
+        input.input-medium(type="name", placeholder="e.g. Main")
+        button.btn.btn-primary(ng-click="run_setup()") Run Setup
+      h2 Factory Configuration
+      h4 Records
+      p 
+        | Removes every entry from the database. This includes drug items and 
+        | medical equipment, NAFDAC Registers, Orders, Order History, Stock 
+        | Information and Stock-down locations, Bills and Dispenses, Supplier Data. <strong> 
+        | This process is not reversible</strong>
+      button.btn.btn-warning() Clear All
+      p
+        | This will restore all factory data to this installation. It will
+        | reset / affect NAFDAC Registers, Supplier Data and Drug Prices. Any 
+        | records stored in these locations will be cleared <strong> This 
+        | process is not reversible</strong>
+      button.btn.btn-warning Restore
+  .offset1.span5
+    .row
+      #setup.pane()
+        h4 Progress
+        ul
+          li Creating Default Stock
+          li Populating Suppliers
+          li Populating NAFDAC Registers
+          li Updating Drug Prices
+          li Updating NAFDAC Register
+          li Updating List of Suppliers
+      #clear-records.pane
+        h4 Progress
+        ul
+          li Removing Suppliers 
+          li Clearing NAFDAC Registers
+          li Removing All Drug items
+          li Removing All Medical equipment
+          li Deleting Stock Locations
+          li Deleting Stock Records
+      #restore-records.pane
+        h4 Progress
+        ul
+          li Creating Default Stock Stock
+          li Populating Suppliers
+          li Populating NAFDAC Registers
+
