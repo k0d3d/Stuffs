@@ -1,0 +1,31 @@
+extends ../layouts/print
+
+append styles
+  link(rel='stylesheet', href='http://#{headers.host}/css/bootstrap.min.css')
+block body
+  .print-tpl.row
+    .offset1.span9
+      header
+        .row
+          em Supplier Copy
+        .row
+          .pull-right
+            h2 !{facility.name}
+            h4 !{facility.address}
+            h4 !{facility.phone_number}
+        .row
+          .pull-left
+            h2 {{printScope[0].supplier.supplierName}}
+        .row
+          h4 Order Date
+          p {{printScope[0].orderDate | date: 'medium'}}
+      .content
+        .source-html
+        hr(style="margin: 50px 0")
+        .row
+          em Facility Copy
+        .row
+          .pull-left
+            h2 {{printScope[0].supplier.supplierName}}          
+        .source-html
+      footer

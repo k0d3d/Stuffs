@@ -1,0 +1,64 @@
+block body
+  include ../includes/modals/items/modal-item.jade
+  include ../includes/dialogs/items/category.jade
+  include ../includes/dialogs/items/form.jade
+  include ../includes/dialogs/items/packaging.jade
+  .row-fluid.row-break
+    .span2.actioncol
+      button.btn.btn-large.btn-block.btn-primary(ng-init="saveButtonText='Save Item'", ng-click="saveitem()", modal-Pop, ng-class="saveButtonClass", ng-disabled="newItem.$invalid", type="submit") {{saveButtonText}}
+      button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
+    .span8
+      .row-fluid
+        form#form-add-item(name="newItem", novalidate)
+          .span4
+            label(for="itemtype") Inventory Type
+            select(name="itemtype",class="span6",ng-model="form.itemType", required)
+              option Medication
+              option Medical Equipment
+            label(for="name") Brand Name 
+            input.input-medium(type="text",name="name", ng-model="form.itemName", brand-name-type-ahead, required, autocomplete="off")              
+            label(for="sci-name") Scientific Name / Composition
+            input.input-medium(type="text", name="sci-name",ng-model="form.sciName", required)
+            label(for="man-name") Manufacturer
+            input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName", required)
+            label(for="supplier") Importer
+            input.input-medium(type="text", name="supplier",ng-model="form.importer", style="color:black;" )  
+            label(for="supplier") NAFDAC Number
+            input.input-medium(type="text", name="supplier",ng-model="form.nafdacRegNo", style="color:black;") 
+            a(ng-click="getByRegNo()",  href="", style="margin-left: 10px; text-transform: Capitalize") Find
+            label.lister(for="category") Category
+              button.btn.btn-mini.btn-info.nop(new-modal="#dialog-category")
+                i.fa.fa-ellipsis-horizontal
+            ul#itemCategory.fa-ul.listing(ng-model="form.itemCategory")
+              li(ng-repeat="itemCat in form.itemCategory ", ng-click="removeItemCat($index)")
+                | {{itemCat.categoryName}}
+            p {{form.itemCategory.length}} categories selected.
+
+            label(for="itemdesc") Item Description
+            textarea(name="itemdesc",ng-model="form.itemDescription")
+          .span4.offset2
+            label(for="invoice-number") Invoice Number
+            input.input-medium(type="text", name="invoice-number", placeholder="No Stock Received",ng-model="form.orderInvoiceData.orderInvoiceNumber", ng-disabled="isDisabled")
+            div.optionalinput(ng-show="form.orderInvoiceData.orderInvoiceNumber > 0")
+              label(for="invoice-date") Invoice Date
+              input#invoice-date.input-medium(type="date", name="invoice-date", class="datepicker", data-date-format="dd/mm/yyyy",ng-model="form.orderInvoiceData.orderInvoiceDate")
+              label(for="stock-amount") Stock Amount
+              input.input-small(type="number",ng-model="form.orderInvoiceData.orderInvoiceAmount")              
+            label.lister(for="supplier") Supplier  
+            ul#itemSuppliers.fa-ul.listing(ng-model="form.suppliers")
+              li(ng-repeat="itemSup in form.suppliers", ng-click="removeItemSup($index)")
+                | {{itemSup.supplierName}}
+            input.input-medium(type="text", name="supplier", supplier-name-type-ahead)                
+            p {{form.suppliers.length}} suppliers selected.
+
+
+            label(for="icd") ICD Code
+            input.input-small(type="text",name="icd",ng-model="form.icdcode")
+            label(for="bp") Boiling Point
+            input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint", required, min=0)
+            label(for="itemsize") Package Size
+            input.input-small(name="itemsize",type="number",ng-model="form.packageSize", required)
+            label(for="itemform") Item Form
+            select(name="itemform",ng-model="form.itemForm", ng-options="c for c in commons.itemForm", required)
+            label(for="itempackaging") Item Packaging
+            select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging", required)

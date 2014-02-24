@@ -1,0 +1,40 @@
+append head
+  link(rel='stylesheet', href='/css/table-fixed-header.css')
+
+block body
+  include ../includes/modals/modal-order-supplied.jade
+  .row-fluid.row-break
+    .span2.actioncol
+      .search-bar
+        input.input-medium(type="search", ng-model="ordersfilter.itemData", placeholder="Search Item Name")
+        input.input-medium(type="search", ng-model="ordersfilter.orderSupplier", placeholder="Search Suppliers")
+        input.input-medium(type="search", ng-model="ordersfilter.orderInvoice", placeholder="Search Invoices")
+        select.input-medium(ng-model="ordersfilter.orderStatus")
+          option
+          option Supplied
+          option Paid
+          option Pending Order
+      button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
+    .span10
+      .row-fluid.fixed-table
+        .table-content
+          table#list-orders.table.table-fixed-header
+            thead.header
+              tr
+                th Order Type
+                th Item
+                th Quantity
+                th Cost (N)
+                th Order Date
+                th Description
+                th Supplier
+                th Status
+                th Action
+            tbody(order-list="orders", orders-filter="ordersfilter", get-status="getStatus(status)")
+
+
+
+
+append foot
+  script(src="js/table-fixed-header.js")                
+

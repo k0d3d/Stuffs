@@ -1,0 +1,8 @@
+  "database": {
+    "db": "mongodb://localhost:27017/test",
+  },
+  "app": {
+    "name": "Integra Drug Store",
+    "main_stock_id": ""
+  }
+
