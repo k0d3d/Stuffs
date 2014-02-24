@@ -62,13 +62,14 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu", ng-style=
       select.select-block(name="inventoryType", value="Medication")
         option(value="Medication") Medication
         option(value="Medical Equipement") Medical Equipment
-    .row-fluid
-      select.select-block(name="categorylist",value="Category", ng-show="false")
-        option(value="") Category
-        option(value="0") Antibiotics & Antimicrobal
-        option(value="1") Anti Malaria
-        option(value="2") Antiseptic
-        option(value="3") Cardio
+    //
+      .row-fluid
+        select.select-block(name="categorylist",value="Category", ng-show="false")
+          option(value="") Category
+          option(value="0") Antibiotics & Antimicrobal
+          option(value="1") Anti Malaria
+          option(value="2") Antiseptic
+          option(value="3") Cardio
     .row-fluid
       select.select-block.stockFilter
         option(selected)
@@ -83,7 +84,7 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu", ng-style=
           .card-section.span6.panorama-section(data-ng-repeat="(key,az) in itemsList", id="section{{key}}", on-finish="panorama")
             .card(data-ng-repeat="item in az  | orderBy:'itemName' | filter: search", class="{{item.currentStock | stockclass: item.itemBoilingPoint}}", data-ng-click="summaryDo($event, item._id)", on-finish="checkViewState")
               h5 {{item.itemName}}
-              span.low{{item.currentStock}} 
+              span.low {{item.currentStock}} 
         .no-item-holder(ng-show="!hasItems")
           h4 No Items added. 
           a.btn.btn-primary(href="items/add") Add             

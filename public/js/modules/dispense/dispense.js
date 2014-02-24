@@ -66,6 +66,17 @@ angular.module('dispense', [])
       };
     });
   }
+  // Populates the list of drugs to be prescribed
+  function chip_otherDrugs(wl){
+    return _.map(wl.otherDrugs, function(v){
+      return {
+        itemName: v.itemName,
+        amount: v.amount,
+        dosage: v.dosage,
+        period: v.period,
+      };
+    });
+  }
 
   // Populates drugsList array
   function chip_dl(wl){
@@ -86,6 +97,7 @@ angular.module('dispense', [])
       $scope.dispenseform = chip_form(r);
       //chip_d function copies and formats the drugs prescribed
       $scope.d = chip_d(r);
+      $scope.od = chip_otherDrugs(r);
       //Push item Names into drug list 
       $scope.drugsList = chip_dl(r);
 

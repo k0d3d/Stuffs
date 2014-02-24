@@ -93,15 +93,16 @@ StockController.prototype.getStockDown = function (location_id, callback){
  */
 StockController.prototype.stocking = function(reqObject, location, operation, callback){
   var sc_self = this;
-  //Inherited from transactions.
-  //Loads the transaction model into 
-  //the transModel property
-  sc_self.initiate();
+
   //return ;
   
   var eventRegister = new EventRegister();
 
   eventRegister.on('initial', function(data, isDone){
+    //Inherited from transactions.
+    //Loads the transaction model into 
+    //the transModel property
+    sc_self.initiate();    
 
     //Insert the new stock history record 
     //on the transaction model.

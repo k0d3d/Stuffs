@@ -23,7 +23,6 @@ config(['$routeProvider',function($routeProvider){
 
     $scope.printScope = null;
     $scope.printScope = angular.copy($scope.basket);
-    console.log($scope.printScope);
 
     // var doc = new jsPDF('p','in', 'letter');
 
@@ -62,10 +61,10 @@ config(['$routeProvider',function($routeProvider){
           $scope.orderCart.splice(o, 1);
         }
         
-        if (--l) {
+        if (l--) {
           __pop();
         } else {
-          //$localStorage.orderCart = angular.toJson($scope.orderCart);
+          $localStorage.orderCart = angular.toJson($scope.orderCart);
           cb(true);
         }
 

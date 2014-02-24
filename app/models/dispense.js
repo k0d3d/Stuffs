@@ -26,6 +26,12 @@ var DispenseSchema = new Schema({
     period: {type: Number},
     cost: {type: Number}
   }],
+  otherDrugs: [{
+    itemName: {type: String},
+    amount: {type: Number},
+    dosage: {type: String},
+    period: {type: Number}
+  }],
   doctorId: String,
   doctorName: String,
   issueDate: {type: Date, default: Date.now},
