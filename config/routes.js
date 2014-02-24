@@ -42,8 +42,8 @@ module.exports = function (app, passport) {
       });
     }
   );
-  app.get('/home/index', function(req, res){
-      res.render('home/index',{
+  app.get('/home/index', function (req, res) {
+      res.render('home/index', {
         title: 'Dashboard'
       });
     }
@@ -62,10 +62,10 @@ module.exports = function (app, passport) {
   );
   
   // home route
-  app.get('/:parent/:child', function(req, res){
-    var parent = req.params.parent;
-    var child = req.params.child;
-      res.render(parent+'/'+child);
+  app.get('/:parent/:child', function (req, res) {
+    var parent = req.params.parent,
+        child = req.params.child;
+    res.render(parent + '/' + child);
       //res.render('/');
   });
 

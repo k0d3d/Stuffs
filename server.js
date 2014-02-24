@@ -35,8 +35,8 @@ require('./config/express')(app, config, passport);
 // Bootstrap routes
 require('./config/routes')(app, passport);
 
-app.on('listening',function(){
-    console.log('store server is running');
+app.on('listening', function () {
+  console.log('store server is running');
 });
 
 // Start the app by listening on <port>

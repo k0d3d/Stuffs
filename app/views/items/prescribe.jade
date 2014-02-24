@@ -78,7 +78,7 @@ append mainbody
             td
               input.input-small(ng-model="_d.period",placeholder="Duration", type="number", min="1", max="31", disabled)                
             td
-              i.fa.fa-exclamation-circle.icon-white.pull-right(ng-click="removeDrug($index)")
+              i.fa.fa-exclamation-circle.icon-white.pull-right(title="Drug not available in this facility. Pick alternative or purchase at RX")
       hr
       button.btn.btn-default(ng-click="n_w = !n_w;all = !all;btnState = !btnState") Back
       button.btn.btn-primary(ng-click="approveThis()",ng-init="saveButtonText='Approve'") {{saveButtonText}}

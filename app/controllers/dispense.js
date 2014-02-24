@@ -58,7 +58,7 @@ function stockbylocation(i, cb){
         ds = i.drugs.pop(),
         fx = [];
     if(!ds.itemId) return cb(new Error('Error dispensing medication'));
-    StockCount.getStockAmountbyId(ds.itemId._id, location, function(n){
+    StockCount.getStockAmountbyId(ds.itemId._id, location, function (n) {
       var h = {
         itemId: ds.itemId,
         currentStock: n.amount,
@@ -70,9 +70,9 @@ function stockbylocation(i, cb){
       fx.push(h);
       //If this results in 0
       //do cb() :: the callback
-      if(--l){
+      if (--l) {
         c_s();
-      }else{
+      } else {
         cb(fx);
       }
     });
@@ -81,10 +81,10 @@ function stockbylocation(i, cb){
   c_s();
 }
 
-DispenseController.prototype.getPrescription = function(id, cb){
+DispenseController.prototype.getPrescription = function (id, cb) {
   var eventRegister = new EventRegister();
 
-  eventRegister.once('getRecord', function(data, isDone){
+  eventRegister.once('getRecord', function (data, isDone) {
     var q = Dispense.findOne({_id: data});
     q.populate('locationId');
     q.populate('drugs.itemId', 'itemName sciName itemForm');
@@ -101,6 +101,7 @@ DispenseController.prototype.getPrescription = function(id, cb){
   eventRegister.once('stockbylocation', function (data, isDone) {
     if (data.drugs) {
       stockbylocation(data, function (w) {
+        console.log(w);
         data.drugs = w;
         isDone(data);
       }); 
