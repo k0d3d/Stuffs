@@ -18,11 +18,12 @@ var mongoose = require('mongoose'),
     NafdacDrugs = mongoose.model("nafdacdrug"),
     NDL = require("./nafdacs").ndl,
     rest = require('restler'),
-    Updater = mongoose.model('updater'),
+    Admin = mongoose.model('admin'),
     querystring = require('querystring'),
+    config = require('config'),
     util = require("util");
 
-var online_api_url = 'http://integra.vm:3001';
+var online_api_url = config.api.stoc_cloud_url;
 
 function AdminController () {
 
@@ -238,6 +239,9 @@ AdminController.prototype.createMainLocation = function(cb){
     }
   });
 };
+
+AdminController.prototype.fetchHI = function (cb) {
+}
 
 
 module.exports.admin = AdminController;

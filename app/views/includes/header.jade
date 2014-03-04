@@ -1,4 +1,3 @@
-
 div#frontpage.container-fluid
   .row-fluid
     .span2
@@ -7,9 +6,9 @@ div#frontpage.container-fluid
           img(src="/img/logo.png")
           | Drug Stoc
       //
-        span=title 
+        span=title
       em.versiontxt v1.0 
-    .offset7.span3
+    .offset5.span5
       .btn-toolbar.pull-right
         .btn-group
           button.btn.btn-bell.btn-small(type="button", data-toggle="dropdown", ng-disabled="orderCart.length === 0")
@@ -22,7 +21,7 @@ div#frontpage.container-fluid
                 tr
                   th Item
                   th Amount
-                  th Supplier
+                  th Supplier 
               tbody
                 tr(ng-repeat="cartItem in orderCart")
                   td {{cartItem.itemName}}
@@ -63,4 +62,20 @@ div#frontpage.container-fluid
             i.fa.fa-refresh(ng-class="isr")
           button.btn.btn-small.btn-danger.btn-bell(ng-click="clearUpdates()", ng-show="updates.length > 0") 
             i.fa.fa-trash-o
+        .btn-group              
+          button.btn.btn-small.btn-info.dropdown-toggle(type="button", data-toggle="dropdown") 
+            i.fa.fa-user
+          div.dropdown-menu.alt-text.pr-btn-drpdwn.upd-menu(role="menu", style="text-transform: capitalize;z-index: 99999; left: initial; right: 0; padding: 15px;")
+            form(accept-charset='UTF-8', name="login_form", ng-submit="login_user()", novalidate)
+              .control-group
+                .controls
+                  input(style='margin-bottom: 15px;', type='text', placeholder='Username', name='username',ng-model="pre_auth.user", required)
+              .control-group
+                .controls
+                  input(style='margin-bottom: 15px;', type='password', placeholder='Password', name='password',ng-model="pre_auth.pass", required)
+              .control-group
+                .controls
+                  input#sign-in.btn.btn-primary.btn-block(type='submit', value='Sign In', style="border-radius: 6px", ng-disabled="login_form.$invalid")
+                
+
 

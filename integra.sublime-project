@@ -2,10 +2,12 @@
 	"folders":
 	[
 		{
-			"path": "/home/kingkoded/integra"
+			"follow_symlinks": true,
+			"path": "/home/kingkoded/Projects/IntegraSup"
 		},
 		{
-			"path": "/home/kingkoded/src/AngularJSDemos"
+			"follow_symlinks": true,
+			"path": "."
 		}
 	]
 }

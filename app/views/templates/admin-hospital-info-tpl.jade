@@ -1,0 +1,21 @@
+.span5.offset1()
+  form#login(novalidate, ng-submit="trylogin()")
+    label(for="name") Facility Name
+    input#name.span6(type="text", name="name",ng-model="facility.name", required)      
+    label(for="address") Facility Address
+    textarea#address.span5(type="text", name="address", ng-model="facility.address", required)
+    label(for="city") City
+    input#city.span5(type="text", name="city", ng-model="facility.city", required)
+    label(for="state") State
+    input#state.span5(type="text", name="state", ng-model="facility.state", required)
+
+    label(for="service_type") Service Type
+    select#service_type.span5(type="text", name="service_type", ng-model="facility.service_type", required)
+      option Hospital
+      option Pharmacy
+      option Clinic
+    label(for="telephone") Phone Number
+    input#telephone(type="tel", name="phone_number", ng-model="facility.phone_number")
+    .control-grop
+      .controls
+        button.btn.btn-info(type="submit") Save

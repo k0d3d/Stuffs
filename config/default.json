@@ -14,6 +14,7 @@
         }
     },
     "api":{
-			"hmis_url": "http://192.168.0.104"
+			"hmis_url": "http://192.168.0.104",
+            "stoc_cloud_url": "http://localhost:3001"
     }
 }
