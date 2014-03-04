@@ -184,4 +184,37 @@ angular.module('services', [])
 
 	};
 
+}])
+.factory('userService', ['$http', 'Notification', 'Language', function ($http, N, L) {
+	return {
+		 loginUser: function (u, p, cb) {
+		 	$http.post('/api/user/session',{
+		 		email: encodeURI(u),
+		 		password:p
+		 	})
+		 	.success(function (r) {
+		 		N.notifier({
+		 			message: L.eng.admin.auth.success,
+		 			type: 'success'
+		 		});
+		 		cb(r);
+		 	})
+		 	.error(function (err) {
+		 		N.notifier({
+		 			message: err,
+		 			type: 'error'
+		 		});
+		 	});
+		 },
+		 logoutUser: function (cb) {
+		 	$http.delete('/api/user/session/')
+		 	.success(function (r) {
+
+		 	})
+		 	.error( function (err) {
+
+		 	});
+		 }
+	};
+
 }]);

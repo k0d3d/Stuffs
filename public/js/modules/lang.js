@@ -179,7 +179,7 @@ angular.module('language', [])
 			"clear":{
 				"error":"Last request failed. Try again : Clear updates"
 			},
-			"login":{
+			"auth":{
 				"success": "You are now logged in",
 				"error": "Error login into Integra Online."
 			},
