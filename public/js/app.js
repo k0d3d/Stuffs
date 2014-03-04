@@ -25,9 +25,10 @@ angular.module('integraApp').config(["$routeProvider", "$locationProvider", func
   $locationProvider.html5Mode(true);
 }]);
 
-angular.module('integraApp').controller('MainController', [ '$scope', '$http', '$location', 'Notification', 'itemsService', 'adminService', '$localStorage', function($scope, $http, $location, Notification, itemsService, aS, $localStorage){
+angular.module('integraApp').controller('MainController', [ '$scope', '$http', '$location', 'Notification', 'itemsService', 'adminService', '$localStorage', 'userService', function($scope, $http, $location, Notification, itemsService, aS, $localStorage, userService){
   $scope.modal = {};
   $scope.notification = {};
+  $scope.pre_auth = {};
   $scope.waiting = '';
   $scope.updates = [];
   $scope.$storage = $localStorage;
@@ -147,6 +148,18 @@ angular.module('integraApp').controller('MainController', [ '$scope', '$http', '
     $scope.orderCart.splice(index, 1);
     $scope.$storage.orderCart = angular.toJson($scope.orderCart);
   };
+
+  $scope.login_user = function(){
+    userService.loginUser($scope.pre_auth.user, $scope.pre_auth.pass, function(){
+
+    });
+  }
+
+  $scope.logout_user = function (){
+    userService.logoutUser(function () {
+
+    });
+  }
 }]);
 angular.module('integraApp').filter('moment', function(){
     return function(time){

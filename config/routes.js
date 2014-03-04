@@ -35,6 +35,8 @@ module.exports = function (app, passport) {
   stock.routes(app);
   var transaction = require('../app/controllers/transactions');
   transaction.routes(app);
+  var user = require('../app/controllers/users');
+  user.routes(app);
 
   app.get('/', function(req, res){
       res.render('index',{
