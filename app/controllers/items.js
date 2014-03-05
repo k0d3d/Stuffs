@@ -416,15 +416,15 @@ ItemsObject.prototype.listOne = function(item, option, location, cb){
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
-ItemsObject.prototype.typeahead = function(req, res){
-  var term = req.param('term');
-  var needle = req.param('needle');
+ItemsObject.prototype.typeahead = function(needle, cb){
+
   //options.criteria[term] = '/'+needle+'/i';
   Item.autocomplete(needle, function(err,itemsResult){
-    if (err) return res.render('500');
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");    
-    res.json(itemsResult);
+    if (err) {
+      cb(err);
+    } else {
+      cb(itemsResult)
+    }
   });
 };
 
@@ -774,7 +774,16 @@ module.exports.routes = function(app){
   });
 
   //Typeahead Route
-  app.get('/api/items/typeahead/term/:term/query/:needle',item.typeahead);
+  app.get('/api/items/typeahead', cors, function (req, res, next) {
+    var needle = req.query.q;
+    item.typeahead(needle, function (r) {
+      if (util.isError(r)) {
+        next(r);
+      } else {
+        res.json(200, r);
+      }
+    });
+  });
 
   //Nafdac Typeahead Route
   app.get('/api/nafdacdrugs', cors,  function(req, res, next){

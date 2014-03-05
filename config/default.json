@@ -1,6 +1,6 @@
 {
     "database": {
-        "host": "mongodb://localhost:27017/local"
+        "host": "mongodb://192.168.1.4:27017/local"
     },
     "app": {
         "name": "Integra Drug Stoc",

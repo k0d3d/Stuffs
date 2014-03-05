@@ -30,14 +30,14 @@ NafdacdrugSchema.statics = {
   * @api private
   */
   autocomplete: function(name, cb){
-    var wit = this.find({}).limit(20);
-    wit.or([
-      {'productName': {$regex: new RegExp(name, 'i')}},
-      {'composition': {$regex: new RegExp(name, 'i')}}
-    ])
-    .exec(cb);
-
-    //wit.exec(cb);
+    // var wit = this.find({}).limit(20);
+    // wit.or([
+    //   {'productName': {$regex: new RegExp(name, 'i')}},
+    //   {'composition': {$regex: new RegExp(name, 'i')}}
+    // ])
+    // .exec(cb);
+    var wit = this.find({})
+    wit.regex('productName',new RegExp(name, 'i')).exec(cb)
   }
 };
 

@@ -40,7 +40,7 @@ app.on('listening', function () {
 });
 
 // Start the app by listening on <port>
-var port = process.env.PORT || 80;
+var port = process.env.PORT || 3000;
 app.listen(port);
 console.log('Integra Drug Store App started on port '+port);
 
