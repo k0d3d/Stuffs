@@ -111,8 +111,10 @@ ItemSchema.statics = {
   * @api private
   */
   autocomplete: function(name, cb){
-    var wit = this.find({},'itemName')
-    wit.regex('itemName',new RegExp(name, 'i')).exec(cb)
+    var wit = this.find({$or:[
+        {'itemName': {$regex: new RegExp(name, 'i')}},
+        {'sciName': {$regex: new RegExp(name, 'i')}}
+      ]},'itemName').exec(cb)
     
   }
 

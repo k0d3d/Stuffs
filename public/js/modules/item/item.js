@@ -290,7 +290,7 @@ angular.module('item', [])
 
   //Typeahead Query
   i.getItemName = function(query, callback){
-    $.getJSON('/api/items/typeahead/term/itemName/query/'+encodeURI(query), function(s) {
+    $.getJSON('/api/items/typeahead/?q='+encodeURI(query), function(s) {
         var results = [];
         $.each(s,function(){
           results.push(this.itemName);
