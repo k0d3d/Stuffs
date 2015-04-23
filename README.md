@@ -1,6 +1,6 @@
 # Integra Drug Store
 
-Lead Developer 
+Lead Developer
 Michael Koded Rhema
 
 Dependencies
@@ -13,4 +13,4 @@ Jasmine-node
 
 @pinkybrayne
 
-CopyRight c2013 Integra Health
+CopyRight c2015 Integra Health

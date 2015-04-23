@@ -241,6 +241,7 @@ AdminController.prototype.createMainLocation = function(cb){
 };
 
 AdminController.prototype.fetchHI = function (cb) {
+  restler.get(config.online_api_url + '')
 }
 
 
@@ -337,6 +338,15 @@ module.exports.routes = function(app){
         res.json(200, d);
       }
     });
+  });
+  //Get facility information
+  app.get('/api/admin/facility', function (req, res, next) {
+
+  });
+
+  //update facility information
+  app.put('/api/admin/facility', function (req, res, next) {
+
   });
 
 }

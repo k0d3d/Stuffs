@@ -588,7 +588,7 @@ angular.module('item', [])
     link: linker
   };
 }])
-.directive('supplierNameTypeAhead', ['itemsService', function(itemsService){
+.directive('supplierNameTypeAhead', ['itemsService', function (itemsService){
   var linker = function(scope, element, attrs){
     var nx;
     var typeFunc = {

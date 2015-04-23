@@ -4,614 +4,582 @@
 		"selected_items":
 		[
 			[
-				"type",
-				"typeahead"
+				"it",
+				"item.js"
 			],
 			[
-				"item",
-				"itemsResult"
-			],
-			[
-				"lo",
-				"login_form"
-			],
-			[
-				"loca",
-				"localhost"
-			],
-			[
-				"baclk",
-				"background-color"
-			],
-			[
-				"prescribe",
-				"prescribe"
-			],
-			[
-				"orderCart",
-				"orderCart"
-			],
-			[
-				"removeAllOrder",
-				"removeAllOrders"
-			],
-			[
-				"removeAllBill",
-				"removeAllBillProfiles"
-			],
-			[
-				"templa",
-				"template"
-			],
-			[
-				"template",
-				"templateUrl"
-			],
-			[
-				"dispense",
-				"dispenseID"
-			],
-			[
-				"text",
-				"text-transform"
-			],
-			[
-				"service",
-				"serviceId"
-			],
-			[
-				"new",
-				"new_name"
-			],
-			[
-				"sc",
-				"second"
-			],
-			[
-				"fuck",
-				"fuckwho"
-			],
-			[
-				"my",
-				"my_name"
-			],
-			[
-				"getAll",
-				"getAllLocations"
-			],
-			[
-				"itemBo",
-				"itemBoilingPoint"
-			],
-			[
-				"supp",
-				"supplyUpdate"
-			],
-			[
-				"ordersfilt",
-				"ordersfilter"
-			],
-			[
-				"file",
-				"filterLocationReport"
-			],
-			[
-				"nafdacdrugs",
-				"nafdacdrugs"
-			],
-			[
-				"cleanPendin",
-				"cleanPendingDest"
+				"readfile",
+				"fs.readFile(path, encoding_);"
 			],
 			[
 				"suppl",
-				"supplyOrder"
+				"supplierId"
 			],
 			[
-				"orderbo",
-				"orderbody"
+				"smsTemplate",
+				"smsDeliveryTemplate"
 			],
 			[
-				"notify",
-				"notifySupplier"
+				"ng-",
+				"ng-click"
 			],
 			[
-				"stockhist",
-				"stockHistory"
+				"boot",
+				"bootstrap"
 			],
 			[
-				"stockCount",
-				"stockCountpost"
+				"jq",
+				"jquery-ui-1.10.3.min.js"
 			],
 			[
-				"StockCount",
-				"StockCountSchema"
-			],
-			[
-				"Transaction",
-				"TransactionModel"
-			],
-			[
-				"transact",
-				"transaction"
-			],
-			[
-				"transaction",
-				"transactionId"
+				"jquery",
+				"jquery-ui-1.10.3.min.js"
 			],
 			[
 				"btn",
-				"btn-warning"
+				"btn-info"
 			],
 			[
-				"Transac",
-				"TransactionController"
+				"fa",
+				"fa-times"
 			],
 			[
-				"Transact",
-				"TransactionModel"
+				"col",
+				"col-md-3"
 			],
 			[
-				"inher",
-				"util.inherits(ctor, superCtor);"
+				"cono",
+				"console.log(message);"
 			],
 			[
-				"inp",
-				"input-medium"
+				"staff",
+				"staffUtils  (variable)"
 			],
 			[
-				"editable",
-				"editable-input"
+				"form",
+				"form-group"
 			],
 			[
-				"border",
-				"border-radius"
+				"ort",
+				"orderAmount"
 			],
 			[
-				"_next",
-				"_nextDataUntil"
+				"hosp",
+				"hospitalId"
 			],
 			[
-				"savePrescr",
-				"savePrescriptionRecord"
+				"delete",
+				"delete  (keyword)"
 			],
 			[
-				"supplier",
-				"supplierServices"
+				"invoice",
+				"invoiceId"
+			],
+			[
+				"Invoice",
+				"Invoice"
 			],
 			[
 				"input",
 				"input-large"
 			],
 			[
-				"control",
-				"control-group"
+				"populated",
+				"populatedOrderList"
 			],
 			[
-				"margin",
-				"margin-top"
+				"populate",
+				"populateProfile"
 			],
 			[
-				"order",
-				"orderCart"
+				"forn",
+				"form-control"
 			],
 			[
-				"itemnam",
-				"itemName"
+				"inp",
+				"input-large"
 			],
 			[
-				"get",
-				"getPrescription  (function)"
+				"for",
+				"form-group"
 			],
 			[
-				"index",
-				"indexOf"
+				"c",
+				"col-md-2"
 			],
 			[
-				"min",
-				"min-width"
+				"findUser",
+				"findUserByEmailPhone"
 			],
 			[
-				"inlin",
-				"inline-block"
+				"activit",
+				"activities"
 			],
 			[
-				"attr",
-				"attr	.attr() - single"
+				"checkIn",
+				"checkInStaff"
 			],
 			[
-				"ja",
-				"jQuery.ajax	jQuery.ajax"
+				"a",
+				"api/"
 			],
 			[
-				"orderSer",
-				"ordersService"
-			],
-			[
-				"padd",
-				"padding-left"
-			],
-			[
-				"Orders",
-				"Orders  (variable)"
-			],
-			[
-				"updateorder",
-				"updateorder  (function)"
-			],
-			[
-				"product",
-				"product_id"
-			],
-			[
-				"queryst",
-				"querystring.stringify(obj, sep, eq, name);"
-			],
-			[
-				"nafdacReg",
-				"nafdacRegName"
-			],
-			[
-				"judge",
-				"judgeCtrl"
-			],
-			[
-				"utils",
-				"util.puts();"
-			],
-			[
-				"search",
-				"search  (function)"
-			],
-			[
-				"util",
-				"util.puts();"
-			],
-			[
-				"tracking",
-				"trackingObj"
-			],
-			[
-				"put",
-				"util.puts();"
-			],
-			[
-				"suppli",
-				"supplierName  (variable)"
-			],
-			[
-				"utl",
-				"util.isError(e);"
-			],
-			[
-				"Hospital",
-				"HospitalSchema  (variable)"
-			],
-			[
-				"font-",
-				"font-family"
-			],
-			[
-				"directive",
-				"directive"
-			],
-			[
-				"catey",
-				"categoryType"
-			],
-			[
-				"categor",
-				"category"
-			],
-			[
-				"payment",
-				"paymentHistory"
-			],
-			[
-				"Billing",
-				"Billing"
-			],
-			[
-				"patien",
-				"patientId"
-			],
-			[
-				"patient",
-				"patientName"
-			],
-			[
-				"oya",
-				"oya_drugs"
-			],
-			[
-				"_r",
-				"_rz"
-			],
-			[
-				"_",
-				"_rz"
-			],
-			[
-				"location",
-				"location_id"
-			],
-			[
-				"save",
-				"saveAll"
-			],
-			[
-				"Stock",
-				"StockController"
-			],
-			[
-				"presc",
-				"prescribeThis"
-			],
-			[
-				"update",
-				"updateProfile"
-			],
-			[
-				"prof",
-				"profileName"
-			],
-			[
-				"inde",
-				"indexOf"
-			],
-			[
-				"Dispen",
-				"DispenseSchema"
-			],
-			[
-				"dispens",
-				"dispense_id"
-			],
-			[
-				"disp",
-				"dispense_id"
-			],
-			[
-				"drug",
-				"drugsList"
-			],
-			[
-				"l",
-				"capitalize"
-			],
-			[
-				"direct",
-				"directives"
-			],
-			[
-				"succe",
-				"success"
-			],
-			[
-				"profile",
-				"profile_id"
-			],
-			[
-				"Bill",
-				"BillsController"
-			],
-			[
-				"success",
-				"successfully"
-			],
-			[
-				"bills",
-				"billsService"
-			],
-			[
-				"Bills",
-				"BillsController  (class)"
-			],
-			[
-				"admin",
-				"adminController"
-			],
-			[
-				"Dispens",
-				"DispenseController"
-			],
-			[
-				"Dispe",
-				"DispenseController"
-			],
-			[
-				"Dispense",
-				"DispenseController  (function)"
-			],
-			[
-				"orderSu",
-				"orderSupplierID"
-			],
-			[
-				"orderSupplier",
-				"orderSupplierName"
-			],
-			[
-				"Supplier",
-				"SupplierController"
-			],
-			[
-				"amount",
-				"amountSupplied"
-			],
-			[
-				"fetch",
-				"fetching"
-			],
-			[
-				"packa",
-				"Packaging"
-			],
-			[
-				"packaging",
-				"packagingType"
-			],
-			[
-				"packag",
-				"packagingType"
-			],
-			[
-				"ItemPacka",
-				"ItemPackagingSchema"
-			],
-			[
-				"category",
-				"categoryType"
-			],
-			[
-				"categ",
-				"category"
-			],
-			[
-				"mar",
-				"margin"
-			],
-			[
-				"ca",
-				"capitalize  (value)"
-			],
-			[
-				"font",
-				"font-size"
-			],
-			[
-				"proto",
-				"prototype"
-			],
-			[
-				"catego",
-				"categoryParent"
-			],
-			[
-				"ItemCatr",
-				"ItemCategorySchema"
-			],
-			[
-				"Objec",
-				"ObjectId"
-			],
-			[
-				"noti",
-				"Notification.notifier"
-			],
-			[
-				"Noti",
-				"newNotification"
-			],
-			[
-				"background",
+				"backg",
 				"background-color"
 			],
 			[
-				"$root",
-				"$rootScope"
+				"ion",
+				"ionic-header-bar	ionic-header-bar"
 			],
 			[
-				"nadd",
-				"nafdacdrugs"
+				"currentPos",
+				"currentPosition"
+			],
+			[
+				"mod",
+				"models/"
+			],
+			[
+				"app",
+				"appicon.png	w:128 h:128"
+			],
+			[
+				"authorization",
+				"authorizationToken"
+			],
+			[
+				"external",
+				"externalApi"
+			],
+			[
+				"mo",
+				"mobile/"
+			],
+			[
+				"back",
+				"background-color"
+			],
+			[
+				"font",
+				"font-weight"
+			],
+			[
+				"sendMa",
+				"sendEmail"
+			],
+			[
+				"number",
+				"numberOrString"
+			],
+			[
+				"st",
+				"strong"
+			],
+			[
+				"or",
+				"order/"
+			],
+			[
+				"toLower",
+				"toLowerCase"
+			],
+			[
+				"toLowe",
+				"toLowerCase"
+			],
+			[
+				"ng",
+				"ng-click"
+			],
+			[
+				"ues",
+				"userData"
+			],
+			[
+				"backgroun",
+				"background-position"
+			],
+			[
+				"im",
+				"images/"
+			],
+			[
+				"allowed",
+				"allowedSMS"
+			],
+			[
+				"allowe",
+				"allowedNotifications"
+			],
+			[
+				"Drug",
+				"DrugStoc"
+			],
+			[
+				"user",
+				"userData"
+			],
+			[
+				"order",
+				"orderSupplier"
+			],
+			[
+				"he",
+				"href"
+			],
+			[
+				"orderStat",
+				"orderStatusFilter"
+			],
+			[
+				"ordersF",
+				"ordersfilter"
+			],
+			[
+				"__mo",
+				"__modal_data"
+			],
+			[
+				"activity",
+				"activityCount"
+			],
+			[
+				"orde",
+				"order"
+			],
+			[
+				"organiz",
+				"organization/"
+			],
+			[
+				"organi",
+				"organization/"
+			],
+			[
+				"populat",
+				"populate"
+			],
+			[
+				"s",
+				"smsSend.js"
+			],
+			[
+				"me",
+				"message-strings.js"
+			],
+			[
+				"supplier",
+				"supplierId"
+			],
+			[
+				"co",
+				"col-sm-9"
+			],
+			[
+				"pull-",
+				"pull-right"
+			],
+			[
+				"pa",
+				"packageCount"
+			],
+			[
+				"pack",
+				"packageQty"
+			],
+			[
+				"drug",
+				"drugItem"
+			],
+			[
+				"max-",
+				"max-width"
+			],
+			[
+				"type",
+				"type"
+			],
+			[
+				"o",
+				"order.js"
+			],
+			[
+				"validate",
+				"validateFacility"
+			],
+			[
+				"u",
+				"user/"
+			],
+			[
+				"getTime",
+				"getTimeStamp"
+			],
+			[
+				"OrderStat",
+				"OrderStatusSchema"
+			],
+			[
+				"manager",
+				"managerIsh"
+			],
+			[
+				"border",
+				"border-bottom"
+			],
+			[
+				"toggle",
+				"toggleActiveButton"
+			],
+			[
+				"staffI",
+				"staffUtils"
+			],
+			[
+				"Notify",
+				"NotifyController"
+			],
+			[
+				"permitted",
+				"permittedTransitions"
+			],
+			[
+				"data",
+				"dateStated"
+			],
+			[
+				"exe",
+				"execTransactionUpdate  (function)"
+			],
+			[
+				"execute",
+				"executePrimaryTransaction"
+			],
+			[
+				"transac",
+				"transactionId"
+			],
+			[
+				"getStock",
+				"getStockUpRequest"
+			],
+			[
+				"accopu",
+				"accountType  (argument)"
+			],
+			[
+				"stat",
+				"statusLog"
+			],
+			[
+				"getUser",
+				"getUserStockDown"
+			],
+			[
+				"drugs",
+				"drugsFunctions  (variable)"
+			],
+			[
+				"secon",
+				"secondary_doc  (variable)"
+			],
+			[
+				"ite",
+				"item/"
+			],
+			[
+				"postStock",
+				"postStockUp"
+			],
+			[
+				"getM",
+				"getMedFac"
+			],
+			[
+				"margin",
+				"margin"
+			],
+			[
+				"no",
+				"none"
+			],
+			[
+				"facility",
+				"facility_model"
+			],
+			[
+				"state",
+				"states"
+			],
+			[
+				"gov",
+				"govtFacSchema"
+			],
+			[
+				"facilit",
+				"facilityName"
+			],
+			[
+				"popped",
+				"poppedResult  (argument)"
+			],
+			[
+				"marg",
+				"margin"
+			],
+			[
+				"ordeer",
+				"orderState"
+			],
+			[
+				"orderS",
+				"orderStatus"
+			],
+			[
+				"employer",
+				"employerId"
+			],
+			[
+				"accountTy",
+				"accountType"
+			],
+			[
+				"range",
+				"rangeDiff"
+			],
+			[
+				"supplier_",
+				"supplier_type"
+			],
+			[
+				"display",
+				"displayType  (argument)"
+			],
+			[
+				"Distri",
+				"Distributor  (variable)"
+			],
+			[
+				"employe",
+				"employerId  (argument)"
+			],
+			[
+				"Notif",
+				"Notify  (class)"
+			],
+			[
+				"ac",
+				"activity.js"
+			],
+			[
+				"compress",
+				"compression"
+			],
+			[
+				"method",
+				"methodOverride"
+			],
+			[
+				"cookie",
+				"cookieParser"
+			],
+			[
+				"us",
+				"users.js"
+			],
+			[
+				"ma",
+				"margin-bottom"
+			],
+			[
+				"def",
+				"default-avatar.jpg	w:200 h:200"
+			],
+			[
+				"orders",
+				"ordersService  (argument)"
+			],
+			[
+				"l",
+				"lib/"
+			],
+			[
+				"Supplier",
+				"orderSupplier"
+			],
+			[
+				"supplir",
+				"suppliers"
+			],
+			[
+				"from",
+				"form-control"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "app/controllers/orders.js",
+			"file": "/home/kingkoded/Integra/stoc-cloud/models/postman.js",
 			"settings":
 			{
-				"buffer_size": 14390,
+				"buffer_size": 28310,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/models/order.js",
+			"file": "/home/kingkoded/Integra/stoc-cloud/controllers/orders.js",
 			"settings":
 			{
-				"buffer_size": 2017,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/kingkoded/Projects/IntegraSup/server.js",
-			"settings":
-			{
-				"buffer_size": 1363,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/kingkoded/Projects/IntegraSup/config/config.js",
-			"settings":
-			{
-				"buffer_size": 221,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/kingkoded/Projects/IntegraSup/config/env/development.json",
-			"settings":
-			{
-				"buffer_size": 765,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/kingkoded/Projects/IntegraSup/config/routes.js",
-			"settings":
-			{
-				"buffer_size": 1279,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/kingkoded/Projects/IntegraSup/config/middlewares/authorization.js",
-			"settings":
-			{
-				"buffer_size": 722,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/kingkoded/Projects/IntegraSup/app/views/index.jade",
-			"settings":
-			{
-				"buffer_size": 442,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/js/common/directives/directives.js",
-			"settings":
-			{
-				"buffer_size": 9480,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/orders/all.jade",
-			"settings":
-			{
-				"buffer_size": 1367,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/suppliers/index.jade",
-			"settings":
-			{
-				"buffer_size": 3710,
+				"buffer_size": 7556,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/home/kingkoded/Integra/stoc-cloud/test/govtSpec.js",
+			"settings":
+			{
+				"buffer_size": 760,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/kingkoded/Integra/stoc-cloud/test/order/orderSpec.js",
+			"settings":
+			{
+				"buffer_size": 665,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/var/www/html/drugstoc/wp-config-local.php",
+			"settings":
+			{
+				"buffer_size": 2526,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/kingkoded/Integra/stoc-cloud/models/order.js",
+			"settings":
+			{
+				"buffer_size": 41860,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/kingkoded/Integra/stoc-cloud/models/item/govt-facility.js",
+			"settings":
+			{
+				"buffer_size": 1219,
+				"line_ending": "Unix"
 			}
 		}
 	],
 	"build_system": "Packages/JSLint/JSLint.sublime-build",
 	"command_palette":
 	{
-		"height": 392.0,
+		"height": 371.0,
 		"selected_items":
 		[
 			[
@@ -619,15 +587,19 @@
 				"Package Control: Install Package"
 			],
 			[
-				"install",
-				"Package Control: Install Package"
+				"snipp",
+				"Snippet: qdefer"
 			],
 			[
 				"remove",
 				"Package Control: Remove Package"
 			],
 			[
-				"insta",
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
 				"Package Control: Install Package"
 			],
 			[
@@ -635,8 +607,24 @@
 				"Package Control: Remove Package"
 			],
 			[
-				"inst",
+				"install",
 				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"Snippet: ",
+				"Snippet: notify"
+			],
+			[
+				"Snippet: not",
+				"Snippet: notify"
 			],
 			[
 				"packa",
@@ -667,7 +655,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 467.0
+		"width": 588.0
 	},
 	"console":
 	{
@@ -681,151 +669,174 @@
 	{
 		"menu_visible": true,
 		"show_minimap": false,
-		"show_open_files": false,
+		"show_open_files": true,
 		"show_tabs": false,
 		"side_bar_visible": false,
 		"status_bar_visible": false
 	},
+	"expanded_folders":
+	[
+		"/home/kingkoded/Integra/stoc-cloud",
+		"/home/kingkoded/Integra/stoc-cloud/models",
+		"/home/kingkoded/Integra/stoc-cloud/models/item",
+		"/home/kingkoded/Integra/stoc-cloud/test",
+		"/home/kingkoded/Integra/stoc-cloud/test/order",
+		"/home/kingkoded/Integra/stoc-cloud/test/user"
+	],
 	"file_history":
 	[
-		"/home/kingkoded/Projects/Integra/app/models/dispense.js",
-		"/home/kingkoded/Projects/Integra/config/default.json",
-		"/home/kingkoded/Projects/Integra/app/controllers/nafdacs.js",
-		"/home/kingkoded/Projects/Integra/app/controllers/items.js",
-		"/home/kingkoded/Projects/Integra/app/models/item.js",
-		"/home/kingkoded/Projects/Integra/public/js/modules/item/item.js",
-		"/home/kingkoded/Projects/Integra/server.js",
-		"/home/kingkoded/Projects/Integra/config/development.json",
-		"/home/kingkoded/Projects/Integra/app/models/nafdacdrugs.js",
-		"/home/kingkoded/Projects/Integra/test/items/items.spec.js",
-		"/home/kingkoded/Projects/IntegraSup/app/models/user.js",
-		"/home/kingkoded/Projects/IntegraSup/config/passport.js",
-		"/home/kingkoded/Projects/IntegraSup/app/controllers/users.js",
-		"/home/kingkoded/Projects/Integra/app/views/admin/index.jade",
-		"/home/kingkoded/Projects/Integra/app/controllers/users.js",
-		"/home/kingkoded/Projects/Integra/app/controllers/admin.js",
-		"/home/kingkoded/Projects/Integra/app/models/admin.js",
-		"/home/kingkoded/Projects/Integra/app/views/includes/header.jade",
-		"/home/kingkoded/Projects/Integra/public/js/app.js",
-		"/home/kingkoded/Projects/Integra/public/js/common/services/services.js",
-		"/home/kingkoded/Projects/Integra/config/routes.js",
-		"/home/kingkoded/Projects/Integra/app/views/templates/admin-hospital-info-tpl.jade",
-		"/home/kingkoded/Projects/IntegraSup/app/views/includes/head.jade",
-		"/home/kingkoded/Projects/Integra/public/js/modules/lang.js",
-		"/home/kingkoded/Projects/IntegraSup/app/views/index.jade",
-		"/home/kingkoded/Projects/IntegraSup/app/views/layouts/sessionless.jade",
-		"/home/kingkoded/Projects/IntegraSup/app/views/layouts/session.jade",
-		"/home/kingkoded/Projects/IntegraSup/app/views/layouts/default.jade",
-		"/home/kingkoded/Projects/Integra/app/views/includes/foot.jade",
-		"/home/kingkoded/Projects/IntegraSup/package.json",
-		"/home/kingkoded/Projects/IntegraSup/public/lib/bootstrap/less/tests/navbar-fixed-top.html",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/grunt/node_modules/js-yaml/node_modules/argparse/lib/help/added_formatters.js",
-		"/home/kingkoded/Projects/IntegraSup/logs/log.log",
-		"/home/kingkoded/Projects/Integra/config/config.js",
-		"/home/kingkoded/Projects/Integra/public/css/app.css",
-		"/home/kingkoded/Projects/Integra/config/express.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/forever/lib/forever/service/service.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/bower/node_modules/request/tests/server.js",
-		"/home/kingkoded/Projects/Integra/node_modules/sinon/test/server-clock.html",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/bower/templates/std/search-results.std",
-		"/home/kingkoded/Projects/Integra/app/controllers/stock.js",
-		"/home/kingkoded/Projects/Integra/public/js/underscore-min.js",
-		"/home/kingkoded/Projects/Integra/public/less/modules/ui-slider.less",
-		"/home/kingkoded/Projects/IntegraSup/app/views/includes/footer.jade",
-		"/home/kingkoded/Projects/Integra/node_modules/config/doc/assets/reset-fonts-grids-min.css",
-		"/home/kingkoded/Projects/Integra/node_modules/jasmine-node/node_modules/gaze/node_modules/fileset/node_modules/glob/test/new-glob-optional-options.js",
-		"/home/kingkoded/Projects/Integra/app/views/layouts/default.jade",
-		"/media/kingkoded/28AA5F06AA5ECFC4/Users/KingKoded/code/BackUpd/Integra.../app/views/includes/header.jade",
-		"/home/kingkoded/Projects/Integra/server_config/drugstock.conf",
-		"/home/kingkoded/Projects/Integra/app/controllers/dispense.js",
-		"/home/kingkoded/Projects/Integra/app/views/items/index.jade",
-		"/home/kingkoded/Projects/Integra/app/views/items/prescribe.jade",
-		"/home/kingkoded/Projects/Integra/app/controllers/orders.js",
-		"/home/kingkoded/Projects/Integra/public/js/modules/order/order.js",
-		"/home/kingkoded/Projects/Integra/app/controllers/transactions.js",
-		"/home/kingkoded/Projects/Integra/public/js/modules/dispense/dispense.js",
-		"/home/kingkoded/Projects/Integra/public/js/common/directives/directives.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/bower/node_modules/mout/date/dayOfTheYear.js",
-		"/home/kingkoded/Projects/Integra/node_modules/config/doc/index.html",
-		"/home/kingkoded/Projects/Integra/assets/nafdacdrugs.json",
-		"/home/kingkoded/Projects/Integra/assets/nafdac.json",
-		"/home/kingkoded/Projects/Integra/node_modules/imager/node_modules/cloudfiles/node_modules/request/node_modules/form-data/test/fixture/bacon.txt",
-		"/home/kingkoded/Projects/Integra/app/views/items/new.jade",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/express/lib/response.js",
-		"/home/kingkoded/Projects/Integra/app/models/stockcount.js",
-		"/home/kingkoded/Projects/Integra/node_modules/sinon/test/sinon_test.js",
-		"/home/kingkoded/Projects/Integra/app/models/transaction.js",
-		"/home/kingkoded/Projects/Integra/app/views/templates/order-list.jade",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/forever/node_modules/pkginfo/examples/all-properties.js",
-		"/home/kingkoded/Projects/Integra/app/views/layouts/mobile.jade",
-		"/home/kingkoded/Projects/Integra/app/views/layouts/print.jade",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/bower/node_modules/fstream/lib/proxy-reader.js",
-		"/home/kingkoded/Projects/IntegraSup/Procfile",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/bower/node_modules/mout/lang/isRegExp.js",
-		"/home/kingkoded/Projects/Integra/node_modules/jasmine-node/spec/reporter_spec.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/bower/lib/core/ResolveCache.js",
-		"/home/kingkoded/Projects/IntegraSup/public/js/modules/dispense/dispense.js",
-		"/home/kingkoded/Projects/Integra/app/views/items/dispense.jade",
-		"/home/kingkoded/Projects/Integra/node_modules/imager/node_modules/knox/node_modules/stream-counter/node_modules/readable-stream/test/simple/test-stream2-readable-empty-buffer-no-eof.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/bower/node_modules/mout/lang/isObject.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/bower/node_modules/inquirer/node_modules/cli-color/node_modules/memoizee/lib/ext/dispose.js",
-		"/home/kingkoded/Projects/IntegraSup/config/config.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/bower/node_modules/mout/lang/createObject.js",
-		"/run/user/1000/gvfs/ftp:host=192.168.0.100/integra/prescribe.php",
-		"/home/kingkoded/Projects/IntegraSup/server.js",
-		"/home/kingkoded/Projects/Integra/public/js/application.js",
-		"/home/kingkoded/Projects/Integra/app/views/templates/supplier-cart-tpl.jade",
-		"/home/kingkoded/Projects/Integra/app/views/orders/cart.jade",
-		"/home/kingkoded/Projects/Integra/app/views/includes/dialogs/bills/view.jade",
-		"/home/kingkoded/Projects/Integra/app/views/templates/bill-print-tpl.jade",
-		"/home/kingkoded/Projects/Integra/app/views/includes/modals/dispensary/modal-success.jade",
-		"/home/kingkoded/Projects/Integra/app/views/items/stockdown.jade",
-		"/home/kingkoded/Projects/IntegraSup/public/lib/bootstrap/less/reset.less",
-		"/home/kingkoded/Projects/IntegraSup/public/css/prettify.css",
-		"/home/kingkoded/Projects/Integra/.jshintrc",
-		"/home/kingkoded/Projects/Integra/app/views/orders/all.jade",
-		"/home/kingkoded/Projects/Integra/app/views/home/index.jade",
-		"/home/kingkoded/Projects/Integra/app/views/orders/add.jade",
-		"/home/kingkoded/Projects/IntegraSup/public/js/modules/order/order.js",
-		"/home/kingkoded/Projects/IntegraSup/app/controllers/orders.js",
-		"/home/kingkoded/Projects/Integra/app/models/order.js",
-		"/home/kingkoded/Projects/Integra/env.js",
-		"/home/kingkoded/Projects/Integra/.gitignore",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/express/bin/express",
-		"/home/kingkoded/Projects/Integra/node_modules/express/bin/express",
-		"/home/kingkoded/Projects/IntegraSup/config/express.js",
-		"/home/kingkoded/Projects/Integra/lib/env.js",
-		"/home/kingkoded/Projects/Integra/node_modules/imager/node_modules/gm/test/resizeAndAutoOrientFromBuffer.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/bower/node_modules/request/node_modules/form-data/lib/form_data.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/forever/node_modules/winston/test/fixtures/scripts/default-exceptions.js",
-		"/home/kingkoded/Projects/IntegraSup/public/js/modules/dashboard/dashboard.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/passport-github/node_modules/passport-oauth/lib/passport-oauth/index.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/passport-google-oauth/lib/passport-google-oauth/index.js",
-		"/home/kingkoded/Projects/Integra/node_modules/imager/node_modules/cloudfiles/node_modules/request/node_modules/hawk/node_modules/boom/index.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/connect-flash/lib/index.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/passport-github/lib/passport-github/index.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/grunt/node_modules/lodash/index.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/bower/node_modules/request/node_modules/aws-sign/index.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/bower/node_modules/inquirer/node_modules/cli-color/node_modules/es5-ext/lib/Date/index.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/bower/node_modules/mout/array/findIndex.js",
-		"/home/kingkoded/Projects/Integra/app/views/index.jade",
-		"/home/kingkoded/Projects/Integra/node_modules/connect-mongo/index.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/bower/node_modules/mout/lang/isNull.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/moment/test/moment/sod_eod.js",
-		"/home/kingkoded/Projects/Integra/node_modules/forever/test/fixtures/server.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/.bin/express",
-		"/home/kingkoded/Projects/IntegraSup/config/env/development.json",
-		"/home/kingkoded/Projects/Integra/node_modules/jade/node_modules/transformers/test/simple/cdata/sample-a-expected.txt"
+		"/home/kingkoded/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/var/www/html/drugstoc/wp-config.php",
+		"/var/www/html/drugstoc/wp-content/themes/sistina/languages/default.po",
+		"/var/www/html/drugstoc/wp-content/themes/sistina/theme/woocommerce.php",
+		"/home/kingkoded/Downloads/junky-ja.csv",
+		"/var/www/html/drugstoc/wp-config-local.php",
+		"/home/kingkoded/Integra/stoc-cloud/controllers/orders.js",
+		"/home/kingkoded/Integra/stoc-cloud/test/user/model.js",
+		"/home/kingkoded/Integra/stoc-cloud/.idea/modules.xml",
+		"/var/www/html/drugstoc/drugstoc/wp-admin/ms-options.php",
+		"/home/kingkoded/Integra/stoc-cloud/node_modules/mongoose/examples/population/population-of-existing-doc.js",
+		"/home/kingkoded/Integra/stoc-cloud/node_modules/should/.idea/inspectionProfiles/Project_Default.xml",
+		"/home/kingkoded/Integra/stoc-cloud/node_modules/lockit/node_modules/lockit-delete-account/views/post-delete-account.jade",
+		"/home/kingkoded/Integra/stoc-cloud/lib/message-strings.js",
+		"/var/www/html/drugstoc/.gitignore",
+		"/var/www/html/drugstoc/gruntfile.js",
+		"/home/kingkoded/Integra/stoc-cloud/gruntfile.js",
+		"/home/kingkoded/Integra/stoc-cloud/models/user.js",
+		"/home/kingkoded/Integra/stoc-cloud/views/widgets/item/all-drugs.jade",
+		"/home/kingkoded/Integra/stoc-cloud/controllers/users.js",
+		"/home/kingkoded/Integra/stoc-cloud/views/includes/side-nav.jade",
+		"/home/kingkoded/Integra/stoc-cloud/models/postman.js",
+		"/home/kingkoded/Integra/stoc-cloud/models/item.js",
+		"/home/kingkoded/Integra/stoc-cloud/views/includes/head.jade",
+		"/home/kingkoded/Integra/stoc-cloud/controllers/routes.js",
+		"/home/kingkoded/Integra/stoc-cloud/controllers/upload.js",
+		"/home/kingkoded/Integra/stoc-cloud/lib/email/sendMail.js",
+		"/home/kingkoded/Integra/stoc-cloud/test/email/sendMailSpec.js",
+		"/home/kingkoded/Integra/stoc-cloud/node_modules/acl/node_modules/mongodb/lib/mongodb/connection/url_parser.js",
+		"/home/kingkoded/Integra/stoc-cloud/controllers/api/users.js",
+		"/home/kingkoded/Integra/stoc-cloud/models/staff_utils.js",
+		"/home/kingkoded/Integra/stoc-cloud/node_modules/mongoose/examples/express/connection-sharing/modelA.js",
+		"/home/kingkoded/Integra/stoc-cloud/node_modules/imager/node_modules/knox/node_modules/xml2js/node_modules/sax/test/entity-mega.js",
+		"/home/kingkoded/Integra/stoc-cloud/controllers/external.js",
+		"/home/kingkoded/Integra/stoc-cloud/build/js/modules/order/order.js",
+		"/home/kingkoded/Integra/stoc-cloud/views/drug/index.jade",
+		"/home/kingkoded/Integra/stoc-cloud/models/order.js",
+		"/home/kingkoded/Integra/stoc-cloud/models/item/drug.js",
+		"/home/kingkoded/Integra/stoc-cloud/build/js/app.js",
+		"/home/kingkoded/Integra/stoc-cloud/controllers/drugs.js",
+		"/home/kingkoded/Integra/stoc-cloud/views/widgets/order/all-cart.jade",
+		"/home/kingkoded/Integra/stoc-cloud/views/widgets/profile/drug-pages.jade",
+		"/home/kingkoded/Integra/stoc-cloud/views/layouts/default.jade",
+		"/home/kingkoded/Integra/drugStoc/platforms/android/assets/www/lib/moment/lang/en-ca.js",
+		"/home/kingkoded/Integra/drugStoc/platforms/android/build.xml",
+		"/home/kingkoded/Integra/drugStoc/platforms/android/ant-build/build.prop",
+		"/home/kingkoded/Integra/stoc-cloud/node_modules/bower/node_modules/inquirer/lib/ui/baseUI.js",
+		"/home/kingkoded/Integra/stoc-cloud/node_modules/lockit/node_modules/nano/samples/bulk_transform.js",
+		"/home/kingkoded/Integra/stoc-cloud/bower.json",
+		"/home/kingkoded/Integra/stoc-cloud/models/order/order.js",
+		"/home/kingkoded/Integra/stoc-cloud/server.js",
+		"/home/kingkoded/Integra/stoc-cloud/models/organization.js",
+		"/home/kingkoded/Integra/stoc-cloud/models/item/govt-facility.js",
+		"/home/kingkoded/Integra/stoc-cloud/models/user/user.js",
+		"/home/kingkoded/Integra/stoc-cloud/dist/widgets/order/manage-order-modal.html",
+		"/home/kingkoded/Integra/drugStoc/platforms/android/cordova/defaults.xml",
+		"/home/kingkoded/Integra/stoc-cloud/config/default.json",
+		"/home/kingkoded/Integra/stoc-cloud/build/js/common/directives/directives.js",
+		"/home/kingkoded/Integra/stoc-cloud/views/widgets/profile/prospects.jade",
+		"/home/kingkoded/Integra/stoc-cloud/views/widgets/profile/calendar.jade",
+		"/home/kingkoded/Integra/stoc-cloud/views/widgets/profile/activity.jade",
+		"/home/kingkoded/Integra/stoc-cloud/views/widgets/profile/activate-hospital.jade",
+		"/home/kingkoded/Integra/stoc-cloud/dist/widgets/profile/prospects.html",
+		"/home/kingkoded/Integra/stoc-cloud/dist/widgets/profile/drug-pages.html",
+		"/home/kingkoded/Integra/stoc-cloud/dist/widgets/profile/calendar.html",
+		"/home/kingkoded/Integra/stoc-cloud/dist/widgets/profile/activity.html",
+		"/home/kingkoded/Integra/stoc-cloud/dist/widgets/profile/activate-hospital.html",
+		"/home/kingkoded/Integra/stoc-cloud/views/widgets/organization/profile-staff-bars.jade",
+		"/home/kingkoded/Integra/stoc-cloud/dist/widgets/side-menu.html",
+		"/home/kingkoded/Integra/stoc-cloud/views/widgets/order/invoice-table.jade",
+		"/home/kingkoded/Integra/stoc-cloud/node_modules/forever/node_modules/winston/node_modules/request/tests/test-digest-auth.js",
+		"/home/kingkoded/Integra/stoc-cloud/node_modules/forever/node_modules/colors/themes/winston-dark.js",
+		"/home/kingkoded/Integra/drugStoc/platforms/android/assets/_where-is-www.txt",
+		"/home/kingkoded/Integra/stoc-cloud/.idea/workspace.xml",
+		"/home/kingkoded/Integra/stoc-cloud/public/js/modules/drug/drug.js",
+		"/home/kingkoded/Integra/drugStoc/.idea/drugStoc.iml",
+		"/home/kingkoded/Integra/stoc-cloud/controllers/admin/invoice.js",
+		"/home/kingkoded/Integra/stoc-cloud/views/order/cart.jade",
+		"/home/kingkoded/Integra/stoc-cloud/build/js/modules/admin/admin.js",
+		"/home/kingkoded/Integra/stoc-cloud/views/admin/invoice.jade",
+		"/home/kingkoded/Integra/stoc-cloud/views/widgets/admin/alter-order-modal.jade",
+		"/home/kingkoded/Integra/stoc-cloud/build/js/modules/user/user.js",
+		"/home/kingkoded/Integra/stoc-cloud/views/admin/item.jade",
+		"/home/kingkoded/Integra/stoc-cloud/lib/runtask.js",
+		"/home/kingkoded/Integra/drugStoc/platforms/android/ant-build/DrugStoc-debug-unaligned.apk",
+		"/home/kingkoded/Integra/drugStoc/platforms/android/CordovaLib/src/com/squareup/okhttp/Address.java",
+		"/home/kingkoded/Integra/stoc-cloud/dist/drug/add.html",
+		"/home/kingkoded/Integra/stoc-cloud/build/humans.txt",
+		"/home/kingkoded/Integra/stoc-cloud/views/order/index.jade",
+		"/home/kingkoded/Integra/stoc-cloud/config/commons.js",
+		"/home/kingkoded/Integra/stoc-cloud/build/js/jquery-jvectormap-us-aea-en.js",
+		"/home/kingkoded/Integra/stoc-cloud/views/admin/user.jade",
+		"/home/kingkoded/Integra/stoc-cloud/assets/stoccloud/orders.bson",
+		"/home/kingkoded/Integra/stoc-cloud/views/templates/email-templates/invoice-note.jade",
+		"/home/kingkoded/Integra/stoc-cloud/views/order/invoice.jade",
+		"/home/kingkoded/Integra/stoc-cloud/node_modules/forever/node_modules/forever-monitor/examples/always-throw.js",
+		"/home/kingkoded/Integra/stoc-cloud/node_modules/lockit-mongodb-adapter/node_modules/moment/lang/lt.js",
+		"/home/kingkoded/Integra/drugStoc/platforms/android/cordova/lib/list-emulator-images",
+		"/home/kingkoded/Integra/drugStoc/platforms/android/CordovaLib/src/com/squareup/okhttp/internal/FaultRecoveringOutputStream.java",
+		"/home/kingkoded/Integra/stoc-cloud/build/js/custom.js",
+		"/home/kingkoded/Integra/stoc-cloud/views/includes/public/head.jade",
+		"/home/kingkoded/Integra/stoc-cloud/views/includes/public/foot.jade",
+		"/home/kingkoded/Integra/stoc-cloud/views/includes/headerbar.jade",
+		"/home/kingkoded/.cache/.fr-yMWbNW/ui-bootstrap-custom-0.10.0.js",
+		"/home/kingkoded/Integra/stoc-cloud/dist/user/signin.html",
+		"/home/kingkoded/Integra/drugStoc/www/templates/user/check-in.html",
+		"/home/kingkoded/Integra/stoc-cloud/views/user/signin.jade",
+		"/home/kingkoded/Integra/stoc-cloud/dist/user/user-registered.html",
+		"/home/kingkoded/Integra/stoc-cloud/build/js/ui-bootstrap-custom-tpls-0.10.0.min.js",
+		"/home/kingkoded/.cache/.fr-kUta2V/ui-bootstrap-custom-tpls-0.10.0.min.js",
+		"/home/kingkoded/Integra/stoc-cloud/build/lib/angular-bootstrap/ui-bootstrap.js",
+		"/home/kingkoded/Integra/stoc-cloud/views/hospital/index.jade",
+		"/home/kingkoded/Integra/stoc-cloud/views/admin/orders.jade",
+		"/home/kingkoded/Integra/stoc-cloud/views/templates/email-templates/order-note.jade",
+		"/home/kingkoded/Integra/stoc-cloud/views/templates/sms-templates/invoice-note.jade",
+		"/home/kingkoded/Integra/stoc-cloud/views/includes/foot.jade",
+		"/home/kingkoded/Integra/stoc-cloud/controllers/admin.js",
+		"/home/kingkoded/Integra/stoc-cloud/views/templates/email-templates/default-note.jade",
+		"/home/kingkoded/Integra/drugStoc/plugins/org.apache.cordova.console/NOTICE",
+		"/home/kingkoded/Integra/stoc-cloud/dist/order/new-old.html",
+		"/home/kingkoded/Integra/stoc-cloud/node_modules/moment/ender.js",
+		"/home/kingkoded/Integra/drugStoc/www/lib/jquery/src/selector-native.js",
+		"/home/kingkoded/Integra/stoc-cloud/node_modules/grunt-mocha-test/node_modules/mocha/lib/runnable.js",
+		"/home/kingkoded/Integra/stoc-cloud/node_modules/grunt/node_modules/iconv-lite/test/big5-test.js",
+		"/home/kingkoded/Integra/stoc-cloud/dist/order/order-list-tpl.html",
+		"/home/kingkoded/Integra/stoc-cloud/controllers/admin/orders.js",
+		"/home/kingkoded/Integra/stoc-cloud/dist/includes/footer.html",
+		"/home/kingkoded/Integra/stoc-cloud/.bowerrc"
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 38.0
 	},
 	"find_in_files":
 	{
 		"height": 93.0,
 		"where_history":
 		[
+			"/var/www/html/drugstoc/wp-content/themes/sistina",
+			"/home/kingkoded/Integra/stoc-cloud/models",
+			"/home/kingkoded/Integra/stoc-cloud/views",
+			"/home/kingkoded/Integra/stoc-cloud/build",
+			"/home/kingkoded/Integra/stoc-cloud/models",
+			"/home/kingkoded/Integra/stoc-cloud/controllers",
+			"/home/kingkoded/Integra/stoc-cloud/models",
+			"/home/kingkoded/Integra/stoc-cloud/views",
+			"/home/kingkoded/Integra/stoc-cloud/controllers",
+			"/home/kingkoded/Integra/stoc-cloud/public/js/modules",
+			"/home/kingkoded/Integra/stoc-cloud/public/js",
+			"/home/kingkoded/Projects/IntegraSup/public/js",
+			"/home/kingkoded/Projects/IntegraSup",
+			"/home/kingkoded/Projects/IntegraSup/public/js",
 			"/home/kingkoded/Projects/Integra/public/js/toPDF",
 			""
 		]
@@ -835,134 +846,134 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"typeahead",
-			"Updater",
-			"admin",
-			"d[$index]",
-			"prescribeThis",
-			"stockbylocation",
-			"Ndl",
-			"Purchase",
-			"itemData",
-			"sort",
-			"req.param('option')",
-			"req.param('id')",
-			"Stock",
-			"updateItem",
-			"\\",
-			"HEAD",
-			"git",
-			"html",
-			"bill.",
-			"doInvoice",
-			"itemId",
-			"utils",
-			"updateItem",
-			"count",
+			"wishlist",
+			"<br>",
+			"sendEmail",
+			"postCartItem",
+			"This users profile is here",
+			"cartO",
+			"adminInvoicesCt",
+			"selectPage",
+			"pagination",
+			"deliveryAge",
+			"deliverAge",
+			"delivery",
+			"info-alt",
+			"animate.min.css",
+			"scope",
+			"_composeResponseUser",
+			"\"",
+			"angular.module(\"xeditable\",[]).value",
+			"|angular.module(\"xeditable\",[]).value",
+			"id=\"radio1\"",
+			" style=\"display:none;\"",
+			"radio1",
+			"name=\"radio\"",
+			"type=\"radio\"",
+			"Proposal",
+			"assets/p",
+			"thisOrder",
+			"strToObj",
+			"cartOrder",
+			"search",
+			"mb10",
+			"pre-o",
+			"send_quote",
+			"utilz",
+			"sendInvoiceRequest",
+			"utilz",
+			"                .form-group\n                  label.control-label Manufacturer\n                  input.form-control.input-large(type=\"date\", ng-model=\"search.orderDate\")",
+			"image",
+			".fa-stack-1x",
+			".fa-stack-2x",
+			"user",
 			"update",
-			"newModal",
-			"getPoints",
-			"nafdac",
+			"_composeReponseUser",
+			"allUsers",
+			"small",
+			"primary",
+			"profile",
+			"not found",
+			"options",
+			"Loading User Controller",
+			"{{act.created | date: 'medium'}}",
+			"removeI",
+			"deleteOn",
+			"remove",
+			"user/profile",
+			"/user/profile",
+			"url",
+			"'/signin'",
+			"sessionStorage",
+			"dd",
+			"dt",
+			" item-input item-stacked-label",
+			"label",
+			"btn",
+			"ion-pane",
+			"__modal_data",
+			"cmp",
+			".js",
+			"HospitalController",
+			"return (r) ? r.data : {};",
+			"return r.data;",
+			"data",
+			"{\n",
+			"internal",
+			"'/api",
+			"out",
+			"&quot;",
+			"Authorization",
+			"authorization",
+			"api",
 			"console",
-			"searchcmp",
-			"count",
-			"location",
-			"this",
-			"function",
-			"i",
-			"this",
-			"StockDownSchema",
-			"class",
-			"PointLocation",
-			"stock",
-			"$or",
-			"showRightPush",
-			"itemDispensaryController",
-			"$timeout",
-			"o.",
-			"getPrescription",
-			"supplier-name-type-ahead",
-			"port",
-			"prescribeThis",
-			"\"Access-Control-Allow-Origin\", \"*\"",
-			"removeCategory",
-			"stockdown",
-			"itemStockController",
-			"location",
-			"flash",
-			"ndlController",
-			"admin",
-			"orderstatus",
-			"cajon",
+			"httpBackend",
+			"internal",
+			"&gt;",
+			"httpBackend",
+			"dist",
+			"toStr",
+			"console",
+			"case",
+			"route",
 			"\"",
-			"\n    ",
-			"Ndl",
+			"@import url(",
+			"\\x3C",
+			"logger",
+			"orderId",
+			"getOrders",
+			"!xInStr",
+			"{",
+			"config",
+			"noticeData.meta",
+			"slice",
+			"addNewDrug",
+			"dropzone",
+			"override",
+			"remove",
+			"\n      /**\n       * adds a drug item, expect an object containing\n       * the item properties, the user adding the item,\n       * the account level of the user. It returns a promise\n       * @param {Object} doc object containing item props and user info\n       */\n      addDrug : function addDrug (doc) {\n        var d = Q.defer();\n        var drug = new Drug(doc.item);\n        drug.supplier = {\n          supplierId: doc.owner,\n          supplier_type: doc.account_type\n        };\n\n        drug.save(function (err, i) {\n          if (err) {\n            return d.reject(err);\n          } else {\n            return d.resolve(i);\n          }\n        });\n\n        return d.promise;        \n      },",
+			"account_type",
+			"sendActivationEmail",
+			"holder",
 			"\"",
-			"src='",
-			"\n      button.btn.btn-large.btn-block.btn-primary(ng-click=\"commons.backBtn()\") Manage Billing",
-			"dispenseThis",
-			"        if(util.isError(r)){\n            next(r);\n        }else{\n            res.json(200, true);\n        }",
-			"_.",
-			"util",
-			"profileRules",
-			"new",
-			"fetchDispenseRecords",
-			"locations/records",
-			"bill",
-			"category",
-			"listOne",
-			"[index]",
-			"scope.orders",
-			"updateOrder",
-			"addForm",
-			"\nItemsObject.prototype.addForm = function(name, callback){\n  if(name.length === 0 ){\n    return callback(new Error('Empty name'));\n  }\n\n  var ic = new ItemCategory();\n  ic.create(name, function(r){\n    callback(r);\n  });  \n}",
-			".list(",
-			".list",
-			"callback",
-			"console.lo",
-			"itemFields",
-			"addCategory",
-			"itemCat",
-			"nafdacTypeAhead",
-			"NafdacDrugs",
-			"nafdacTypeAhead",
-			"NafdacDrugs",
-			"\"",
-			"typeahead",
-			"req.body",
-			"dispenseThis",
-			"approve",
-			"confirm",
-			"typeahead",
-			"Bad",
-			"count",
-			"ng-click",
-			"level",
-			"itemsRaw",
-			"itemFields",
-			"listOne",
-			"itemFields",
-			"supplier",
-			"\")\n",
-			"upda",
-			"update",
-			"option",
-			"edit",
-			"summary",
-			"typeahead",
-			"addDrug",
-			"quick",
-			"summary",
-			"saveDispenseRecord",
-			"stockdown",
-			"id",
-			"Dispense",
-			"getStockAmountbyId",
-			"req.body.status",
-			"updateOrder",
-			"showStockDown",
-			"itemStockController",
-			"itemsRaw"
+			"script(src=",
+			"link(href=",
+			"css",
+			"link(href='/",
+			"link(href=",
+			"script(src=",
+			"js",
+			"script(src='/",
+			"script(src=",
+			"js",
+			"script(src='/",
+			"script(src=",
+			"ugl",
+			"\"/",
+			"'/",
+			" rel=\"stylesheet\")",
+			" rel='stylesheet')",
+			"link(href="
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -970,6 +981,49 @@
 		"regex": false,
 		"replace_history":
 		[
+			"DrugStoc",
+			"<br />",
+			"animate.css",
+			"'",
+			"apiConfig.url + '/api",
+			"'",
+			"\"",
+			"'",
+			",",
+			"",
+			"/api/internal/",
+			"__modal_data",
+			"/images/",
+			"'",
+			"PostmanController",
+			"",
+			"\"",
+			"updateItem($data, $editable.name)",
+			"onbeforesave=\"update_profile($data, $editable.name)\", editable-",
+			" || 'Empty'}}",
+			"editable-text=\"userProfile.",
+			"}}",
+			"{{",
+			"onbeforesave=\"updateItem($data)\", editable-",
+			"onbeforesave=\"updateItem($data)\", editable",
+			" || 'Empty'}}",
+			"text-area",
+			"row",
+			"editable-text=\"item.",
+			"}}",
+			"{{",
+			"/api/internal/",
+			"400, err.message",
+			"",
+			"'",
+			"p.x-editable.",
+			"form-control-static",
+			"p",
+			"placeholder=''",
+			"String, default: ",
+			"data-name",
+			"./",
+			"col-md-",
 			"_d",
 			"option",
 			"item",
@@ -1001,192 +1055,166 @@
 	"groups":
 	[
 		{
-			"selected": 10,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/controllers/orders.js",
+					"file": "/home/kingkoded/Integra/stoc-cloud/models/postman.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14390,
+						"buffer_size": 28310,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								3637,
+								3637
 							]
 						],
 						"settings":
 						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
+							"WordCountSyntax": "javascript",
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"sublime_auto_complete": true,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/models/order.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2017,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/home/kingkoded/Projects/IntegraSup/server.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1363,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								802,
-								802
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "/home/kingkoded/Projects/IntegraSup/config/config.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 221,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								200,
-								200
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "/home/kingkoded/Projects/IntegraSup/config/env/development.json",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 765,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								34,
-								34
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1793.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "/home/kingkoded/Projects/IntegraSup/config/routes.js",
+					"buffer": 1,
+					"file": "/home/kingkoded/Integra/stoc-cloud/controllers/orders.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1279,
+						"buffer_size": 7556,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								635,
-								635
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
+							"WordCountSyntax": "javascript",
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
@@ -1199,30 +1227,303 @@
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "/home/kingkoded/Projects/IntegraSup/config/middlewares/authorization.js",
+					"buffer": 2,
+					"file": "/home/kingkoded/Integra/stoc-cloud/test/govtSpec.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 722,
+						"buffer_size": 760,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								165,
-								165
+								593,
+								593
 							]
 						],
 						"settings":
 						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"open_with_edit": true,
+							"sublime_auto_complete": true,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/kingkoded/Integra/stoc-cloud/test/order/orderSpec.js",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 665,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/var/www/html/drugstoc/wp-config-local.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2526,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								673,
+								673
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "php",
+							"codeintel": true,
+							"codeintel_config":
+							{
+								"JavaScript":
+								{
+									"codeintel_max_recursive_dir_depth": 2,
+									"codeintel_scan_files_in_project": false,
+									"javascriptExtraPaths":
+									[
+									]
+								},
+								"PHP":
+								{
+									"codeintel_max_recursive_dir_depth": 5,
+									"codeintel_scan_files_in_project": false,
+									"phpExtraPaths":
+									[
+									]
+								},
+								"Python":
+								{
+									"env":
+									{
+									}
+								}
+							},
+							"codeintel_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_live": true,
+							"codeintel_live_enabled_languages":
+							[
+								"JavaScript",
+								"Mason",
+								"XBL",
+								"XUL",
+								"RHTML",
+								"SCSS",
+								"Python",
+								"HTML",
+								"Ruby",
+								"Python3",
+								"XML",
+								"Sass",
+								"XSLT",
+								"Django",
+								"HTML5",
+								"Perl",
+								"CSS",
+								"Twig",
+								"Less",
+								"Smarty",
+								"Node.js",
+								"Tcl",
+								"TemplateToolkit",
+								"PHP"
+							],
+							"codeintel_max_recursive_dir_depth": 10,
+							"codeintel_scan_exclude_dir":
+							{
+								"JavaScript":
+								[
+									"/build/",
+									"/min/"
+								]
+							},
+							"codeintel_scan_files_in_project": true,
+							"codeintel_selected_catalogs":
+							[
+								"PyWin32",
+								"jQuery",
+								"Rails"
+							],
+							"codeintel_snippets": true,
+							"codeintel_syntax_map":
+							{
+								"Python Django": "Python"
+							},
+							"codeintel_tooltips": "popup",
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"sublime_auto_complete": true,
+							"syntax": "Packages/PHP/PHP.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1230,95 +1531,69 @@
 					},
 					"stack_index": 4,
 					"type": "text"
-				},
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
 				{
-					"buffer": 7,
-					"file": "/home/kingkoded/Projects/IntegraSup/app/views/index.jade",
+					"buffer": 5,
+					"file": "/home/kingkoded/Integra/stoc-cloud/models/order.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 442,
+						"buffer_size": 41860,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								432,
-								432
+								40665,
+								40682
 							]
 						],
 						"settings":
 						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 23303.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
-					"file": "public/js/common/directives/directives.js",
-					"semi_transient": false,
+					"buffer": 6,
+					"file": "/home/kingkoded/Integra/stoc-cloud/models/item/govt-facility.js",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 9480,
+						"buffer_size": 1219,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5315,
-								5315
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2510.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "app/views/orders/all.jade",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1367,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1245,
-								1245
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -1328,46 +1603,13 @@
 					},
 					"stack_index": 1,
 					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "app/views/suppliers/index.jade",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3710,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3204,
-								3204
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": -0.0,
-						"translation.y": 540.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
 				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 25.0
+		"height": 34.0
 	},
 	"input":
 	{
@@ -1382,11 +1624,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.461608775137,
 			1.0
 		],
 		"rows":
@@ -1398,11 +1647,15 @@
 	"menu_visible": true,
 	"output.exec":
 	{
-		"height": 322.0
+		"height": 65.0
 	},
 	"output.find_results":
 	{
 		"height": 0.0
+	},
+	"output.git":
+	{
+		"height": 100.0
 	},
 	"output.sftp":
 	{
@@ -1411,7 +1664,7 @@
 	"project": "integra.sublime-project",
 	"replace":
 	{
-		"height": 46.0
+		"height": 62.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1420,516 +1673,516 @@
 		"selected_items":
 		[
 			[
-				"direct",
-				"Integra/public/js/common/directives/directives.js"
+				"model/order",
+				"stoc-cloud/models/order.js"
 			],
 			[
-				"item",
-				"Integra/public/js/modules/item/item.js"
+				"postman",
+				"stoc-cloud/models/postman.js"
 			],
 			[
-				"lang",
-				"Integra/public/js/modules/lang.js"
-			],
-			[
-				"app.",
-				"Integra/public/js/app.js"
-			],
-			[
-				"app",
-				"Integra/public/css/app.css"
-			],
-			[
-				"service",
-				"Integra/public/js/common/services/services.js"
-			],
-			[
-				"foot",
-				"Integra/app/views/includes/foot.jade"
-			],
-			[
-				"dispense",
-				"Integra/app/models/dispense.js"
-			],
-			[
-				"nafdac",
-				"Integra/app/models/nafdacdrugs.js"
-			],
-			[
-				"stock",
-				"Integra/app/controllers/stock.js"
-			],
-			[
-				"trans",
-				"Integra/app/controllers/transactions.js"
-			],
-			[
-				"order",
-				"Integra/public/js/modules/order/order.js"
-			],
-			[
-				"app.cs",
-				"Integra/public/css/app.css"
-			],
-			[
-				"app.css",
-				"Integra/public/css/app.css"
-			],
-			[
-				"presc",
-				"Integra/app/views/items/prescribe.jade"
-			],
-			[
-				"dispen",
-				"Integra/public/js/modules/dispense/dispense.js"
-			],
-			[
-				"deve",
-				"Integra/config/development.json"
-			],
-			[
-				"routes",
-				"Integra/config/routes.js"
-			],
-			[
-				"appli",
-				"Integra/public/js/application.js"
-			],
-			[
-				"pres",
-				"Integra/app/views/items/prescribe.jade"
-			],
-			[
-				"direc",
-				"Integra/public/js/common/directives/directives.js"
-			],
-			[
-				"cart",
-				"Integra/app/views/orders/cart.jade"
-			],
-			[
-				"express",
-				"Integra/config/express.js"
-			],
-			[
-				"route",
-				"Integra/config/routes.js"
-			],
-			[
-				"server",
-				"Integra/server.js"
-			],
-			[
-				"serv",
-				"IntegraSup/node_modules/forever/lib/forever/service/service.js"
-			],
-			[
-				"expre",
-				"Integra/config/express.js"
-			],
-			[
-				"order-",
-				"Integra/app/views/templates/order-list.jade"
-			],
-			[
-				"all.",
-				"Integra/app/views/orders/all.jade"
-			],
-			[
-				"bills/v",
-				"Integra/app/views/includes/dialogs/bills/view.jade"
-			],
-			[
-				"new",
-				"Integra/app/views/items/new.jade"
-			],
-			[
-				"lang.",
-				"Integra/public/js/modules/lang.js"
-			],
-			[
-				"head",
-				"Integra/app/views/includes/head.jade"
-			],
-			[
-				"edit",
-				"Integra/app/views/articles/edit.jade"
-			],
-			[
-				"bill",
-				"Integra/app/models/bill.js"
-			],
-			[
-				"admin",
-				"Integra/app/controllers/admin.js"
-			],
-			[
-				"defau",
-				"Integra/config/default.json"
-			],
-			[
-				"event",
-				"Integra/lib/event_register.js"
-			],
-			[
-				"items",
-				"Integra/app/controllers/items.js"
-			],
-			[
-				"exp",
-				"Integra/config/express.js"
-			],
-			[
-				"disp",
-				"Integra/public/js/modules/dispense/dispense.js"
-			],
-			[
-				"ser",
-				"IntegraSup/node_modules/bower/templates/std/search-results.std"
-			],
-			[
-				"ro",
-				"Integra/config/routes.js"
-			],
-			[
-				"de",
-				"Integra/config/default.json"
-			],
-			[
-				"order.ja",
-				"Integra/app/views/orders/all.jade"
-			],
-			[
-				"stockc",
-				"Integra/app/models/stockcount.js"
-			],
-			[
-				"dispens",
-				"Integra/public/js/modules/dispense/dispense.js"
-			],
-			[
-				"stockhistory",
-				"Integra/app/models/stockhistory.js"
-			],
-			[
-				"app.js",
-				"Integra/public/js/app.js"
-			],
-			[
-				"header",
-				"Integra/app/views/includes/header.jade"
-			],
-			[
-				"he",
-				"Integra/app/views/includes/head.jade"
-			],
-			[
-				"expres",
-				"IntegraSup/config/express.js"
-			],
-			[
-				"en.",
-				"Integra/config/i18n/en.json"
-			],
-			[
-				"orders/car",
-				"Integra/app/views/orders/cart.jade"
-			],
-			[
-				"bills",
-				"Integra/app/controllers/bills.js"
-			],
-			[
-				"stockco",
-				"Integra/app/models/stockcount.js"
-			],
-			[
-				"eve",
-				"Integra/lib/event_register.js"
-			],
-			[
-				"stochistory",
-				"Integra/app/models/stockhistory.js"
-			],
-			[
-				"boot",
-				"Integra/lib/boot.js"
-			],
-			[
-				"item.",
-				"Integra/app/models/item.js"
-			],
-			[
-				"transact",
-				"Integra/app/views/templates/admin-transactions-tpl.jade"
-			],
-			[
-				"all.jade",
-				"Integra/app/views/orders/all.jade"
-			],
-			[
-				"homeindex",
-				"Integra/app/views/home/index.jade"
-			],
-			[
-				"directi",
-				"Integra/public/js/common/directives/directives.js"
-			],
-			[
-				"report",
-				"Integra/app/views/templates/location-report-tpl.jade"
-			],
-			[
-				"stockhi",
-				"Integra/app/models/stockhistory.js"
-			],
-			[
-				"reques",
-				"Integra/app/views/includes/dialogs/stock/modal-request-stock.jade"
-			],
-			[
-				"repo",
-				"Integra/public/js/modules/reports/reports.js"
-			],
-			[
-				"stoc",
-				"Integra/app/controllers/stock.js"
-			],
-			[
-				"",
-				"Integra/app/controllers/stock.js"
-			],
-			[
-				"history.js",
-				"Integra/app/models/stockhistory.js"
-			],
-			[
-				"tran",
-				"Integra/app/models/transaction.js"
-			],
-			[
-				"transa",
-				"Integra/app/controllers/transactions.js"
-			],
-			[
-				"supplier/ed",
-				"Integra/app/views/suppliers/edit.jade"
-			],
-			[
-				"supplier",
-				"Integra/public/js/modules/supplier/supplier.js"
+				"uplo",
+				"stoc-cloud/controllers/upload.js"
 			],
 			[
 				"rout",
-				"Integra/config/routes.js"
+				"stoc-cloud/controllers/routes.js"
 			],
 			[
-				"itemindex",
-				"Integra/app/views/items/index.jade"
-			],
-			[
-				"stockh",
-				"Integra/app/models/stockhistory.js"
-			],
-			[
-				"edit.",
-				"Integra/app/views/items/edit.jade"
-			],
-			[
-				"new.",
-				"Integra/app/views/items/new.jade"
-			],
-			[
-				"tra",
-				"Integra/app/models/transaction.js"
-			],
-			[
-				"services",
-				"Integra/public/js/common/services/services.js"
-			],
-			[
-				"admin/",
-				"Integra/app/views/admin/index.jade"
-			],
-			[
-				"request",
-				"Integra/app/views/includes/dialogs/stock/modal-request-stock.jade"
-			],
-			[
-				"report.",
-				"Integra/public/js/modules/reports/reports.js"
-			],
-			[
-				"reports/",
-				"Integra/app/views/reports/dashboard.jade"
-			],
-			[
-				"index.js",
-				"Integra/public/js/index.js"
-			],
-			[
-				"applica",
-				"Integra/public/js/application.js"
-			],
-			[
-				"sanit",
-				"Integra/public/js/lib/angular/angular-sanitize.min.js"
-			],
-			[
-				"unders",
-				"Integra/public/js/underscore-min.js"
-			],
-			[
-				"order.js",
-				"IntegraSup/app/controllers/orders.js"
-			],
-			[
-				"items/index",
-				"Integra/app/views/items/index.jade"
-			],
-			[
-				"dire",
-				"Integra/public/js/common/directives/directives.js"
-			],
-			[
-				"orders",
-				"Integra/public/js/modules/order/order.js"
-			],
-			[
-				"home/in",
-				"Integra/app/views/home/index.jade"
-			],
-			[
-				"item/inde",
-				"Integra/app/views/items/index.jade"
-			],
-			[
-				"app.j",
-				"Integra/public/js/app.js"
-			],
-			[
-				"add",
-				"Integra/app/views/orders/add.jade"
-			],
-			[
-				"items/",
-				"Integra/app/views/items/index.jade"
-			],
-			[
-				"js/index.js",
-				"Integra/public/js/index.js"
-			],
-			[
-				"lang.js",
-				"Integra/public/js/modules/lang.js"
-			],
-			[
-				"component.css",
-				"Integra/public/css/extra/timeline/component.css"
-			],
-			[
-				"admin/in",
-				"Integra/app/views/admin/index.jade"
-			],
-			[
-				"top",
-				"IntegraSup/app/views/includes/top-nav.jade"
-			],
-			[
-				"drugs",
-				"IntegraSup/public/js/modules/drug/drug.js"
-			],
-			[
-				"order/",
-				"Integra/app/views/orders/add.jade"
-			],
-			[
-				"item.js",
-				"Integra/app/models/item.js"
-			],
-			[
-				"foot.",
-				"IntegraSup/app/views/includes/foot.jade"
+				"head",
+				"stoc-cloud/views/includes/head.jade"
 			],
 			[
 				"side",
-				"IntegraSup/app/views/includes/side-nav.jade"
+				"stoc-cloud/views/includes/side-nav.jade"
 			],
 			[
-				"index.jade",
-				"IntegraSup/app/views/drug/index.jade"
+				"email/sen",
+				"stoc-cloud/lib/email/sendMail.js"
 			],
 			[
-				"page.cs",
-				"IntegraSup/public/css/page.css"
+				"sendm",
+				"stoc-cloud/test/email/sendMailSpec.js"
 			],
 			[
-				"page.c",
-				"IntegraSup/public/css/page.css"
+				"drug",
+				"stoc-cloud/views/widgets/profile/drug-pages.jade"
 			],
 			[
-				"nafda",
-				"Integra/app/models/nafdacdrugs.js"
+				"all-ca",
+				"stoc-cloud/views/widgets/order/all-cart.jade"
 			],
 			[
-				"directiv",
-				"IntegraSup/public/js/directives.js"
+				"order",
+				"stoc-cloud/controllers/orders.js"
 			],
 			[
-				"suppli",
-				"Integra/public/js/modules/supplier/supplier.js"
+				"models/i",
+				"stoc-cloud/models/item.js"
 			],
 			[
-				"foo",
-				"IntegraSup/app/views/includes/footer.jade"
+				"default",
+				"stoc-cloud/views/layouts/default.jade"
 			],
 			[
-				"common",
-				"IntegraSup/public/js/common-script.js"
+				"app",
+				"stoc-cloud/build/js/app.js"
 			],
 			[
-				"db.js",
-				"Integra/lib/db.js"
+				"directi",
+				"stoc-cloud/build/js/common/directives/directives.js"
+			],
+			[
+				"drug/index",
+				"stoc-cloud/views/drug/index.jade"
+			],
+			[
+				"all",
+				"stoc-cloud/views/widgets/item/all-drugs.jade"
+			],
+			[
+				"build/order",
+				"stoc-cloud/build/js/modules/order/order.js"
+			],
+			[
+				"cart",
+				"stoc-cloud/views/order/cart.jade"
+			],
+			[
+				"order/order",
+				"stoc-cloud/models/order/order.js"
+			],
+			[
+				"build/user",
+				"stoc-cloud/build/js/modules/user/user.js"
+			],
+			[
+				"drugp",
+				"stoc-cloud/dist/widgets/profile/drug-pages.html"
+			],
+			[
+				"alter",
+				"stoc-cloud/views/widgets/admin/alter-order-modal.jade"
+			],
+			[
+				"server",
+				"stoc-cloud/server.js"
+			],
+			[
+				"def",
+				"stoc-cloud/views/layouts/default.jade"
+			],
+			[
+				"user",
+				"stoc-cloud/views/admin/user.jade"
+			],
+			[
+				"user/user",
+				"stoc-cloud/models/user/user.js"
+			],
+			[
+				"ui-boot",
+				"stoc-cloud/build/js/ui-bootstrap-custom-tpls-0.10.0.min.js"
+			],
+			[
+				"grunt",
+				"stoc-cloud/gruntfile.js"
+			],
+			[
+				"direc",
+				"stoc-cloud/build/js/common/directives/directives.js"
+			],
+			[
+				"admin",
+				"stoc-cloud/build/js/modules/admin/admin.js"
+			],
+			[
+				"note",
+				"stoc-cloud/views/templates/email-templates/order-note.jade"
+			],
+			[
+				"send",
+				"stoc-cloud/lib/email/sendMail.js"
+			],
+			[
+				"foot",
+				"stoc-cloud/views/includes/foot.jade"
+			],
+			[
+				"order-no",
+				"stoc-cloud/views/templates/email-templates/order-note.jade"
+			],
+			[
+				"postma",
+				"stoc-cloud/models/postman.js"
+			],
+			[
+				"b/admin",
+				"stoc-cloud/build/js/modules/admin/admin.js"
+			],
+			[
+				"grun",
+				"stoc-cloud/gruntfile.js"
+			],
+			[
+				"header",
+				"stoc-cloud/views/includes/headerbar.jade"
+			],
+			[
+				"t/paginatio",
+				"stoc-cloud/views/templates/pagination.jade"
+			],
+			[
+				"app.",
+				"stoc-cloud/build/js/app.js"
+			],
+			[
+				"user.jade",
+				"stoc-cloud/views/admin/user.jade"
+			],
+			[
+				"directives",
+				"stoc-cloud/build/js/common/directives/directives.js"
+			],
+			[
+				"all-cart",
+				"stoc-cloud/views/widgets/order/all-cart.jade"
+			],
+			[
+				"templates/pa",
+				"stoc-cloud/views/templates/pagination.jade"
+			],
+			[
+				"models/users",
+				"stoc-cloud/models/user.js"
+			],
+			[
+				"directive",
+				"stoc-cloud/build/js/common/directives/directives.js"
+			],
+			[
+				"invoice",
+				"stoc-cloud/views/admin/invoice.jade"
+			],
+			[
+				"inv",
+				"stoc-cloud/views/order/invoice.jade"
+			],
+			[
+				"lang",
+				"stoc-cloud/build/js/modules/lang.js"
+			],
+			[
+				"messa",
+				"stoc-cloud/lib/message-strings.js"
+			],
+			[
+				"invoi",
+				"stoc-cloud/views/admin/invoice.jade"
+			],
+			[
+				"post",
+				"stoc-cloud/models/postman.js"
+			],
+			[
+				"model/item",
+				"stoc-cloud/models/item/drug.js"
+			],
+			[
+				"build/admin",
+				"stoc-cloud/build/js/modules/admin/admin.js"
+			],
+			[
+				"lib/util",
+				"stoc-cloud/lib/utils.js"
+			],
+			[
+				"staff",
+				"stoc-cloud/models/staff_utils.js"
+			],
+			[
+				"route",
+				"stoc-cloud/controllers/routes.js"
+			],
+			[
+				"",
+				"stoc-cloud/models/order/order.js"
+			],
+			[
+				"models/user",
+				"stoc-cloud/models/user/user.js"
+			],
+			[
+				"build/pulb",
+				"stoc-cloud/build/js/modules/public.js"
+			],
+			[
+				"model/user",
+				"stoc-cloud/models/user.js"
+			],
+			[
+				"pos",
+				"stoc-cloud/models/postman.js"
+			],
+			[
+				"sms",
+				"stoc-cloud/lib/sms/smsSend.js"
+			],
+			[
+				"controllers/order",
+				"stoc-cloud/controllers/orders.js"
+			],
+			[
+				"u",
+				"stoc-cloud/controllers/api/users.js"
+			],
+			[
+				"rou",
+				"stoc-cloud/controllers/routes.js"
+			],
+			[
+				"lib/utl",
+				"stoc-cloud/lib/utils.js"
+			],
+			[
+				"new",
+				"stoc-cloud/views/order/new-order-search-item.jade"
+			],
+			[
+				"view/cart",
+				"stoc-cloud/views/widgets/order/all-cart.jade"
+			],
+			[
+				"style",
+				"stoc-cloud/build/css/style.custom.css"
+			],
+			[
+				"build/public",
+				"stoc-cloud/build/js/modules/public.js"
+			],
+			[
+				"build/serv",
+				"stoc-cloud/build/js/common/services/services.js"
+			],
+			[
+				"newsea",
+				"stoc-cloud/views/order/new-order-search-item.jade"
+			],
+			[
+				"order/index",
+				"stoc-cloud/views/order/index.jade"
+			],
+			[
+				"routes",
+				"stoc-cloud/controllers/routes.js"
+			],
+			[
+				"all-dr",
+				"stoc-cloud/views/widgets/item/all-drugs.jade"
+			],
+			[
+				"theme.",
+				"stoc-cloud/public/css/theme.min.css"
+			],
+			[
+				"profile",
+				"stoc-cloud/views/user/profile.jade"
+			],
+			[
+				"profile.jad",
+				"stoc-cloud/views/user/profile.jade"
+			],
+			[
+				"organiza",
+				"stoc-cloud/controllers/organization.js"
+			],
+			[
+				"publicdrug",
+				"stoc-cloud/public/js/modules/drug/drug.js"
+			],
+			[
+				"drug.jade",
+				"stoc-cloud/views/widgets/profile/drug-pages.jade"
+			],
+			[
+				"pageheader",
+				"stoc-cloud/views/includes/pageheader.jade"
+			],
+			[
+				"app.js",
+				"stoc-cloud/build/js/app.js"
+			],
+			[
+				"order/inde",
+				"stoc-cloud/views/order/index.jade"
+			],
+			[
+				"build/orders",
+				"stoc-cloud/build/js/modules/order/order.js"
+			],
+			[
+				"modelsorders",
+				"stoc-cloud/models/order.js"
+			],
+			[
+				"orders",
+				"stoc-cloud/controllers/admin/orders.js"
+			],
+			[
+				"item.",
+				"stoc-cloud/models/item.js"
+			],
+			[
+				"config.",
+				"drugStoc/www/js/config.js"
+			],
+			[
+				"exter",
+				"stoc-cloud/controllers/external.js"
+			],
+			[
+				"config",
+				"drugStoc/www/js/config.js"
+			],
+			[
+				"page",
+				"stoc-cloud/views/includes/pageheader.jade"
+			],
+			[
+				"conrtollers/user",
+				"stoc-cloud/controllers/users.js"
+			],
+			[
+				"headerbar",
+				"stoc-cloud/views/includes/headerbar.jade"
+			],
+			[
+				"activi",
+				"stoc-cloud/views/widgets/profile/activity.jade"
+			],
+			[
+				"build/organi",
+				"stoc-cloud/build/js/modules/organization/organization.js"
 			],
 			[
 				"defa",
-				"IntegraSup/app/views/layouts/default.jade"
+				"stoc-cloud/views/layouts/default.jade"
 			],
 			[
-				"home/ind",
-				"Integra/app/views/home/index.jade"
+				"drug/drug.j",
+				"stoc-cloud/public/js/modules/drug/drug.js"
+			],
+			[
+				"config.js",
+				"drugStoc/www/js/config.js"
+			],
+			[
+				"prof",
+				"drugStoc/www/templates/user/profile.html"
+			],
+			[
+				"prod",
+				"stoc-cloud/config/production.json"
+			],
+			[
+				"menu.html",
+				"drugStoc/www/templates/menu.html"
+			],
+			[
+				"signin.html",
+				"drugStoc/www/templates/user/signin.html"
+			],
+			[
+				"brows",
+				"drugStoc/www/templates/browse.html"
+			],
+			[
+				"bro",
+				"drugStoc/www/templates/browse.html"
 			],
 			[
 				"index",
-				"Integra/app/views/index.jade"
+				"stoc-cloud/mobile/index.html"
 			],
 			[
-				"suppl",
-				"Integra/public/js/modules/supplier/supplier.js"
+				"auth.jade",
+				"stoc-cloud/views/user/auth.jade"
 			],
 			[
-				"view.jad",
-				"app/views/includes/dialogs/bills/view.jade"
+				"twi",
+				"test/sms/twilioSpec.js"
 			],
 			[
-				"bill.js",
-				"app/models/bill.js"
+				"message",
+				"lib/message-strings.js"
 			],
 			[
-				"edi",
-				"app/views/items/edit.jade"
+				"proce",
+				"test/sms/process-smsSpec.js"
 			],
 			[
-				"admin.",
-				"public/js/modules/admin/admin.js"
+				"spec",
+				"test/sms/sendSmsSpec.js"
 			],
 			[
-				"app.c",
-				"public/css/app.css"
+				"deve",
+				"config/development.json"
 			],
 			[
-				"view/di",
-				"app/views/items/dispense.jade"
+				"mail",
+				"lib/email/sendMail.js"
+			],
+			[
+				"utils",
+				"lib/utils.js"
+			],
+			[
+				"twil",
+				"test/sms/twilioSpec.js"
+			],
+			[
+				"db.",
+				"lib/db.js"
+			],
+			[
+				"public",
+				"public/js/modules/public.js"
+			],
+			[
+				"stydefau",
+				"build/css/style.default.css"
+			],
+			[
+				"splash",
+				"views/home/splash.jade"
+			],
+			[
+				"passpo",
+				"lib/passport.js"
+			],
+			[
+				"custom",
+				"public/css/style.custom.css"
+			],
+			[
+				"custom.j",
+				"public/js/custom.js"
+			],
+			[
+				"modal",
+				"views/widgets/order/manage-order-modal.jade"
+			],
+			[
+				"order/in",
+				"views/order/index.jade"
+			],
+			[
+				"orga",
+				"models/organization.js"
+			],
+			[
+				"produ",
+				"config/production.json"
 			]
 		],
 		"width": 0.0
@@ -1941,7 +2194,7 @@
 		[
 			[
 				"",
-				"~/Projects/dcore/dcore.sublime-project"
+				"~/Projects/ixit/ixit.sublime-project"
 			]
 		],
 		"width": 380.0
@@ -1954,6 +2207,7 @@
 		],
 		"width": 0.0
 	},
+	"selected_group": 0,
 	"settings":
 	{
 	},
@@ -1961,7 +2215,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 341.0,
+	"side_bar_width": 153.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
