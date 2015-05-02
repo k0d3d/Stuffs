@@ -1,21 +1,13 @@
-/**
- * Stock Controller Class
- * Module Dependcies
- */
-var mongoose = require('mongoose'),
-    Item = mongoose.model('Item'),
-    Order = mongoose.model('Order'),
-    OrderStatus = mongoose.model('OrderStatus'),
-    Dispense = mongoose.model('Dispense'),
-    Bill = mongoose.model('Bill'),
-    PointLocation = mongoose.model('Location'),
-    StockHistory = mongoose.model('StockHistory'),
-    StockCount = mongoose.model('StockCount'),
-    _ = require("underscore"),
-    cors = require('../../config/middlewares/cors'),
+var
+    Item = require('../models/item').Item,
+    PointLocation = require('../models/location'),
+    StockHistory = require('../models/stockhistory'),
+    StockCount = require('../models/stockcount'),
     EventRegister = require('../../lib/event_register').register,
     Transaction = require('./transactions'),
+    cors = require('../../config/middlewares/cors'),
     util = require("util");
+
 
 
 function StockController (){
@@ -48,11 +40,11 @@ StockController.prototype.createLocation = function(obj, callback){
 };
 
 /**
- * Fetches locations by type. A facility should possess 
- * just one Default/Main stock location where orders from 
+ * Fetches locations by type. A facility should possess
+ * just one Default/Main stock location where orders from
  * suppliers will be processed. All other lcoations are regarded
  * as stock-down points /locations. The 'type' argument should
- * determine if the result is the main stock location or the 
+ * determine if the result is the main stock location or the
  * available stock down points.
  * @param  {[type]}   type     [description]
  * @param  {Function} callback [description]
@@ -83,11 +75,11 @@ StockController.prototype.getStockDown = function (location_id, callback){
 
 /**
  * stockDown Handles Stock Down Operation. The whole process is event based
- * the parent event 'stockDown' initiates a recusive event which calls a list 
- * of child events on the data 'obj' sent. 
- * @param {Array} reqObject This contains all the drug items to stock down including the amount. 
+ * the parent event 'stockDown' initiates a recusive event which calls a list
+ * of child events on the data 'obj' sent.
+ * @param {Array} reqObject This contains all the drug items to stock down including the amount.
  * @param  {Object} location Object with origin and/or destination properties.
- * @param {String} operation Specifies what stock operation is to be carried out. 
+ * @param {String} operation Specifies what stock operation is to be carried out.
  * @param  {[type]} callback [description]
  * @return {[type]}     [description]
  */
@@ -95,16 +87,16 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
   var sc_self = this;
 
   //return ;
-  
+
   var eventRegister = new EventRegister();
 
   eventRegister.on('initial', function(data, isDone){
     //Inherited from transactions.
-    //Loads the transaction model into 
+    //Loads the transaction model into
     //the transModel property
-    sc_self.initiate();    
+    sc_self.initiate();
 
-    //Insert the new stock history record 
+    //Insert the new stock history record
     //on the transaction model.
     sc_self.insertRecord(data, location.origin, location.destination, function(r){
       if(util.isError(r)){
@@ -123,9 +115,9 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
       }else{
         isDone(data);
       }
-    });   
+    });
   });
-  
+
   eventRegister.on('commit', function(data, isDone){
     sc_self.makeCommited(function(r){
       if(util.isError(r)){
@@ -134,8 +126,8 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
         isDone(data);
       }
     });
-  });  
-  
+  });
+
   eventRegister.on('cleanPendingSource', function(data, isDone){
     sc_self.cleanPending(StockCount, data.currentTransaction.origin.id, data.id, function(r){
       if(util.isError(r)){
@@ -144,7 +136,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
         isDone(data);
       }
     });
-  });   
+  });
   eventRegister.on('cleanPendingDest', function(data, isDone){
     sc_self.cleanPending(StockCount, data.currentTransaction.destination.id, data.id, function(r){
       if(util.isError(r)){
@@ -153,7 +145,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
         isDone(data);
       }
     });
-  });  
+  });
   eventRegister.on('done', function(data, isDone){
     sc_self.makeDone(function(r){
       if(util.isError(r)){
@@ -165,7 +157,6 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
   });
 
   eventRegister.on('stockAvailability', function(data, isDone){
-    var self = this;
 
     StockCount.findOne({
         item: data.id,
@@ -177,17 +168,16 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
           isDone(new Error('Cant find stock amount'));
         }
         else if ((a.amount - data.amount) < 0){
-            
+
             isDone(new Error('Stock requested is unavailable;'));
         }else{
             isDone(data);
         }
-    });    
-  })
+    });
+  });
 
   eventRegister.on('sourceUpdate', function(data, isDone){
     // console.log('Im at main update with:');
-    var sc_self = this;
 
     var originLocation = {
       id : location.origin.id,
@@ -198,25 +188,25 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
     //Fix in the transactionId into options
     originLocation.options.transactionId = data.currentTransaction.id;
 
-    var originUpdate = mongoose.model("StockCount");
+    var originUpdate = StockCount;
 
-    
+
     //Deducts the amount from each items main stock count.
-    //Important:: Stock down means decrementing the 
+    //Important:: Stock down means decrementing the
     //amount from the main stock count
     originUpdate.update({
       item: data.id,
       locationId : originLocation.id,
       //Checking / filtering with $ne ensures that
-      //this particular transaction does not already 
+      //this particular transaction does not already
       //exist
       pendingTransactions: { $ne : data.currentTransaction.id}
-      
+
       },{
         $inc: {
           amount: -data.amount
         },
-        //pushing this transactions id into the 
+        //pushing this transactions id into the
         //pending transaction's array serves as a check
         //if this trasaction for any reason becomes a duplicate
         //or is repeated. Possibly because of failure, the presence
@@ -233,20 +223,19 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
             isDone(data);
           }
         console.log('Main decremented: %s', i);
-      });    
+      });
   });
 
   eventRegister.on('stockHistory', function(data, isDone){
     //Create a stock record for each requested stock down drug item
     var sh = new StockHistory();
     console.log(data);
-    sh.log(data, data.forLocation, data.forLocation.options, function(r){
+    sh.log(data, data.forLocation, data.forLocation.options, function(){
         isDone(data);
-    });   
+    });
   });
 
   eventRegister.on('destUpdate', function(data, isDone){
-    var sc_self = this;
 
     var destLocation = {
       id : location.destination.id,
@@ -257,7 +246,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
     //Fix in the transactionId into options
     destLocation.options.transactionId = data.currentTransaction.id;
 
-    var destUpdate = mongoose.model("StockCount");
+    var destUpdate = StockCount;
     // Create or update this locations stock count
     // by adding / incrementing the amount to its stock
     destUpdate.update({
@@ -272,12 +261,12 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
         $inc: {
           amount: data.amount
         },
-        //pushing this transactions id into the 
+        //pushing this transactions id into the
         //pending transaction's array serves as a check
         //if this trasaction for any reason becomes a duplicate
         //or is repeated. Possibly because of failure, the presence
         //of this value will provide the admin with options to rollback
-        //or disallow a repeat transaction.        
+        //or disallow a repeat transaction.
         $push:{
           pendingTransactions: data.currentTransaction.id
         }
@@ -292,7 +281,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
           stockcount.locationId = data.currentTransaction.destination.id;
           stockcount.locationName = data.currentTransaction.destination.name;
           stockcount.pendingTransactions.push(data.currentTransaction.id);
-          stockcount.save(function(err, i){
+          stockcount.save(function(err){
             if(err){
               return isDone(err);
             }else{
@@ -304,7 +293,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
           data.forLocation = destLocation;
           isDone(data);
         }
-      }, true); 
+      }, true);
   });
 
 
@@ -329,7 +318,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
         ], function(r){
           isDone(r);
       });
- 
+
   });
 
   eventRegister.on('order', function(data, isDone, self){
@@ -339,7 +328,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
       'initial',
       //Makes the transaction pending
       'pending',
-      //In this case stock is being 
+      //In this case stock is being
       //added to the main stock
       'destUpdate',
       'stockHistory',
@@ -517,7 +506,7 @@ StockController.prototype.updateBp = function(id, bp, location, cb){
 };
 
 /**
- * Updates a stock down record property(ies) like name, 
+ * Updates a stock down record property(ies) like name,
  * staff in charge.
  * @param  {ObjectId} location_id [description]
  * @param  {Object}   props       Propeties to be updated
@@ -577,22 +566,22 @@ module.exports.routes = function(app){
         id: req.body.location.destination._id,
         name: req.body.location.destination.locationName
       },
-    }
+    };
     //Set Options
     location.origin.options = {
       action: 'Requested Stock (Origin)',
-      reference: 'stockdown-'+ timenow      
-    }
+      reference: 'stockdown-'+ timenow
+    };
     location.destination.options = {
       action: 'Requested Stock (Destination)',
       reference: 'stockdown-'+timenow
-    }
+    };
     sc.stocking(req.body.request, location, 'restock', function(r){
         if(util.isError(r)){
             next(r);
         }else{
             res.json(200, true);
-        }        
+        }
     });
   });
 
@@ -603,7 +592,7 @@ module.exports.routes = function(app){
             next(r);
         }else{
             res.json(200, r);
-        }         
+        }
     });
   });
 
@@ -614,7 +603,7 @@ module.exports.routes = function(app){
             next(r);
         }else{
             res.json(200, true);
-        }         
+        }
     });
   });
 
@@ -628,7 +617,7 @@ module.exports.routes = function(app){
       }else{
         res.json(200, {"count": l.totalCount, "low": l.lowCount});
       }
-      
+
     });
   });
 

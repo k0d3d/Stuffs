@@ -4,13 +4,10 @@
  */
 
 var mongoose = require('mongoose'),
-env = process.env.NODE_ENV || 'development',
-config = require('../../config/config')[env],
-_ = require("underscore"),
 Schema = mongoose.Schema;
 
 /**
- * Pharmacy Schema 
+ * Pharmacy Schema
  */
 var DispenseSchema = new Schema({
   patientName: {type: String},
@@ -43,3 +40,5 @@ var DispenseSchema = new Schema({
 
 
 mongoose.model('Dispense', DispenseSchema);
+
+module.exports = mongoose.model('Dispense');

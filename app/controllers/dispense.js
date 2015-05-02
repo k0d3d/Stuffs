@@ -1,10 +1,9 @@
 
-var mongoose = require("mongoose"),
-    Dispense = mongoose.model('Dispense'),
-    StockHistory = mongoose.model('StockHistory'),
-    StockCount = mongoose.model('StockCount'),
+var
+    Dispense = require('../models/dispense'),
+    StockHistory = require('../models/stockhistory'),
+    StockCount = require('../models/stockcount'),
     Biller = require("./bills").bills,
-    Bill = mongoose.model('Bill'),
     config = require('config'),
     _ = require("underscore"),
     rest = require("restler"),
@@ -95,7 +94,7 @@ DispenseController.prototype.getPrescription = function (id, cb) {
       } else {
         isDone(i);
       }
-    });      
+    });
   });
 
   eventRegister.once('stockbylocation', function (data, isDone) {
@@ -104,12 +103,12 @@ DispenseController.prototype.getPrescription = function (id, cb) {
         console.log(w);
         data.drugs = w;
         isDone(data);
-      }); 
+      });
     } else {
       data.drugs = [];
       isDone(data);
     }
-   
+
   });
 
   eventRegister
@@ -135,8 +134,7 @@ DispenseController.prototype.dispenseThis = function(o, callback){
   var dispense = (_.isUndefined(o.id))? new Dispense() : {_id: o.id, drugs: []};
   o.dispenseID = dispense._id;
   var sh = new StockHistory();
-  var sc = new StockCount();
-  
+
   var eventRegister = new EventRegister();
 
   //Get the location to dispense from
@@ -164,7 +162,7 @@ DispenseController.prototype.dispenseThis = function(o, callback){
 
 
   eventRegister.once('saveDispenseRecord', function(data, isDone){
-    
+
     //Create a new record dispense record.
     //by now we've completed 'createrecords'
     dispense.patientName = data.patientName;
@@ -175,7 +173,7 @@ DispenseController.prototype.dispenseThis = function(o, callback){
     dispense.dispenseDate = Date.now();
     dispense.locationId = location.id;
     dispense.status = "complete";
-    dispense.save(function(err, i){
+    dispense.save(function(err){
       if(err){
         return isDone(new Error(err));
       }else{
@@ -183,7 +181,7 @@ DispenseController.prototype.dispenseThis = function(o, callback){
         //to the next event. The saveBill
         isDone(data);
       }
-    });      
+    });
   });
 
 
@@ -202,10 +200,10 @@ DispenseController.prototype.dispenseThis = function(o, callback){
         status: 'complete',
         dispenseDate: Date.now(),
         drugs: dispense.drugs
-      },function(err, i){
+      },function(){
         //Process a new bill record
         rest.get(config.api.hmis_url+'/integra/deactivate.php?remove=0&id='+t.timerId)
-        .on('success', function(d, r){
+        .on('success', function(){
           //Log the result to the console
           util.puts('Timer deactivated for '+ data.patientName);
         });
@@ -228,7 +226,7 @@ DispenseController.prototype.dispenseThis = function(o, callback){
 
   eventRegister.once('createRecords', function(data, isDone){
     /**
-     * creates a stock down record for every drug 
+     * creates a stock down record for every drug
      * item on the list.
      * Updates the stock count to show what has been reduced.
      * Recursive function
@@ -237,7 +235,7 @@ DispenseController.prototype.dispenseThis = function(o, callback){
     function saveAll (){
       //var total = data.drugs.length;
       var record = data.drugs.pop();
-      
+
       // Call the create_record function
       __createRecord({id: record._id, amount: record.amount}, function(p){
         // Create or update this locations stock count
@@ -303,11 +301,10 @@ DispenseController.prototype.dispenseThis = function(o, callback){
 DispenseController.prototype.prescribeThis = function(o, cb){
   console.log(o);
   var prescribe = new Dispense();
-  var drugslist = [];
 
   //Get the location to dispense from
   var location = o.location;
-  
+
   //Saves a dispense record
   function savePrescribeRecord(){
     //Create a new record
@@ -321,23 +318,23 @@ DispenseController.prototype.prescribeThis = function(o, cb){
       prescribe.drugs = o.drugs;
       prescribe.otherDrugs = o.otherDrugs;
       console.log(prescribe);
-        prescribe.save(function(err, i){
+        prescribe.save(function(err){
           console.log(err);
           if(err){
             return cb(err);
           }else{
             return cb(true);
           }
-        });      
+        });
       //Make Query to Timer API
       rest.get(config.api.hmis_url+'/integra/activate.php?receive=0&patientid='+o.patientId+'&pharmacyid=4&docid='+o.doctorId)
       .on('complete', function(data){
         console.log(data);
-        if(util.isError(data)){ 
+        if(util.isError(data)){
           return cb(new Error('Error Prescibing Medication'));
         }
         prescribe.timerId = data;
-        prescribe.save(function(err, i){
+        prescribe.save(function(err){
           if(err){
             return cb(err);
           }else{
@@ -348,7 +345,7 @@ DispenseController.prototype.prescribeThis = function(o, cb){
   }
   savePrescribeRecord();
 
-  // var total = o.drugs.length, result= [];  
+  // var total = o.drugs.length, result= [];
   // var totalComp = o.otherDrugs.length, resultComp= [];
 
   // function saveComp (){
@@ -360,7 +357,7 @@ DispenseController.prototype.prescribeThis = function(o, cb){
   //     amount: record.amount,
   //     dosage: record.dosage,
   //     period: record.period
-  //   });      
+  //   });
   //   if(--totalComp){
   //     saveComp();
   //   }else{
@@ -382,7 +379,7 @@ DispenseController.prototype.prescribeThis = function(o, cb){
   //     cost: record.itemPurchaseRate,
   //     dosage: record.dosage,
   //     period: record.period
-  //   });      
+  //   });
   //   if(--total){
   //     saveItems();
   //   }else{
@@ -435,7 +432,7 @@ module.exports.routes = function(app){
       drugs: req.body.drugs,
       otherDrugs: req.body.otherDrugs,
       class: req.body.class
-    }; 
+    };
     dispense.prescribeThis(o, function(r){
 
       if(util.isError(r)){

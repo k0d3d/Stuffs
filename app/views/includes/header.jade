@@ -1,19 +1,18 @@
 div#frontpage.container-fluid
   .row-fluid
     .span2
-      h2(style="display: inline-block")
-        a(href="/") 
-          img(src="/img/logo.png")
-          | Drug Stoc
-      //
-        span=title
-      em.versiontxt v1.0 
+      .logo-block
+        a(href="/")
+          img(src="/img/splash-logo-beta.png")
+      .clear-fix
+      p
+        | DrugStoc Desktop Inventory Manager
     .offset5.span5
       .btn-toolbar.pull-right
         .btn-group
           button.btn.btn-bell.btn-small(type="button", data-toggle="dropdown", ng-disabled="orderCart.length === 0")
             i.fa.fa-message
-            |  Cart  
+            |  Cart
             span.label.label-info {{orderCart.length}}
           .dropdown-menu.alt-text.pr-btn-drpdwn(role="menu", style="text-transform: capitalize;z-index: 99999")
             table.table.table-hover(cart-table="orderCart")
@@ -21,18 +20,18 @@ div#frontpage.container-fluid
                 tr
                   th Item
                   th Amount
-                  th Supplier 
+                  th Supplier
               tbody
                 tr(ng-repeat="cartItem in orderCart")
                   td {{cartItem.itemName}}
                   td {{cartItem.orderAmount}}
-                  td {{cartItem.supplier.supplierName}} 
-            button.btn.btn-info.btn-block.btn-mini(style="border-radius: 0", ng-click="commons.href('dashboard/orders/cart')") View All Items     
+                  td {{cartItem.supplier.supplierName}}
+            button.btn.btn-info.btn-block.btn-mini(style="border-radius: 0", ng-click="commons.href('dashboard/orders/cart')") View All Items
             button.btn.btn-block.btn-danger.btn-bell(style="border-radius: 0", ng-click="clearCart()", ng-show="orderCart.length > 0") Empty Cart
         .btn-group
           button.btn.btn-bell.btn-small(type="button", data-toggle="dropdown")
             i.fa.fa-bell
-            |  Waiting  
+            |  Waiting
             span.label.label-info {{waiting.length}}
           .bell.dropdown-menu.alt-text.pr-btn-drpdwn(role="menu", ng-show="waiting.length > 0")
             table.table.table-hover
@@ -49,7 +48,7 @@ div#frontpage.container-fluid
         .btn-group
           button.btn.btn-bell.btn-small(type="button", data-toggle="dropdown")
             i.fa.fa-message
-            |  Updates  
+            |  Updates
             span.label.label-info {{updates.length}}
           ul.dropdown-menu.alt-text.pr-btn-drpdwn.upd-menu(role="menu", style="text-transform: capitalize;z-index: 99999")
             li(ng-repeat="mssg in updates")
@@ -60,10 +59,10 @@ div#frontpage.container-fluid
 
           button.btn.btn-small.btn-bell(ng-click="refreshUpdates()")
             i.fa.fa-refresh(ng-class="isr")
-          button.btn.btn-small.btn-danger.btn-bell(ng-click="clearUpdates()", ng-show="updates.length > 0") 
+          button.btn.btn-small.btn-danger.btn-bell(ng-click="clearUpdates()", ng-show="updates.length > 0")
             i.fa.fa-trash-o
-        .btn-group              
-          button.btn.btn-small.btn-info.dropdown-toggle(type="button", data-toggle="dropdown") 
+        .btn-group
+          button.btn.btn-small.btn-info.dropdown-toggle(type="button", data-toggle="dropdown")
             i.fa.fa-user
           div.dropdown-menu.alt-text.pr-btn-drpdwn.upd-menu(role="menu", style="text-transform: capitalize;z-index: 99999; left: initial; right: 0; padding: 15px;")
             form(accept-charset='UTF-8', name="login_form", ng-submit="login_user()", novalidate)
@@ -76,6 +75,6 @@ div#frontpage.container-fluid
               .control-group
                 .controls
                   input#sign-in.btn.btn-primary.btn-block(type='submit', value='Sign In', style="border-radius: 6px", ng-disabled="login_form.$invalid")
-                
+
 
 

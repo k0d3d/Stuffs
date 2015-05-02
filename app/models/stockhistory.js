@@ -4,11 +4,9 @@
  */
 
 var mongoose = require('mongoose'),
-  env = process.env.NODE_ENV || 'development',
-  config = require('../../config/config')[env],
   Schema = mongoose.Schema;
 /**
- * Item Schema 
+ * Item Schema
  */
 var StockHistorySchema = new Schema({
   item: {type: Schema.ObjectId, ref: 'Item'},
@@ -72,3 +70,5 @@ StockHistorySchema.statics = {
 
 
 mongoose.model('StockHistory', StockHistorySchema);
+
+module.exports = mongoose.model('StockHistory');

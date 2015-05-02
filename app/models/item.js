@@ -2,14 +2,13 @@
 /**
  * Module dependencies.
  */
-var db = require("../../lib/db.js");
+
 var mongoose = require('mongoose'),
-  env = process.env.NODE_ENV || 'development',
-  config = require('config')[env],
+
   Schema = mongoose.Schema;
 
 /**
- * Item Schema 
+ * Item Schema
  */
 var ItemSchema = new Schema({
   itemID: {type: Number, default: ''},
@@ -115,7 +114,7 @@ ItemSchema.statics = {
         {'itemName': {$regex: new RegExp(name, 'i')}},
         {'sciName': {$regex: new RegExp(name, 'i')}}
       ]},'itemName').exec(cb)
-    
+
   }
 
 }
@@ -160,7 +159,7 @@ ItemCategorySchema.methods = {
         callback(err);
       }else{
         callback(i);
-      }      
+      }
     });
   }
 };
@@ -192,7 +191,7 @@ ItemFormSchema.statics = {
 };
 
 /**
- * ItemForm Methods 
+ * ItemForm Methods
  */
 ItemFormSchema.methods = {
   create: function(name, callback){
@@ -203,14 +202,14 @@ ItemFormSchema.methods = {
         callback(err);
       }else{
         callback(i);
-      }      
+      }
     });
   }
 };
 
 
 /**
- * ItemPackaging Schema 
+ * ItemPackaging Schema
  */
 ItemPackagingSchema.statics = {
   list: function(callback){
@@ -247,13 +246,17 @@ ItemPackagingSchema.methods = {
         callback(err);
       }else{
         callback(i);
-      }      
+      }
     });
-  }  
+  }
 };
 
 mongoose.model('ItemForm', ItemFormSchema);
 mongoose.model('ItemPackaging', ItemPackagingSchema);
 mongoose.model('ItemCategory', ItemCategorySchema);
 mongoose.model('Item', ItemSchema);
-module.exports = mongoose.model('Item');
+
+module.exports.Item = mongoose.model('Item');
+module.exports.ItemPackaging = mongoose.model('ItemPackaging');
+module.exports.ItemCategory = mongoose.model('ItemCategory');
+module.exports.ItemForm = mongoose.model('ItemForm');

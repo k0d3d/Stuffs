@@ -1,14 +1,13 @@
 /*
 Module Dependencies
  */
-var mongoose = require('mongoose'),
-    Dispense = mongoose.model('Dispense'),
-    Bill = mongoose.model('Bill'),
-    BillingProfile = mongoose.model('BillingProfile'),
-    BillRule = mongoose.model('BillRule'),
-    BillService = mongoose.model('BillService'),
+var
+    Bill = require('../models/bill').Bill,
+    BillRules = require('../models/bill').BillRule,
+    BillingProfile = require('../models/bill').BillingProfile,
+    BillService = require('../models/bill').BillService,
     lingua = require('lingua'),
-    _ = require("underscore"),
+    _ = require("lodash"),
     utils = require("util");
 
 
@@ -34,7 +33,7 @@ BillsController.prototype.constructor =  BillsController;
 BillsController.prototype.newRule = function(rule, callback){
     if(_.isEmpty(rule)) return callback(new Error('Empty Request'));
     var _r = _.omit(rule, "reference");
-    var b = new BillRule(_r);
+    var b = new BillRules(_r);
     b.servicename = rule.reference.name;
     b.servicetype = rule.reference.type;
     b.serviceid =  rule.reference.id || 0;
@@ -53,12 +52,12 @@ BillsController.prototype.newRule = function(rule, callback){
  * @return {[type]}            [description]
  */
 BillsController.prototype.allRules = function(callback){
-    BillRule.find({}, function(err, i){
+    BillRules.find({}, function(err, foundBills){
         if(err){
             callback(err);
         }else{
             var p = [];
-            _.each(i, function(v, i){
+            _.each(foundBills, function(v){
                 p.push({
                     _id: v._id,
                     by: v.by,
@@ -76,7 +75,7 @@ BillsController.prototype.allRules = function(callback){
 };
 
 
-BillsController.prototype.getRule = function(ruleId, callback){
+BillsController.prototype.getRule = function(){
 
 };
 
@@ -99,7 +98,7 @@ BillsController.prototype.createNewProfile = function(name, rules, callback){
             callback(err);
         }else{
             callback(i);
-        }       
+        }
     });
 };
 
@@ -149,7 +148,7 @@ BillsController.prototype.removeProfile = function(profileId, callback){
             callback(err);
         }else{
             callback(i);
-        }       
+        }
     });
 };
 
@@ -181,7 +180,7 @@ BillsController.prototype.getBills = function(req, res){
   q.sort({billedOn: -1});
   q.exec(function(err, i){
     res.json(200, i);
-  });  
+  });
 };
 
 //Fetches one bill, one bill by associated dispense_id, look up a dictionary, blah
@@ -211,7 +210,7 @@ BillsController.prototype.oneBill = function(dispense_id, callback){
  * @return {[type]}            [description]
  */
 BillsController.fixCost = function(bp, callback){
-  var rules = bp.class;
+  var rules = bp.billClass;
   function _adjust (cost, value, by, directive){
     if(by === "Percentage"){
       //Increse or decrease the cost by percentage
@@ -241,17 +240,17 @@ BillsController.fixCost = function(bp, callback){
     var total = rules.length;
     var _rz = rules.pop();
     //First step if we have a drugs-item related rules
-    //on this billing profile, oya lets walk the drug 
+    //on this billing profile, oya lets walk the drug
     //rule over this bill
     if(_rz.servicetype === 'drugs' || _rz.servicetype === 'drug'){
-      //Next we need to check if this rule applies to a 
+      //Next we need to check if this rule applies to a
       //specific item or to all items
       if(_rz.servicename !== "All"){
         //For every drug on dispensed, we check
         //if this rule matches / is to be applied
         _.each(bp.dispenseID.drugs, function(v, i, l){
           //If the service/rule matches (by comparing the service name and id)
-          //to the dispensed drug being checked         
+          //to the dispensed drug being checked
           if(_rz.servicename === v.itemName || _rz.serviceid === v.itemId){
             bp.dispenseID.drugs[i].cost = _adjust(v.cost * v.amount, _rz.value, _rz.by, _rz.directive);
           }
@@ -263,21 +262,21 @@ BillsController.fixCost = function(bp, callback){
         //if this rule matches / is to be applied
         _.each(bp.dispenseID.drugs, function(v, i, l){
           //If the service/rule matches (by comparing the service name and id)
-          //to the dispensed drug being checked         
+          //to the dispensed drug being checked
           if(_rz.servicename === "All"){
             bp.dispenseID.drugs[i].cost = _adjust(v.cost * v.amount, _rz.value, _rz.by, _rz.directive);
           }
         });
       }
 
-      //Insert processing for all drug items 
+      //Insert processing for all drug items
 
-      //Now when we done looping thru the 
+      //Now when we done looping thru the
       //drugs, lets check for recursion
       if(--total){
         oya_drugs();
       }else{
-        //At this point, we gone thru all the rules 
+        //At this point, we gone thru all the rules
         //in the profile, so we call _mia to finishup
         _mia();
       }
@@ -288,7 +287,7 @@ BillsController.fixCost = function(bp, callback){
     var b = {
         billedItems: [],
         billCost: 0,
-        class: bp.class,
+        billClass: bp.billClass,
         billedOn:bp.billedOn,
         patientName: bp.patientName,
         patientId: bp.patientId,
@@ -323,7 +322,7 @@ BillsController.fixCost = function(bp, callback){
  * @return {[type]}            [description]
  */
 BillsController.serveBill = function(d, callback){
-  BillingProfile.findOne({_id: d.class},'rules', function(err, rules){
+  BillingProfile.findOne({_id: d.billClass},'rules', function(err, rules){
     if(err){
       callback(err);
     }else{
@@ -333,7 +332,7 @@ BillsController.serveBill = function(d, callback){
       bill.patientName = d.patientName;
       bill.patientId =  d.patientId;
       _.each(rules.rules, function(v){
-        bill.class.push(v);
+        bill.billClass.push(v);
       });
       bill.save(function(err, i){
         if(err) return callback(err);
@@ -391,7 +390,7 @@ BillsController.prototype.postpay = function(amount, bill_id, callback){
     if(err){
       callback(err);
     }else{
-      //Add the amount paid so far to the amount 
+      //Add the amount paid so far to the amount
       //just being paid in.
       var a = 0;
       console.log(i);
@@ -424,7 +423,7 @@ BillsController.prototype.postpay = function(amount, bill_id, callback){
 };
 
 /**
- * Adds a new billable service to the database. An example of 
+ * Adds a new billable service to the database. An example of
  * a billable service is consultation, admission hours/days, tests
  * etc.
  * @param  {String}   name The name of the billing service to create
@@ -445,9 +444,9 @@ BillsController.prototype.newService = function(name, cb){
 };
 
 /**
- * Fetches all billables services from the database including 
+ * Fetches all billables services from the database including
  * system defaults and user entries.
- * 
+ *
  * @param  {Function} cb [description]
  * @return {[type]}      [description]
  */
@@ -463,10 +462,10 @@ BillsController.prototype.allServices = function(cb){
 };
 
 /**
- * Removes user entered services from the database. 
- * Setting the serviceType field on the query to 'user', 
+ * Removes user entered services from the database.
+ * Setting the serviceType field on the query to 'user',
  * request to remove system default services will be
- * denied. 
+ * denied.
  * @param  {ObjectId}   serviceId The ObjectId for the service to be removed
  * @param  {Function} cb        [description]
  * @return {[type]}             [description]
@@ -486,10 +485,10 @@ BillsController.prototype.deleteService = function(serviceId, cb){
 };
 
 /**
- * Changes a the name of the service. 
- * Setting the serviceType field on the query to 'user', 
+ * Changes a the name of the service.
+ * Setting the serviceType field on the query to 'user',
  * request to remove system default services will be
- * denied.  
+ * denied.
  * @param  {ObjectId}   serviceId The ObjectId for the service to be changed
  * @param  {String}   newName   A string thats the new name of the service
  * @param  {Function} cb        [description]
@@ -543,7 +542,7 @@ module.exports.routes = function(app){
   //Fetches all billing profiles
   app.get('/api/bills/profiles', function(req, res, next){
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");    
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     bills.allProfiles(function(r){
         if(utils.isError(r)){
             next(r);
@@ -560,7 +559,7 @@ module.exports.routes = function(app){
             next(r);
         }else{
             res.json(200, r);
-        }        
+        }
     });
   });
 
@@ -582,7 +581,7 @@ module.exports.routes = function(app){
             next(r);
         }else{
             res.json(200, r);
-        }        
+        }
     });
   });
 
@@ -593,8 +592,8 @@ module.exports.routes = function(app){
         next(r);
       }else{
         res.json(200, r);
-      } 
-    });   
+      }
+    });
   });
 
   app.get('/api/bills/services/s', function(req, res, next){
@@ -603,7 +602,7 @@ module.exports.routes = function(app){
         next(r);
       }else{
         res.json(200, r);
-      }       
+      }
     });
   });
 
@@ -614,7 +613,7 @@ module.exports.routes = function(app){
         next(r);
       }else{
         res.json(200, r);
-      }      
+      }
     });
   });
 
@@ -625,7 +624,7 @@ module.exports.routes = function(app){
             next(r);
         }else{
             res.json(200, r);
-        }        
+        }
     });
   });
 
@@ -635,9 +634,9 @@ module.exports.routes = function(app){
         next(r);
     }else{
         res.json(200, true);
-    }    
+    }
   });
-  
+
 
   //Updates a billing profile and it's rules
   app.put('/api/bills/profiles/:profile_id', function(req, res, next){
@@ -648,7 +647,7 @@ module.exports.routes = function(app){
             res.json(200, true);
         }
     });
-  }); 
+  });
 
   //Billing profiles typeahead
   app.get('/api/bills/profiles/typeahead/:query', function(req, res, next){
@@ -672,7 +671,7 @@ module.exports.routes = function(app){
     });
   });
 
-  app.del('/api/bills/services/:serviceId', function(req, res, next){
+  app.delete('/api/bills/services/:serviceId', function(req, res, next){
     bills.deleteService(req.params.serviceId, function(r){
       if(utils.isError(r)){
           next(r);

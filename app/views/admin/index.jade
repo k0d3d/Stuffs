@@ -1,8 +1,8 @@
 
 block body
-  .row-fluid.row-break
+  .row-fluid.row-break(ng-init="template.url = 'templates/admin-configuration-tpl'")
     .span2.actioncol
-      button.btn.btn-large.btn-block.btn-primary(ng-click="template.url = 'templates/admin-configuration-tpl'") Settings
+      button.btn.btn-large.btn-block.btn-primary(ng-click="template.url = 'templates/admin-configuration-tpl'") Content
       button.btn.btn-large.btn-block.btn-primary(ng-click="template.url = 'templates/admin-transactions-tpl'") Stock Transactions
       button.btn.btn-large.btn-block.btn-primary(ng-click="template.url = 'templates/admin-bill-profile-tpl'") Manage Billing
       button.btn.btn-large.btn-block.btn-primary(ng-click="template.url = 'templates/admin-hospital-services-tpl'") Hospital Services
@@ -12,4 +12,4 @@ block body
         .span11.offset1()
           .midheader(style="padding: 20px")
             h3 Click on the buttons on the left
-            h5 and I'll go away.        
+            h5 and I'll go away.

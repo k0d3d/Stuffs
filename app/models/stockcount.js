@@ -4,11 +4,8 @@
  */
 
  var mongoose = require('mongoose'),
- env = process.env.NODE_ENV || 'development',
  nconf = require('nconf'),
- Schema = mongoose.Schema,
-
- pureautoinc  = require('mongoose-pureautoinc');
+ Schema = mongoose.Schema;
 
 
  var StockCountSchema = new Schema({
@@ -29,7 +26,7 @@
      * @param  {Function} callback [description]
      * @return {[type]}            [description]
      */
-     getStockAmountbyId: function(id, location, callback){        
+     getStockAmountbyId: function(id, location, callback){
       this.findOne({item: id, locationId: location.id}, function(err, i){
         if(err){
           callback(err);
@@ -46,7 +43,7 @@
      * @param  {Function} callback [description]
      * @return {[type]}            [description]
      */
-     getStockAmountbyName: function(id, location, callback){        
+     getStockAmountbyName: function(id, location, callback){
       this.findOne({item: id, locationName: location.name}, function(err, i){
         if(err){
           callback(err);
@@ -54,7 +51,7 @@
           callback(i);
         }
       });
-    },    
+    },
     /**
      * [findItembyLocation gets stock information by location]
      * @param  {[type]}   itemId   [description]
@@ -78,7 +75,7 @@
       q.lean();
       q.exec(function(err, i){
         if(err){
-          callback(eyahrr);
+          callback(err);
         }else{
           callback(i);
         }
@@ -108,3 +105,4 @@
 
 
   mongoose.model('StockCount', StockCountSchema);
+  module.exports = mongoose.model('StockCount', StockCountSchema);

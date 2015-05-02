@@ -1,44 +1,46 @@
 {
-    "globals": {
-        "jasmine": false,
-        "spyOn": false,
-        "it": false,
-        "console": false,
-        "describe": false,
-        "expect": false,
-        "beforeEach": false,
-        "waits": false,
-        "waitsFor": false,
-        "runs": false
+    "node": true, // Enable globals available when code is running inside of the NodeJS runtime environment.
+    "browser": true, // Standard browser globals e.g. `window`, `document`.
+    "es5": true, // Allow EcmaScript 5 syntax.
+    "esnext": true, // Allow ES.next specific features such as `const` and `let`.
+    "bitwise": false, // Prohibit bitwise operators (&, |, ^, etc.).
+    "camelcase": false, // Permit only camelcase for `var` and `object indexes`.
+    "curly": false, // Require {} for every new block or scope.
+    "eqeqeq": true, // Require triple equals i.e. `===`.
+    "immed": true, // Require immediate invocations to be wrapped in parens e.g. `( function(){}() );`
+    "latedef": true, // Prohibit variable use before definition.
+    "newcap": true, // Require capitalization of all constructor functions e.g. `new F()`.
+    "noarg": true, // Prohibit use of `arguments.caller` and `arguments.callee`.
+    "quotmark": "single", // Define quotes to string values.
+    "regexp": true, // Prohibit `.` and `[^...]` in regular expressions.
+    "undef": true, // Require all non-global variables be declared before they are used.
+    "unused": true, // Warn unused variables.
+    "strict": false, // Require `use strict` pragma in every file.
+    "trailing": false, // Prohibit trailing whitespaces.
+    "smarttabs": false, // Suppresses warnings about mixed tabs and spaces
+    "globals": { // Globals variables.
+        "angular": true,
+        "$": true,
+        "jQuery": true,
+        "cordova": true,
+        "moment": true,
+        "_": true,
+        "ionic": true
     },
-
-    "node" : true,
-    "es5" : true,
-    "browser" : true,
-
-    "boss" : false,
-    "curly": false,
-    "debug": false,
-    "devel": false,
-    "eqeqeq": true,
-    "evil": true,
-    "forin": false,
-    "immed": true,
-    "indent": 2,
-    "latedef": true,
-    "laxbreak": false,
-    "newcap": true,
-    "noarg": true,
-    "noempty": false,
-    "nonew": false,
-    "nomen": false,
-    "onevar": true,
-    "plusplus": false,
-    "regexp": false,
-    "undef": true,
-    "sub": true,
-    "strict": false,
-    "white": true,
-    "unused": true,
-    "notypeof": true
+    "predef": [ // Extra globals.
+        "define",
+        "require",
+        "exports",
+        "module",
+        "describe",
+        "before",
+        "beforeEach",
+        "after",
+        "afterEach",
+        "it"
+    ],
+    "indent": 2, // Specify indentation spacing
+    "maxlen": 120, // Max line lenght
+    "devel": true, // Allow development statements e.g. `console.log();`.
+    "noempty": true // Prohibit use of empty blocks.
 }

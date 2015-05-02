@@ -1,41 +1,27 @@
 
-/*!
- * Module dependencies.
- */
-var async = require('async');
-var config = require('config');
 
-/**
- * Route middlewares
- */
-
-
-/**
- * Expose routes
- */
-
-module.exports = function (app, passport) {
+module.exports = function (app) {
   // home route
 
-  var items = require('../app/controllers/items');
+  var items = require('./controllers/items');
   items.routes(app);
-  var orders = require('../app/controllers/orders');
+  var orders = require('./controllers/orders');
   orders.routes(app);
-  var suppliers = require('../app/controllers/suppliers');
+  var suppliers = require('./controllers/suppliers');
   suppliers.routes(app);
-  var reports = require('../app/controllers/reports');
+  var reports = require('./controllers/reports');
   reports.routes(app);
-  var dispense = require('../app/controllers/dispense');
+  var dispense = require('./controllers/dispense');
   dispense.routes(app);
-  var bills = require('../app/controllers/bills');
+  var bills = require('./controllers/bills');
   bills.routes(app);
-  var admin = require('../app/controllers/admin');
+  var admin = require('./controllers/admin');
   admin.routes(app);
-  var stock = require('../app/controllers/stock');
+  var stock = require('./controllers/stock');
   stock.routes(app);
-  var transaction = require('../app/controllers/transactions');
+  var transaction = require('./controllers/transactions');
   transaction.routes(app);
-  var user = require('../app/controllers/users');
+  var user = require('./controllers/users');
   user.routes(app);
 
   app.get('/', function(req, res){
@@ -62,7 +48,7 @@ module.exports = function (app, passport) {
       });
     }
   );
-  
+
   // home route
   app.get('/:parent/:child', function (req, res) {
     var parent = req.params.parent,

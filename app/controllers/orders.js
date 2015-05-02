@@ -1,24 +1,18 @@
-
+var
+    Items = require('../models/item').Item,
+    Order = require('../models/order').Order,
+    OrderStatus = require('../models/order').OrderStatus,
+    PointLocation = require('../models/location'),
+    Supplier = require('../models/supplier'),
+    _ = require("lodash"),    Ndl = require('./nafdacs').ndl,
+    rest  = require('restler'),
+    EventRegister = require('../../lib/event_register').register,
+    StockManager = require('./stock').manager,
+    Ndl = require("./nafdacs").ndl,
+    utils = require("util");
 /**
  * Module dependencies.
  */
-
-var mongoose = require('mongoose'),
-  Items = require('./items').item,
-  EventRegister = require('../../lib/event_register').register,
-  StockManager = require('./stock').manager,
-  PointLocation = mongoose.model('Location'),
-  Order = mongoose.model('Order'),
-  OrderStatus = mongoose.model('OrderStatus'),
-  Item = mongoose.model('Item'),
-  StockHistory = mongoose.model('StockHistory'),
-  StockCount = mongoose.model('StockCount'),
-  Supplier = mongoose.model('Supplier'),
-  Ndl = require('./nafdacs').ndl,
-  rest  = require('restler'),
-  _ = require('underscore'),
-  utils = require("util");
-
 var online_api_url = 'http://localhost:3001';
 
 function OrderController () {
@@ -81,13 +75,13 @@ OrderController.prototype.placeCart = function(cartObj, cb){
     order.orderSupplier =  supplier;
 
     order.itemData = itemObj;
-    
+
     order.save(function (r) {
       //Check if the object returned is an error
       if(utils.isError(r)){
         //if we have some processed results
         //return that
-        if(doneIds.length > 0){ 
+        if(doneIds.length > 0){
           return cb(doneIds);
         }else{
           return cb(r);
@@ -103,7 +97,7 @@ OrderController.prototype.placeCart = function(cartObj, cb){
           cb(doneIds);
         }
       }
-    });    
+    });
   }
 
   _create();
@@ -153,7 +147,7 @@ OrderController.prototype.createOrder = function (orderObj, cb) {
     order.orderSupplier =  supplier;
 
     order.itemData = itemObj;
-    
+
     order.save(function (err) {
       if (!err) {
         postOrders();
@@ -200,7 +194,7 @@ OrderController.prototype.getOrders = function(req, res){
 };
 
 /**
- * Updates an order status and creates a stock record 
+ * Updates an order status and creates a stock record
  */
 
 OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
@@ -214,7 +208,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
     //Updates the order statuses, these are useful for order history
     //queries, etc
 
-    //Updates the order status 
+    //Updates the order status
     Order.update({
       '_id':data.orderId
     },{
@@ -231,14 +225,14 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
         isDone(data);
       }
 
-    });  
+    });
   });
 
   register.once('paidUpdate', function(data, isDone){
     //Updates the order statuses, these are useful for order history
     //queries, etc
 
-    //Updates the order status 
+    //Updates the order status
     Order.update({
       '_id':data.orderId
     },{
@@ -256,7 +250,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
         isDone(data);
       }
 
-    });   
+    });
   });
 
   register.once('statusUpdate', function(data, isDone){
@@ -268,20 +262,20 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
     orderstatus.save(function(err){
       if(err)return isDone(err);
       isDone(data.orderbody.status);
-    }); 
+    });
   });
 
   register.once('supplyOrder', function(data, isDone){
       var stockman = new StockManager();
       //return console.log(stockman);
 
-      //For reference 
+      //For reference
       data.location.destination.options = {
         action: 'Stock Up',
-        reference: 'orders-'+ data.orderId     
+        reference: 'orders-'+ data.orderId
       };
 
-      //Since Orders for main stock have no 
+      //Since Orders for main stock have no
       //internal source location (they come from the supplier)
       //set this to true to overide our source.
       data.isMain = true;
@@ -291,7 +285,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
           id: data.orderbody.itemData.id,
           itemName: data.orderbody.itemData.itemName,
           amount: data.orderbody.amountSupplied,
-        }      
+        }
       ];
 
       //This will handle stocking down
@@ -301,8 +295,8 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
   });
 
 
-  register.once('getMainLocation', function(data, isDone){    
-    PointLocation.findOne({locationType: 'default'}, 
+  register.once('getMainLocation', function(data, isDone){
+    PointLocation.findOne({locationType: 'default'},
       function(err, i){
         if(err){
           isDone(err);
@@ -316,7 +310,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
           isDone(data);
         }
       });
-  });  
+  });
 
   //Switch / Conditional Event Queue
   switch(orderbody.status){
@@ -345,7 +339,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
 
 /**
  * [count description]
- * 
+ *
  * @param  {[type]} req [description]
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
@@ -365,7 +359,7 @@ OrderController.prototype.count = function(cb){
         data.pendingpayment = y;
         isDone(data);
       }
-    });    
+    });
   });
 
   register.once('doOrder', function(data, isDone){
@@ -378,7 +372,7 @@ OrderController.prototype.count = function(cb){
         data.pendingorders = y;
         isDone(data);
       }
-    });    
+    });
   });
 
   register
@@ -455,7 +449,11 @@ OrderController.prototype.removeOrder = function(order_id, callback){
 
 OrderController.prototype.isDispatched = function(order){
   var lala = [];
-  _.each(order, function(v, i){
+  console.log(order);
+  return false;
+  if (!order.length) {
+  }
+  _.each(order, function(v){
     var orderId = v.order_id.h_order_Id.substr(v.hospitalId.length + 1);
     Order.update({_id: orderId}, {
       orderStatus: 'dispatched'
@@ -471,11 +469,11 @@ OrderController.prototype.isDispatched = function(order){
     o.save(function(err){
       if(err){
         utils.puts(err);
-      }      
+      }
     });
 
   });
-}
+};
 
 var ndls = new Ndl();
 
@@ -563,7 +561,7 @@ module.exports.routes = function(app){
         next(r);
       }else{
         res.json(200, {"task": true, "result": r});
-      }      
+      }
     });
   });
 

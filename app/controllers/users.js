@@ -13,7 +13,7 @@ function UserController () {
 UserController.prototype.constructor = UserController;
 
 UserController.prototype.login = function (data, cb) {
-	restler.post(config.api.stoc_cloud_url + '/api/session', {
+	restler.post(config.api.DS_CLOUD_URL + '/api/session', {
 		data: data
 	})
 	.on('complete', function (data, resp) {

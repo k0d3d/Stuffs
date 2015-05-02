@@ -3,18 +3,9 @@
  * Module dependencies.
  */
 
-var mongoose = require('mongoose'),
-    Item = mongoose.model('Item'),
-    Order = mongoose.model('Order'),
-    OrderStatus = mongoose.model('OrderStatus'),
-    Dispense = mongoose.model('Dispense'),
-    Bill = mongoose.model('Bill'),
-    PointLocation = mongoose.model('Location'),
-    StockHistory = mongoose.model('StockHistory'),
-    StockCount = mongoose.model('StockCount'),
-    Supplier = mongoose.model('Supplier'),
+var
+    Supplier = require('../models/supplier'),
     _ = require("underscore"),
-    paginate = require('mongoose-paginate');
     utils = require("util");
 
 
@@ -113,7 +104,7 @@ SupplierController.search = function(query, callback){
       callback(err);
     }else{
       callback(i);
-    }    
+    }
   });
 };
 
@@ -131,7 +122,7 @@ SupplierController.remove= function(supplier_id, callback){
       callback(i);
     }
   });
-}
+};
 
 /**
  * [typeahead typeahead functions ]
@@ -145,7 +136,7 @@ SupplierController.typeahead  = function(query, callback){
       callback(err);
     }else{
       callback(i);
-    }    
+    }
   });
 };
 
@@ -188,7 +179,7 @@ module.exports.routes = function(app){
   app.get('/suppliers/:supplierId/edit', function(req, res){
     res.render('index',{
       title: 'Edit Suppliers'
-    });    
+    });
   });
 
   app.get("/api/suppliers/page/:page/limit/:limit", function(req, res, next){
@@ -214,11 +205,11 @@ module.exports.routes = function(app){
         res.json(200, i);
       }
     });
-  });  
+  });
 
   //Fetch one supplier record
-  app.get("/api/suppliers/:supplierId", function(req, res){
-    
+  app.get("/api/suppliers/:supplierId", function(req, res, next){
+
     SupplierController.one(req.params.supplierId, function(i){
       if(utils.isError(i)){
         next(i);
@@ -269,7 +260,7 @@ module.exports.routes = function(app){
         next(i);
       }else{
         res.json(200, {});
-      }      
+      }
     });
   });
 

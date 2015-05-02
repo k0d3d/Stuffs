@@ -1,10 +1,7 @@
 /**
  * Module dependencies.
  */
-var db = require("../../lib/db.js");
 var mongoose = require('mongoose'),
-  env = process.env.NODE_ENV || 'development',
-  config = require('../../config/config')[env],
   Schema = mongoose.Schema;
 
 
@@ -36,8 +33,8 @@ NafdacdrugSchema.statics = {
     //   {'composition': {$regex: new RegExp(name, 'i')}}
     // ])
     // .exec(cb);
-    var wit = this.find({})
-    wit.regex('productName',new RegExp(name, 'i')).exec(cb)
+    var wit = this.find({});
+    wit.regex('productName',new RegExp(name, 'i')).exec(cb);
   }
 };
 

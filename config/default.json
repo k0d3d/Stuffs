@@ -1,13 +1,29 @@
 {
-    "database": {
-        "host": "mongodb://192.168.1.4:27017/drugstocpc"
-    },
     "app": {
         "name": "Integra Drug Stoc",
         "main_stock_id": ""
     },
+    "express": {
+        "secret": "fwse^$NHJNH922A^Nm9s))*Z&B!@g7509",
+        "cors" : {
+          "options" : {
+            "origin": "http://localhost:8100",
+            "methods": [
+              "GET",
+              "POST",
+              "PUT",
+              "DELETE"
+            ],
+            "credentials": true,
+            "maxAge": 3600
+          }
+        }
+    },
     "api":{
-			"hmis_url": "http://192.168.0.104",
-            "stoc_cloud_url": "http://localhost:3001"
+        "DS_CLOUD_URL": "https://drugstoc.biz/",
+        "DS_CLOUD_ROUTES" : {
+          "ALL_WC_PRODUCTS" : "/wc-api/v2/products"
+        },
+        "DS_CLOUD_PAGE_LIMIT" : 100
     }
 }

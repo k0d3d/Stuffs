@@ -14,12 +14,12 @@ config(['$routeProvider',function($routeProvider){
   .when('/dashboard/order/:itemId', {templateUrl: '/orders/add', controller: 'orderAddController'});
 }])
 .controller('orderCartController', ['$scope', '$http', 'ordersService', '$localStorage', function($scope, $http, oS, $localStorage){
-  
+
   $scope.placeOrder = function (cb) {
     if (!confirm('Confirm you want to place an order for these items!')) {
-      cb(false); 
+      cb(false);
       return false;
-    } 
+    }
 
     $scope.printScope = null;
     $scope.printScope = angular.copy($scope.basket);
@@ -60,7 +60,7 @@ config(['$routeProvider',function($routeProvider){
         if (o > -1) {
           $scope.orderCart.splice(o, 1);
         }
-        
+
         if (l--) {
           __pop();
         } else {
@@ -69,8 +69,9 @@ config(['$routeProvider',function($routeProvider){
         }
 
       }
+        cb(true);
 
-      __pop();
+      // __pop();
     });
   };
 
@@ -115,13 +116,13 @@ config(['$routeProvider',function($routeProvider){
       break;
     }
     return d;
-  };  
+  };
   $scope.ordersfilter = {
     orderStatus : ''
   };
   (function(){
     $scope.orders = [];
-    
+
     ordersService.orders(function(r){
       angular.forEach(r, function(v, i){
         v.nextStatus = $scope.getStatus(v.orderStatus.toLowerCase());
@@ -211,7 +212,7 @@ config(['$routeProvider',function($routeProvider){
         if(typeof(cb) === 'function')cb(true);
       }else{
         if(typeof(cb) === 'function')cb(false);
-      }      
+      }
     });
   };
 
@@ -256,7 +257,7 @@ config(['$routeProvider',function($routeProvider){
           Notification.notifier({
             message: Lang.eng.order.search.notfound,
             type: 'error'
-          });          
+          });
         }
         callback(d);
       })
@@ -305,7 +306,7 @@ config(['$routeProvider',function($routeProvider){
           Notification.notifier({
             message : Lang.eng.order.place.error,
             type: 'error'
-          });          
+          });
         });
     };
     f.save = function(form, callback){
@@ -321,7 +322,7 @@ config(['$routeProvider',function($routeProvider){
           Notification.notifier({
             message : Lang.eng.order.place.error,
             type: 'error'
-          });          
+          });
         });
     };
     f.updateOrder = function(o,callback){
@@ -345,7 +346,7 @@ config(['$routeProvider',function($routeProvider){
         Notification.notifier({
           message: Lang.eng.order.update.error,
           type: 'error'
-        });        
+        });
       });
 
     };
@@ -402,7 +403,7 @@ config(['$routeProvider',function($routeProvider){
               };
               return true;
             }
-          });          
+          });
           scope.$apply();
           return name;
         }
@@ -431,8 +432,8 @@ config(['$routeProvider',function($routeProvider){
               supplierName: r.suppliers[0].supplierName
             };
             scope.form.nafdacRegNo = r.nafdacRegNo;
-            scope.form.nafdacRegName = r.itemName;            
-            scope.form.orderPrice = r.itemPurchaseRate;            
+            scope.form.nafdacRegName = r.itemName;
+            scope.form.orderPrice = r.itemPurchaseRate;
             scope.summary = r;
           });
           scope.$apply();
@@ -446,24 +447,24 @@ config(['$routeProvider',function($routeProvider){
 }])
 .directive('orderList', ['ordersService','Notification','Language', function(OS, N, L){
   function link (scope, element, attrs) {
-    
+
 
   }
   function Ctrlr ($scope){
-  
+
     $scope.updateOrder = function(index){
-      if($scope.orderList[index].nextStatus == 'supplied' && 
-        (!$scope.orderList[index].amountSupplied || 
+      if($scope.orderList[index].nextStatus == 'supplied' &&
+        (!$scope.orderList[index].amountSupplied ||
           !$scope.orderList[index].orderInvoice)){
         alert('Please check the required fields: Missing Amount / Invoice Number');
         return false;
       }
-      if($scope.orderList[index].nextStatus == 'paid' && 
-        (!$scope.orderList[index].paymentReferenceType || 
+      if($scope.orderList[index].nextStatus == 'paid' &&
+        (!$scope.orderList[index].paymentReferenceType ||
           !$scope.orderList[index].paymentReferenceID)){
         alert('Please check the required fields: Payment ID / Payment Type');
         return false;
-      } 
+      }
       var o ={
         status : $scope.orderList[index].nextStatus,
         itemData : $scope.orderList[index].itemData,
@@ -494,7 +495,7 @@ config(['$routeProvider',function($routeProvider){
           $(currentItem).parents('tr').remove();
         }
       });
-    };    
+    };
 
   }
   return {

@@ -70,21 +70,22 @@ NdlController.prototype.summary = function (id, callback) {
       callback(err);
     } else {
       callback(i);
-    }    
+    }
   });
 };
 
 NdlController.prototype.priceUpdated = function (data) {
-  _.each(data, function(v, i){
+  return true;
+  _.each(data, function(v){
     Ndl.update({regNo : v.product_id.regNo},{
       currentPrice: v.price,
       lastUpdated: v.lastUpdated
     }, function(err){
       if(err) util.puts(err);
-    })
+    });
 
   });
-}
+};
 
 
 module.exports.ndl = NdlController;

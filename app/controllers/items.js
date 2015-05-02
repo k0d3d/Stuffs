@@ -1,25 +1,30 @@
-var mongoose = require('mongoose'),
-    Item = mongoose.model('Item'),
-    ItemCategory = mongoose.model('ItemCategory'),
-    ItemForm = mongoose.model('ItemForm'),
-    ItemPackaging = mongoose.model('ItemPackaging'),
-    Order = mongoose.model('Order'),
-    OrderStatus = mongoose.model('OrderStatus'),
-    Dispense = mongoose.model('Dispense'),
-    Bill = mongoose.model('Bill'),
-    PointLocation = mongoose.model('Location'),
-    StockHistory = mongoose.model('StockHistory'),
-    StockCount = mongoose.model('StockCount'),
+var
+    Item = require('../models/item').Item,
+    ItemCategory = require('../models/item').ItemCategory,
+    ItemForm = require('../models/item').ItemForm,
+    ItemPackaging = require('../models/item').ItemPackaging,
+    Order = require('../models/order').Order,
+    OrderStatus = require('../models/order').OrderStatus,
+    PointLocation = require('../models/location'),
+    StockHistory = require('../models/stockhistory'),
+    StockCount = require('../models/stockcount'),
+    _ = require("lodash"),
+    NafdacDrugs = require("../models/nafdacdrugs"),
+    Ndl = require("./nafdacs").ndl,
+    // rest = require('restler'),
+    // Admin = require('../models/admin'),
+    // querystring = require('querystring'),
+    // config = require('config'),
     Stock = require('./stock').manager,
-    _ = require("underscore"),
-    NafdacDrugs = mongoose.model("nafdacdrug"),
-    Ndl = require('./nafdacs').ndl,
     EventRegister = require('../../lib/event_register').register,
     nconf = require('nconf'),
-    P = require('../../lib/promisify'),
-    Q = require('q'),
+    // P = require('../../lib/promisify'),
+    // Q = require('q'),
     cors = require('../../config/middlewares/cors'),
     util = require("util");
+
+
+
 /**
  * Module dependencies.
  */
@@ -52,19 +57,19 @@ ItemsObject.prototype.constructor = ItemsObject;
 /**
  * Creates a new drug item or medical equipment.
  * It also checks if an invoice number is present in
- * the request. If an invoice number is found, a new 
+ * the request. If an invoice number is found, a new
  * order is placed, set to supplied, here by increasing
  * the stock amount to the amount sent with the invoice
- * number. 
- * 
+ * number.
+ *
  * @param  {[type]}   itemBody [description]
  * @param  {Function} cb [description]
  * @return {[type]}            [description]
  */
 ItemsObject.prototype.create = function (itemBody, cb) {
-  var register = new EventRegister(), 
+  var register = new EventRegister(),
     stockHistory = new StockHistory(),
-    hasOrder = false, 
+    hasOrder = false,
     itemObject = null,
     result = null;
 
@@ -83,7 +88,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
     itemObject = new Item(joel);
 
     if(shark){
-      _.each(shark, function(v,i){
+      _.each(shark, function(v){
         itemObject.itemCategory.push(v._id);
       });
     }
@@ -93,8 +98,8 @@ ItemsObject.prototype.create = function (itemBody, cb) {
 
   register.once('getMainLocation', function(data, isDone){
     //Skip to the next is hasOrder is false;
-    //if(!hasOrder) return isDone(data);    
-    PointLocation.findOne({locationType: 'default'}, 
+    //if(!hasOrder) return isDone(data);
+    PointLocation.findOne({locationType: 'default'},
       function(err, i){
         if(err){
           isDone(err);
@@ -108,8 +113,8 @@ ItemsObject.prototype.create = function (itemBody, cb) {
       });
   });
 
-  //This registers this new item as an order which has been supplied 
-  //if the invoice data is available 
+  //This registers this new item as an order which has been supplied
+  //if the invoice data is available
   register.once('checkInvoice', function(data, isDone){
     if(data.item.orderInvoiceData !== undefined){
       hasOrder = true;
@@ -135,7 +140,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
           data.order = i;
           isDone(data);
         }
-      });      
+      });
     }else{
       isDone(data);
     }
@@ -164,7 +169,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
   register.once('stockCountpre', function(data, isDone){
     //Skip to the next is hasOrder is false;
     if(!hasOrder) return isDone(data);
-    // Check if this record has been created for this order using the orderid and the reference field 
+    // Check if this record has been created for this order using the orderid and the reference field
     // on the StockHistoryShema
     StockCount.count({'reference': 'create-'+data.order._id}, function(err, count){
       if(count > 0){
@@ -172,12 +177,12 @@ ItemsObject.prototype.create = function (itemBody, cb) {
       }else{
         isDone(data);
       }
-    });    
+    });
   });
 
   register.once('stockHistory', function(data, isDone){
     //Skip to the next if hasOrder is false;
-    if(!hasOrder) return isDone(data);  
+    if(!hasOrder) return isDone(data);
     var itemObj = {
       id: data.item.id,
       amount: data.item.orderInvoiceData.orderInvoiceAmount
@@ -186,19 +191,19 @@ ItemsObject.prototype.create = function (itemBody, cb) {
     var options = {
       action: 'Stock Up',
       reference: 'create-'+data.order._id
-    };    
+    };
 
     //Create a stock history record.
     stockHistory.log(itemObj, data.location, options ,function(g){
       data.stock = g;
       isDone(data);
-    });    
+    });
   });
 
   register.once('stockCountpost', function(data, isDone){
-    // Creates a stock count for the item 
-    // This event stage is very important cause it 
-    // saves the boiling point on  the stock 
+    // Creates a stock count for the item
+    // This event stage is very important cause it
+    // saves the boiling point on  the stock
     // count collection.
     var stockcount = new StockCount(data.stock);
     stockcount.itemBoilingPoint = data.item.itemBoilingPoint;
@@ -217,7 +222,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
 
   register.once('statusUpdate', function(data, isDone){
     //Skip to the next if hasOrder is false;
-    if(!hasOrder) return isDone(data);    
+    if(!hasOrder) return isDone(data);
 
     //Updates the order statuses, these are useful for order history
     //queries, etc.
@@ -240,7 +245,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
   .onError(function(err){
     cb(err);
   })
-  .onEnd(function(err){
+  .onEnd(function(){
     cb(result);
   })
   .start(itemBody);
@@ -284,7 +289,7 @@ ItemsObject.prototype.list = function(req, res){
         if(--x){
           mscProcess();
         }else{
-          res.json(200, listofItems);
+          res.status(200).json(listofItems);
         }
       });
     }
@@ -324,11 +329,11 @@ ItemsObject.prototype.listOne = function(item, option, location, cb){
         data = r.toJSON();
         isDone(data);
       });
-    }    
+    }
   });
   register.once('findStock', function(data, isDone){
         /**
-         * Get the current stock and last order date and 
+         * Get the current stock and last order date and
          * add it to the object.
          * Since dispensing is carried out from a stockdown location,
          * we pass in the location object when fetching stock amount
@@ -355,7 +360,7 @@ ItemsObject.prototype.listOne = function(item, option, location, cb){
             // };
             // res.json(200, it);
             data.currentStock =  (stock === null)? 0 : stock.amount;
-            data.lastSupplyDate =  (stock === null)? '' : stock.lastOrderDate;            
+            data.lastSupplyDate =  (stock === null)? '' : stock.lastOrderDate;
             isDone(data);
           });
         }else{
@@ -371,7 +376,7 @@ ItemsObject.prototype.listOne = function(item, option, location, cb){
   });
 
   register.on('itemCosts', function(data, isDone){
-    Order.find({"itemData.id": data._id, 
+    Order.find({"itemData.id": data._id,
       $or:[
         {"orderStatus": "supplied"},
         {"orderStatus": "paid"},
@@ -423,7 +428,7 @@ ItemsObject.prototype.typeahead = function(needle, cb){
     if (err) {
       cb(err);
     } else {
-      cb(itemsResult)
+      cb(itemsResult);
     }
   });
 };
@@ -441,7 +446,7 @@ ItemsObject.prototype.nafdacTypeAhead = function(req, res){
   NafdacDrugs.autocomplete(needle, function(err,itemsResult){
     if (err) return res.render('500');
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");    
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.json(itemsResult);
   });
 };
@@ -458,7 +463,7 @@ ItemsObject.prototype.updateItem = function(itemId, body, cb){
 
   register.once('updateItem', function(data, isDone){
     var category = [];
-    
+
     _.each(data.itemCategory, function(v){
       category.push(v._id);
     });
@@ -469,7 +474,7 @@ ItemsObject.prototype.updateItem = function(itemId, body, cb){
 
     Item.update({_id: itemId}, {
       $set: o
-    }, function(err, i){
+    }, function(err){
       if(err){
         isDone(err);
       }else{
@@ -482,10 +487,10 @@ ItemsObject.prototype.updateItem = function(itemId, body, cb){
     //TODO:
     //Update BP code here
     var stock = new Stock();
-    stock.updateBp(itemId, data.itemBoilingPoint, nconf.get("app:main_stock_id"), function(r){
+    stock.updateBp(itemId, data.itemBoilingPoint, nconf.get("app:main_stock_id"), function(){
       isDone(data);
     });
-    
+
   });
 
   register
@@ -502,14 +507,14 @@ ItemsObject.prototype.updateItem = function(itemId, body, cb){
 
 
 ItemsObject.prototype.updateByReg = function(upd){
-  _.each(upd, function(v, i){
+  _.each(upd, function(v){
     Item.update({nafdacRegNo: v.product_id.regNo}, {
       itemPurchaseRate: v.price
     }, function(err){
       if(err) util.puts(err);
-    })
+    });
   });
-}
+};
 
 
 
@@ -523,7 +528,7 @@ ItemsObject.prototype.itemFields = function (itemId, body, cb){
   var register = new EventRegister();
 
   register.once('checknSave', function(data, isDone){
-    var options = {criteria: {}, fields: {}};    
+    var options = {criteria: {}, fields: {}};
     var reg = /^[0-9a-fA-F]{24}$/;
     if(itemId.length > 0){
       if(reg.test(itemId)){
@@ -537,7 +542,7 @@ ItemsObject.prototype.itemFields = function (itemId, body, cb){
           isDone(err);
         }else{
           isDone(r.toJSON());
-        } 
+        }
       });
     }
   });
@@ -554,9 +559,9 @@ ItemsObject.prototype.itemFields = function (itemId, body, cb){
         isDone(data);
       }else{
         data.itemBoilingPoint = 0;
-        isDone(data);        
+        isDone(data);
       }
-    });    
+    });
   });
 
   register
@@ -577,7 +582,6 @@ ItemsObject.prototype.itemFields = function (itemId, body, cb){
  * @return {[type]}            [description]
  */
 ItemsObject.prototype.deleteItem = function(itemId, callback){
-  var register = new EventRegister();
   Item.remove({_id: itemId}, function(err, i){
     if(util.isError(err)){
       callback(err);
@@ -630,7 +634,7 @@ ItemsObject.prototype.delCat = function(cat_id, cb){
     if(err) return cb(err);
     cb(i);
   });
-}
+};
 
 /**
  * [addForm Adds an item form ]
@@ -645,7 +649,7 @@ ItemsObject.prototype.addForm = function(name, callback){
   ic.create(name, function(r){
     console.log(r);
     callback(r);
-  }); 
+  });
 };
 
 /**
@@ -674,7 +678,7 @@ ItemsObject.prototype.addPackaging = function(name, callback){
   var ic = new ItemPackaging();
   ic.create(name, function(r){
     callback(r);
-  });  
+  });
 };
 
 ItemsObject.prototype.fetchByRegNo = function(query, cb){
@@ -714,7 +718,7 @@ module.exports.routes = function(app){
   });
 
 
-  //Item routes   
+  //Item routes
   app.get('/items/add',function(req,res){
     res.render('index', {
       title: 'New Inventory Item',
@@ -729,7 +733,7 @@ module.exports.routes = function(app){
   /**
   *Items Routes
   */
-  //List all Items 
+  //List all Items
   app.get('/api/items/listAll', item.list);
 
   //app.get('/api/items/listOne/:id/:option',listOne);
@@ -741,7 +745,7 @@ module.exports.routes = function(app){
       if(util.isError(r)){
         next(r);
       }else{
-        res.json(200, r);
+        res.status(200).json(r);
       }
     });
   });
@@ -789,15 +793,15 @@ module.exports.routes = function(app){
   app.get('/api/nafdacdrugs', cors,  function(req, res, next){
     var limit = req.query.limit;
     ndls.searchComposition(req.params.needle, req.params.page, limit, function(r){
-      if(utils.isError(r)){
+      if(util.isError(r)){
         next(r);
         return;
       }else{
         res.json(200, r);
       }
-    });    
+    });
   });
-  
+
   app.get('/api/nafdacdrugs/typeahead/needle/:needle',item.nafdacTypeAhead);
 
   //NAFDAC Fetch item by Registeration Number
@@ -813,7 +817,7 @@ module.exports.routes = function(app){
     });
   });
 
-  //Create a new Item 
+  //Create a new Item
   app.post('/api/items',function(req,res){
     item.create(req.body, function(result){
       if(result === 400){
@@ -828,7 +832,7 @@ module.exports.routes = function(app){
 
 
   //Delete Item
-  app.del('/api/items/:itemId', function(req, res){
+  app.delete('/api/items/:itemId', function(req, res){
     item.deleteItem(req.param('itemId'), function(i){
       res.json(200, {state: i});
     });
@@ -851,18 +855,18 @@ module.exports.routes = function(app){
         next(r);
       }else{
         res.json(200, r);
-      }      
+      }
     });
   });
 
-  app.del('/api/items/category/:categoryId', function(req, res, next){
+  app.delete('/api/items/category/:categoryId', function(req, res, next){
     var catId = req.params.categoryId;
     item.delCat(catId, function(i){
       if(util.isError(i)){
         next(i);
       }else{
         res.json(200, true);
-      }       
+      }
     });
   });
   //Item Form Routes.///
@@ -882,18 +886,18 @@ module.exports.routes = function(app){
         next(r);
       }else{
         res.json(200, r);
-      }      
+      }
     });
   });
 
-  app.del('/api/items/category/:form_id', function(req, res, next){
+  app.delete('/api/items/category/:form_id', function(req, res, next){
     var catId = req.params.form_id;
     item.removeForm(catId, function(i){
       if(util.isError(i)){
         next(i);
       }else{
         res.json(200, true);
-      }       
+      }
     });
   });
   //Item Packaging Routes.///
@@ -913,18 +917,18 @@ module.exports.routes = function(app){
         next(r);
       }else{
         res.json(200, r);
-      }      
+      }
     });
   });
 
-  app.del('/api/items/category/:package_id', function(req, res, next){
+  app.delete('/api/items/category/:package_id', function(req, res, next){
     var catId = req.params.package_id;
     item.removePackage(catId, function(i){
       if(util.isError(i)){
         next(i);
       }else{
         res.json(200, true);
-      }       
+      }
     });
   });
 };

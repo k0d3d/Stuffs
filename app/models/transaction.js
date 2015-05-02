@@ -4,11 +4,7 @@
  */
 
 var mongoose = require('mongoose'),
-  env = process.env.NODE_ENV || 'development',
-  config = require('../../config/config')[env],
-  Schema = mongoose.Schema,
-  pureautoinc  = require('mongoose-pureautoinc');
-
+  Schema = mongoose.Schema;
 /**
  * [TransactionSchema description]
  * @type {Schema}
@@ -27,3 +23,5 @@ var TransactionSchema = new Schema({
 });
 
 mongoose.model('transaction', TransactionSchema);
+
+module.exports = mongoose.model('transaction');

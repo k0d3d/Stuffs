@@ -1,0 +1,24 @@
+api/admin/updates -> check for updates from WC API
+change order status from strings to numbers
+
+Login to DS Cloud should return Keys
+
+
+Sync with DS
+save access tokens on config / env
+use rest to download products list
+upsert dsitems
+use nafdac no to query ds items
+
+webhook / hooks
+for product or order update,
+should save log to DB
+
+
+//should use logs for updates in 24hours period,
+//for updates over 24hours * 7 , should download all
+
+
+Place Orders
+
+Update Orders

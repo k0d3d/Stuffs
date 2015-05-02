@@ -1,6 +1,8 @@
 {
-    "database": {
-        "host": "mongodb://localhost:27017/drugstocpc"
+    "db": {
+        "database": "drugstocpc",
+        "server": "localhost",
+        "port": 27017
     },
     "app": {
         "name": "Integra Drug Store",

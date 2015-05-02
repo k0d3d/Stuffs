@@ -4,6 +4,42 @@
 		"selected_items":
 		[
 			[
+				"requ",
+				"require〔function〕"
+			],
+			[
+				"s",
+				"supplier.js"
+			],
+			[
+				"Supp",
+				"Supplier〔variable〕"
+			],
+			[
+				"stock",
+				"stockcount.js"
+			],
+			[
+				"req",
+				"require〔function〕"
+			],
+			[
+				"Stovk",
+				"StockCount〔variable〕"
+			],
+			[
+				"Stock",
+				"StockCount"
+			],
+			[
+				"naf",
+				"nafdacdrugs.js"
+			],
+			[
+				"st",
+				"stockhistory.js"
+			],
+			[
 				"it",
 				"item.js"
 			],
@@ -172,10 +208,6 @@
 				"numberOrString"
 			],
 			[
-				"st",
-				"strong"
-			],
-			[
 				"or",
 				"order/"
 			],
@@ -258,10 +290,6 @@
 			[
 				"populat",
 				"populate"
-			],
-			[
-				"s",
-				"smsSend.js"
 			],
 			[
 				"me",
@@ -486,92 +514,88 @@
 			[
 				"us",
 				"users.js"
-			],
-			[
-				"ma",
-				"margin-bottom"
-			],
-			[
-				"def",
-				"default-avatar.jpg	w:200 h:200"
-			],
-			[
-				"orders",
-				"ordersService  (argument)"
-			],
-			[
-				"l",
-				"lib/"
-			],
-			[
-				"Supplier",
-				"orderSupplier"
-			],
-			[
-				"supplir",
-				"suppliers"
-			],
-			[
-				"from",
-				"form-control"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "/home/kingkoded/Integra/stoc-cloud/models/postman.js",
+			"file": "app/controllers/items.js",
 			"settings":
 			{
-				"buffer_size": 28310,
+				"buffer_size": 23323,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/kingkoded/Integra/stoc-cloud/controllers/orders.js",
+			"file": "todo",
 			"settings":
 			{
-				"buffer_size": 7556,
+				"buffer_size": 51,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/js/common/directives/directives.js",
+			"settings":
+			{
+				"buffer_size": 9264,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/models/order.js",
+			"settings":
+			{
+				"buffer_size": 1926,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "server.js",
+			"settings":
+			{
+				"buffer_size": 6138,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/controllers/orders.js",
+			"settings":
+			{
+				"buffer_size": 14249,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/orders/cart.jade",
+			"settings":
+			{
+				"buffer_size": 1802,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/models/supplier.js",
+			"settings":
+			{
+				"buffer_size": 1131,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/home/kingkoded/Integra/stoc-cloud/test/govtSpec.js",
+			"file": "app/controllers/admin.js",
 			"settings":
 			{
-				"buffer_size": 760,
-				"line_ending": "Unix"
+				"buffer_size": 8083,
+				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/home/kingkoded/Integra/stoc-cloud/test/order/orderSpec.js",
+			"file": "app/views/templates/supplier-cart-tpl.jade",
 			"settings":
 			{
-				"buffer_size": 665,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/var/www/html/drugstoc/wp-config-local.php",
-			"settings":
-			{
-				"buffer_size": 2526,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/kingkoded/Integra/stoc-cloud/models/order.js",
-			"settings":
-			{
-				"buffer_size": 41860,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/kingkoded/Integra/stoc-cloud/models/item/govt-facility.js",
-			"settings":
-			{
-				"buffer_size": 1219,
+				"buffer_size": 781,
 				"line_ending": "Unix"
 			}
 		}
@@ -676,22 +700,105 @@
 	},
 	"expanded_folders":
 	[
-		"/home/kingkoded/Integra/stoc-cloud",
-		"/home/kingkoded/Integra/stoc-cloud/models",
-		"/home/kingkoded/Integra/stoc-cloud/models/item",
-		"/home/kingkoded/Integra/stoc-cloud/test",
-		"/home/kingkoded/Integra/stoc-cloud/test/order",
-		"/home/kingkoded/Integra/stoc-cloud/test/user"
+		"/home/kingkoded/Projects/Integra",
+		"/home/kingkoded/Projects/Integra/app",
+		"/home/kingkoded/Projects/Integra/app/controllers",
+		"/home/kingkoded/Projects/Integra/app/models",
+		"/home/kingkoded/Projects/Integra/app/views/orders",
+		"/home/kingkoded/Projects/Integra/app/views/templates",
+		"/home/kingkoded/Projects/Integra/public",
+		"/home/kingkoded/Projects/Integra/public/js",
+		"/home/kingkoded/Projects/Integra/public/js/common/directives",
+		"/home/kingkoded/Projects/Integra/public/js/modules"
 	],
 	"file_history":
 	[
+		"/home/kingkoded/Projects/Integra/public/js/modules/order/order.js",
+		"/home/kingkoded/Projects/Integra/app/controllers/items.js",
+		"/home/kingkoded/Projects/Integra/app/controllers/suppliers.js",
+		"/home/kingkoded/Projects/IntegraSup/controllers/admin.js",
+		"/home/kingkoded/Projects/IntegraSup/build/js/angular-dragdrop.min.js",
+		"/home/kingkoded/Projects/IntegraSup/controllers/activity.js",
+		"/home/kingkoded/Projects/Integra/app/models/supplier.js",
+		"/home/kingkoded/Projects/IntegraSup/views/templates/email-templates/sign-up.jade",
+		"/home/kingkoded/Projects/IntegraSup/models/staff_utils.js",
+		"/home/kingkoded/Projects/Integra/.gypsirc",
+		"/home/kingkoded/Projects/Integra/.jshintrc",
+		"/home/kingkoded/Projects/Integra/public/js/app.js",
+		"/home/kingkoded/Projects/Integra/app/views/includes/foot.jade",
+		"/home/kingkoded/Projects/IntegraSup/controllers/__suppliers",
+		"/home/kingkoded/Projects/Integra/public/js/modules/controllers.js",
+		"/home/kingkoded/Projects/IntegraSup/node_modules/mongoose/contRun.sh",
+		"/home/kingkoded/Projects/IntegraSup/node_modules/bower/CONTRIBUTING.md",
+		"/home/kingkoded/Projects/IntegraSup/node_modules/grunt-contrib-clean/docs/clean-options.md",
+		"/home/kingkoded/Projects/IntegraSup/config/commons.js",
+		"/home/kingkoded/Projects/IntegraSup/node_modules/csv-parse/samples/columns-discovery.in",
+		"/home/kingkoded/Projects/Integra/node_modules/grunt-contrib-concat/test/expected/default_options",
+		"/home/kingkoded/Projects/IntegraSup/.idea/encodings.xml",
+		"/home/kingkoded/Projects/Integra/app/controllers/orders.js",
+		"/home/kingkoded/Projects/Integra/app/routes.js",
+		"/home/kingkoded/Projects/Integra/node_modules/mongoose-pureautoinc/lib/pureautoinc.js",
+		"/home/kingkoded/Projects/Integra/app/models/location.js",
+		"/home/kingkoded/Projects/Integra/app/models/bill.js",
+		"/home/kingkoded/Projects/Integra/app/controllers/admin.js",
+		"/home/kingkoded/Projects/IntegraSup/controllers/api/orders.js",
+		"/home/kingkoded/Projects/IntegraSup/controllers/admin/orders.js",
+		"/home/kingkoded/Projects/IntegraSup/controllers/orders.js",
+		"/home/kingkoded/Projects/IntegraSup/assets/stoccloud/orders.bson",
+		"/home/kingkoded/Projects/IntegraSup/test/activity/newOrderSpec.js",
+		"/home/kingkoded/Projects/IntegraSup/test/order/orderSpec.js",
+		"/home/kingkoded/Projects/IntegraSup/models/order.js",
+		"/home/kingkoded/Projects/Integra/public/fonts/opensans-regular-webfont.svg",
+		"/home/kingkoded/Projects/Integra/app/controllers/dispense.js",
+		"/home/kingkoded/Projects/Integra/app/controllers/comments.js",
+		"/home/kingkoded/Projects/Integra/app/controllers/nafdacs.js",
+		"/home/kingkoded/Projects/Integra/app/controllers/reports.js",
+		"/home/kingkoded/Projects/Integra/app/controllers/transactions.js",
+		"/home/kingkoded/Projects/Integra/app/controllers/users.js",
+		"/home/kingkoded/Projects/Integra/app/controllers/bills.js",
+		"/home/kingkoded/Projects/Integra/app/controllers/stock.js",
+		"/home/kingkoded/Projects/Integra/lib/db.js",
+		"/home/kingkoded/Projects/IntegraSup/node_modules/mongoose-pureautoinc/lib/pureautoinc.js",
+		"/home/kingkoded/Projects/IntegraSup/node_modules/forever/node_modules/cliff/examples/put-rows.js",
+		"/home/kingkoded/Projects/IntegraSup/node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/build/prefix-utils.jsm",
+		"/home/kingkoded/Projects/IntegraSup/Procfile",
+		"/home/kingkoded/Projects/Integra/app/views/partials/list-order.jade",
+		"/home/kingkoded/Projects/IntegraSup/logs/log.log",
+		"/home/kingkoded/Projects/Integra/app/models/admin.js",
+		"/home/kingkoded/Projects/Integra/app/models/transaction.js",
+		"/home/kingkoded/Projects/Integra/app/models/stockhistory.js",
+		"/home/kingkoded/Projects/Integra/app/models/order.js",
+		"/home/kingkoded/Projects/Integra/app/models/nafdacdrugs.js",
+		"/home/kingkoded/Projects/Integra/app/models/item.js",
+		"/home/kingkoded/Projects/Integra/app/models/stockcount.js",
+		"/home/kingkoded/Projects/Integra/app/models/dispense.js",
+		"/home/kingkoded/Projects/Integra/server.js",
+		"/home/kingkoded/Projects/Integra/config/development.json",
+		"/home/kingkoded/Projects/Integra/app/views/templates/supplier-cart-tpl.jade",
+		"/home/kingkoded/Projects/Integra/package.json",
+		"/home/kingkoded/Projects/Integra/config/default.json",
+		"/home/kingkoded/Projects/Integra/lib/errors.js",
+		"/home/kingkoded/Projects/Integra/README.md",
+		"/home/kingkoded/Projects/Integra/config/production.json",
+		"/home/kingkoded/Projects/IntegraSup/server.js",
+		"/home/kingkoded/Projects/Integra/config/passport.js",
+		"/home/kingkoded/Projects/Integra/config/runtime.json",
+		"/home/kingkoded/Projects/Integra/config/routes.js",
+		"/home/kingkoded/Projects/Integra/config/config.example.js",
+		"/home/kingkoded/Projects/Integra/config/imager.example.js",
+		"/home/kingkoded/Projects/Integra/config/config.js",
+		"/home/kingkoded/Projects/Integra/config/express.js",
+		"/home/kingkoded/Projects/Integra/app/controllers/routes.js",
+		"/home/kingkoded/Integra/stoc-cloud/models/order.js",
+		"/var/www/html/drugstoc/wp-config-local.php",
+		"/home/kingkoded/Integra/stoc-cloud/controllers/orders.js",
+		"/home/kingkoded/Integra/stoc-cloud/test/govtSpec.js",
+		"/home/kingkoded/Integra/stoc-cloud/models/postman.js",
 		"/home/kingkoded/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
 		"/var/www/html/drugstoc/wp-config.php",
 		"/var/www/html/drugstoc/wp-content/themes/sistina/languages/default.po",
 		"/var/www/html/drugstoc/wp-content/themes/sistina/theme/woocommerce.php",
 		"/home/kingkoded/Downloads/junky-ja.csv",
-		"/var/www/html/drugstoc/wp-config-local.php",
-		"/home/kingkoded/Integra/stoc-cloud/controllers/orders.js",
 		"/home/kingkoded/Integra/stoc-cloud/test/user/model.js",
 		"/home/kingkoded/Integra/stoc-cloud/.idea/modules.xml",
 		"/var/www/html/drugstoc/drugstoc/wp-admin/ms-options.php",
@@ -706,7 +813,6 @@
 		"/home/kingkoded/Integra/stoc-cloud/views/widgets/item/all-drugs.jade",
 		"/home/kingkoded/Integra/stoc-cloud/controllers/users.js",
 		"/home/kingkoded/Integra/stoc-cloud/views/includes/side-nav.jade",
-		"/home/kingkoded/Integra/stoc-cloud/models/postman.js",
 		"/home/kingkoded/Integra/stoc-cloud/models/item.js",
 		"/home/kingkoded/Integra/stoc-cloud/views/includes/head.jade",
 		"/home/kingkoded/Integra/stoc-cloud/controllers/routes.js",
@@ -721,7 +827,6 @@
 		"/home/kingkoded/Integra/stoc-cloud/controllers/external.js",
 		"/home/kingkoded/Integra/stoc-cloud/build/js/modules/order/order.js",
 		"/home/kingkoded/Integra/stoc-cloud/views/drug/index.jade",
-		"/home/kingkoded/Integra/stoc-cloud/models/order.js",
 		"/home/kingkoded/Integra/stoc-cloud/models/item/drug.js",
 		"/home/kingkoded/Integra/stoc-cloud/build/js/app.js",
 		"/home/kingkoded/Integra/stoc-cloud/controllers/drugs.js",
@@ -735,84 +840,7 @@
 		"/home/kingkoded/Integra/stoc-cloud/node_modules/lockit/node_modules/nano/samples/bulk_transform.js",
 		"/home/kingkoded/Integra/stoc-cloud/bower.json",
 		"/home/kingkoded/Integra/stoc-cloud/models/order/order.js",
-		"/home/kingkoded/Integra/stoc-cloud/server.js",
-		"/home/kingkoded/Integra/stoc-cloud/models/organization.js",
-		"/home/kingkoded/Integra/stoc-cloud/models/item/govt-facility.js",
-		"/home/kingkoded/Integra/stoc-cloud/models/user/user.js",
-		"/home/kingkoded/Integra/stoc-cloud/dist/widgets/order/manage-order-modal.html",
-		"/home/kingkoded/Integra/drugStoc/platforms/android/cordova/defaults.xml",
-		"/home/kingkoded/Integra/stoc-cloud/config/default.json",
-		"/home/kingkoded/Integra/stoc-cloud/build/js/common/directives/directives.js",
-		"/home/kingkoded/Integra/stoc-cloud/views/widgets/profile/prospects.jade",
-		"/home/kingkoded/Integra/stoc-cloud/views/widgets/profile/calendar.jade",
-		"/home/kingkoded/Integra/stoc-cloud/views/widgets/profile/activity.jade",
-		"/home/kingkoded/Integra/stoc-cloud/views/widgets/profile/activate-hospital.jade",
-		"/home/kingkoded/Integra/stoc-cloud/dist/widgets/profile/prospects.html",
-		"/home/kingkoded/Integra/stoc-cloud/dist/widgets/profile/drug-pages.html",
-		"/home/kingkoded/Integra/stoc-cloud/dist/widgets/profile/calendar.html",
-		"/home/kingkoded/Integra/stoc-cloud/dist/widgets/profile/activity.html",
-		"/home/kingkoded/Integra/stoc-cloud/dist/widgets/profile/activate-hospital.html",
-		"/home/kingkoded/Integra/stoc-cloud/views/widgets/organization/profile-staff-bars.jade",
-		"/home/kingkoded/Integra/stoc-cloud/dist/widgets/side-menu.html",
-		"/home/kingkoded/Integra/stoc-cloud/views/widgets/order/invoice-table.jade",
-		"/home/kingkoded/Integra/stoc-cloud/node_modules/forever/node_modules/winston/node_modules/request/tests/test-digest-auth.js",
-		"/home/kingkoded/Integra/stoc-cloud/node_modules/forever/node_modules/colors/themes/winston-dark.js",
-		"/home/kingkoded/Integra/drugStoc/platforms/android/assets/_where-is-www.txt",
-		"/home/kingkoded/Integra/stoc-cloud/.idea/workspace.xml",
-		"/home/kingkoded/Integra/stoc-cloud/public/js/modules/drug/drug.js",
-		"/home/kingkoded/Integra/drugStoc/.idea/drugStoc.iml",
-		"/home/kingkoded/Integra/stoc-cloud/controllers/admin/invoice.js",
-		"/home/kingkoded/Integra/stoc-cloud/views/order/cart.jade",
-		"/home/kingkoded/Integra/stoc-cloud/build/js/modules/admin/admin.js",
-		"/home/kingkoded/Integra/stoc-cloud/views/admin/invoice.jade",
-		"/home/kingkoded/Integra/stoc-cloud/views/widgets/admin/alter-order-modal.jade",
-		"/home/kingkoded/Integra/stoc-cloud/build/js/modules/user/user.js",
-		"/home/kingkoded/Integra/stoc-cloud/views/admin/item.jade",
-		"/home/kingkoded/Integra/stoc-cloud/lib/runtask.js",
-		"/home/kingkoded/Integra/drugStoc/platforms/android/ant-build/DrugStoc-debug-unaligned.apk",
-		"/home/kingkoded/Integra/drugStoc/platforms/android/CordovaLib/src/com/squareup/okhttp/Address.java",
-		"/home/kingkoded/Integra/stoc-cloud/dist/drug/add.html",
-		"/home/kingkoded/Integra/stoc-cloud/build/humans.txt",
-		"/home/kingkoded/Integra/stoc-cloud/views/order/index.jade",
-		"/home/kingkoded/Integra/stoc-cloud/config/commons.js",
-		"/home/kingkoded/Integra/stoc-cloud/build/js/jquery-jvectormap-us-aea-en.js",
-		"/home/kingkoded/Integra/stoc-cloud/views/admin/user.jade",
-		"/home/kingkoded/Integra/stoc-cloud/assets/stoccloud/orders.bson",
-		"/home/kingkoded/Integra/stoc-cloud/views/templates/email-templates/invoice-note.jade",
-		"/home/kingkoded/Integra/stoc-cloud/views/order/invoice.jade",
-		"/home/kingkoded/Integra/stoc-cloud/node_modules/forever/node_modules/forever-monitor/examples/always-throw.js",
-		"/home/kingkoded/Integra/stoc-cloud/node_modules/lockit-mongodb-adapter/node_modules/moment/lang/lt.js",
-		"/home/kingkoded/Integra/drugStoc/platforms/android/cordova/lib/list-emulator-images",
-		"/home/kingkoded/Integra/drugStoc/platforms/android/CordovaLib/src/com/squareup/okhttp/internal/FaultRecoveringOutputStream.java",
-		"/home/kingkoded/Integra/stoc-cloud/build/js/custom.js",
-		"/home/kingkoded/Integra/stoc-cloud/views/includes/public/head.jade",
-		"/home/kingkoded/Integra/stoc-cloud/views/includes/public/foot.jade",
-		"/home/kingkoded/Integra/stoc-cloud/views/includes/headerbar.jade",
-		"/home/kingkoded/.cache/.fr-yMWbNW/ui-bootstrap-custom-0.10.0.js",
-		"/home/kingkoded/Integra/stoc-cloud/dist/user/signin.html",
-		"/home/kingkoded/Integra/drugStoc/www/templates/user/check-in.html",
-		"/home/kingkoded/Integra/stoc-cloud/views/user/signin.jade",
-		"/home/kingkoded/Integra/stoc-cloud/dist/user/user-registered.html",
-		"/home/kingkoded/Integra/stoc-cloud/build/js/ui-bootstrap-custom-tpls-0.10.0.min.js",
-		"/home/kingkoded/.cache/.fr-kUta2V/ui-bootstrap-custom-tpls-0.10.0.min.js",
-		"/home/kingkoded/Integra/stoc-cloud/build/lib/angular-bootstrap/ui-bootstrap.js",
-		"/home/kingkoded/Integra/stoc-cloud/views/hospital/index.jade",
-		"/home/kingkoded/Integra/stoc-cloud/views/admin/orders.jade",
-		"/home/kingkoded/Integra/stoc-cloud/views/templates/email-templates/order-note.jade",
-		"/home/kingkoded/Integra/stoc-cloud/views/templates/sms-templates/invoice-note.jade",
-		"/home/kingkoded/Integra/stoc-cloud/views/includes/foot.jade",
-		"/home/kingkoded/Integra/stoc-cloud/controllers/admin.js",
-		"/home/kingkoded/Integra/stoc-cloud/views/templates/email-templates/default-note.jade",
-		"/home/kingkoded/Integra/drugStoc/plugins/org.apache.cordova.console/NOTICE",
-		"/home/kingkoded/Integra/stoc-cloud/dist/order/new-old.html",
-		"/home/kingkoded/Integra/stoc-cloud/node_modules/moment/ender.js",
-		"/home/kingkoded/Integra/drugStoc/www/lib/jquery/src/selector-native.js",
-		"/home/kingkoded/Integra/stoc-cloud/node_modules/grunt-mocha-test/node_modules/mocha/lib/runnable.js",
-		"/home/kingkoded/Integra/stoc-cloud/node_modules/grunt/node_modules/iconv-lite/test/big5-test.js",
-		"/home/kingkoded/Integra/stoc-cloud/dist/order/order-list-tpl.html",
-		"/home/kingkoded/Integra/stoc-cloud/controllers/admin/orders.js",
-		"/home/kingkoded/Integra/stoc-cloud/dist/includes/footer.html",
-		"/home/kingkoded/Integra/stoc-cloud/.bowerrc"
+		"/home/kingkoded/Integra/stoc-cloud/server.js"
 	],
 	"find":
 	{
@@ -823,6 +851,7 @@
 		"height": 93.0,
 		"where_history":
 		[
+			"/home/kingkoded/Projects/Integra/public/js",
 			"/var/www/html/drugstoc/wp-content/themes/sistina",
 			"/home/kingkoded/Integra/stoc-cloud/models",
 			"/home/kingkoded/Integra/stoc-cloud/views",
@@ -843,9 +872,15 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"angular.module('directives')",
+			"checkfunc",
+			"class",
+			"p.del",
+			".del",
+			"../",
 			"wishlist",
 			"<br>",
 			"sendEmail",
@@ -967,13 +1002,7 @@
 			"script(src=",
 			"js",
 			"script(src='/",
-			"script(src=",
-			"ugl",
-			"\"/",
-			"'/",
-			" rel=\"stylesheet\")",
-			" rel='stylesheet')",
-			"link(href="
+			"script(src="
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1055,166 +1084,37 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/home/kingkoded/Integra/stoc-cloud/models/postman.js",
+					"file": "app/controllers/items.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 28310,
+						"buffer_size": 23323,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3637,
-								3637
+								262,
+								262
 							]
 						],
 						"settings":
 						{
+							"WordCountShouldRun": false,
 							"WordCountSyntax": "javascript",
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
+							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
-							"sublime_auto_complete": true,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1793.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/home/kingkoded/Integra/stoc-cloud/controllers/orders.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7556,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"WordCountSyntax": "javascript",
-							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"history_list_is_closing": true,
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"sftp_duplicate_views": 0,
+							"synced": false,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
@@ -1223,139 +1123,36 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "/home/kingkoded/Integra/stoc-cloud/test/govtSpec.js",
+					"buffer": 1,
+					"file": "todo",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 760,
+						"buffer_size": 51,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								593,
-								593
+								51,
+								51
 							]
 						],
 						"settings":
 						{
-							"WordCountShouldRun": false,
-							"WordCountSyntax": "javascript",
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
+							"WordCountShouldRun": true,
+							"WordCountSyntax": "plain text",
 							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"incomplete_sync": null,
 							"open_with_edit": true,
-							"sublime_auto_complete": true,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1365,12 +1162,49 @@
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "/home/kingkoded/Integra/stoc-cloud/test/order/orderSpec.js",
-					"semi_transient": true,
+					"buffer": 2,
+					"file": "public/js/common/directives/directives.js",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 665,
+						"buffer_size": 9264,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8868,
+								8868
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3345.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/models/order.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1926,
 						"regions":
 						{
 						},
@@ -1386,6 +1220,198 @@
 							"WordCountShouldRun": false,
 							"WordCountSyntax": "javascript",
 							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 312.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 4,
+					"file": "server.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6138,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								732,
+								732
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/controllers/orders.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14249,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1094,
+								1094
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 156.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "app/views/orders/cart.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1802,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1796,
+								1796
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": true,
+							"WordCountSyntax": "jade",
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "app/models/supplier.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1131,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								841,
+								841
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "app/controllers/admin.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8083,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2034,
+								2034
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
@@ -1398,186 +1424,12 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "/var/www/html/drugstoc/wp-config-local.php",
+					"buffer": 9,
+					"file": "app/views/templates/supplier-cart-tpl.jade",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2526,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								673,
-								673
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": false,
-							"WordCountSyntax": "php",
-							"codeintel": true,
-							"codeintel_config":
-							{
-								"JavaScript":
-								{
-									"codeintel_max_recursive_dir_depth": 2,
-									"codeintel_scan_files_in_project": false,
-									"javascriptExtraPaths":
-									[
-									]
-								},
-								"PHP":
-								{
-									"codeintel_max_recursive_dir_depth": 5,
-									"codeintel_scan_files_in_project": false,
-									"phpExtraPaths":
-									[
-									]
-								},
-								"Python":
-								{
-									"env":
-									{
-									}
-								}
-							},
-							"codeintel_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_live": true,
-							"codeintel_live_enabled_languages":
-							[
-								"JavaScript",
-								"Mason",
-								"XBL",
-								"XUL",
-								"RHTML",
-								"SCSS",
-								"Python",
-								"HTML",
-								"Ruby",
-								"Python3",
-								"XML",
-								"Sass",
-								"XSLT",
-								"Django",
-								"HTML5",
-								"Perl",
-								"CSS",
-								"Twig",
-								"Less",
-								"Smarty",
-								"Node.js",
-								"Tcl",
-								"TemplateToolkit",
-								"PHP"
-							],
-							"codeintel_max_recursive_dir_depth": 10,
-							"codeintel_scan_exclude_dir":
-							{
-								"JavaScript":
-								[
-									"/build/",
-									"/min/"
-								]
-							},
-							"codeintel_scan_files_in_project": true,
-							"codeintel_selected_catalogs":
-							[
-								"PyWin32",
-								"jQuery",
-								"Rails"
-							],
-							"codeintel_snippets": true,
-							"codeintel_syntax_map":
-							{
-								"Python Django": "Python"
-							},
-							"codeintel_tooltips": "popup",
-							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
-							"sublime_auto_complete": true,
-							"syntax": "Packages/PHP/PHP.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 1,
-			"sheets":
-			[
-				{
-					"buffer": 5,
-					"file": "/home/kingkoded/Integra/stoc-cloud/models/order.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 41860,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								40665,
-								40682
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": false,
-							"WordCountSyntax": "javascript",
-							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 23303.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/home/kingkoded/Integra/stoc-cloud/models/item/govt-facility.js",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 1219,
+						"buffer_size": 781,
 						"regions":
 						{
 						},
@@ -1590,10 +1442,13 @@
 						],
 						"settings":
 						{
-							"WordCountShouldRun": false,
-							"WordCountSyntax": "javascript",
+							"WordCountShouldRun": true,
+							"WordCountSyntax": "jade",
 							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -1601,7 +1456,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 8,
 					"type": "text"
 				}
 			]
@@ -1635,7 +1490,7 @@
 		"cols":
 		[
 			0.0,
-			0.461608775137,
+			0.414636505754,
 			1.0
 		],
 		"rows":
@@ -1672,6 +1527,30 @@
 		"height": 0.0,
 		"selected_items":
 		[
+			[
+				"admin",
+				"Integra/app/controllers/admin.js"
+			],
+			[
+				"suppl",
+				"Integra/app/controllers/suppliers.js"
+			],
+			[
+				"control/items",
+				"Integra/app/controllers/items.js"
+			],
+			[
+				"orders.js",
+				"Integra/app/controllers/orders.js"
+			],
+			[
+				"pureauto",
+				"Integra/node_modules/mongoose-pureautoinc/lib/pureautoinc.js"
+			],
+			[
+				"locat",
+				"Integra/app/models/location.js"
+			],
 			[
 				"model/order",
 				"stoc-cloud/models/order.js"
@@ -1791,10 +1670,6 @@
 			[
 				"direc",
 				"stoc-cloud/build/js/common/directives/directives.js"
-			],
-			[
-				"admin",
-				"stoc-cloud/build/js/modules/admin/admin.js"
 			],
 			[
 				"note",
@@ -2163,26 +2038,6 @@
 			[
 				"custom",
 				"public/css/style.custom.css"
-			],
-			[
-				"custom.j",
-				"public/js/custom.js"
-			],
-			[
-				"modal",
-				"views/widgets/order/manage-order-modal.jade"
-			],
-			[
-				"order/in",
-				"views/order/index.jade"
-			],
-			[
-				"orga",
-				"models/organization.js"
-			],
-			[
-				"produ",
-				"config/production.json"
 			]
 		],
 		"width": 0.0
@@ -2207,7 +2062,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 0,
+	"selected_group": 1,
 	"settings":
 	{
 	},

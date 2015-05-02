@@ -3,14 +3,12 @@
  * Module dependencies.
  */
 
-var mongoose = require('mongoose')
-  , env = process.env.NODE_ENV || 'development'
-  , config = require('../../config/config')[env]
-  , Schema = mongoose.Schema
-    pureautoinc  = require('mongoose-pureautoinc');
+var mongoose = require('mongoose'),
+  Schema = mongoose.Schema,
+  pureautoinc  = require('mongoose-pureautoinc');
 
 /**
- * Stock Down Location Schema 
+ * Stock Down Location Schema
  */
 var LocationSchema = new Schema({
   locationId: {type: Number},
@@ -22,7 +20,7 @@ var LocationSchema = new Schema({
 });
 
 LocationSchema.plugin(pureautoinc.plugin, {
-  model: 'location',
+  model: 'locations',
   field: 'locationId'
 });
 
@@ -35,6 +33,8 @@ LocationSchema.statics = {
     .where('locationType', type)
     .exec(callback);
   }
-}
+};
 
 mongoose.model('Location', LocationSchema);
+
+module.exports = mongoose.model('Location');

@@ -2,12 +2,8 @@
 /**
  * Module dependencies.
  */
-var db = require("../../lib/db.js");
 var mongoose = require('mongoose'),
-  env = process.env.NODE_ENV || 'development',
-  config = require('../../config/config')[env],
-  Schema = mongoose.Schema,
-  moment = require("moment");
+  Schema = mongoose.Schema;
 
 
 /**
@@ -81,8 +77,11 @@ OrderSchema.statics = {
     q.sort({orderDate: -1});
     q.exec(cb);
   }
-}
+};
 
 
 mongoose.model('Order', OrderSchema);
 mongoose.model('OrderStatus', OrderStatusSchema);
+
+module.exports.Order = mongoose.model('Order');
+module.exports.OrderStatus = mongoose.model('OrderStatus');

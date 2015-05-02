@@ -3,9 +3,6 @@
  */
 
 var mongoose = require('mongoose'),
-  env = process.env.NODE_ENV || 'development',
-  config = require('../../config/config')[env],
-  _ = require("underscore"),
   Schema = mongoose.Schema;
 
 var adminSchema = new Schema({
@@ -25,3 +22,4 @@ var adminSchema = new Schema({
 
 
 mongoose.model('admin', adminSchema);
+module.exports  = mongoose.model('admin');

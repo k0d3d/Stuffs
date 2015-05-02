@@ -8,15 +8,21 @@ angular.module('admin', [])
 .config(['$routeProvider', function ($routeProvider){
   $routeProvider.when('/admin', {templateUrl: '/admin/index', controller: 'adminController'});
 }])
-.controller('adminController', ['$scope', 'billsService', 'adminService', 'Transaction', 'serviceService', function adminController($scope, biller, as, T, serviceService){
+.controller('adminController', [
+  '$scope',
+  'billsService',
+  'adminService',
+  'Transaction',
+  'serviceService',
+  function adminController($scope, biller, as, T, serviceService){
 
   function init(){
 
-    //Objects holds scope properties 
+    //Objects holds scope properties
     //for the bill management template
-    $scope.bill = {}; 
+    $scope.bill = {};
 
-    //Object holds scope properties 
+    //Object holds scope properties
     //for the services management template
     $scope.srvs = {};
 
@@ -42,8 +48,8 @@ angular.module('admin', [])
       id: 0
     };
 
-    //the array holds all d list of all 
-    //services loaded from the server and 
+    //the array holds all d list of all
+    //services loaded from the server and
     //created.
     $scope.service = [];
 
@@ -55,7 +61,7 @@ angular.module('admin', [])
       });
     });
 
-    //Fetches all services 
+    //Fetches all services
     serviceService.all(function(r){
       $scope.srvs.services = r;
     });
@@ -67,7 +73,7 @@ angular.module('admin', [])
   //Run the init code
   init();
 
-  // Saves a new rule. 
+  // Saves a new rule.
   $scope.bill.newruleC = function(){
     biller.newruleR($scope.bill.newrule, function(){
 
@@ -90,7 +96,7 @@ angular.module('admin', [])
     if($scope.bill.activeProfile){
       var n = $scope.bill.activeProfile;
       $scope.bill.profileInput.name = n.profileName;
-      $scope.bill.profileInput.id = n._id;  
+      $scope.bill.profileInput.id = n._id;
 
       //Fetch the rules belonging to this billing profile
       biller.brules(n._id, function(r){
@@ -104,7 +110,7 @@ angular.module('admin', [])
         //   $scope.l.push(value.name);
         // });
         $scope.bill.listrules =  r;
-      });          
+      });
     }
   };
 
@@ -157,13 +163,17 @@ angular.module('admin', [])
       });
     };
 
+    $scope.updateProduct = function updateProduct () {
+      as.updateProductInformation();
+    };
+
   }])
 .controller('configController', ['$scope', 'adminService', function($scope, adminService){
   //$scope.run_setup =  adminService.initSetup();
 }])
 .controller('transactionController', ['$scope', 'Transaction', function($scope, T){
 
-    //Load Transactions 
+    //Load Transactions
     T.getTransactions(function(d){
       $scope.transactions = d;
     });
@@ -186,9 +196,26 @@ angular.module('admin', [])
     });
   };
 
+  a.updateProductInformation = function updateProductInformation() {
+    return http.post('/api/admin/update-product-information')
+    .then(function () {
+      N.notifier({
+        message: L[L.set].admin.update.success,
+        type: 'success'
+      });
+    }, function (err) {
+      console.log(err);
+      N.notifier({
+        message: err.data,
+        type: 'error'
+      });
+    });
+
+  };
+
   a.clear = function(cb){
     http.delete('/api/admin/updates')
-    .success(function(d){            
+    .success(function(d){
       cb(d);
     })
     .error(function(er){
@@ -208,7 +235,7 @@ angular.module('admin', [])
       N.notifier({
         message: L[L.set].admin.login.success,
         type: 'success'
-      });            
+      });
       cb(d);
     })
     .error(function(d){
@@ -247,7 +274,7 @@ angular.module('admin', [])
             scope.bill.newrule.reference.name = v.itemName;
             return true;
           }
-        });          
+        });
         scope.$apply();
         return name;
       }
@@ -276,7 +303,7 @@ angular.module('admin', [])
             scope.bill.newrule.reference.name = v.name;
             return true;
           }
-        });          
+        });
         scope.$apply();
         return name;
       }

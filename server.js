@@ -10,8 +10,8 @@ console.log('DDIM version: ' + pjson.version);
 var express = require('express'),
     config = require('config'),
     app = express(),
-    // passport = require('passport'),
-    routes = require('./app/controllers/routes'),
+    passport = require('passport'),
+    routes = require('./app/routes'),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
     methodOverride = require('method-override'),
@@ -24,6 +24,7 @@ var express = require('express'),
     errors = require('./lib/errors'),
     crashProtector = require('common-errors').middleware.crashProtector,
     helpers = require('view-helpers'),
+    lingua = require('lingua'),
     MongoStore = require('connect-mongo')(session);
 
 
@@ -64,6 +65,12 @@ function afterResourceFilesLoad () {
     app.set('views', __dirname + '/app/views');
     app.set('view engine', 'jade');
 
+    // Lingua configuration
+    console.log('Configuring language resources...');
+    app.use(lingua(app, {
+      defaultLocale: 'en',
+      path: __dirname + '/config/i18n'
+    }));
 
     // set logging level - dev for now, later change for production
     app.use(logger('dev'));
@@ -72,6 +79,11 @@ function afterResourceFilesLoad () {
     // expose package.json to views
     app.use(function (req, res, next) {
       res.locals.pkg = pjson;
+      res.locals.facility = {
+        name: 'New Ikeja Hospital',
+        address: 'Gbajobi Ikeja',
+        phone_number: '08126488955'
+      };
       next();
     });
 
@@ -103,6 +115,13 @@ function afterResourceFilesLoad () {
         })
     }));
 
+    require('./lib/passport.js')(passport);
+
+    //Initialize Passport
+    app.use(passport.initialize());
+
+    //enable passport sessions
+    app.use(passport.session());
 
     // connect flash for flash messages - should be declared after sessions
     app.use(flash());
@@ -210,9 +229,9 @@ console.log("Running Environment: %s", process.env.NODE_ENV);
 console.log("Setting up database communication...");
 // setup database connection
 require('./lib/db').open()
-.then(function () {
+.then(function (mongoose) {
   console.log('Database Connection open...');
-
+  require('mongoose-pureautoinc').init(mongoose);
   //load resource
   afterResourceFilesLoad();
 
@@ -231,5 +250,6 @@ require('./lib/db').open()
 
 })
 .catch(function (e) {
+  console.log(e.stack);
   console.log(e);
 });

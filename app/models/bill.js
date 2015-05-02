@@ -4,9 +4,26 @@
  */
 
 var mongoose = require('mongoose'),
-  env = process.env.NODE_ENV || 'development',
-  config = require('../../config/config')[env],
   Schema = mongoose.Schema;
+
+
+/**
+ * Billing Rules Schema
+ * rulename is the name given to this rule
+ * by specifies if the rule will be applied by percentage or an actual value
+ * value is the amount or number to perform the rule with
+ * servicename determines what service the rule will be applied to
+ * directive specifies if the calculation will increment or decrement the value.
+ */
+var BillRulesSchema = new Schema({
+  name: {type: String, unique: true},
+  by: String,
+  value: Number,
+  servicename:{type: String},
+  serviceid: {type: String},
+  servicetype: {type: String},
+  directive: String,
+});
 
 
 /**
@@ -20,7 +37,7 @@ var BillSchema = new Schema({
   }],
   patientName: String,
   patientId: String,
-  class: [BillRulesSchema],
+  billClass: [BillRulesSchema],
   billedItems : [{
     item: {type: String},
     cost: {type: Number}
@@ -63,24 +80,6 @@ BillingProfileSchema.statics = {
 
 
 /**
- * Billing Rules Schema
- * rulename is the name given to this rule
- * by specifies if the rule will be applied by percentage or an actual value
- * value is the amount or number to perform the rule with
- * servicename determines what service the rule will be applied to
- * directive specifies if the calculation will increment or decrement the value.
- */
-var BillRulesSchema = new Schema({
-  name: {type: String, unique: true},
-  by: String,
-  value: Number,
-  servicename:{type: String},
-  serviceid: {type: String},
-  servicetype: {type: String},
-  directive: String,
-});
-
-/**
  * [ServicesSchema description]
  * @type {Schema}
  */
@@ -116,3 +115,9 @@ mongoose.model('BillingProfile', BillingProfileSchema);
 mongoose.model('BillRule', BillRulesSchema);
 mongoose.model('Bill', BillSchema);
 mongoose.model('BillService', ServicesSchema);
+
+
+module.exports.BillingProfile = mongoose.model('BillingProfile');
+module.exports.BillRule = mongoose.model('BillRule');
+module.exports.Bill = mongoose.model('Bill');
+module.exports.BillService = mongoose.model('BillService');

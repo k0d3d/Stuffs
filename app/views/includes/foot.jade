@@ -4,7 +4,7 @@ block foot
     script(src='js/lib/angular/angular-route.js')
     script(src='js/lib/angular/angular-sanitize.min.js')
     script(src='js/ngStorage.min.js')
-    script(src='js/underscore-min.js')
+    script(src='js/lodash.min.js')
     script(src='js/bootstrap.min.js')
     script(src='js/bootstrap-select.js')
     script(src='js/bootstrap-switch.js')
@@ -24,15 +24,15 @@ block foot
     script(src="js/toPDF/lib/FileSaver.min.js")
     script(src="js/toPDF/lib/Blob.js")
     script(src="js/toPDF/lib/BlobBuilder.js")
-    script(src="js/toPDF/jspdf.plugin.ie_below_9_shim.js")      
-    script(src="js/toPDF/jspdf.plugin.standard_fonts_metrics.js")    
-    script(src="js/toPDF/jspdf.plugin.sillysvgrenderer.js")    
-    script(src="js/toPDF/jspdf.plugin.split_text_to_size.js")  
+    script(src="js/toPDF/jspdf.plugin.ie_below_9_shim.js")
+    script(src="js/toPDF/jspdf.plugin.standard_fonts_metrics.js")
+    script(src="js/toPDF/jspdf.plugin.sillysvgrenderer.js")
+    script(src="js/toPDF/jspdf.plugin.split_text_to_size.js")
     script(src='js/toPDF/jspdf.plugin.from_html.js')
     script(src='js/toPDF/jspdf.PLUGINTEMPLATE.js')
     script(src='js/application.js')
     script(src='js/app.js')
-    script(src='js/modules/lang.js')    
+    script(src='js/modules/lang.js')
     script(src='js/common/services/services.js')
     script(src='js/common/filters/filters.js')
     script(src='js/common/directives/directives.js')
@@ -51,17 +51,3 @@ block foot
       var polyfilter_scriptpath = '/js/';
     script(src='js/extra/modal/cssParser.js')
     script(src='js/extra/modal/css-filters-polyfill.js')
-    script.
-        // Requires jQuery!
-        jQuery.ajax({
-            url: "http://localhost:8010/s/d41d8cd98f00b204e9800998ecf8427e/en_US4gdxe-1988229788/6163/4/1.4.3/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector-embededjs.js?collectorId=9cfcc581",
-            type: "get",
-            cache: true,
-            dataType: "script"
-        });
-        jQuery(document).ready(function(){
-            //Handles menu drop down
-            jQuery('.dropdown-menu').find('form').click(function (e) {
-                e.stopPropagation();
-            });
-        });                    

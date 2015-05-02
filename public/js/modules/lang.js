@@ -96,7 +96,7 @@ angular.module('language', [])
 			"summary":{
 				"error": "Can not fetch more information now."
 			}
-					
+
 		},
 		"dispense":{
 			"confirm":{
@@ -174,6 +174,7 @@ angular.module('language', [])
 		},
 		"admin":{
 			"update":{
+				"success" :  "Update successful",
 				"error": "Error fetching updates from server"
 			},
 			"clear":{

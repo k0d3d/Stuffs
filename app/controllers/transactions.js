@@ -1,21 +1,18 @@
-/**
- * Stock Controller Class
- * Module Dependcies
- */
-var mongoose = require('mongoose'),
-    Item = mongoose.model('Item'),
-    Order = mongoose.model('Order'),
-    OrderStatus = mongoose.model('OrderStatus'),
-    Dispense = mongoose.model('Dispense'),
-    Bill = mongoose.model('Bill'),
-    PointLocation = mongoose.model('Location'),
-    StockHistory = mongoose.model('StockHistory'),
-    //StockCount = mongoose.model('StockCount'),
-    _ = require("underscore"),
-    NafdacDrugs = mongoose.model("nafdacdrug"),
-    TransactionModel = mongoose.model('transaction'),
-    EventRegister = require('../../lib/event_register').register,    
+var
+    // Item = require('../models/item').Item,
+    // Order = require('../models/order').Orders,
+    // OrderStatus = require('../models/order').OrderStatus,
+    // PointLocation = require('../models/location'),
+    // StockHistory = require('../models/stockhistory'),
+    // Dispense = require('../models/dispense'),
+    // Bill = require('../models/bill'),
+    // _ = require("lodash"),
+    // NafdacDrugs = require("../models/nafdacdrugs"),
+
+    TransactionModel = require('../models/transaction'),
+    // EventRegister = require('../../lib/event_register').register,
     util = require("util");
+
 
 
 function TransactionController(){
@@ -25,21 +22,21 @@ function TransactionController(){
 TransactionController.prototype.constructor = TransactionController;
 
 /**
- * This will start a new transaction session. 
+ * This will start a new transaction session.
  * This method creates an instance of the transaction
- * model and assigns it to the 'transModel'  property on 
+ * model and assigns it to the 'transModel'  property on
  * TransactionController instrance.
- * 
+ *
  * @param  {[type]} obj [description]
  * @return {[type]}     [description]
  */
-TransactionController.prototype.initiate = function(trans){
+TransactionController.prototype.initiate = function(){
     //Holds the new transaction model instaa
     this.transModel = new TransactionModel();
 };
 
 /**
-* Creates / Saves initial  
+* Creates / Saves initial
  * @param  {[type]} stage [description]
  * @return {[type]}       [description]
  */
@@ -64,15 +61,15 @@ TransactionController.prototype.insertRecord = function(request, originLocation,
     self.transModel.item = request.id;
     self.transModel.operation = operation;
     self.transModel.status = 'initial';
-    //The _id on the request object is the ObjectId 
-    //for the Stock History just created for this 
+    //The _id on the request object is the ObjectId
+    //for the Stock History just created for this
     //transaction
     //self.transModel.historyId = request._id;
     self.transModel.amount = request.amount;
     self.transModel.save(function(err, i){
 
         if(err){
-            
+
             //Should log this.
             cb(err);
 
@@ -92,7 +89,6 @@ TransactionController.prototype.insertRecord = function(request, originLocation,
 };
 
 TransactionController.prototype.makePending = function(cb){
-    var self = this;
     TransactionModel.update({
         _id: this.currentTransaction.id
     },{
@@ -100,7 +96,7 @@ TransactionController.prototype.makePending = function(cb){
             status: 'pending',
             updated: Date.now()
         }
-    }, function(err, i){
+    }, function(err){
         if(err){
             cb(err);
         }else{
@@ -116,9 +112,9 @@ TransactionController.prototype.makeCommited = function(cb){
     },{
         $set:{
             status: 'commited',
-            updated: Date.now()            
+            updated: Date.now()
         }
-    }, function(err, i){
+    }, function(err){
         if(err){
             cb(err);
         }else{
@@ -129,22 +125,19 @@ TransactionController.prototype.makeCommited = function(cb){
 
 TransactionController.prototype.cleanPending = function(dependency, locationId, itemId,  cb){
     var self = this;
-    dependency.update({ 
+    dependency.update({
         locationId: locationId,
         item: itemId
     }, {
         $pull: {pendingTransactions: self.currentTransaction.id}
-    }, function(err, i){
+    }, function(err){
         if(err){
             cb(err);
         }else{
             cb(true);
-        }        
+        }
     });
 
-    var pullOrigin = function(){
-
-    }
 };
 
 TransactionController.prototype.makeDone = function(cb){
@@ -154,19 +147,18 @@ TransactionController.prototype.makeDone = function(cb){
     },{
         $set:{
             status: 'done',
-            updated: Date.now()            
+            updated: Date.now()
         }
-    }, function(err, i){
+    }, function(err){
         if(err){
             cb(err);
         }else{
             cb(true);
         }
-    });    
+    });
 };
 
 TransactionController.getTransactions = function(cb){
-    var self = this;
     TransactionModel.find()
     .populate('origin')
     .populate('destination')
@@ -176,7 +168,7 @@ TransactionController.getTransactions = function(cb){
             cb(err);
         }else{
             cb(i);
-        }        
+        }
     });
 };
 

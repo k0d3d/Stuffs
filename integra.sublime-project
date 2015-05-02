@@ -2,11 +2,6 @@
 	"folders":
 	[
 		{
-			"follow_symlinks": true,
-			"path": "/home/kingkoded/Projects/IntegraSup"
-		},
-		{
-			"follow_symlinks": true,
 			"path": "."
 		}
 	]

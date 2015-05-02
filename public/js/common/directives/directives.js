@@ -4,8 +4,8 @@
   *
   * Description
   */
-  angular.module('directives', []);
-  angular.module('directives').directive('typeAhead',function(ordersService, itemsService){
+  var appDirectives = angular.module('directives', []);
+  appDirectives.directive('typeAhead',function(ordersService, itemsService){
     var ser;
 
     var linker = function(scope, element, attrs){
@@ -37,7 +37,7 @@
       link: linker
     };
   });
-  angular.module('directives').directive('onFinish',function($timeout){
+  appDirectives.directive('onFinish',function($timeout){
     return {
       restrict: 'A',
       link: function(scope, element, attr){
@@ -62,12 +62,12 @@
               break;
             }
           });
-          
+
         }
       }
     };
   });
-  angular.module('directives').directive('modalbox', [function(){
+  appDirectives.directive('modalbox', [function(){
     return {
       link: function($scope, iElm, iAttrs, controller) {
         $(iElm).on('click',function(){
@@ -81,7 +81,7 @@
   *
   * Description
   */
-  angular.module('directives').directive('toggleActiveList', [function(){
+  appDirectives.directive('toggleActiveList', [function(){
     // Runs during compile
     return {
       link: function($scope, iElm, iAttrs, controller) {
@@ -93,7 +93,7 @@
       }
     };
   }]);
-  angular.module('directives').directive('orderActionButton', function(ordersService){
+  appDirectives.directive('orderActionButton', function(ordersService){
     function getStatus (status){
         var d;
         switch(status){
@@ -128,7 +128,7 @@
           //console.log(scope.kush);
         });
 
-        //Bind to 
+        //Bind to
         element.on('click', function(e){
           e.preventDefault();
 
@@ -154,7 +154,7 @@
     };
   });
 
-  angular.module('directives').directive('tooltip', function(){
+  appDirectives.directive('tooltip', function(){
       return {
           link: function(scope, element, attrs){
               element.tooltip({
@@ -164,7 +164,7 @@
       }
   });
 
-  angular.module('directives').directive('scrollBar', function(){
+  appDirectives.directive('scrollBar', function(){
       return {
           link: function(scope, element, attrs){
             //if(attrs.activate)
@@ -179,7 +179,7 @@
           }
       };
   });
-  angular.module('directives').directive('pagination', [function(){
+  appDirectives.directive('pagination', [function(){
     function link(scope, element, attrs){
       scope.pageno = 0;
       scope.limit = 10;
@@ -199,7 +199,7 @@
       scope.pagelimit = function(limit){
         scope.pageTo({pageNo: scope.pageno, limit: limit, cb: function(r){
           if(r) scope.limit = limit;
-        }});        
+        }});
       };
     }
     return {
@@ -210,7 +210,7 @@
       templateUrl: '/templates/pagination'
     };
   }]);
-  angular.module('directives').directive('panorama', function(){
+  appDirectives.directive('panorama', function(){
     return {
       link: function (scope, element, attrs){
         element.panorama({
@@ -218,11 +218,11 @@
            showscrollbuttons: false,
            keyboard: true,
            parallax: false
-        });         
+        });
       }
     };
   });
-  angular.module('directives').directive('editable', [function(){
+  appDirectives.directive('editable', [function(){
     function link(scope, element, attrs){
 
       // $(document).on('focusout','.editable-input', function(e){
@@ -257,7 +257,11 @@
     // };
   }]);
 
-angular.module('directives').directive('printable', ['$compile','$http','$window','$timeout', function($compile, $http, $window, $timeout){
+appDirectives.directive('printable', [
+  '$compile',
+  '$http',
+  '$timeout',
+  function($compile, $http, $timeout){
   var template = '';
 
   function link (scope, element, attrs){
@@ -265,10 +269,8 @@ angular.module('directives').directive('printable', ['$compile','$http','$window
     var toPrint = '#'+attrs.printable;
     element.on('click', function(e){
       scope.checkfunc({cb: function(r){
-        console.log(typeof(scope.checkfunc));
-        console.log(scope.printScope);
         if(!r) return false;
-        //Remove the print-div html if 
+        //Remove the print-div html if
         //it exist in the DOM
         $('.print-div', toPrint).remove();
 
@@ -282,33 +284,33 @@ angular.module('directives').directive('printable', ['$compile','$http','$window
         $http.get('/templates/'+templateFile+'-tpl.jade')
         .success( function(data){
           //Add the template returned
-          template = $compile(data)(scope);  
+          template = $compile(data)(scope);
 
           //insert the template into the new DOM element
           target.html(template);
 
-          //Add the new DOM element to the 
+          //Add the new DOM element to the
           //source DOM element container
           $(toPrint).append(target);
 
           //Fix the order sheet html into the template
-          $('.print-div', toPrint).find('.source-html').html(sourceHTML);  
+          $('.print-div', toPrint).find('.source-html').html(sourceHTML);
 
           //Remove elements we dont want in our print-out
           $('.print-div', toPrint).find('.noprint').remove();
 
           $timeout(function(){
+            var w = window.open('');
             //var w = $window.open(null, 'PrintWindow', "width=420,height=230,resizable,scrollbars=yes,status=1");
-            var w = $window.open();
-            $(w.document.body).html($('.print-div', toPrint).html());
-            });          
-        }, 500);              
+            // $(w.document.body).html($('.print-div', toPrint).html());
+          }, 500);
+        });
       }});
     });
 
   }
   function printfunc(){
-    
+
   }
   return {
     //templateUrl: '/templates/supplier-cart-tpl.jade',

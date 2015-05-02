@@ -2,10 +2,7 @@
 /**
  * Module dependencies.
  */
-var db = require("../../lib/db.js");
 var mongoose = require('mongoose'),
-  env = process.env.NODE_ENV || 'development',
-  config = require('../../config/config')[env],
   Schema = mongoose.Schema;
 
 var SuppliersSchema = new Schema({
@@ -39,7 +36,7 @@ SuppliersSchema.statics = {
     wit.regex('supplierName',new RegExp(name, 'i'))
     .limit(10)
     .exec(cb);
-    
+
   },
   search: function(query, cb){
     console.log(query);
@@ -49,9 +46,11 @@ SuppliersSchema.statics = {
     }
     if(query.limit){
       wit.limit(query.limit);
-    }    
+    }
     wit.exec(cb);
-    
+
   }
 };
 mongoose.model('Supplier', SuppliersSchema);
+
+module.exports = mongoose.model('Supplier');
