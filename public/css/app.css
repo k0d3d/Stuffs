@@ -58,15 +58,10 @@ html, body {}
   position: relative;
   /* needed for footer positioning*/
   margin: 0 auto;
-  /* center, not in IE5 */
-  height: auto !important;
-  /* real browsers */
   height: 100%;
-  /* IE6: treaded as min-height*/
   min-height: 100%;
   /* real browsers */
   width: 100%;
-  perspective: 3300px;
   overflow: hidden;
 }
 
@@ -953,4 +948,14 @@ em.versiontxt {
 .logo-block a {
   width: 150px;
   display: inline-block;
+}
+
+.account-information-pane {}
+
+.drop-search-bar {
+  top: 40px;
+}
+
+.order-tabs .active {
+  color: #476EA5;
 }

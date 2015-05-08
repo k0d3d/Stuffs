@@ -279,7 +279,7 @@ appDirectives.directive('printable', [
 
         //Create a new DOM element
         var target = $('<div>').addClass('print-div');
-
+        return;
         //Fetch the template from the server
         $http.get('/templates/'+templateFile+'-tpl.jade')
         .success( function(data){

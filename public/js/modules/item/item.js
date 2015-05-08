@@ -41,7 +41,7 @@ angular.module('item', [])
       var o = {};
       angular.forEach(data, function(ele,index,arr){
         if(ele.itemName){
-          var fchar = ele.itemName.split("");
+          var fchar = ele.itemName.split('');
           var fCharUpper  = fchar[0].toUpperCase();
           if(o[fCharUpper] ===  undefined){
             o[fCharUpper] = [];
@@ -61,22 +61,22 @@ angular.module('item', [])
       return a;
     }
     $scope.stockFilters = [{
-      "value": "",
-      "text": "All Stock"
+      'value': '',
+      'text': 'All Stock'
     },{
-      "value": "good-stock",
-      "text": "Good Stock"
+      'value': 'good-stock',
+      'text': 'Good Stock'
     },{
-      "value": "low-stock",
-      "text": "Low Stock"
+      'value': 'low-stock',
+      'text': 'Low Stock'
     },{
-      "value": "empty-stock",
-      "text": "Empty Stock"
+      'value': 'empty-stock',
+      'text': 'Empty Stock'
     }];
     $scope.indexes =  atoz();
     $scope.summaryDo =  function (event, id){
       //We use 0 for the location to indicate the Main Inventory
-      
+
       //Set the current item var
       currentItem = event.currentTarget;
       itemsService.summary(id,'main',function(res){
@@ -98,6 +98,7 @@ angular.module('item', [])
         });
       });
     };
+
 
     $scope.deleteItem = function(id){
       itemsService.delete(id, function(data){
@@ -154,21 +155,21 @@ angular.module('item', [])
   $scope.catList = [];
   $scope.formList = [];
   $scope.packagingList = [];
-  
+
   //Initialization function
   function init(){
     itemsService.listCategory(function(r){
-      angular.forEach(r, function(v,k){
+      angular.forEach(r, function(v){
         $scope.catList.push(v);
       });
     });
     itemsService.listForm(function(r){
-      angular.forEach(r, function(v,k){
+      angular.forEach(r, function(v){
         $scope.formList.push(v);
       });
     });
     itemsService.listPackaging(function(r){
-      angular.forEach(r, function(v,k){
+      angular.forEach(r, function(v){
         $scope.packagingList.push(v);
       });
     });
@@ -181,13 +182,22 @@ angular.module('item', [])
   $scope.saveitem = function(){
     $scope.saveButtonText = 'saving';
     $scope.saveButtonClass = 'btn-info';
-    itemsService.save($scope.form, function(status,res){
+    itemsService.save($scope.form, function(status){
       $scope.saveButtonText = 'Save Item';
       if(status){
         $scope.form = '';
         $scope.saveButtonClass = 'btn-primary';
       }
     });
+  };
+
+  $scope.attachSKU = function attachSKU (dsProduct, form) {
+    form.itemName = dsProduct.title;
+    form.sciName = $(dsProduct.description).text();
+    form.itemPurchaseRate = dsProduct.price;
+    form.sku = dsProduct.sku;
+    form.product_id = dsProduct.product_id;
+    $scope.dsListOfMatchingProducts.length = 0;
   };
 
   //Add Category
@@ -247,8 +257,8 @@ angular.module('item', [])
       $scope.form.nafdacRegNo = r.regNo;
       $scope.form.importer = r.man_imp_supp;
       $scope.form.sciName = r.composition;
-      $scope.form.nafdacId = r._id;      
-    }); 
+      $scope.form.nafdacId = r._id;
+    });
   }
 
 })
@@ -269,18 +279,22 @@ angular.module('item', [])
   };
 })
 
-.factory('itemsService', ['$http', 'Language','Notification', function($http, Language, Notification){
+.factory('itemsService', [
+  '$http',
+  'Language',
+  'Notification',
+  function($http, Language, Notification){
   var i = {};
   i.items =  function(callback){
     $http.get('/api/items/listAll')
-    .success(function(data, status){
+    .success(function(data){
       Notification.notifier({
         message: Language.eng.items.list.fetch.success,
         type: "success"
       });
       callback(data);
     })
-    .error(function(data, status){
+    .error(function(){
       Notification.notifier({
         message: Language.eng.items.list.fetch.error,
         type: 'error'
@@ -302,14 +316,14 @@ angular.module('item', [])
   //Query Supplier Typeahead
   i.getSupplierName = function(query, callback){
     $http.get('/api/supplier/typeahead/term/supplierName/query/'+encodeURI(query))
-    .success(function(s, status){
+    .success(function(s){
       var results = [];
       $.each(s,function(){
         results.push(this.supplierName);
       });
-      callback(results, s);      
+      callback(results, s);
     })
-    .error(function(err, status){
+    .error(function(){
       Notification.notifier({
         message: Language.eng.items.supplier.typeahead.error,
         type: 'error'
@@ -317,13 +331,18 @@ angular.module('item', [])
     });
   };
   i.getNafdacDrug = function(query, callback){
+
     $.getJSON('/api/nafdacdrugs/typeahead/needle/'+encodeURI(query), function(s) {
         var results = [];
         $.each(s,function(){
           results.push(this.productName);
         });
         callback(results, s);
-    });    
+    });
+  };
+
+  i.fetchDSProductInformation = function fetchDSProductInformation (regNo) {
+    return $http.get('/api/dsproducts/?s=' + regNo);
   };
 
   i.summary = function(id, locationId, callback){
@@ -344,21 +363,21 @@ angular.module('item', [])
           heading: 'Error Adding Item',
           body: Language.eng.items.save.error,
           type: 'error',
-        });         
+        });
         callback(false, status);
       });
     };
 
   i.saveLocation = function(post,callback){
     $http.post('/api/items/location',post)
-    .success(function(data, status){
+    .success(function(data){
       Notification.notifier({
         message : Language.eng.stock.location.create.success,
         type: 'success'
-      });      
+      });
       callback(data);
     })
-    .error(function(data, status){
+    .error(function(){
       Notification.notifier({
         message : Language.eng.stock.location.create.error,
         type: 'error'
@@ -369,7 +388,7 @@ angular.module('item', [])
   //Gets dispense records from the server
   i.fetchDispenseRecords = function(status,callback){
     $http.get('/api/items/locations/records/status/'+status).
-    success(function(data, status){
+    success(function(data){
       callback(data);
     });
   };
@@ -377,15 +396,15 @@ angular.module('item', [])
   //Post a dispense record
   i.dispense = function(list, callback){
     $http.post('/api/items/dispense',list).
-    success(function(data, status){
+    success(function(){
       Notification.notifier({
         message : Language.eng.dispense.approve.success,
         type: 'success'
-      }); 
+      });
       Notification.message.close();
       callback();
     }).
-    error(function(data, status){
+    error(function(){
       Notification.notifier({
         message : Language.eng.dispense.approve.error,
         type: 'error'
@@ -398,21 +417,21 @@ angular.module('item', [])
   };
 
 
-  //Post updated item fields 
+  //Post updated item fields
   i.update = function(form, callback){
     $http.post('/api/items/'+encodeURI(form._id)+'/edit', form)
-    .success(function(data, res){
+    .success(function(){
       Notification.notifier({
         message : Language.eng.items.update.success,
         type: 'success'
       });
       callback(true);
     })
-    .error(function(data,res){
+    .error(function(){
       Notification.notifier({
         message : Language.eng.items.update.error,
         type: 'error'
-      });      
+      });
     });
   };
 
@@ -425,109 +444,109 @@ angular.module('item', [])
   //Add an item category
   i.addCategory = function(name, callback){
     $http.post('/api/items/category/', {name: name, parent: ''})
-    .success(function(data, status){
+    .success(function(data){
       Notification.notifier({
         message: Language.eng.items.category.add.success,
-        type: "success"
+        type: 'success'
       });
       callback(data);
     })
-    .error(function(data, status){
+    .error(function(){
       Notification.notifier({
         message: Language.eng.items.category.add.error,
-        type: "error"
-      }); 
+        type: 'error'
+      });
     });
   };
   //remove an item category
   i.delCategory = function(name, callback){
     $http.delete('/api/items/category/'+ name)
-    .success(function(data, status){
+    .success(function(){
       Notification.notifier({
         message: Language.eng.items.category.delete.success,
-        type: "success"
+        type: 'success'
       });
       callback();
     })
-    .error(function(data, status){
+    .error(function(){
       Notification.notifier({
         message: Language.eng.items.category.delete.error,
-        type: "error"
-      }); 
+        type: 'error'
+      });
     });
   };
   //Add an item form
   i.addForm = function(name, callback){
     $http.post('/api/items/form/', {name: name})
-    .success(function(data, status){
+    .success(function(data){
       Notification.notifier({
         message: Language.eng.items.form.add.success,
-        type: "success"
+        type: 'success'
       });
       callback(data);
     })
-    .error(function(data, status){
+    .error(function(){
       Notification.notifier({
         message: Language.eng.items.form.add.error,
-        type: "error"
-      }); 
+        type: 'error'
+      });
     });
   };
   //Add an item packaging
   i.addPackaging = function(name, callback){
     $http.post('/api/items/packaging/', {name: name, parent: ''})
-    .success(function(data, status){
+    .success(function(data){
       Notification.notifier({
         message: Language.eng.items.packaging.add.success,
-        type: "success"
+        type: 'success'
       });
       callback(data);
     })
-    .error(function(data, status){
+    .error(function(){
       Notification.notifier({
         message: Language.eng.items.packaging.add.error,
-        type: "error"
-      }); 
+        type: 'error'
+      });
     });
   };
 
   //List Categories
   i.listCategory = function(callback){
-    $http.get("/api/items/category")
-    .success(function(data, status){
+    $http.get('/api/items/category')
+    .success(function(data){
       callback(data);
     })
-    .error(function(data, status){
+    .error(function(){
       Notification.notifier({
         message: Language.eng.items.category.list.error,
-        type: "error"
-      });       
+        type: 'error'
+      });
     });
   };
   //List Forms
   i.listForm = function(callback){
-    $http.get("/api/items/form")
-    .success(function(data, status){
+    $http.get('/api/items/form')
+    .success(function(data){
       callback(data);
     })
-    .error(function(data, status){
+    .error(function(){
       Notification.notifier({
         message: Language.eng.items.form.list.error,
-        type: "error"
-      });       
+        type: 'error'
+      });
     });
   };
   //List packaging
   i.listPackaging = function(callback){
-    $http.get("/api/items/packaging")
-    .success(function(data, status){
+    $http.get('/api/items/packaging')
+    .success(function(data){
       callback(data);
     })
-    .error(function(data, status){
+    .error(function(){
       Notification.notifier({
         message: Language.eng.items.packaging.list.error,
-        type: "error"
-      });       
+        type: 'error'
+      });
     });
   };
 
@@ -537,12 +556,12 @@ angular.module('item', [])
     .success(function(d){
       cb(d);
     })
-    .error(function(d){
+    .error(function(){
       Notification.notifier({
         message: Language.eng.dispense.prescribe.error,
-        type: "error"
-      });       
-    });    
+        type: 'error'
+      });
+    });
   };
 
   i.getByRegNo = function(query, cb){
@@ -551,7 +570,7 @@ angular.module('item', [])
     .success(function(d){
       cb(d);
     })
-    .error(function(data, isDone){
+    .error(function(){
       alert('An Error Occurred, please check your request');
     });
   };
@@ -570,16 +589,23 @@ angular.module('item', [])
         },
         updater: function(item){
           scope.form.itemName = item;
-          _.some(nx, function(v,i){
-            if(v.productName === item){
+          var v = _.find(nx, function (thisItem) {
+            return thisItem.productName === item;
+          });
+          if (v) {
+            // check ds cloud list for matching products
+            itemsService.fetchDSProductInformation(v.regNo)
+            .then(function (listOfMatches) {
+              // scope.form = {};
+              scope.dsListOfMatchingProducts = listOfMatches.data;
               scope.form.nafdacRegNo = v.regNo;
               scope.form.importer = v.man_imp_supp;
-              scope.form.sciName = v.composition;
+              // scope.form.sciName = v.composition;
               scope.form.nafdacId = v._id;
-              return true;
-            }
-          });
-          scope.$apply();
+              // scope.$apply();
+            });
+          }
+
           return item;
         }
       });
@@ -607,7 +633,7 @@ angular.module('item', [])
             });
             return true;
           }
-        });          
+        });
         scope.$apply();
         return '';
       }
@@ -638,7 +664,7 @@ angular.module('item', [])
             };
             return true;
           }
-        });          
+        });
         scope.$apply();
         return name;
       }

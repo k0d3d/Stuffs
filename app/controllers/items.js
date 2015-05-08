@@ -6,11 +6,12 @@ var
     Order = require('../models/order').Order,
     OrderStatus = require('../models/order').OrderStatus,
     PointLocation = require('../models/location'),
+    DsItem = require('../models/dsitem'),
     StockHistory = require('../models/stockhistory'),
     StockCount = require('../models/stockcount'),
-    _ = require("lodash"),
-    NafdacDrugs = require("../models/nafdacdrugs"),
-    Ndl = require("./nafdacs").ndl,
+    _ = require('lodash'),
+    NafdacDrugsModel = require('../models/nafdacdrugs'),
+    Ndl = require('./nafdacs').ndl,
     // rest = require('restler'),
     // Admin = require('../models/admin'),
     // querystring = require('querystring'),
@@ -19,9 +20,9 @@ var
     EventRegister = require('../../lib/event_register').register,
     nconf = require('nconf'),
     // P = require('../../lib/promisify'),
-    // Q = require('q'),
+    Q = require('q'),
     cors = require('../../config/middlewares/cors'),
-    util = require("util");
+    util = require('util');
 
 
 
@@ -48,7 +49,9 @@ function sortItems (list,justkeys){
 
 
 function ItemsObject(){
-
+  Item.setKeywords();
+  NafdacDrugsModel.setKeywords();
+  // console.log(Item);
 }
 
 
@@ -229,7 +232,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
     //Creates a new record to show when this order was
     //updated and what action was taken.
     var orderstatus = new OrderStatus();
-    orderstatus.status = 'Supplied';
+    orderstatus.status = 2;
     orderstatus.order_id = data.order._id;
     orderstatus.save(function(err){
       if(err){
@@ -376,11 +379,11 @@ ItemsObject.prototype.listOne = function(item, option, location, cb){
   });
 
   register.on('itemCosts', function(data, isDone){
-    Order.find({"itemData.id": data._id,
+    Order.find({'itemData.id': data._id,
       $or:[
-        {"orderStatus": "supplied"},
-        {"orderStatus": "paid"},
-        {"orderStatus": "complete"},
+        {'orderStatus': 2},
+        {'orderStatus': 3},
+        {'orderStatus': 4},
     ]}, 'orderPrice')
     .sort({'orderDate': 1})
     .limit(3)
@@ -443,7 +446,7 @@ ItemsObject.prototype.typeahead = function(needle, cb){
 ItemsObject.prototype.nafdacTypeAhead = function(req, res){
   var needle = req.param('needle');
   //options.criteria[term] = '/'+needle+'/i';
-  NafdacDrugs.autocomplete(needle, function(err,itemsResult){
+  NafdacDrugsModel.autocomplete(needle, function(err,itemsResult){
     if (err) return res.render('500');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -682,8 +685,7 @@ ItemsObject.prototype.addPackaging = function(name, callback){
 };
 
 ItemsObject.prototype.fetchByRegNo = function(query, cb){
-  console.log(query);
-  NafdacDrugs.findOne({
+  NafdacDrugsModel.findOne({
     regNo: query
   }, function(err, i){
     if(err){
@@ -694,15 +696,50 @@ ItemsObject.prototype.fetchByRegNo = function(query, cb){
   });
 };
 
+ItemsObject.prototype.findRegisteredItem = function findRegisteredItem (query_string) {
+  var q = Q.defer();
+  NafdacDrugsModel.search(query_string, null, null, function (err, data) {
+    if (err) {
+      return q.reject(err);
+    }
+    q.resolve(data);
+  });
+  return q.promise;
+};
+
+
+ItemsObject.prototype.findDrugstocProduct = function findDrugstocProduct (query_string) {
+  var q = Q.defer();
+  var dsItem = new DsItem();
+  dsItem.DsItemsModel.search(query_string, null, null, function (err, data) {
+    if (err) {
+      return q.reject(err);
+    }
+    q.resolve(data);
+  });
+  return q.promise;
+};
+
+ItemsObject.prototype.findItem = function findItem (query_string) {
+  var q = Q.defer();
+  Item.search(query_string, null, null, function (err, data) {
+    if (err) {
+      return q.reject(err);
+    }
+    q.resolve(data);
+  });
+  return q.promise;
+};
+
 
 
 
 module.exports.item = ItemsObject;
 
-var item = new ItemsObject();
-var ndls = new Ndl();
 
 module.exports.routes = function(app){
+  var itemInstance = new ItemsObject();
+  var ndls = new Ndl();
 
   app.get('/items', function(req, res){
       res.render('index',{
@@ -734,14 +771,14 @@ module.exports.routes = function(app){
   *Items Routes
   */
   //List all Items
-  app.get('/api/items/listAll', item.list);
+  app.get('/api/items/listAll', itemInstance.list);
 
   //app.get('/api/items/listOne/:id/:option',listOne);
 
   //Fetches data on an item, either full or summary by location
   app.get('/api/items/:id/options/:option/locations/:locationId', cors, function(req, res, next){
     var option = req.params.option, itemId = req.params.id, location = req.params.locationId;
-    item.listOne(itemId, option, location, function(r){
+    itemInstance.listOne(itemId, option, location, function(r){
       if(util.isError(r)){
         next(r);
       }else{
@@ -754,7 +791,7 @@ module.exports.routes = function(app){
   app.get('/api/items/:item_id/edit', function(req, res, next){
     var body = req.body;
     var itemId = req.params.item_id;
-    item.itemFields(itemId, body, function(r){
+    itemInstance.itemFields(itemId, body, function(r){
       if(util.isError(r)){
         next(r);
       }else{
@@ -768,7 +805,7 @@ module.exports.routes = function(app){
   app.post('/api/items/:id/edit', function(req, res, next){
     var itemId = req.params.id;
     var body = req.body;
-    item.updateItem(itemId, body, function(r){
+    itemInstance.updateItem(itemId, body, function(r){
       if(util.isError(r)){
         next(r);
       }else{
@@ -780,7 +817,7 @@ module.exports.routes = function(app){
   //Typeahead Route
   app.get('/api/items/typeahead', cors, function (req, res, next) {
     var needle = req.query.q;
-    item.typeahead(needle, function (r) {
+    itemInstance.typeahead(needle, function (r) {
       if (util.isError(r)) {
         next(r);
       } else {
@@ -802,11 +839,48 @@ module.exports.routes = function(app){
     });
   });
 
-  app.get('/api/nafdacdrugs/typeahead/needle/:needle',item.nafdacTypeAhead);
+  app.get('/api/items/search', function(req, res, next) {
+    if (!req.query.scope){
+      return res.status(400).json({'message' : 'Invalid Request'});
+    }
+
+    if (!req.query.s) {
+      return res.status(400).json({'message' : 'Empty Query'});
+    }
+
+    if (req.query.scope === 'drugstoc') {
+      itemInstance.findDrugstocProduct(req.query.s)
+      .then(function (result) {
+        res.json(result);
+      }, function (err) {
+        next(err);
+      });
+    }
+    if (req.query.scope === 'inventory') {
+      itemInstance.findItem(req.query.s)
+      .then(function (result) {
+        res.json(result);
+      }, function (err) {
+        next(err);
+      });
+    }
+    if (req.query.scope === 'nafdac') {
+      itemInstance.findRegisteredItem(req.query.s)
+      .then(function (result) {
+        res.json(result);
+      }, function (err) {
+        next(err);
+      });
+    }
+
+
+  });
+
+  app.get('/api/nafdacdrugs/typeahead/needle/:needle',itemInstance.nafdacTypeAhead);
 
   //NAFDAC Fetch item by Registeration Number
   app.get('/api/nafdacdrugs/typeahead', function(req, res, next){
-    item.fetchByRegNo(req.query.q, function(r){
+    itemInstance.fetchByRegNo(req.query.q, function(r){
       if(util.isError(r)){
         next(r);
       }else if(_.isEmpty(r)){
@@ -819,13 +893,13 @@ module.exports.routes = function(app){
 
   //Create a new Item
   app.post('/api/items',function(req,res){
-    item.create(req.body, function(result){
+    itemInstance.create(req.body, function(result){
       if(result === 400){
-        res.json(400,{"message": "Invalid Order"});
+        res.json(400,{'message': 'Invalid Order'});
       }else if(result === 200){
-        res.json(200, {"task": true});
-      }else if(typeof(result) ==  'object'){
-        res.json(200, {"task": true});
+        res.json(200, {'task' : true});
+      }else if(typeof(result) ===  'object'){
+        res.json(200, {'task': true});
       }
     });
   });
@@ -833,14 +907,14 @@ module.exports.routes = function(app){
 
   //Delete Item
   app.delete('/api/items/:itemId', function(req, res){
-    item.deleteItem(req.param('itemId'), function(i){
+    itemInstance.deleteItem(req.param('itemId'), function(i){
       res.json(200, {state: i});
     });
   });
 
   //Item Category Routes.///
   app.post('/api/items/category', function(req, res, next){
-    item.addCategory(req.body.name, req.body.parent, function(r){
+    itemInstance.addCategory(req.body.name, req.body.parent, function(r){
       if(util.isError(r)){
         next(r);
       }else{
@@ -850,7 +924,7 @@ module.exports.routes = function(app){
   });
 
   app.get('/api/items/category', function(req, res, next){
-    item.listCategory(function(r){
+    itemInstance.listCategory(function(r){
       if(util.isError(r)){
         next(r);
       }else{
@@ -861,7 +935,7 @@ module.exports.routes = function(app){
 
   app.delete('/api/items/category/:categoryId', function(req, res, next){
     var catId = req.params.categoryId;
-    item.delCat(catId, function(i){
+    itemInstance.delCat(catId, function(i){
       if(util.isError(i)){
         next(i);
       }else{
@@ -871,7 +945,7 @@ module.exports.routes = function(app){
   });
   //Item Form Routes.///
   app.post('/api/items/form', function(req, res, next){
-    item.addForm(req.body.name, function(r){
+    itemInstance.addForm(req.body.name, function(r){
       if(util.isError(r)){
         next(r);
       }else{
@@ -881,7 +955,7 @@ module.exports.routes = function(app){
   });
 
   app.get('/api/items/form', function(req, res, next){
-    item.listForm(function(r){
+    itemInstance.listForm(function(r){
       if(util.isError(r)){
         next(r);
       }else{
@@ -892,7 +966,7 @@ module.exports.routes = function(app){
 
   app.delete('/api/items/category/:form_id', function(req, res, next){
     var catId = req.params.form_id;
-    item.removeForm(catId, function(i){
+    itemInstance.removeForm(catId, function(i){
       if(util.isError(i)){
         next(i);
       }else{
@@ -902,7 +976,7 @@ module.exports.routes = function(app){
   });
   //Item Packaging Routes.///
   app.post('/api/items/packaging', function(req, res, next){
-    item.addPackaging(req.body.name, function(r){
+    itemInstance.addPackaging(req.body.name, function(r){
       if(util.isError(r)){
         next(r);
       }else{
@@ -912,7 +986,7 @@ module.exports.routes = function(app){
   });
 
   app.get('/api/items/packaging', function(req, res, next){
-    item.listPackaging(function(r){
+    itemInstance.listPackaging(function(r){
       if(util.isError(r)){
         next(r);
       }else{
@@ -923,7 +997,7 @@ module.exports.routes = function(app){
 
   app.delete('/api/items/category/:package_id', function(req, res, next){
     var catId = req.params.package_id;
-    item.removePackage(catId, function(i){
+    itemInstance.removePackage(catId, function(i){
       if(util.isError(i)){
         next(i);
       }else{
@@ -931,5 +1005,17 @@ module.exports.routes = function(app){
       }
     });
   });
+
+  app.get('/api/dsproducts', function (req, res, next) {
+    var dsItems = new DsItem();
+    dsItems.findByNafdacNo(req.query.s)
+    .then(function (r) {
+      res.json(r);
+    }, function (err) {
+      next(err);
+      // res.status(400).json(err.message);
+    });
+  });
+
 };
 

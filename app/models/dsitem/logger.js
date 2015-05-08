@@ -9,6 +9,7 @@ var mongoose = require('mongoose'),
 var updatelogSchema = new Schema ({
 
   lastUpdateTime:  {type: Date, default: Date.now},
+  logID: {type: String},
   scope: {type: String},
   /**
    * 1: Requesting

@@ -2,23 +2,31 @@ api/admin/updates -> check for updates from WC API
 change order status from strings to numbers
 
 Login to DS Cloud should return Keys
+... user signs up with drugstoc,
+...admin activates ddim account role / service
+...user recieves encoded WC CS_KEY and CS_SECRET in email as activation token.
+...user activates DDIMs with email and token.
+...DDIMs saves WC CS to DB and Cookie
+
+Set active users
 
 
 Sync with DS
 save access tokens on config / env
-use rest to download products list
-upsert dsitems
-use nafdac no to query ds items
+- use rest to update whole products list
+- save last updated on every update
+- upsert dsitems
+- use nafdac no to query ds items
 
-webhook / hooks
-for product or order update,
-should save log to DB
 
 
 //should use logs for updates in 24hours period,
 //for updates over 24hours * 7 , should download all
 
 
-Place Orders
+- Place Orders
 
 Update Orders
+
+
+Should add category on adding item

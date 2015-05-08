@@ -12,17 +12,28 @@ var UserSchema = new Schema({
     /*
     Mini profile
      */
-    firstname: {type: String},
-    lastname: {type: String},
-    companyName: {type: String},
+    first_name: {type: String},
+    last_name: {type: String},
+    address_1: {type: String},
+    address_2: {type: String},
+    city: {type: String},
+    state: {type: String},
+    postcode: {type: String},
+    country: {type: String, default: 'NG'},
+    phone: {type: String, trim: true},
+
+    customer_id: {type: String},
+
+    company: {type: String},
+
     photo: {type: String, default: 'prettyme.jpg'},
-    phoneNumber: {type: String, trim: true, unique: true, sparse: true, required: true},
     /*
     account credentials
      */
     email: {type: String, trim: true, unique: true, sparse: true, required: true},
-    username: {type: String, trim: true, unique: true, sparse: true},
+    username: {type: String},
     password: String,
+
     type: { type: String, default: 'user' },
     /*
     loggin and audit
@@ -30,10 +41,9 @@ var UserSchema = new Schema({
     createdOn: { type: Date, default: Date.now },
     lastLoggedInOn: { type: Date},
     enabled: { type: Boolean, default: true },
-    /*
-    oauth2
-     */
-    reset_token_expires: Date
+
+    consumer_key : {type: String},
+    consumer_secret : {type: String},
 });
 
 /**

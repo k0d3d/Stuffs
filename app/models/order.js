@@ -26,7 +26,15 @@ var OrderSchema = new Schema({
   }],
   amountSupplied: {type: Number},
   orderInvoice: {type: String, default: ''},
-  orderStatus: {type: String, default: 0},
+  /*
+  pending order: 0
+  received: 1
+  supplied: 2
+  paid: 3
+  complete: 4
+
+   */
+  orderStatus: {type: Number, default: 0},
   orderVisibility: {type: Boolean, default: true},
   onlineId: {type: Schema.ObjectId},
   orderExpDate: {type: Date},
@@ -41,6 +49,8 @@ var OrderStatusSchema = new Schema({
   status: String
 });
 
+
+// OrderSchema.toObject({ getters: true, virtuals: false });
 
 /**
  * Statics

@@ -1,208 +1,53 @@
-var
-    Items = require('../models/item').Item,
-    // ItemCategory = require('../models/item').ItemCategory,
-    // ItemForm = require('../models/item').ItemForm,
-    // ItemPackaging = require('../models/item').ItemPackaging,
-    OrderController = require('./orders').order,
-    OrderModel = require('../models/order').Order,
-    OrderStatus = require('../models/order').OrderStatus,
-    Dispense = require('../models/dispense'),
-    DSItems = require('../models/dsitem'),
-    Bills = require('../models/bill').Bill,
-    BillRules = require('../models/bill').BillRule,
-    BillingProfile = require('../models/bill').BillingProfile,
-    PointLocation = require('../models/location'),
-    StockHistory = require('../models/stockhistory'),
-    StockCount = require('../models/stockcount'),
-    Transactions = require('../models/transaction'),
-    _ = require('lodash'),
-    // NafdacDrugs = require("../models/nafdacdrugs"),
-    NDL = require('./nafdacs').ndl,
-    rest = require('restler'),
-    // Admin = require('../models/admin'),
-    // querystring = require('querystring'),
-    config = require('config'),
-    util = require('util');
 
-var online_api_url = config.api.DS_CLOUD_URL;
-
-function AdminController () {
-
-}
-
-AdminController.prototype.constructor = AdminController;
+var util = require('util'),
+    Admin = require('../models/admin'),
+    DSItems = require('../models/dsitem');
 
 
 
-AdminController.prototype.login = function(email, password, cb){
-  rest.post(online_api_url+ '/api/users/session', {
-    data: {
-      email : email,
-      password: password
-    }
-  })
-  .on('success', function(d){
-    cb(d);
-  })
-  .on('error', function(d){
-    cb(new Error(d));
-  })
-  .on('fail', function(d){
-    cb(new Error(d));
-  });
-};
 
-AdminController.prototype.removeAllDispense = function(cb){
-  Dispense.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminController.prototype.removeAllBills = function(cb){
-  Bills.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminController.prototype.removeAllBillProfiles = function(cb){
-  BillingProfile.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminController.prototype.removeAllRules = function(cb){
-  BillRules.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminController.prototype.removeAllStockHistory = function(cb){
-  StockHistory.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminController.prototype.removeAllStockCount = function(cb){
-  StockCount.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminController.prototype.removeAllOrders = function(cb){
-  OrderModel.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminController.prototype.removeAllOrderStatus = function(cb){
-  OrderStatus.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminController.prototype.removeAllTransactions = function(cb){
-  Transactions.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminController.prototype.removeAllItems = function(cb){
-  Items.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminController.prototype.removeAllLocations = function(cb){
-  PointLocation.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-
-AdminController.prototype.createMainLocation = function(cb){
-  //Check for a default location
-  PointLocation.findOne({
-    locationType: 'default'
-  }, function(err, i){
-    if(!_.isEmpty(i)){
-      console.log('found');
-      cb(i);
-    }else{
-      //Create a default loaction
-      var pl = new PointLocation();
-      pl.locationName =  'Main';
-      pl.locationType = 'default';
-      pl.locationDescription = 'Main Stock Location';
-      pl.save(function(err, i){
-        cb(i);
-      });
-    }
-  });
-};
-
-AdminController.prototype.fetchHI = function (cb) {
-  restler.get(config.online_api_url + '')
-};
-
-
-module.exports.admin = AdminController;
-var admin = new AdminController();
 
 module.exports.routes = function(app){
+  var admin = new Admin();
   app.get('/admin',function(req, res){
     res.render('index',{
       title: 'Admin Area'
     });
   });
 
-  app.get('/api/admin/updates',  function(req, res, next){
-    //return res.json(200,['happu']);
-    // admin.checkUpdates(req, function(r){
-    //   if(util.isError(r)){
-    //     next(r);
-    //   }else{
-    //     res.json(404, r);
-    //   }
-    // });
-    res.json(true);
+  app.get('/api/admin/updates',  function(req, res){
+    var dsitem = new DSItems();
+    //return  res.json(200,['happu']);
+    dsitem.checkProductUpdates()
+    .then(function(r){
+      res.json(r);
+    }, function (err) {
+      res.status(400).json(err.message);
+
+    });
   });
 
-  app.post('/api/admin/update-product-information',  function(req, res, next){
-    // return res.status(200).json(['happu']);
-    DSItems.refreshProductInformation(req)
+  app.route('/api/admin/user-profile')
+  .get(function (req, res, next) {
+    admin.fetchUser(req.consumer_key)
+    .then(function (user) {
+      res.json(user);
+    }, function (err) {
+      next(err);
+    });
+  })
+  .post(function (req, res, next) {
+    admin.updateUserProfile(req.consumer_key, req.body)
+    .then(function (r) {
+      res.json(r);
+    }, function (err) {
+      next(err);
+    });
+  });
+
+  app.post('/api/admin/update-product-information',  function(req, res){
+    var dsitem = new DSItems();
+    dsitem.refreshProductInformation(req)
     .then(function(r){
         res.json(r);
     }, function (err) {
@@ -274,13 +119,20 @@ module.exports.routes = function(app){
     res.json(200, true);
   });
 
-  app.post('/admin/session', function(req, res){
-    admin.login(req.body.email, req.body.password, function(d){
-      if(util.isError(d)){
-        res.json(401, false);
-      }else{
-        res.json(200, d);
-      }
+  app.post('/admin/session', function(req, res, next){
+    var dsitem = new DSItems();
+    dsitem.checkConsumerByEmail(req.body)
+    .then(function(d){
+      d.customer_id = d.id;
+      admin.updateUserProfile(d.consumer_key, d)
+      .then(function () {
+        res.json(true);
+      }, function (err) {
+        next(err);
+      });
+
+    }, function (err) {
+      next(err);
     });
   });
   //Get facility information

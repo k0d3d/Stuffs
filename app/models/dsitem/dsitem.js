@@ -2,7 +2,8 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+    searchPlugin = require('mongoose-search-plugin'),
+    Schema = mongoose.Schema;
 
 
 var DsOnlineScehma = new Schema ({
@@ -21,10 +22,9 @@ var DsOnlineScehma = new Schema ({
   currentPrice:{type: Number},
   created_at: {type: Date},
   updated_at: {type: Date},
-  permalink: {type: String}
+  permalink: {type: String},
+  product_id : {type: Number}
 });
-
-
 
 
 
@@ -46,6 +46,10 @@ DsOnlineScehma.statics = {
     wit.regex('title',new RegExp(name, 'i')).exec(cb);
   }
 };
+
+DsOnlineScehma.plugin(searchPlugin, {
+    fields: ['title', 'description', 'tags', 'categories', 'attributes.options']
+});
 
 
 mongoose.model('dsitem', DsOnlineScehma);

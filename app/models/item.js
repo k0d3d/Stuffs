@@ -4,8 +4,8 @@
  */
 
 var mongoose = require('mongoose'),
-
-  Schema = mongoose.Schema;
+    searchPlugin = require('mongoose-search-plugin'),
+    Schema = mongoose.Schema;
 
 /**
  * Item Schema
@@ -17,13 +17,13 @@ var ItemSchema = new Schema({
   sciName: {type: String, default: ''},
   manufacturerName: {type: String},
   itemCategory: [
-    {type: Schema.ObjectId, ref: 'ItemCategory'}
+    {type: String}
   ],
   itemDescription: {type: String},
   itemPackaging:{type: String},
   itemForm: {type: String},
   itemPurchaseRate: {type: Number},
-  lastOrderPrice: {type: Number},
+  ownerPrice: {type: Number},
   packageSize: {type: Number},
   icdcode: {type: String},
   suppliers: [{
@@ -32,9 +32,11 @@ var ItemSchema = new Schema({
   }],
   nafdacId: {type: Schema.ObjectId},
   importer: {type: String},
-  nafdacRegNo: {type: String}
+  nafdacRegNo: {type: String},
+  sku: {type: String},
+  product_id: {type: Number},
+  updated_on: {type: Date}
 });
-
 
 var ItemCategorySchema = new Schema({
   categoryName: {type: String, required: true},
@@ -110,14 +112,18 @@ ItemSchema.statics = {
   * @api private
   */
   autocomplete: function(name, cb){
-    var wit = this.find({$or:[
+    this.find({$or:[
         {'itemName': {$regex: new RegExp(name, 'i')}},
         {'sciName': {$regex: new RegExp(name, 'i')}}
-      ]},'itemName').exec(cb)
+      ]},'itemName').exec(cb);
 
   }
 
-}
+};
+
+ItemSchema.plugin(searchPlugin, {
+    fields: ['itemName', 'sciName', 'itemCategory', 'itemDescription', 'sku', 'product_id', 'nafdacRegNo']
+});
 
 
 /**
@@ -143,7 +149,7 @@ ItemCategorySchema.statics = {
       }
     });
   }
-}
+};
 
 /**
  * ItemCategory Schema Methods
@@ -251,12 +257,12 @@ ItemPackagingSchema.methods = {
   }
 };
 
-mongoose.model('ItemForm', ItemFormSchema);
-mongoose.model('ItemPackaging', ItemPackagingSchema);
-mongoose.model('ItemCategory', ItemCategorySchema);
-mongoose.model('Item', ItemSchema);
+mongoose.model('itemForm', ItemFormSchema);
+mongoose.model('itemPackaging', ItemPackagingSchema);
+mongoose.model('itemCategory', ItemCategorySchema);
+mongoose.model('item', ItemSchema);
 
-module.exports.Item = mongoose.model('Item');
-module.exports.ItemPackaging = mongoose.model('ItemPackaging');
-module.exports.ItemCategory = mongoose.model('ItemCategory');
-module.exports.ItemForm = mongoose.model('ItemForm');
+module.exports.Item = mongoose.model('item');
+module.exports.ItemPackaging = mongoose.model('itemPackaging');
+module.exports.ItemCategory = mongoose.model('itemCategory');
+module.exports.ItemForm = mongoose.model('itemForm');

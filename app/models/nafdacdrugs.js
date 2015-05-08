@@ -2,22 +2,24 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema;
+    searchPlugin = require('mongoose-search-plugin'),
+    Schema = mongoose.Schema;
 
 
 var NafdacdrugSchema = new Schema ({
-  productName : {type: String, default: '', required: true},
-  composition : {type: String, default: '', required: true},
-  regNo : {type: String, default: '', required: true},
-  man_imp_supp : {type: String, default: ''},
-  mis_address : {type: String, default: '', required: true},
-  mis_regDate : {type: String, default: '', required: true},
-  mis_expDate : {type: String, default: '', required: true},
-  category : {type: String, default: '', required: true},
+  productName : {type: String},
+  composition : {type: String},
+  regNo : {type: String},
+  man_imp_supp : {type: String},
+  mis_address : {type: String},
+  mis_regDate : {type: String},
+  mis_expDate : {type: String},
+  category : {type: String},
   onlineId: {type: Schema.ObjectId},
   currentPrice:{type: Number},
   lastUpdated: {type: Date}
 });
+
 
 NafdacdrugSchema.statics = {
   /**
@@ -38,6 +40,9 @@ NafdacdrugSchema.statics = {
   }
 };
 
+NafdacdrugSchema.plugin(searchPlugin, {
+    fields: ['productName', 'composition', 'regNo']
+});
 
 mongoose.model('nafdacdrug', NafdacdrugSchema);
 module.exports = mongoose.model('nafdacdrug');

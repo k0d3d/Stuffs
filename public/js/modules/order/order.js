@@ -90,7 +90,14 @@ config(['$routeProvider',function($routeProvider){
   };
 
 }])
-.controller('ordersIndexController', function($scope, $http, $location, $routeParams, ordersService){
+.controller('ordersIndexController', [
+  '$scope',
+  '$http',
+  '$location',
+  '$routeParams',
+  'ordersService',
+  // '$q',
+  function($scope, $http, $location, $routeParams, ordersService){
   $scope.getStatus = function (status){
     var d;
     switch(status){
@@ -166,8 +173,16 @@ config(['$routeProvider',function($routeProvider){
 
     });
   };
-})
-.controller('orderAddController',function($scope, $http, $location, ordersService,itemsService, $routeParams){
+}])
+.controller('orderAddController',[
+  '$scope',
+  '$http',
+  '$location',
+  'ordersService',
+  'itemsService',
+  '$routeParams',
+  '$q',
+  function($scope, $http, $location, ordersService,itemsService, $routeParams, Q){
   $scope.form = {
     itemData: {},
     supplierData: {}
@@ -201,19 +216,23 @@ config(['$routeProvider',function($routeProvider){
     $scope.searchndl = !$scope.searchndl;
   };
 
-  $scope.searchcmp = function(p, cb){
-    $scope.ds = '';
-    var page = p || 0;
-    ordersService.searchCmp($scope.drugcmp,'composition', page, function(r){
-      $scope.cmps = r;
-      //Callback passed to paginate directive
-      if(r !== false && !_.isEmpty(r)){
-        $scope.supplierList = r;
-        if(typeof(cb) === 'function')cb(true);
-      }else{
-        if(typeof(cb) === 'function')cb(false);
+  $scope.searchcmp = function(searchQuery){
+    Q.all([
+      ordersService.request_search(searchQuery, 'inventory'),
+      ordersService.request_search(searchQuery, 'drugstoc'),
+      ordersService.request_search(searchQuery, 'nafdac')
+    ])
+    .then(function (resolvedPromise) {
+
+      $scope.inventoryResults = resolvedPromise[0].data.results;
+      $scope.drugstocResults = resolvedPromise[1].data.results;
+      $scope.nafdacResults = resolvedPromise[2].data.results;
+      if (!$scope.activePane) {
+        $scope.activePane = 'iv';
       }
     });
+    // ordersService.searchCmp(searchQuery)
+    // .
   };
 
 
@@ -247,7 +266,7 @@ config(['$routeProvider',function($routeProvider){
       $scope.form = '';
     });
   };
-})
+}])
 .factory('ordersService',['$http', 'Notification','Language', function($http, Notification, Lang){
     var f = {};
     f.searchCmp = function(srchstr, catrcmp, page, callback){
@@ -267,9 +286,14 @@ config(['$routeProvider',function($routeProvider){
           type: 'error'
         });
       });
-    }
+    };
+
+    f.request_search = function request_search (query, scope) {
+      return $http.get('/api/items/search?s=' + query + '&scope=' + scope);
+    };
+
     f.getAllSuppliers = function(callback){
-      $http.get('/api/orders/suppliers/'+escape(query)).success(function(data){
+      $http.get('/api/orders/suppliers/').success(function(data){
         callback(data);
       });
     };
@@ -277,7 +301,7 @@ config(['$routeProvider',function($routeProvider){
       // $http.get('/api/orders/supplier/typeahead/'+query).success(function(data){
       //   callback(data);
       // });
-      $.getJSON('/api/orders/supplier/typeahead/'+escape(query), function(s) {
+      $.getJSON('/api/orders/supplier/typeahead/'+ query, function(s) {
           var results = [];
           $.each(s,function(){
             results.push(this.supplierName);
@@ -302,7 +326,7 @@ config(['$routeProvider',function($routeProvider){
           });
             callback(data);
         }).
-        error(function(err){
+        error(function(){
           Notification.notifier({
             message : Lang.eng.order.place.error,
             type: 'error'
@@ -318,7 +342,7 @@ config(['$routeProvider',function($routeProvider){
           });
             callback(data);
         }).
-        error(function(err){
+        error(function(){
           Notification.notifier({
             message : Lang.eng.order.place.error,
             type: 'error'
@@ -326,14 +350,14 @@ config(['$routeProvider',function($routeProvider){
         });
     };
     f.updateOrder = function(o,callback){
-      $http.put('/api/orders/'+escape(o.order_id), {
-          "status": o.status,
-          "itemData":o.itemData,
-          "amount":o.amount,
-          "orderInvoiceNumber": o.invoiceno,
-          "amountSupplied": o.amountSupplied || undefined,
-          "paymentReferenceType": o.paymentReferenceType,
-          "paymentReferenceID": o.paymentReferenceID
+      $http.put('/api/orders/' + o.order_id, {
+          'status': o.status,
+          'itemData':o.itemData,
+          'amount':o.amount,
+          'orderInvoiceNumber': o.invoiceno,
+          'amountSupplied': o.amountSupplied || undefined,
+          'paymentReferenceType': o.paymentReferenceType,
+          'paymentReferenceID': o.paymentReferenceID
         })
       .success(function(data){
         Notification.notifier({
@@ -342,7 +366,7 @@ config(['$routeProvider',function($routeProvider){
         });
         callback(data);
       })
-      .error(function(data){
+      .error(function(){
         Notification.notifier({
           message: Lang.eng.order.update.error,
           type: 'error'

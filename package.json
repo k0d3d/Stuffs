@@ -44,6 +44,7 @@
     "mongoose": "latest",
     "mongoose-paginate": "~0.1.5",
     "mongoose-pureautoinc": "latest",
+    "mongoose-search-plugin": "^0.1.2",
     "morgan": "latest",
     "multer": "latest",
     "nconf": "~0.6.9",

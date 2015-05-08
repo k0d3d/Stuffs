@@ -1,19 +1,18 @@
 var
     Items = require('../models/item').Item,
     Order = require('../models/order').Order,
+    DsItems = require('../models/dsitem'),
     OrderStatus = require('../models/order').OrderStatus,
     PointLocation = require('../models/location'),
     Supplier = require('../models/supplier'),
-    _ = require("lodash"),    Ndl = require('./nafdacs').ndl,
-    rest  = require('restler'),
+    _ = require('lodash'),    Ndl = require('./nafdacs').ndl,
     EventRegister = require('../../lib/event_register').register,
     StockManager = require('./stock').manager,
-    Ndl = require("./nafdacs").ndl,
-    utils = require("util");
+    Ndl = require('./nafdacs').ndl,
+    utils = require('util');
 /**
  * Module dependencies.
  */
-var online_api_url = 'http://localhost:3001';
 
 function OrderController () {
 
@@ -21,30 +20,8 @@ function OrderController () {
 
 OrderController.prototype.constructor = OrderController;
 
-
-var postOrders = function(){
-  Order.find({orderStatus: 'pending order'}, 'itemData orderAmount orderDate orderSupplier nafdacRegNo nafdacRegName')
-  .exec(function(err, i){
-    var one = JSON.stringify(i);
-    if(err){
-      utils.puts(err);
-    }else{
-      rest.postJson(online_api_url + '/api/orders', { data: one, hid: 1008} )
-      .on('success', function(r){
-        updateTracking(r);
-      })
-      .on('error', function(err){
-        utils.puts(err);
-      })
-      .on('fail', function(err){
-        utils.puts(err);
-      });
-    }
-  });
-};
-
 var updateTracking = function (r) {
-  _.each(r, function(v, i){
+  _.each(r, function(v){
     Order.update({_id: v.client}, {
       onlineId: v.online,
       orderStatus: 'received'
@@ -56,9 +33,45 @@ var updateTracking = function (r) {
   });
 };
 
+var postOrders = function(){
+  Order.find({orderStatus: 0}, 'itemData orderAmount orderDate orderSupplier nafdacRegNo nafdacRegName')
+  .populate({
+    path: 'itemData.id',
+    model: 'Item'
+  })
+  .exec(function(err, i){
+    // var one = JSON.stringify(i);
+    if(err){
+      utils.puts(err);
+    }else{
+      var dsItems = new DsItems();
+
+      dsItems.postDSCloudOrders(i[0])
+      .then(function (r) {
+        updateTracking(r);
+      }, function (err) {
+        console.log(err);
+      })
+      .catch(function (err) {
+        console.log(err.stack);
+      });
+
+      // rest.postJson(online_api_url + '/api/orders', { data: one, hid: 1008} )
+      // .on('success', function(r){
+      // })
+      // .on('error', function(err){
+      //   utils.puts(err);
+      // })
+      // .on('fail', function(err){
+      //   utils.puts(err);
+      // });
+    }
+  });
+};
+
+
 OrderController.prototype.placeCart = function(cartObj, cb){
   if(_.isEmpty(cartObj)) return cb(new Error('Empty Request'));
-  var self = this;
   var doneIds = [];
 
   function _create(){

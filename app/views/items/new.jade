@@ -15,16 +15,19 @@ block body
             select(name="itemtype",class="span6",ng-model="form.itemType", required)
               option Medication
               option Medical Equipment
-            label(for="name") Brand Name 
-            input.input-medium(type="text",name="name", ng-model="form.itemName", brand-name-type-ahead, required, autocomplete="off")              
+            label(for="name") Brand Name
+            input.input-medium(type="text",name="name", ng-model="form.itemName", brand-name-type-ahead, required, autocomplete="off")
+            ul#dsProducts.fa-ul.listing()
+              li(ng-repeat="dsProduct in dsListOfMatchingProducts ", ng-click="attachSKU(dsProduct, form)")
+                | {{dsProduct.title}}
             label(for="sci-name") Scientific Name / Composition
             input.input-medium(type="text", name="sci-name",ng-model="form.sciName", required)
             label(for="man-name") Manufacturer
             input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName", required)
             label(for="supplier") Importer
-            input.input-medium(type="text", name="supplier",ng-model="form.importer", style="color:black;" )  
+            input.input-medium(type="text", name="supplier",ng-model="form.importer", style="color:black;" )
             label(for="supplier") NAFDAC Number
-            input.input-medium(type="text", name="supplier",ng-model="form.nafdacRegNo", style="color:black;") 
+            input.input-medium(type="text", name="supplier",ng-model="form.nafdacRegNo", style="color:black;")
             a(ng-click="getByRegNo()",  href="", style="margin-left: 10px; text-transform: Capitalize") Find
             label.lister(for="category") Category
               button.btn.btn-mini.btn-info.nop(new-modal="#dialog-category")
@@ -43,12 +46,12 @@ block body
               label(for="invoice-date") Invoice Date
               input#invoice-date.input-medium(type="date", name="invoice-date", class="datepicker", data-date-format="dd/mm/yyyy",ng-model="form.orderInvoiceData.orderInvoiceDate")
               label(for="stock-amount") Stock Amount
-              input.input-small(type="number",ng-model="form.orderInvoiceData.orderInvoiceAmount")              
-            label.lister(for="supplier") Supplier  
+              input.input-small(type="number",ng-model="form.orderInvoiceData.orderInvoiceAmount")
+            label.lister(for="supplier") Supplier
             ul#itemSuppliers.fa-ul.listing(ng-model="form.suppliers")
               li(ng-repeat="itemSup in form.suppliers", ng-click="removeItemSup($index)")
                 | {{itemSup.supplierName}}
-            input.input-medium(type="text", name="supplier", supplier-name-type-ahead)                
+            input.input-medium(type="text", name="supplier", supplier-name-type-ahead)
             p {{form.suppliers.length}} suppliers selected.
 
 

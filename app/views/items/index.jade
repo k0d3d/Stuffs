@@ -7,9 +7,10 @@ nav.shpane.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu",ng-
     label Quantity
     input(type="number", ng-model="sdqty", required)
     label Current Price: <b>{{summary.itemPurchaseRate}}</b>
-    label Order Price
-    input(type="number", ng-model="sdprice", ng-required="!summary.itemPurchaseRate")
-    label Current Supplier: <b>{{summary.suppliers[0].supplierName}}</b>
+    //
+      label Order Price
+      input(type="number", ng-model="sdprice", ng-required="!summary.itemPurchaseRate")
+      label Current Supplier: <b>{{summary.suppliers[0].supplierName}}</b>
     label Supplier
     input(type="text", placeholder="Supplier", cart-supplier, ng-model="toOrderSupplier.supplierName")
     button.btn.btn-warning.btn-block(type="submit", ng-disabled="cartOrder.$invalid") Add to Cart
@@ -40,18 +41,18 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu", ng-style=
       dt Rate
       dd {{summary.itemPurchaseRate}}
   div.summary-actions
-    p 
+    p
       button.btn.btn-block.btn-warning(data-ng-click="commons.href('/items/'+summary._id+'/edit')") Edit Item
-    p 
-      button.btn.btn-block.btn-warning(data-ng-click="addPane()") Add to cart    
-    p 
+    p
+      button.btn.btn-block.btn-warning(data-ng-click="addPane()") Add to cart
+    p
       button.btn.btn-block.btn-warning(ng-click="stockhistory(summary._id)") Stock History
-    p 
+    p
       button.btn.btn-block.btn-danger(data-ng-click="delConfirm = !delConfirm; delBtnText = 'Are you sure ?'", ng-init="delConfirm = true") {{delBtnText}}
       div(ng-show="!delConfirm")
         button.btn.btn-danger.btn-block(data-ng-click="deleteItem(summary._id)") Yes
         button.btn.btn-inverse.btn-block(data-ng-click="delConfirm = true; delBtnText = 'Delete Item'") Cancel
-    p 
+    p
       button.btn.btn-block.btn-default.btn-close(data-ng-click="spmenu=''", ng-class="spmenu") Close
 
 .row-fluid.row-break
@@ -78,16 +79,16 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu", ng-style=
         option(value="low-stock") Low Stock
         option(value="empty-stock") Empty Stock
   .span10
-    .row-fluid    
+    .row-fluid
       .panorama
         .sectionAZ.panorama-sections(ng-show="hasItems")
           .card-section.span6.panorama-section(data-ng-repeat="(key,az) in itemsList", id="section{{key}}", on-finish="panorama")
             .card(data-ng-repeat="item in az  | orderBy:'itemName' | filter: search", class="{{item.currentStock | stockclass: item.itemBoilingPoint}}", data-ng-click="summaryDo($event, item._id)", on-finish="checkViewState")
               h5 {{item.itemName}}
-              span.low {{item.currentStock}} 
+              span.low {{item.currentStock}}
         .no-item-holder(ng-show="!hasItems")
-          h4 No Items added. 
-          a.btn.btn-primary(href="items/add") Add             
+          h4 No Items added.
+          a.btn.btn-primary(href="items/add") Add
       .row-fluid.row-break
         ul.index-list
           li(data-ng-repeat="index in indexes", class="index {{enabledIndex | indexclass: index}}") {{index}}

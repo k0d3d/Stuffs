@@ -29,15 +29,15 @@ angular.module('services', [])
 		this.notice.icon ='';
 		this.broadcastNotification();
 	};
-	
+
 	//Opens a modal box
 	s.notifier = function(m){
 		var self =this;
 		var icon = {
-			"error" : "fa-exclamation-triangle", 
-			"success": "fa-check",
-			"info":"fa-info"
-		}
+			'error' : 'fa-exclamation-triangle',
+			'success': 'fa-check',
+			'info':'fa-info'
+		};
 		this.notice.message = m.message;
 		this.notice.type = m.type;
 		this.notice.icon = icon[m.type];
@@ -52,17 +52,17 @@ angular.module('services', [])
 	//to server fail
 	s.modal = function(n){
 		var state = {
-			"success": {
-				"state": 'md-show',
-				"class": 'md-success',
-				"overlay": 'success-overlay'
+			'success': {
+				'state': 'md-show',
+				'class': 'md-success',
+				'overlay': 'success-overlay'
 			},
-			"error":{
-				"state": 'md-show',
-				"class":'md-error',
-				"overlay": 'error-overlay'
+			'error':{
+				'state': 'md-show',
+				'class':'md-error',
+				'overlay': 'error-overlay'
 			}
-		}
+		};
 		this.message.heading = n.heading;
 		this.message.body = n.body;
 		this.message.state.overlay = state[n.type].overlay;
@@ -86,7 +86,7 @@ angular.module('services', [])
 	d.dom = {
 		heading : '',
 		content : '',
-		
+
 	}
 	return d;
 })
@@ -103,7 +103,7 @@ angular.module('services', [])
 			.then(cb, function(err){
 				//Error Handler
 				return $q.reject();
-			}); 
+			});
 		},
 		cancelTransaction: function(transactionId, cb){
 			return $http.post('/api/transaction/'+transactionId+'?task=cancel')

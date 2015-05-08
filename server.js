@@ -77,15 +77,15 @@ function afterResourceFilesLoad () {
 
 
     // expose package.json to views
-    app.use(function (req, res, next) {
-      res.locals.pkg = pjson;
-      res.locals.facility = {
-        name: 'New Ikeja Hospital',
-        address: 'Gbajobi Ikeja',
-        phone_number: '08126488955'
-      };
-      next();
-    });
+    // app.use(function (req, res, next) {
+    //   res.locals.pkg = pjson;
+    //   res.locals.facility = {
+    //     name: 'New Ikeja Hospital',
+    //     address: 'Gbajobi Ikeja',
+    //     phone_number: '08126488955'
+    //   };
+    //   next();
+    // });
 
     // signed cookies
     app.use(cookieParser(config.express.secret));
@@ -116,6 +116,15 @@ function afterResourceFilesLoad () {
     }));
 
     require('./lib/passport.js')(passport);
+
+    app.use(function (req, res, next) {
+      // console.log(req.cookies);
+      // check if client sent cookie
+      if (!req.consumer_key){
+        req.consumer_key = 'ck_74d23e186250997246f0c198148441d4';
+      }
+      next();
+    });
 
     //Initialize Passport
     app.use(passport.initialize());

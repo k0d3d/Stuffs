@@ -1,21 +1,42 @@
-.span5.offset1()
-  form#login(novalidate, ng-submit="trylogin()")
-    label(for="name") Facility Name
-    input#name.span6(type="text", name="name",ng-model="facility.name", required)      
-    label(for="address") Facility Address
-    textarea#address.span5(type="text", name="address", ng-model="facility.address", required)
-    label(for="city") City
-    input#city.span5(type="text", name="city", ng-model="facility.city", required)
-    label(for="state") State
-    input#state.span5(type="text", name="state", ng-model="facility.state", required)
+div(ng-controller="usersController")
+  .span5.offset1.account-information-pane
+    h4 Account Information
+    form#login(novalidate)
+      label(for="name") Facility / Company Name
+      input.span6(type="text", ng-model="facility.company", required, placeholder="Free Clinic Ltd")
+      label(for="address") Name
+      input.span6(type="text", ng-model="facility.first_name", placeholder="John")
+      input.span6(type="text", ng-model="facility.last_name", placeholder="Doe")
+      label(for="address") Facility Address
+      input.span12(type="text", ng-model="facility.address_1", required, placeholder="1 Smith Way")
+      input.span6(type="text", ng-model="facility.address_2", placeholder="Block 2")
+      label(for="city") City
+      input#city.span6(type="text", name="city", ng-model="facility.city", placeholder="Victoria Island")
+      label(for="state") State
+      input#state.span6(type="text", name="state", ng-model="facility.state", required, placeholder="Lagos")
 
-    label(for="service_type") Service Type
-    select#service_type.span5(type="text", name="service_type", ng-model="facility.service_type", required)
-      option Hospital
-      option Pharmacy
-      option Clinic
-    label(for="telephone") Phone Number
-    input#telephone(type="tel", name="phone_number", ng-model="facility.phone_number")
-    .control-grop
-      .controls
-        button.btn.btn-info(type="submit") Save
+      label(for="telephone") Phone Number
+      input#telephone(type="tel", name="phone", ng-model="facility.phone", placeholder="0800 124 4567")
+      label(for="telephone") Email
+      input#telephone(type="tel", name="email", ng-model="facility.email", placeholder="you@example.com", readonly)
+      .control-group
+        .controls
+          button.btn.btn-info(type="submit", ng-click="saveFacilityInformation(facility)") Save
+  .span3.offset1
+    div.pr-btn-drpdwn.upd-menu
+      h4 Activate DDIMs
+      form(accept-charset='UTF-8', name="login_form", novalidate)
+        .control-group
+          .controls
+            input(style='margin-bottom: 15px;', type='text', placeholder='Email Address', name='email',ng-model="facility.email", required)
+        .control-group
+          .controls
+            input(style='margin-bottom: 15px;', type='text', placeholder='Consumer Key', name='consumer_key',ng-model="facility.consumer_key", required)
+        .control-group
+          .controls
+            input(style='margin-bottom: 15px;', type='password', placeholder='Consumer Secret', name='consumer_secret',ng-model="facility.consumer_secret", required)
+        .control-group
+          .controls
+            button#sign-in.btn.btn-primary(type='submit', style="border-radius: 6px", ng-disabled="login_form.$invalid", ng-click="login_user(facility)") Activate
+
+

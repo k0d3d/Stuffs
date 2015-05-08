@@ -51,7 +51,7 @@ angular.module('integraApp').controller('MainController', [ '$scope', '$http', '
     //Fetches waiting list of patients
     itemsService.fetchDispenseRecords("pending", function(r){
         $scope.waiting = r;
-    });    
+    });
   };
 
   $scope.refreshUpdates = function (){
@@ -77,7 +77,7 @@ angular.module('integraApp').controller('MainController', [ '$scope', '$http', '
     });
   };
 
-  //List of Item forms 
+  //List of Item forms
   var itemForm = [
    'Tablets',
    'Capsules',
@@ -121,7 +121,7 @@ angular.module('integraApp').controller('MainController', [ '$scope', '$http', '
     itemPackaging: itemPackaging
 
   };
- 
+
 
   $scope.$on('newNotification', function(){
     $scope.notification = Notification.notice;
@@ -132,7 +132,7 @@ angular.module('integraApp').controller('MainController', [ '$scope', '$http', '
 
   //Check for Orders in Cart
   $scope.orderCart =  angular.fromJson($scope.$storage.orderCart) || [];
-  
+
   // if($scope.$storage.orderCart){
   //   $scope.orderCart = $.parseJSON($scope.$storage.orderCart);
   // }else{
@@ -149,17 +149,6 @@ angular.module('integraApp').controller('MainController', [ '$scope', '$http', '
     $scope.$storage.orderCart = angular.toJson($scope.orderCart);
   };
 
-  $scope.login_user = function(){
-    userService.loginUser($scope.pre_auth.user, $scope.pre_auth.pass, function(){
-
-    });
-  }
-
-  $scope.logout_user = function (){
-    userService.logoutUser(function () {
-
-    });
-  }
 }]);
 angular.module('integraApp').filter('moment', function(){
     return function(time){
