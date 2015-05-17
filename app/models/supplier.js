@@ -51,6 +51,6 @@ SuppliersSchema.statics = {
 
   }
 };
-mongoose.model('Supplier', SuppliersSchema);
+mongoose.model('supplier', SuppliersSchema);
 
-module.exports = mongoose.model('Supplier');
+module.exports = mongoose.model('supplier');

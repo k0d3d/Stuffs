@@ -1,17 +1,24 @@
 block body
   include ../includes/modals/modal.jade
   .row-fluid.row-break()
-    .span8
-        form#form-new-order.form-search(name="newOrder", novalidate, ng-submit="searchcmp(searchQuery)")
+    .span7
+        form#form-new-order.form-search(name="newOrder", novalidate, ng-submit="searchcmp(searchQuery, {'page' : 0})")
           input#itemname.span6.search-query(type="text",name="itemName",ng-model="searchQuery", required, placeholder="Item / Drug Name / Composition")
-          button.btn(type="submit") Search
-    .span4
-      .btn-group.order-tabs
-        button.btn(ng-click="activePane = 'iv'; activeText = 'your inventory'", ng-class="{'active': activePane == 'iv'}") Your Inventory
+          button.btn.btn-primary(type="submit")
+            | Search
+            <i ng-show="searching_icon" class="fa fa-spinner fa-pulse"></i>
+    .span5
+      .btn-group.order-tabs.pull-right
+        button.btn(ng-click="activePane = 'iv'; activeText = 'your inventory'", ng-class="{'active': activePane == 'iv'}")
+          | Your Inventory
+          span.badge.badge-info {{inventoryCount || 0}}
         button.btn(ng-click="activePane = 'ds'; activeText = 'DrugStoc'", ng-class="{'active': activePane == 'ds'}")
           | DrugStoc
+          span.badge.badge-info {{drugstocCount || 0}}
         button.btn(ng-click="activePane = 'nr'; activeText = 'the NAFDAC Register'", ng-class="{'active': activePane == 'nr'}")
           | NAFDAC Register
+          span.badge.badge-info {{nafdacCount || 0}}
+
 
   .row-fluid
     .span12
@@ -20,30 +27,35 @@ block body
         thead(ng-show="activePane == 'iv'", style="border-top: solid 1px #fff")
           tr
             th Product
+            th  
             th Price (n)
             th Cost (n)
             th Quantity
-            th  
         tbody(ng-show="activePane == 'iv'")
           tr(ng-repeat="iv in inventoryResults")
-            td.span8
+            td.span7
               .media
                 .media-body
                   h4.media-heading
-                    a(href='#') {{iv.itemName}}
+                    a(ng-href='/items/{{iv._id}}/edit/iv-edit') {{iv.itemName}}
                   p.media-body
                     span {{iv.sciName}}
             td.span1
+            td.span1
               strong
-            td.span1
-              strong {{iv.itemPurchaseRate}}
             td.span1()
-              .controls.controls-row
-                input#exampleInputEmail1.form-control.pull-left.span6(type='number', value='3')
-                button.btn.btn-danger.btn-mini.span4(type='button')
-                  i.fa.fa-cart-plus
+              strong {{iv.itemPurchaseRate}}
             td.span1
-
+              .controls.controls-row
+                input#exampleInputEmail1.form-control.pull-left.span6(type='number', ng-model="iv.orderAmount")
+                button.btn.btn-danger.btn-mini.span4(type='button', ng-click="orderItem(iv, 'iv')", ng-disabled="!iv.orderAmount")
+                  i.fa.fa-cart-plus
+        tfoot(ng-show="activePane == 'iv'", style="border-top: solid 1px #fff")
+          tr
+            th(style="border-top: none")
+              .btn-group
+                button.btn Previous
+                button.btn Next
         thead(ng-show="activePane == 'ds'")
           tr
             th Product
@@ -57,7 +69,7 @@ block body
               .media
                 .media-body
                   h4.media-heading
-                    a(href='#') {{ds.title}}
+                    | {{ds.title}}
                   p.media-body
                     span(ng-bind-html="ds.description")
             td.span1
@@ -66,12 +78,18 @@ block body
               strong {{ds.updated_at | date:medium}}
             td.span1()
               .controls.controls-row
-                input#exampleInputEmail1.form-control.pull-left.span6(type='number', value='3')
-                button.btn.btn-danger.btn-mini.span4(type='button')
+                input#exampleInputEmail1.form-control.pull-left.span6(type='number', ng-model="ds.orderAmount")
+                button.btn.btn-danger.btn-mini.span4(type='button', ng-click="orderItem(ds, 'ds')", ng-disabled="!ds.orderAmount")
                   i.fa.fa-cart-plus
             td.span1
-              button.btn.btn-primary.btn-mini(type='button')
+              a.btn.btn-primary.btn-mini(type='button', ng-href="/items/{{ds._id}}/ds-add/ds-add")
                 i.fa.fa-list-ol
+        tfoot(ng-show="activePane == 'ds'", style="border-top: solid 1px #fff")
+          tr
+            th(style="border-top: none")
+              .btn-group
+                button.btn Previous
+                button.btn Next
         thead(ng-show="activePane == 'nr'")
           tr
             th Product
@@ -97,3 +115,9 @@ block body
               button.btn.btn-default.btn-mini(type='button', title="Send Inquiry")
                 i.fa.fa-info
                 |  Send Inquiry
+        tfoot(ng-show="activePane == 'nr'", style="border-top: solid 1px #fff")
+          tr
+            th(style="border-top: none")
+              .btn-group
+                button.btn(ng-click="skipSearch(searchQuery, currentPage.nafdac - 1 , 'nafdac')") Previous
+                button.btn(ng-click="skipSearch(searchQuery, currentPage.nafdac + 1, 'nafdac')") Next

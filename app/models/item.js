@@ -19,6 +19,9 @@ var ItemSchema = new Schema({
   itemCategory: [
     {type: String}
   ],
+  itemTags: [
+    {type: String}
+  ],
   itemDescription: {type: String},
   itemPackaging:{type: String},
   itemForm: {type: String},

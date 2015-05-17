@@ -34,7 +34,7 @@ block body
                 i.fa.fa-ellipsis-horizontal
             ul#itemCategory.fa-ul.listing(ng-model="form.itemCategory")
               li(ng-repeat="itemCat in form.itemCategory ", ng-click="removeItemCat($index)")
-                | {{itemCat.categoryName}}
+                | {{itemCat}}
             p {{form.itemCategory.length}} categories selected.
 
             label(for="itemdesc") Item Description
@@ -65,3 +65,5 @@ block body
             select(name="itemform",ng-model="form.itemForm", ng-options="c for c in commons.itemForm", required)
             label(for="itempackaging") Item Packaging
             select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging", required)
+            label(for="rate") Your Rate
+            input.input-small(type="number",name="op",ng-model="form.ownerPrice")

@@ -6,10 +6,14 @@ Login to DS Cloud should return Keys
 ...admin activates ddim account role / service
 ...user recieves encoded WC CS_KEY and CS_SECRET in email as activation token.
 ...user activates DDIMs with email and token.
-...DDIMs saves WC CS to DB and Cookie
+DDIMs saves WC CS to DB and Cookie
 
+
+Use req.user , passport to access cs_key for fetching user when posting order, dsItems: 103
 Set active users
 
+updates long polling for checking price changes, order statuses, pending orders
+should add cart contents to
 
 Sync with DS
 save access tokens on config / env
@@ -18,6 +22,14 @@ save access tokens on config / env
 - upsert dsitems
 - use nafdac no to query ds items
 
+
+Should search / display both NAFDAC and DS products
+
+Should clear fields after auto complete
+
+Add Cost Price
+
+Invoice Add Item with Stock
 
 
 //should use logs for updates in 24hours period,
@@ -30,3 +42,13 @@ Update Orders
 
 
 Should add category on adding item
+
+send mail
+
+
+1. Add All Suppliers
+2.Adding all items in stock, with invoice number and current stock
+3. inventory with your price and purchase cost.
+4. order notification for supplier
+5. Fix Dispensary
+6. billing profiles on selling rate

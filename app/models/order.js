@@ -1,6 +1,6 @@
 
 /**
- * Module dependencies.
+ * Module dependencies.55F4AD4B
  */
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
@@ -11,10 +11,10 @@ var mongoose = require('mongoose'),
  */
 var OrderSchema = new Schema({
   orderType: {type: String, default: 'Medical Equipment'},
-  itemData: {
-    itemName: {type: String, default: ''},
-    id: {type: Schema.ObjectId, ref: 'Item'}
-  },
+  itemName: {type: String, default: ''},
+  itemId: {type: Schema.ObjectId, ref: 'Item'},
+  product_id : {type: Number},
+  sku: {type: String},
   nafdacRegNo: {type: String},
   nafdacRegName: {type: String},
   orderAmount: {type: Number, default: '0'},
@@ -25,22 +25,25 @@ var OrderSchema = new Schema({
     supplierName: {type: String, default: ''}
   }],
   amountSupplied: {type: Number},
-  orderInvoice: {type: String, default: ''},
+  orderInvoiceNumber: {type: String, default: ''},
   /*
-  pending order: 0
-  received: 1
-  supplied: 2
-  paid: 3
-  complete: 4
+  cancelled: -1
+  cart: 0
+  pending order: 1
+  received: 2
+  supplied: 3
+  paid: 4
+  complete: 5
 
    */
   orderStatus: {type: Number, default: 0},
   orderVisibility: {type: Boolean, default: true},
-  onlineId: {type: Schema.ObjectId},
+  order_number: {type: String},
+  order_group_id: {type: Number},
   orderExpDate: {type: Date},
   orderPrice: {type: Number},
   paymentReferenceType: {type: String},
-  paymentReferenceID: {type: String}
+  paymentReferenceID: {type: String},
 });
 
 var OrderStatusSchema = new Schema({
@@ -82,16 +85,16 @@ OrderSchema.statics = {
    */
 
   list: function (options, cb) {
-    var criteria = options.criteria || {};
-    var q = this.find(criteria);
+    var conditions = options.conditions || {};
+    var q = this.find(conditions);
     q.sort({orderDate: -1});
     q.exec(cb);
   }
 };
 
 
-mongoose.model('Order', OrderSchema);
-mongoose.model('OrderStatus', OrderStatusSchema);
+mongoose.model('order', OrderSchema);
+mongoose.model('orderStatus', OrderStatusSchema);
 
-module.exports.Order = mongoose.model('Order');
-module.exports.OrderStatus = mongoose.model('OrderStatus');
+module.exports.Order = mongoose.model('order');
+module.exports.OrderStatus = mongoose.model('orderStatus');

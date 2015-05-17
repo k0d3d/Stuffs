@@ -13,7 +13,21 @@ config(['$routeProvider',function($routeProvider){
   .when('/dashboard/order/by/:by', {templateUrl: '/orders/add', controller: 'orderAddController'})
   .when('/dashboard/order/:itemId', {templateUrl: '/orders/add', controller: 'orderAddController'});
 }])
-.controller('orderCartController', ['$scope', '$http', 'ordersService', '$localStorage', function($scope, $http, oS, $localStorage){
+.controller('orderCartController', [
+  '$scope',
+  '$http',
+  'ordersService',
+  '$route',
+  function($scope, $http, ordersService, $route){
+  // $scope.orderCart = ordersService.cart;
+  $scope.selectedCart = [];
+
+  $scope.selectedView = false;
+
+  $scope.checkAllClick = function () {
+    $scope.selectedCart = angular.copy($scope.orderCart);
+  };
+
 
   $scope.placeOrder = function (cb) {
     if (!confirm('Confirm you want to place an order for these items!')) {
@@ -21,57 +35,15 @@ config(['$routeProvider',function($routeProvider){
       return false;
     }
 
-    $scope.printScope = null;
-    $scope.printScope = angular.copy($scope.basket);
+    if (!$scope.selectedCart.length) {
+      alert('Please select items you want');
+      return false;
+    }
 
-    // var doc = new jsPDF('p','in', 'letter');
+    ordersService.postCart($scope.selectedCart, function (list) {
+      $route.reload();
 
-    // // We'll make our own renderer to skip this editor
-    // var specialElementHandlers = {
-    //   '#frontpage': function(element, renderer){
-    //     return true;
-    //   },
-    //   '.search-bar': function(element, renderer){
-    //     return true;
-    //   }
-    // };
-
-    // // All units are in the set measurement for the document
-    // // This can be changed to "pt" (points), "mm" (Default), "cm", "in"
-    // doc.fromHTML($('.table-content').get(0), 0.5, 0.5, {
-    //   'width': 800,
-    //   'elementHandlers': specialElementHandlers
-    // });
-
-    // doc.save('Order Cart'+ Date.now());
-
-    oS.postCart($scope.basket, function (list) {
-      var cartIds = _.map($scope.orderCart, function (a) {
-        return a.itemId;
-      });
-
-
-      var l = list.length;
-
-      function __pop() {
-        var t = list.pop();
-        var o = _.indexOf(cartIds, t);
-
-        if (o > -1) {
-          $scope.orderCart.splice(o, 1);
-        }
-
-        if (l--) {
-          __pop();
-        } else {
-          $localStorage.orderCart = angular.toJson($scope.orderCart);
-          cb(true);
-        }
-
-      }
-        cb(true);
-
-      // __pop();
+      cb(true);
     });
   };
 
@@ -83,7 +55,7 @@ config(['$routeProvider',function($routeProvider){
     if(uniqSupId.length > 1){
       return alert('Cannot send SMS to '+ uniqSupId.length +' suppliers at once');
     }else{
-      oS.notifySupplier(uniqSupId, 'sms', function(d){
+      ordersService.notifySupplier(uniqSupId, 'sms', function(d){
 
       });
     }
@@ -98,32 +70,7 @@ config(['$routeProvider',function($routeProvider){
   'ordersService',
   // '$q',
   function($scope, $http, $location, $routeParams, ordersService){
-  $scope.getStatus = function (status){
-    var d;
-    switch(status){
-      case 'pending order':
-        d = 'supplied';
-        //scope.orders[attrs.thisIndex].next ="Supplied";
-      break;
-      case 'supplied':
-        d = 'paid';
-        //scope.orders[attrs.thisIndex].next ="Paid";
-      break;
-      case 'paid':
-       d = 'Complete';
-      break;
-      case 'received':
-        d = 'supplied';
-      break;
-      case 'dispatched':
-        d = 'supplied';
-      break;
-      default:
-      d = null;
-      break;
-    }
-    return d;
-  };
+
   $scope.ordersfilter = {
     orderStatus : ''
   };
@@ -131,20 +78,22 @@ config(['$routeProvider',function($routeProvider){
     $scope.orders = [];
 
     ordersService.orders(function(r){
-      angular.forEach(r, function(v, i){
-        v.nextStatus = $scope.getStatus(v.orderStatus.toLowerCase());
+      angular.forEach(r, function(v){
+        v.nextStatus = function () {
+          return ((v.orderStatus + 1) !== 2) ? v.orderStatus + 1 : 6;
+        };
         $scope.orders.push(v);
       });
       switch($routeParams.type){
         case 'invoices':
-        $scope.ordersfilter.orderStatus = "Supplied";
+        $scope.ordersfilter.orderStatus = 2;
         break;
         case 'order':
         console.log('message');
-        $scope.ordersfilter.orderStatus = "Pending Order";
+        $scope.ordersfilter.orderStatus = 0;
         break;
         default:
-        $scope.ordersfilter.orderStatus = "";
+        $scope.ordersfilter.orderStatus = '';
         break;
       }
     });
@@ -161,18 +110,18 @@ config(['$routeProvider',function($routeProvider){
       }
     });
   };
-  $scope.changeStatus = function(){
-    var o = {
-      status : $scope.uo.status,
-      itemData : $scope.uo.itemData,
-      amount : $scope.uo.amount,
-      order_id : $scope.uo.order_id,
-      invoiceno : $scope.uo.invoiceno
-    };
-    ordersService.updateOrder(o,function(r){
+  // $scope.changeStatus = function(){
+  //   var o = {
+  //     status : $scope.uo.status,
+  //     itemData : $scope.uo.itemData,
+  //     amount : $scope.uo.amount,
+  //     order_id : $scope.uo.order_id,
+  //     invoiceno : $scope.uo.invoiceno
+  //   };
+  //   ordersService.updateOrder(o,function(r){
 
-    });
-  };
+  //   });
+  // };
 }])
 .controller('orderAddController',[
   '$scope',
@@ -216,23 +165,50 @@ config(['$routeProvider',function($routeProvider){
     $scope.searchndl = !$scope.searchndl;
   };
 
-  $scope.searchcmp = function(searchQuery){
+  $scope.searchcmp = function(searchQuery, query){
+    $scope.searching_icon = true;
     Q.all([
-      ordersService.request_search(searchQuery, 'inventory'),
-      ordersService.request_search(searchQuery, 'drugstoc'),
-      ordersService.request_search(searchQuery, 'nafdac')
+      ordersService.request_search(searchQuery, 'inventory', query),
+      ordersService.request_search(searchQuery, 'drugstoc', query),
+      ordersService.request_search(searchQuery, 'nafdac', query)
     ])
     .then(function (resolvedPromise) {
-
+      $scope.searching_icon = false;
       $scope.inventoryResults = resolvedPromise[0].data.results;
       $scope.drugstocResults = resolvedPromise[1].data.results;
       $scope.nafdacResults = resolvedPromise[2].data.results;
+
+      $scope.inventoryCount = resolvedPromise[0].data.totalCount;
+      $scope.drugstocCount = resolvedPromise[1].data.totalCount;
+      $scope.nafdacCount = resolvedPromise[2].data.totalCount;
       if (!$scope.activePane) {
         $scope.activePane = 'iv';
       }
     });
     // ordersService.searchCmp(searchQuery)
     // .
+  };
+
+  $scope.currentPage = {
+    'inventory' : 0,
+    'drugstoc': 0,
+    'nafdac': 0
+  };
+
+  $scope.skipSearch = function skipSearch(searchQuery, page, scope) {
+    ordersService.request_search(searchQuery, scope, {page: page})
+    .then(function (result) {
+      if (scope === 'inventory') {
+        $scope.inventoryResults = result.data.results;
+      }
+      if (scope === 'drugstoc') {
+        $scope.drugstocResults = result.data.results;
+      }
+      if (scope === 'nafdac') {
+        $scope.nafdacResults = result.data.results;
+      }
+      $scope.currentPage[scope] = page;
+    });
   };
 
 
@@ -243,32 +219,71 @@ config(['$routeProvider',function($routeProvider){
     });
   };
 
-  $scope.orderthis = function(){
-    if($scope.ds.length === 0) return false;
-    $scope.form = {
-      orderType: 'Medication',
-      itemData : {
-        itemName: $scope.ds.productName,
-        sciName: $scope.ds.composition
-      },
-      suppliers:{
-        supplierName: $scope.ds.man_imp_supp
-      },
-      nafdacRegNo: $scope.ds.regNo,
-      nafdacRegName: $scope.ds.productName
-    };
-    $scope.toggle();
+  // $scope.orderthis = function(){
+  //   if($scope.ds.length === 0) return false;
+  //   $scope.form = {
+  //     orderType: 'Medication',
+  //     itemData : {
+  //       itemName: $scope.ds.productName,
+  //       sciName: $scope.ds.composition
+  //     },
+  //     suppliers:{
+  //       supplierName: $scope.ds.man_imp_supp
+  //     },
+  //     nafdacRegNo: $scope.ds.regNo,
+  //     nafdacRegName: $scope.ds.productNameja
+  //   };
+  //   $scope.toggle();
+  // };
+
+  $scope.orderItem = function orderItem (item, scope) {
+
+      var toOrder = {
+        itemName: item.itemName || item.title,
+        sciName: item.sciName || item.description,
+        orderAmount: item.orderAmount,
+        orderPrice: item.itemPurchaseRate || item.price,
+        orderDate: Date.now(),
+        product_id: item.product_id,
+        sku: item.sku
+      };
+      if (scope === 'iv') {
+        toOrder.itemId = item._id;
+      }
+      ordersService.save(toOrder)
+      .then(function () {
+        ordersService.cartUpdated(toOrder);
+      });
+
   };
 
   $scope.saveButtonClass = 'btn-primary';
-  $scope.submitOrder = function(){
-    ordersService.save($scope.form, function(data){
-      $scope.form = '';
-    });
-  };
+  // $scope.submitOrder = function(){
+  //   ordersService.save($scope.form, function(data){
+  //     $scope.form = '';
+  //   });
+  // };
 }])
-.factory('ordersService',['$http', 'Notification','Language', function($http, Notification, Lang){
+.factory('ordersService',[
+  '$http',
+  'Notification',
+  'Language',
+  '$rootScope',
+  function($http, Notification, Lang, $rootScope){
     var f = {};
+
+    f.cart = [];
+
+    f.cartUpdated = function (item) {
+      this.cart.push(item);
+      $rootScope.$broadcast('cart-updated');
+    };
+
+    f.cartLoaded = function (cart) {
+      this.cart = cart;
+      $rootScope.$broadcast('cart-updated');
+    };
+
     f.searchCmp = function(srchstr, catrcmp, page, callback){
       $http.get('/api/orders/ndl/'+srchstr+'/'+catrcmp+'/'+page)
       .success(function(d, r){
@@ -288,8 +303,8 @@ config(['$routeProvider',function($routeProvider){
       });
     };
 
-    f.request_search = function request_search (query, scope) {
-      return $http.get('/api/items/search?s=' + query + '&scope=' + scope);
+    f.request_search = function request_search (query, scope, options) {
+      return $http.get('/api/items/search?s=' + query + '&scope=' + scope + '&' + $.param(options));
     };
 
     f.getAllSuppliers = function(callback){
@@ -317,6 +332,9 @@ config(['$routeProvider',function($routeProvider){
         return callback(res);
       });
     };
+    f.getCartContent = function getCartContent (){
+      return $http.get('/api/cart');
+    };
     f.postCart = function(form, callback){
       $http.post('/api/orders/cart', form).
         success(function(data) {
@@ -333,29 +351,25 @@ config(['$routeProvider',function($routeProvider){
           });
         });
     };
-    f.save = function(form, callback){
-      $http.post('/api/orders', form).
-        success(function(data) {
+    f.save = function(form){
+      return $http.post('/api/orders', form)
+        .then(function() {
           Notification.notifier({
             message : Lang.eng.order.place.success,
             type: 'success'
           });
-            callback(data);
-        }).
-        error(function(){
+        }, function(){
           Notification.notifier({
             message : Lang.eng.order.place.error,
             type: 'error'
           });
         });
     };
-    f.updateOrder = function(o,callback){
+    f.updateOrder = function(o, callback){
       $http.put('/api/orders/' + o.order_id, {
-          'status': o.status,
-          'itemData':o.itemData,
-          'amount':o.amount,
-          'orderInvoiceNumber': o.invoiceno,
-          'amountSupplied': o.amountSupplied || undefined,
+          'orderStatus': o.orderStatus,
+          'orderInvoiceNumber': o.orderInvoiceNumber,
+          'amountSupplied': o.amountSupplied || 0,
           'paymentReferenceType': o.paymentReferenceType,
           'paymentReferenceID': o.paymentReferenceID
         })
@@ -408,7 +422,8 @@ config(['$routeProvider',function($routeProvider){
     };
 
     return f;
-}]).directive('orderSupplierTypeAhead', ['itemsService', function(itemsService){
+}])
+.directive('orderSupplierTypeAhead', ['itemsService', function(itemsService){
   var linker = function(scope, element, attrs){
     var nx;
       element.typeahead({
@@ -469,6 +484,39 @@ config(['$routeProvider',function($routeProvider){
     link: linker
   };
 }])
+.filter('orderState', function () {
+  return function (num) {
+    var returnVal;
+    switch (parseInt(num)) {
+      case -1:
+      returnVal =  'cancelled';
+      break;
+      case 0:
+      returnVal =  'cart';
+      break;
+      case 1:
+      returnVal =  'pending order';
+      break;
+      case 2:
+      returnVal =  'received';
+      break;
+      case 3:
+      returnVal =  'supplied';
+      break;
+      case 4:
+      returnVal =  'paid';
+      break;
+      case 5:
+      returnVal =  'complete';
+      break;
+      default:
+      returnVal =  'processing';
+      break;
+    }
+
+    return returnVal;
+  };
+})
 .directive('orderList', ['ordersService','Notification','Language', function(OS, N, L){
   function link (scope, element, attrs) {
 
@@ -477,32 +525,31 @@ config(['$routeProvider',function($routeProvider){
   function Ctrlr ($scope){
 
     $scope.updateOrder = function(index){
-      if($scope.orderList[index].nextStatus == 'supplied' &&
+      if (($scope.orderList[index].nextStatus()) === 2) return false;
+      if($scope.orderList[index].nextStatus === 2 &&
         (!$scope.orderList[index].amountSupplied ||
           !$scope.orderList[index].orderInvoice)){
         alert('Please check the required fields: Missing Amount / Invoice Number');
         return false;
       }
-      if($scope.orderList[index].nextStatus == 'paid' &&
+      if($scope.orderList[index].nextStatus === 3 &&
         (!$scope.orderList[index].paymentReferenceType ||
           !$scope.orderList[index].paymentReferenceID)){
         alert('Please check the required fields: Payment ID / Payment Type');
         return false;
       }
       var o ={
-        status : $scope.orderList[index].nextStatus,
-        itemData : $scope.orderList[index].itemData,
-        amount : $scope.orderList[index].orderAmount,
+        orderStatus : $scope.orderList[index].nextStatus,
         order_id : $scope.orderList[index]._id,
-        invoiceno : $scope.orderList[index].orderInvoice,
+        orderInvoiceNumber : $scope.orderList[index].orderInvoice,
         amountSupplied: $scope.orderList[index].amountSupplied,
         paymentReferenceType: $scope.orderList[index].paymentReferenceType,
         paymentReferenceID: $scope.orderList[index].paymentReferenceID
       };
       OS.updateOrder(o, function(r){
         $scope.orderList[index].orderStatus = r.result;
-        $scope.orderList[index].nextStatus = $scope.getStatus({status: r.result});
-        if(r.result == 'supplied' && ($scope.orderList[index].amountSupplied < $scope.orderList[index].orderAmount)){
+        // $scope.orderList[index].nextStatus = $scope.getStatus({status: r.result});
+        if(r.result === 2 && ($scope.orderList[index].amountSupplied < $scope.orderList[index].orderAmount)){
           N.notifier({
             message: L[L.set].order.update.amountDis,
             type: 'info'

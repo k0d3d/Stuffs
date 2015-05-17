@@ -111,13 +111,13 @@ ServicesSchema.statics = {
 };
 
 
-mongoose.model('BillingProfile', BillingProfileSchema);
-mongoose.model('BillRule', BillRulesSchema);
-mongoose.model('Bill', BillSchema);
-mongoose.model('BillService', ServicesSchema);
+mongoose.model('billingProfile', BillingProfileSchema);
+mongoose.model('billRule', BillRulesSchema);
+mongoose.model('bill', BillSchema);
+mongoose.model('billService', ServicesSchema);
 
 
-module.exports.BillingProfile = mongoose.model('BillingProfile');
-module.exports.BillRule = mongoose.model('BillRule');
-module.exports.Bill = mongoose.model('Bill');
-module.exports.BillService = mongoose.model('BillService');
+module.exports.BillingProfile = mongoose.model('billingProfile');
+module.exports.BillRule = mongoose.model('billRule');
+module.exports.Bill = mongoose.model('bill');
+module.exports.BillService = mongoose.model('billService');

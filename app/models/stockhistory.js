@@ -69,6 +69,6 @@ StockHistorySchema.statics = {
 
 
 
-mongoose.model('StockHistory', StockHistorySchema);
+mongoose.model('stockHistory', StockHistorySchema);
 
-module.exports = mongoose.model('StockHistory');
+module.exports = mongoose.model('stockHistory');

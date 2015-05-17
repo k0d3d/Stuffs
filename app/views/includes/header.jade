@@ -20,12 +20,10 @@ div#frontpage.container-fluid
                 tr
                   th Item
                   th Amount
-                  th Supplier
               tbody
                 tr(ng-repeat="cartItem in orderCart")
                   td {{cartItem.itemName}}
                   td {{cartItem.orderAmount}}
-                  td {{cartItem.supplier.supplierName}}
             button.btn.btn-info.btn-block.btn-mini(style="border-radius: 0", ng-click="commons.href('dashboard/orders/cart')") View All Items
             button.btn.btn-block.btn-danger.btn-bell(style="border-radius: 0", ng-click="clearCart()", ng-show="orderCart.length > 0") Empty Cart
         .btn-group

@@ -24,6 +24,7 @@ function DSClass () {
     qs : {
     consumer_key : 'ck_74d23e186250997246f0c198148441d4',
     consumer_secret :'cs_f80adcc85109c0611a2a5aedce731df7',
+    consumer_email : 'ddadmin@drugstoc.ng',
     'filter[limit]' : config.api.DS_CLOUD_PAGE_LIMIT
     }
   };
@@ -100,6 +101,13 @@ DSClass.prototype.postDSCloudOrders = function postDSCloudOrders (orders, extraQ
   var q = Q.defer(), DSC = this;
   extraQs = extraQs || {};
   var admin = new Admin();
+
+  function sortOrdersToArray (o) {
+    return {
+      'product_id' : o.product_id,
+      'quantity' : o.orderAmount
+    };
+  }
   admin.fetchUser('ck_74d23e186250997246f0c198148441d4')
   .then(function (adminUser) {
     function returnAddresses (a) {
@@ -119,13 +127,15 @@ DSClass.prototype.postDSCloudOrders = function postDSCloudOrders (orders, extraQ
     try {
 
       orderData = {
+        'payment_details': {
+          'method_id': 'cod',
+          'method_title': 'Cash on Delivery',
+          'paid': 'true'
+        },
         'billing_address' : returnAddresses(adminUser),
         'shipping_address' : returnAddresses(adminUser),
         'customer_id' : adminUser.customer_id,
-        'line_items' : [{
-            'product_id' : orders.itemData.id.product_id,
-            'quantity' : orders.orderAmount
-        }]
+        'line_items' : _.map(orders, sortOrdersToArray)
         // 'line_items' : _.map(orders, function (order) {
         //   return {
         //     'product_id' : order.itemData.id.product_id,
@@ -147,7 +157,11 @@ DSClass.prototype.postDSCloudOrders = function postDSCloudOrders (orders, extraQ
         if (e) {
           return q.reject(e);
         }
-        // console.log(body);
+        if (body.errors) {
+          q.reject(body.errors);
+        } else {
+          q.resolve(body);
+        }
     });
 
   });

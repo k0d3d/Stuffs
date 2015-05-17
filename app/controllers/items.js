@@ -127,17 +127,18 @@ ItemsObject.prototype.create = function (itemBody, cb) {
 
       //Push the itemName and Item ObjectId into the itemData array
       //on the order object.
-      order.itemData.push({itemName: data.item.itemName, id: data.item.id});
+      order.itemName = data.item.itemName;
+      order.itemId = data.item.id;
 
-      order.orderSupplier = (data.item.suppliers);
-      order.orderInvoice = data.item.orderInvoiceData.orderInvoiceNumber;
-      order.orderStatus = 'supplied'            ;
+      order.orderSupplier = data.item.suppliers;
+      order.orderInvoiceNumber = data.item.orderInvoiceData.orderInvoiceNumber;
+      order.orderStatus = 3            ;
       order.orderType = data.item.itemType;
       order.orderAmount= data.item.orderInvoiceData.orderInvoiceAmount;
       order.amountSupplied= data.item.orderInvoiceData.orderInvoiceAmount;
-      order.orderDate= data.item.orderInvoiceDate;
+      order.orderDate= data.item.orderInvoiceData.orderInvoiceDate;
       order.save(function(err, i){
-        if(util.isError(err)){
+        if(err){
           isDone(err);
         }else{
           data.order = i;
@@ -696,9 +697,9 @@ ItemsObject.prototype.fetchByRegNo = function(query, cb){
   });
 };
 
-ItemsObject.prototype.findRegisteredItem = function findRegisteredItem (query_string) {
+ItemsObject.prototype.findRegisteredItem = function findRegisteredItem (query_string, query_options) {
   var q = Q.defer();
-  NafdacDrugsModel.search(query_string, null, null, function (err, data) {
+  NafdacDrugsModel.search(query_string, null, query_options, function (err, data) {
     if (err) {
       return q.reject(err);
     }
@@ -708,10 +709,10 @@ ItemsObject.prototype.findRegisteredItem = function findRegisteredItem (query_st
 };
 
 
-ItemsObject.prototype.findDrugstocProduct = function findDrugstocProduct (query_string) {
+ItemsObject.prototype.findDrugstocProduct = function findDrugstocProduct (query_string, query_options) {
   var q = Q.defer();
   var dsItem = new DsItem();
-  dsItem.DsItemsModel.search(query_string, null, null, function (err, data) {
+  dsItem.DsItemsModel.search(query_string, null, query_options, function (err, data) {
     if (err) {
       return q.reject(err);
     }
@@ -720,14 +721,34 @@ ItemsObject.prototype.findDrugstocProduct = function findDrugstocProduct (query_
   return q.promise;
 };
 
-ItemsObject.prototype.findItem = function findItem (query_string) {
+ItemsObject.prototype.findItem = function findItem (query_string, query_options) {
   var q = Q.defer();
-  Item.search(query_string, null, null, function (err, data) {
+  Item.search(query_string, null, query_options, function (err, data) {
     if (err) {
       return q.reject(err);
     }
     q.resolve(data);
   });
+  return q.promise;
+};
+
+ItemsObject.prototype.findDrugstocProductById = function findDrugstocProductById (query_string) {
+  var q = Q.defer();
+  var dsItem = new DsItem();
+
+  dsItem.DsItemsModel.findOne( {
+    '_id' : query_string
+  })
+  .exec(function (err, doc) {
+    if (err) {
+      return q.reject(err);
+    }
+    if (!doc) {
+      return q.reject(new Error('document not found'));
+    }
+    q.resolve(doc);
+  });
+
   return q.promise;
 };
 
@@ -761,7 +782,14 @@ module.exports.routes = function(app){
       title: 'New Inventory Item',
     });
   });
-  app.get('/items/:itemId/edit',function(req,res){
+
+  app.get('/items/:itemId/edit/:action',function(req,res){
+    res.render('index', {
+      title: 'Update Item',
+    });
+  });
+
+  app.get('/items/:itemId/ds-add/:action',function(req,res){
     res.render('index', {
       title: 'Update Item',
     });
@@ -797,6 +825,18 @@ module.exports.routes = function(app){
       }else{
         res.json(200, r);
       }
+    });
+  });
+
+  //Fetches data for an item when editing
+  app.get('/api/items/:item_id/ds-product', function(req, res, next){
+    var itemId = req.params.item_id;
+    itemInstance.findDrugstocProductById(itemId)
+    .then(function(r){
+
+        res.json(r);
+    }, function (err) {
+        next(err);
     });
   });
 
@@ -847,9 +887,15 @@ module.exports.routes = function(app){
     if (!req.query.s) {
       return res.status(400).json({'message' : 'Empty Query'});
     }
+    var options = {
+      limit: req.query.limit || 20
+    };
+    if (req.query.page) {
+      options.skip = req.query.page * options.limit;
+    }
 
     if (req.query.scope === 'drugstoc') {
-      itemInstance.findDrugstocProduct(req.query.s)
+      itemInstance.findDrugstocProduct(req.query.s, options)
       .then(function (result) {
         res.json(result);
       }, function (err) {
@@ -857,7 +903,7 @@ module.exports.routes = function(app){
       });
     }
     if (req.query.scope === 'inventory') {
-      itemInstance.findItem(req.query.s)
+      itemInstance.findItem(req.query.s, options)
       .then(function (result) {
         res.json(result);
       }, function (err) {
@@ -865,7 +911,7 @@ module.exports.routes = function(app){
       });
     }
     if (req.query.scope === 'nafdac') {
-      itemInstance.findRegisteredItem(req.query.s)
+      itemInstance.findRegisteredItem(req.query.s, options)
       .then(function (result) {
         res.json(result);
       }, function (err) {
@@ -892,15 +938,12 @@ module.exports.routes = function(app){
   });
 
   //Create a new Item
-  app.post('/api/items',function(req,res){
+  app.post('/api/items',function(req, res, next){
     itemInstance.create(req.body, function(result){
-      if(result === 400){
-        res.json(400,{'message': 'Invalid Order'});
-      }else if(result === 200){
-        res.json(200, {'task' : true});
-      }else if(typeof(result) ===  'object'){
-        res.json(200, {'task': true});
+      if (result instanceof Error) {
+        return next(result);
       }
+      res.json(true);
     });
   });
 

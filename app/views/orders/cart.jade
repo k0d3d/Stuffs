@@ -7,20 +7,28 @@ block body
     .span2.actioncol
       .search-bar
         input.input-medium(type="search", ng-model="cartFilter.supplier", placeholder="Search Suppliers")
+
+      //
+        button.btn.btn-large.btn-block(style="background-color: transparent;border: solid 1px #ddd;", ng-click="selectedView = !selectedView")
+          i.fa.fa-square-o.pull-left(ng-class="{'fa-square-o': !selectedView, 'fa-check-square-o': selectedView}")
+          span(ng-show="selectedView") Selected Items <span class="badge badge">{{selectedCart.length}}</span>
+          span(ng-hide="selectedView") All Items
       button.btn.btn-large.btn-block.btn-success(checkfunc="placeOrder(cb)", printable="print-table-cart", print-tpl="supplier-cart", print-scope="printScope")
         i.fa.fa-shopping-cart.pull-left
-        |   Place Order
-      //  
+        | Place Order
+      //
         button.btn.btn-large.btn-block.btn-success(ng-click="send_sms()")
           i.fa.fa-envelope-o.pull-left
           |   Send SMS
       button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
-    .span10(ng-show="orderCart.length > 0")
+    .span10(ng-show="orderCart.length > 0 && !selectedView")
       .row-fluid.fixed-table
         #print-table-cart.table-content
           table#list-cart.table.table-fixed-header
             thead.header
               tr
+                th
+                  input(type="checkbox", ng-model="checkAll", ng-click="checkAllClick")
                 th Item
                 th Quantity
                 th Price (N)
@@ -28,14 +36,16 @@ block body
                 th.noprint Supplier
                 th.noprint Action
             tbody
-              tr(ng-repeat="or in (basket = ($parent.orderCart | filter: cartFilter))")
+              tr(ng-repeat="or in orderCart | filter: cartFilter")
+                td
+                  input(type="checkbox", checklist-model="selectedCart", checklist-value="or", ng-checked="checkAll")
                 td {{or.itemName}}
                 td {{or.orderAmount}}
                 td {{or.orderPrice}}
                 td.noprint {{or.orderDate | moment}}
                 td.noprint {{or.supplier.supplierName}}
                 td.noprint
-                  button.btn.btn-small.btn-danger.btn-bell(ng-click="removeFromCart($index)") 
+                  button.btn.btn-small.btn-danger.btn-bell(ng-click="removeFromCart($index)")
                     i.fa.fa-times
     .span10(ng-show="orderCart.length === 0")
       h4.align-center Order Cart Empty
@@ -45,5 +55,5 @@ block body
 
 
 append foot
-  script(src="js/table-fixed-header.js")                
+  script(src="js/table-fixed-header.js")
 

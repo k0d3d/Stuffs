@@ -88,7 +88,7 @@
     * @return {[type]}            [description]
     */
     mainStockCount: function mainStockCount(id, callback){
-      var q = this.findOne({item: id, locationId: nconf.get("app:main_stock_id")});
+      var q = this.findOne({item: id, locationId: nconf.get('app:main_stock_id')});
       q.lean();
       q.exec(function(err, i){
         //Might return null so
@@ -104,5 +104,5 @@
   };
 
 
-  mongoose.model('StockCount', StockCountSchema);
-  module.exports = mongoose.model('StockCount', StockCountSchema);
+  mongoose.model('stockCount', StockCountSchema);
+  module.exports = mongoose.model('stockCount', StockCountSchema);

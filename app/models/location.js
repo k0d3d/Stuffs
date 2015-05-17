@@ -35,6 +35,6 @@ LocationSchema.statics = {
   }
 };
 
-mongoose.model('Location', LocationSchema);
+mongoose.model('location', LocationSchema);
 
-module.exports = mongoose.model('Location');
+module.exports = mongoose.model('location');

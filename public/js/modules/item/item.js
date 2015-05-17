@@ -9,16 +9,22 @@ angular.module('item', [])
 	$routeProvider.when('/items', {templateUrl: '/items/index', controller: 'itemIndexController'})
   .when('/items/view/:state', {templateUrl: '/items/index', controller: 'itemIndexController'})
   .when('/items/add', {templateUrl: '/items/new', controller: 'itemAddController'})
-  .when('/items/:itemId/:action',{templateUrl: '/items/edit', controller: 'itemAddController'});
+  .when('/items/:itemId/edit/:action',{templateUrl: '/items/edit', controller: 'itemAddController'})
+  .when('/items/:itemId/ds-add/:action',{templateUrl: '/items/new', controller: 'itemAddController'});
 }])
-.controller('itemIndexController', ['$scope', '$location', '$routeParams','itemsService', '$localStorage','stockService', function itemIndexController($scope, $location, $routeParams,itemsService, $localStorage, sS){
+.controller('itemIndexController', [
+  '$scope',
+  '$location',
+  '$routeParams',
+  'itemsService',
+  'stockService',
+  function itemIndexController($scope, $location, $routeParams,itemsService, sS){
     var currentItem;
     function init(){
       $scope.summary = {};
       $scope.form = {};
       $scope.itemsList = '';
       $scope.hasItems = false;
-      $scope.$storage = $localStorage;
       itemsService.items(function(data){
         if(data.length > 0){
           $scope.hasItems = true;
@@ -145,7 +151,12 @@ angular.module('item', [])
 
 
 }])
-.controller('itemAddController', function itemAddController ($scope, $location, $routeParams,itemsService){
+.controller('itemAddController', [
+  '$scope',
+  '$location',
+  '$routeParams',
+  'itemsService',
+  function itemAddController ($scope, $location, $routeParams,itemsService){
   $scope.form = {
     itemCategory: [],
     itemForm: [],
@@ -158,6 +169,37 @@ angular.module('item', [])
 
   //Initialization function
   function init(){
+
+    if(!_.isUndefined($routeParams.itemId) && $routeParams.action === 'iv-edit'){
+      itemsService.getItemFields($routeParams.itemId, function(item){
+        $scope.form = item;
+      });
+    }
+
+    if(!_.isUndefined($routeParams.itemId) && $routeParams.action === 'ds-add'){
+      itemsService.getDSProductFields($routeParams.itemId, function(item){
+        var attributes = _.reduce(item.attributes, function (result, n) {
+          result[n.name] = n.options;
+          return result;
+        });
+        $scope.form = {
+          itemName: item.title,
+          sciName: $(item.description).text(),
+          manufacturerName: attributes['Manufacturer'][0],
+          importer: attributes['Manufacturer'][0],
+          nafdacRegNo: attributes['Nafdac-no'][0],
+          itemCategory: item.categories,
+          sku: item.sku,
+          itemPurchaseRate: item.price,
+          product_id: item.product_id,
+          itemTags: item.tags,
+          itemForm: attributes['Item-form'][0]
+
+
+        };
+      });
+    }
+
     itemsService.listCategory(function(r){
       angular.forEach(r, function(v){
         $scope.catList.push(v);
@@ -240,11 +282,7 @@ angular.module('item', [])
   $scope.removeItemSup = function(index){
     $scope.form.suppliers.splice(index,1);
   };
-  if(!_.isUndefined($routeParams.itemId) && $routeParams.action === 'edit'){
-    itemsService.getItemFields($routeParams.itemId, function(item){
-      $scope.form = item;
-    });
-  }
+
   $scope.updateItem = function(){
     itemsService.update($scope.form, function(status,res){
       $scope.saveButtonText = 'Save Item';
@@ -261,7 +299,7 @@ angular.module('item', [])
     });
   }
 
-})
+}])
 .controller('itemEditController', function itemEditController($scope, $location, $routeParams,itemsService){
   $scope.form = {
     itemSupplier: {}
@@ -411,9 +449,16 @@ angular.module('item', [])
       });
     });
   };
+
+
   //Fetches fields data for an Item
   i.getItemFields = function(itemId, callback){
     $http.get('/api/items/'+encodeURI(itemId)+'/edit').success(callback);
+  };
+
+  //Fetches fields data for an Item
+  i.getDSProductFields = function(itemId, callback){
+    $http.get('/api/items/'+ itemId +'/ds-product').success(callback);
   };
 
 
@@ -687,16 +732,16 @@ angular.module('item', [])
     };
 })
 .directive('nafdacTypeahead', ['itemsService', function(itemsService){
-  var linker = function(scope, element, attrs){
+  var linker = function(scope, element){
       element.typeahead({
         source: function(query, process){
-          return itemsService.getByRegNo(query,function(results, s){
+          return itemsService.getByRegNo(query,function(results){
             return process(results);
           });
         },
         updater: function(item){
           scope.form.itemName = item;
-          _.some(nx, function(v,i){
+          _.some(nx, function(v){
             if(v.productName === item){
               scope.form.nafdacRegNo = v.regNo;
               scope.form.importer = v.man_imp_supp;
@@ -717,20 +762,20 @@ angular.module('item', [])
 .filter('stockclass',function(){
     return function(cs, bp){
       if(cs === 0){
-        return "empty-stock";
+        return 'empty-stock';
       }else if(cs <= bp){
-        return "low-stock";
+        return 'low-stock';
       }else{
-        return "good-stock";
+        return 'good-stock';
       }
     };
   })
 .filter('indexclass',function(){
     return function (enabledIndex, index){
       if($.inArray(index, enabledIndex) > -1){
-        return "active";
+        return 'active';
       }else{
-        return "inactive";
+        return 'inactive';
       }
     };
-  })
+});

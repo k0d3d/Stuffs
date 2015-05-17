@@ -4,6 +4,158 @@
 		"selected_items":
 		[
 			[
+				"select",
+				"selectedCart"
+			],
+			[
+				"admi",
+				"adminModel〔variable〕"
+			],
+			[
+				"loca",
+				"locationData〔argument〕"
+			],
+			[
+				"admin",
+				"adminController〔variable〕"
+			],
+			[
+				"orderS",
+				"orderStatus"
+			],
+			[
+				"getOrder",
+				"getOrderCart〔function〕"
+			],
+			[
+				"order",
+				"orderCart"
+			],
+			[
+				"cart",
+				"cartUpdated"
+			],
+			[
+				"ordersS",
+				"ordersService"
+			],
+			[
+				"import",
+				"importer"
+			],
+			[
+				"attr",
+				"attributes"
+			],
+			[
+				"DsI",
+				"DsItemsModel"
+			],
+			[
+				"query",
+				"query_string"
+			],
+			[
+				"ger",
+				"getDSProductFields"
+			],
+			[
+				"return",
+				"returnVal〔variable〕"
+			],
+			[
+				"retru",
+				"returnVal"
+			],
+			[
+				"cu",
+				"currentPage"
+			],
+			[
+				"skip",
+				"skipSearch"
+			],
+			[
+				"ac",
+				"activeText"
+			],
+			[
+				"find",
+				"findRegisteredItem"
+			],
+			[
+				"Items",
+				"ItemsObject〔class〕"
+			],
+			[
+				"set",
+				"setKeywords"
+			],
+			[
+				"Na",
+				"NafdacDrugsModel"
+			],
+			[
+				"reg",
+				"regNo"
+			],
+			[
+				"nad",
+				"nafdacRegNo"
+			],
+			[
+				"Item",
+				"ItemSchema〔variable〕"
+			],
+			[
+				"span",
+				"span9"
+			],
+			[
+				"row",
+				"row-fluid"
+			],
+			[
+				"cons",
+				"consumer_secret"
+			],
+			[
+				"c",
+				"consumer_key"
+			],
+			[
+				"up",
+				"updateUserProfile"
+			],
+			[
+				"DS",
+				"DSC"
+			],
+			[
+				"user",
+				"userInfo〔argument〕"
+			],
+			[
+				"d",
+				"dsitem.js"
+			],
+			[
+				"consumer",
+				"consumer_secret"
+			],
+			[
+				"product",
+				"product_id"
+			],
+			[
+				"add",
+				"address_2"
+			],
+			[
+				"last",
+				"last_name"
+			],
+			[
 				"Admin",
 				"AdminController〔class〕"
 			],
@@ -24,24 +176,12 @@
 				"dsitem/"
 			],
 			[
-				"reg",
-				"regNo〔argument〕"
-			],
-			[
-				"find",
-				"findByNafdacNo〔function〕"
-			],
-			[
 				"this",
 				"thisItem"
 			],
 			[
 				"fetch",
 				"fetchDSProductInformation"
-			],
-			[
-				"DS",
-				"DSC"
 			],
 			[
 				"check",
@@ -52,16 +192,8 @@
 				"DSClass〔class〕"
 			],
 			[
-				"set",
-				"setLastUpdateLog"
-			],
-			[
 				"requ",
 				"requestOptions"
-			],
-			[
-				"attr",
-				"attrs"
 			],
 			[
 				"DS_CLOUD",
@@ -86,10 +218,6 @@
 			[
 				"proto",
 				"prototype"
-			],
-			[
-				"last",
-				"lastUpdateTime"
 			],
 			[
 				"updat",
@@ -224,10 +352,6 @@
 				"form-group"
 			],
 			[
-				"c",
-				"col-md-2"
-			],
-			[
 				"findUser",
 				"findUserByEmailPhone"
 			],
@@ -332,14 +456,6 @@
 				"DrugStoc"
 			],
 			[
-				"user",
-				"userData"
-			],
-			[
-				"order",
-				"orderSupplier"
-			],
-			[
 				"he",
 				"href"
 			],
@@ -398,156 +514,16 @@
 			[
 				"pack",
 				"packageQty"
-			],
-			[
-				"drug",
-				"drugItem"
-			],
-			[
-				"max-",
-				"max-width"
-			],
-			[
-				"type",
-				"type"
-			],
-			[
-				"o",
-				"order.js"
-			],
-			[
-				"validate",
-				"validateFacility"
-			],
-			[
-				"u",
-				"user/"
-			],
-			[
-				"getTime",
-				"getTimeStamp"
-			],
-			[
-				"OrderStat",
-				"OrderStatusSchema"
-			],
-			[
-				"manager",
-				"managerIsh"
-			],
-			[
-				"border",
-				"border-bottom"
-			],
-			[
-				"toggle",
-				"toggleActiveButton"
-			],
-			[
-				"staffI",
-				"staffUtils"
-			],
-			[
-				"Notify",
-				"NotifyController"
-			],
-			[
-				"permitted",
-				"permittedTransitions"
-			],
-			[
-				"data",
-				"dateStated"
-			],
-			[
-				"exe",
-				"execTransactionUpdate  (function)"
-			],
-			[
-				"execute",
-				"executePrimaryTransaction"
-			],
-			[
-				"transac",
-				"transactionId"
-			],
-			[
-				"getStock",
-				"getStockUpRequest"
-			],
-			[
-				"accopu",
-				"accountType  (argument)"
-			],
-			[
-				"stat",
-				"statusLog"
-			],
-			[
-				"getUser",
-				"getUserStockDown"
-			],
-			[
-				"drugs",
-				"drugsFunctions  (variable)"
-			],
-			[
-				"secon",
-				"secondary_doc  (variable)"
-			],
-			[
-				"ite",
-				"item/"
-			],
-			[
-				"postStock",
-				"postStockUp"
-			],
-			[
-				"getM",
-				"getMedFac"
-			],
-			[
-				"margin",
-				"margin"
-			],
-			[
-				"no",
-				"none"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "public/js/modules/item/item.js",
+			"file": "app/controllers/orders.js",
 			"settings":
 			{
-				"buffer_size": 19775,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "public/js/modules/admin/admin.js",
-			"settings":
-			{
-				"buffer_size": 8606,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "public/js/modules/order/order.js",
-			"settings":
-			{
-				"buffer_size": 14520,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/models/user.js",
-			"settings":
-			{
-				"buffer_size": 1495,
+				"buffer_size": 14282,
 				"line_ending": "Unix"
 			}
 		},
@@ -555,75 +531,88 @@
 			"file": "todo",
 			"settings":
 			{
-				"buffer_size": 743,
+				"buffer_size": 1320,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "var DsItems = require('./dsitem/dsitem'),\n    Logger = require('./dsitem/logger'),\n    config = require('config'),\n    Q = require('q'),\n    moment = require('moment'),\n    OrderController = require('./order').order,\n    request = require('request'),\n    _ = require('lodash'),\n    util = require('util');\n\n\nfunction DSClass () {\n  // this.requestLib = request;\n  this.DS_CLOUD_URL = config.api.DS_CLOUD_URL;\n  this.DS_CLOUD_ROUTES = config.api.DS_CLOUD_ROUTES;\n  this.lastUpdateLog = {};\n  this.requestOptions = {\n    headers: {\n      'Authorization': 'Basic ZHJ1Z3N0b2M6ZHJ1Z3N0b2M='\n    },\n    baseUrl: this.DS_CLOUD_URL,\n    qs : {\n    consumer_key : 'ck_74d23e186250997246f0c198148441d4',\n    consumer_secret :'cs_f80adcc85109c0611a2a5aedce731df7',\n    'filter[limit]' : config.api.DS_CLOUD_PAGE_LIMIT\n    }\n  };\n\n  this.getLastUpdateLog = function () {\n      var q = Q.defer();\n\n      Logger.findOne()\n      .limit(1)\n      .sort('-lastUpdateTime')\n      .exec(function (err, i) {\n        if (err) {\n          return q.reject(err);\n        }\n        if (i) {\n          q.resolve(i);\n        } else {\n\n          q.resolve({lastUpdateTime: moment().format('YYYY-MM-DD')});\n        }\n      });\n      return q.promise;\n  };\n\n  this.setLastUpdateLog = function (scope) {\n    var q = Q.defer();\n\n    var logger = new Logger({\n      scope: scope\n    });\n\n    logger.save(function (err, log) {\n        if (err) {\n          return q.reject(err);\n        }\n        return q.resolve(log);\n    });\n    return q.promise;\n  };\n\n}\n\nDSClass.prototype.constructor = DSClass;\n\n\nDSClass.prototype.postDSCloudOrders = function postDSCloudOrders (page, extraQs) {\n  var q = Q.defer(), DSC = this;\n\n  page = page || 0;\n  extraQs = extraQs || {};\n\n  \n\n  request(_.extend(DSC.requestOptions, {\n    url : extraQs.url || DSC.DS_CLOUD_ROUTES.CREATE_ORDER,\n    method: 'POST',\n    qs : _.extend(DSC.requestOptions.qs, {page: page}, extraQs.qs)\n    }),\n    function (e, r, body) {\n      if (e) {\n        return q.reject(e);\n      }\n      var payload = JSON.parse(body);\n\n      if (!payload) return q.reject(new Error(util.format('Update Failed: %s', payload)));\n\n      if (!payload.products && payload.errors) return q.reject(payload.errors[0].message);\n\n      if (payload.products.length) {\n        console.log(payload.products.length);\n        console.log(page);\n\n        DSC.saveProductUpdates(payload.products, payload.products.length);\n        DSC.runProductUpdateRequest(page + 1);\n\n        q.resolve(payload.length);\n      } else {\n        //do nothing\n        DSC.setLastUpdateLog('PRODUCT')\n        .then(function () {\n          return q.resolve(true);\n        });\n      }\n  });\n\n  return q.promise;\n};\n\nDSClass.prototype.checkUpdates = function(req, cb){\n  var r = [];\n  var dt = new Date();\n  var ld = req.session.lastUpdate || dt.toJSON();\n  //var ld = '2013-10-29T16:42:17.158Z';\n  var spoken = [];\n  var DSC = this;\n\n\n  function speakPrice (){\n    _.each(r[1], function(v){\n      spoken.push(\n        v.product_id.productName + ' by ' + v.product_id.man_imp_supp + ' updates price to ' + v.price\n      );\n    });\n  }\n\n  function speakOrders () {\n    _.each(r[0], function(v){\n      spoken.push(\n        'Order for ' + v.order_id.orderAmount + ' ' +  v.order_id.nafdacRegName + ' from ' + v.order_id.orderSupplier[0].supplierName + ' is ' + v.status\n      );\n    });\n  }\n\n  function orderCheck(){\n    rest.get(DSC.DS_CLOUD_URL + '/api/orders/hospital/1008/updates/' + ld)\n    .on('success', function(data){\n      if(!_.isEmpty(data)){\n        var orders = new OrderController();\n        orders.isDispatched(data);\n      }\n      r.push(data);\n      drugCheck(ld);\n    })\n    .on('error', function(err){\n      cb(err);\n    })\n    .on('fail', function(err){\n      cb(err);\n    });\n  }\n  function drugCheck(){\n    rest.get(DSC.DS_CLOUD_URL + '/api/drugs/updates/'+ld)\n    .on('success', function(data){\n      if(!_.isEmpty(data)){\n        var ndl = new NDL();\n        ndl.priceUpdated(data);\n        var items = new Items();\n        items.updateByReg(data);\n      }\n      r.push(data);\n\n      speakPrice();\n      speakOrders();\n\n        //Final Callback :: remember to set last update\n        req.session.lastUpdate = dt.toJSON();\n        cb(spoken);\n    })\n    .on('error', function(err){\n      cb(err);\n    })\n    .on('fail', function(err){\n      cb(err);\n    });\n  }\n\n\n\n  orderCheck();\n\n\n};\n\nDSClass.prototype.checkProductUpdates = function checkProductUpdates () {\n  var q = Q.defer(), DSC = this;\n\n\n  DSC.getLastUpdateLog()\n  .then(function (logObj) {\n    DSC.runProductUpdateRequest(0, {\n      qs: {'filter[updated_at_min]': logObj.lastUpdateTime}\n    })\n    .then(function () {\n      q.resolve();\n    }, function (err) {\n      q.reject(err);\n    });\n    // request(_.extend(DSC.requestOptions, {\n    //   url : DSC.DS_CLOUD_ROUTES.ALL_WC_PRODUCTS,\n    //   method: 'GET',\n    //   qs : _.extend(DSC.requestOptions.qs, {'filter[updated_at_min]': logObj.lastUpdateTime})\n    //   }),\n    //   function (e, r, body) {\n    //     if (e) {\n    //       return q.reject(e);\n    //     }\n    //     var payload = JSON.parse(body);\n\n    //     if (!payload) return q.reject(new Error(util.format('Update Failed: %s', payload)));\n\n    //     if (!payload.products && payload.errors) return q.reject(payload.errors[0].message);\n\n    //     if (payload.products.length) {\n    //       console.log(payload.products.length);\n    //       console.log(page);\n    //       DSC.saveProductUpdates(payload.products, payload.products.length);\n    //       DSC.runProductUpdateRequest(page + 1);\n    //       return q.resolve(payload.length);\n    //     } else {\n    //       //do nothing\n    //       DSC.setLastUpdateLog('PRODUCT')\n    //       .then(function () {\n    //         return q.resolve(true);\n    //       });\n    //     }\n    // });\n\n  });\n\n  return q.promise;\n};\n\nDSClass.prototype.saveProductUpdates =   function saveProductUpdates (products, count, num) {\n  var q = Q.defer();\n  num = num || 0;\n\n  function mapImgSrc (img) {\n    return img.src;\n  }\n\n  function mapProductAttribs (attrs) {\n    return {\n      'name': attrs.name,\n      'options': attrs.options\n    };\n  }\n\n  var s = {\n    product_id : products[num].product_id,\n    title: products[num].title,\n    sku: products[num].sku,\n    price: products[num].price,\n    regular_price: products[num].regular_price,\n    description: products[num].description,\n    categories: products[num].categories,\n    tags: products[num].tags,\n    imagesSrc: _.map(products[num].images, mapImgSrc),\n    attributes: _.map(products[num].attributes, mapProductAttribs),\n    created_at: products[num].created_at,\n    updated_at: products[num].updated_at,\n    permalink: products[num].permalink\n  };\n\n  DsItems.update({\n    sku: products[num].sku\n  },s ,{\n    upsert: true\n  }, function (err, didUpdate) {\n    if (err) {\n      console.log(err);\n      return q.reject(err);\n    }\n    if (didUpdate && (num < count - 1)) {\n      return saveProductUpdates(products, count, num + 1);\n    }\n    q.resolve(count);\n    console.log(num, count, num < count);\n  });\n  return q.promise;\n};\n\nDSClass.prototype.runProductUpdateRequest =   function runProductUpdateRequest (page, extraQs) {\n    var q = Q.defer(), DSC = this;\n\n    page = page || 0;\n    extraQs = extraQs || {};\n\n    request(_.extend(DSC.requestOptions, {\n      url : extraQs.url || DSC.DS_CLOUD_ROUTES.ALL_WC_PRODUCTS,\n      method: 'GET',\n      qs : _.extend(DSC.requestOptions.qs, {page: page}, extraQs.qs)\n      }),\n      function (e, r, body) {\n        if (e) {\n          return q.reject(e);\n        }\n        var payload = JSON.parse(body);\n\n        if (!payload) return q.reject(new Error(util.format('Update Failed: %s', payload)));\n\n        if (!payload.products && payload.errors) return q.reject(payload.errors[0].message);\n\n        if (payload.products.length) {\n          console.log(payload.products.length);\n          console.log(page);\n\n          DSC.saveProductUpdates(payload.products, payload.products.length);\n          DSC.runProductUpdateRequest(page + 1);\n\n          q.resolve(payload.length);\n        } else {\n          //do nothing\n          DSC.setLastUpdateLog('PRODUCT')\n          .then(function () {\n            return q.resolve(true);\n          });\n        }\n    });\n    return q.promise;\n  };\n\nDSClass.prototype.refreshProductInformation = function refreshProductInformation () {\n  var q = Q.defer(), DSC = this;\n\n  DSC.runProductUpdateRequest()\n  .then(function(b){\n    q.resolve(b);\n  }, function (err) {\n    q.reject(err);\n  });\n\n  return q.promise;\n};\n\nDSClass.prototype.findByNafdacNo = function findByNafdacNo(regNo) {\n  var q = Q.defer();\n\n  DsItems.find({\n    'attributes.name' : 'Nafdac-no',\n    'attributes.options' : regNo\n  })\n  .exec(function (err, docs) {\n    if (err) {\n      return q.reject(err);\n    }\n    return q.resolve(docs);\n  });\n\n  return q.promise;\n};\n\nmodule.exports = new DSClass();",
-			"file": "app/models/dsitem.js",
-			"file_size": 8911,
-			"file_write_time": 130752226004573473,
+			"file": "lib/boot.js",
 			"settings":
 			{
-				"buffer_size": 8915,
+				"buffer_size": 230,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/models/dsitem/dsitem.js",
+			"file": "app/controllers/items.js",
 			"settings":
 			{
-				"buffer_size": 1288,
+				"buffer_size": 26685,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/controllers/admin.js",
+			"file": "app/models/admin.js",
 			"settings":
 			{
-				"buffer_size": 7723,
-				"line_ending": "Windows"
+				"buffer_size": 3904,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/orders/all.jade",
+			"settings":
+			{
+				"buffer_size": 1367,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/orders/cart.jade",
+			"settings":
+			{
+				"buffer_size": 2449,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/includes/foot.jade",
+			"settings":
+			{
+				"buffer_size": 2301,
+				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "server.js",
 			"settings":
 			{
-				"buffer_size": 6691,
+				"buffer_size": 6748,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/views/items/new.jade",
+			"file": "public/js/modules/order/order.js",
 			"settings":
 			{
-				"buffer_size": 4424,
+				"buffer_size": 16089,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "public/js/app.js",
+			"settings":
+			{
+				"buffer_size": 3530,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/views/items/index.jade",
+			"file": "app/controllers/nafdacs.js",
 			"settings":
 			{
-				"buffer_size": 4304,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/models/item.js",
-			"settings":
-			{
-				"buffer_size": 5254,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/controllers/orders.js",
-			"settings":
-			{
-				"buffer_size": 14355,
-				"line_ending": "Unix"
+				"buffer_size": 2065,
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -634,8 +623,8 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 371.0,
-		"last_filter": "",
+		"height": 400.0,
+		"last_filter": "ins",
 		"selected_items":
 		[
 			[
@@ -711,7 +700,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 588.0
+		"width": 556.0
 	},
 	"console":
 	{
@@ -734,47 +723,63 @@
 	[
 		"/home/integrabuntu/Projects/Integra",
 		"/home/integrabuntu/Projects/Integra/app",
-		"/home/integrabuntu/Projects/Integra/app/models",
-		"/home/integrabuntu/Projects/Integra/app/models/dsitem",
-		"/home/integrabuntu/Projects/Integra/public",
-		"/home/integrabuntu/Projects/Integra/public/js/common/services",
-		"/home/integrabuntu/Projects/Integra/public/js/modules/item"
+		"/home/integrabuntu/Projects/Integra/test"
 	],
 	"file_history":
 	[
-		"/home/integrabuntu/Projects/Integra/app/views/templates/admin-hospital-info-tpl.jade",
-		"/home/integrabuntu/Projects/Integra/config/default.json",
-		"/home/integrabuntu/Projects/Integra/public/js/common/services/services.js",
-		"/home/integrabuntu/Projects/Integra/app/controllers/admin.js",
+		"/home/integrabuntu/Projects/Integra/test/helper.js",
+		"/tmp/fz3temp-1/about.php",
+		"/home/integrabuntu/Projects/Integra/app/models/order.js",
+		"/home/integrabuntu/Projects/Integra/app/models/dsitem.js",
+		"/home/integrabuntu/Projects/Integra/public/js/modules/item/item.js",
+		"/home/integrabuntu/Projects/Integra/app/views/templates/order-list.jade",
+		"/home/integrabuntu/Projects/Integra/app/routes.js",
+		"/home/integrabuntu/Projects/Integra/public/js/modules/order/order.js",
+		"/home/integrabuntu/Projects/Integra/app/controllers/orders.js",
+		"/home/integrabuntu/Projects/Integra/app/views/orders/add.jade",
+		"/home/integrabuntu/Projects/Integra/app/views/includes/header.jade",
+		"/home/integrabuntu/Projects/Integra/public/js/app.js",
+		"/home/integrabuntu/Projects/Integra/app/views/orders/cart.jade",
+		"/home/integrabuntu/Projects/Integra/app/controllers/items.js",
+		"/home/integrabuntu/Projects/Integra/app/models/stockcount.js",
+		"/home/integrabuntu/Projects/Integra/todo",
+		"/home/integrabuntu/Projects/Integra/app/models/nafdacdrugs.js",
+		"/home/integrabuntu/Projects/Integra/app/models/bill.js",
+		"/home/integrabuntu/Projects/Integra/app/models/user.js",
+		"/home/integrabuntu/Projects/Integra/app/models/supplier.js",
+		"/home/integrabuntu/Projects/Integra/app/models/stockhistory.js",
+		"/home/integrabuntu/Projects/Integra/app/models/location.js",
+		"/home/integrabuntu/Projects/Integra/app/models/dispense.js",
+		"/home/integrabuntu/Projects/Integra/app/views/orders/add.__jade",
+		"/home/integrabuntu/Projects/Integra/app/views/items/index.jade",
+		"/home/integrabuntu/Projects/Integra/app/views/items/new.jade",
+		"/home/integrabuntu/Projects/Integra/app/views/items/edit.jade",
+		"/home/integrabuntu/Projects/Integra/app/models/item.js",
 		"/home/integrabuntu/Projects/Integra/app/views/includes/foot.jade",
+		"/home/integrabuntu/Projects/Integra/node_modules/mongoose-search-plugin/index.js",
 		"/home/integrabuntu/Projects/Integra/public/css/app.css",
 		"/home/integrabuntu/Projects/Integra/app/models/dsitem/dsitem.js",
-		"/home/integrabuntu/Projects/Integra/app/models/dsitem.js",
-		"/home/integrabuntu/Projects/Integra/app/controllers/items.js",
-		"/home/integrabuntu/Projects/Integra/app/views/items/index.jade",
-		"/home/integrabuntu/Projects/Integra/app/models/order.js",
-		"/home/integrabuntu/Projects/Integra/public/js/lodash.min.js",
+		"/home/integrabuntu/Documents/Dear Hiring Manager,",
+		"/home/integrabuntu/Projects/Integra/public/js/common/directives/directives.js",
+		"/home/integrabuntu/Projects/Integra/app/models/admin.js",
+		"/home/integrabuntu/Projects/Integra/app/views/index.jade",
+		"/home/integrabuntu/Projects/Integra/app/views/layouts/default.jade",
+		"/home/integrabuntu/Projects/Integra/app/views/templates/admin-hospital-info-tpl.jade",
 		"/home/integrabuntu/Projects/Integra/public/js/modules/admin/admin.js",
+		"/home/integrabuntu/Projects/Integra/app/controllers/admin.js",
+		"/home/integrabuntu/Projects/Integra/config/default.json",
+		"/home/integrabuntu/Projects/Integra/server.js",
+		"/home/integrabuntu/Projects/Integra/public/js/common/services/services.js",
+		"/home/integrabuntu/Projects/Integra/public/js/lodash.min.js",
 		"/home/integrabuntu/Projects/Integra/app/models/dsitem/logger.js",
 		"/home/integrabuntu/Projects/Integra/app/views/admin/index.jade",
-		"/home/integrabuntu/Projects/Integra/public/js/app.js",
 		"/home/integrabuntu/Projects/Integra/app/controllers/nafdacs.js",
-		"/home/integrabuntu/Projects/Integra/app/controllers/orders.js",
 		"/home/integrabuntu/Projects/Integra/app/views/templates/admin-configuration-tpl.jade",
-		"/home/integrabuntu/Projects/Integra/app/models/user.js",
 		"/home/integrabuntu/Projects/Integra/lib/passport.js",
 		"/home/integrabuntu/Projects/Integra/public/js/modules/lang.js",
 		"/home/integrabuntu/Projects/Integra/app/views/templates/admin-bill-profile-tpl.jade",
-		"/home/integrabuntu/Projects/Integra/server.js",
-		"/home/integrabuntu/Projects/Integra/app/views/layouts/default.jade",
 		"/home/integrabuntu/Projects/Integra/config/development.json",
 		"/home/integrabuntu/Projects/Integra/app/controllers/users.js",
-		"/home/integrabuntu/Projects/Integra/app/models/nafdacdrugs.js",
-		"/home/integrabuntu/Projects/Integra/app/views/includes/header.jade",
-		"/home/integrabuntu/Projects/Integra/todo",
-		"/home/integrabuntu/Projects/Integra/public/js/common/directives/directives.js",
-		"/home/integrabuntu/Projects/Integra/app/views/orders/cart.jade",
-		"/home/integrabuntu/Projects/Integra/app/models/supplier.js",
 		"/home/integrabuntu/Projects/Integra/app/views/templates/supplier-cart-tpl.jade",
 		"/home/kingkoded/Projects/Integra/public/js/modules/order/order.js",
 		"/home/kingkoded/Projects/Integra/app/controllers/items.js",
@@ -849,37 +854,19 @@
 		"/home/kingkoded/Projects/Integra/config/routes.js",
 		"/home/kingkoded/Projects/Integra/config/config.example.js",
 		"/home/kingkoded/Projects/Integra/config/imager.example.js",
-		"/home/kingkoded/Projects/Integra/config/config.js",
-		"/home/kingkoded/Projects/Integra/config/express.js",
-		"/home/kingkoded/Projects/Integra/app/controllers/routes.js",
-		"/home/kingkoded/Integra/stoc-cloud/models/order.js",
-		"/var/www/html/drugstoc/wp-config-local.php",
-		"/home/kingkoded/Integra/stoc-cloud/controllers/orders.js",
-		"/home/kingkoded/Integra/stoc-cloud/test/govtSpec.js",
-		"/home/kingkoded/Integra/stoc-cloud/models/postman.js",
-		"/home/kingkoded/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
-		"/var/www/html/drugstoc/wp-config.php",
-		"/var/www/html/drugstoc/wp-content/themes/sistina/languages/default.po",
-		"/var/www/html/drugstoc/wp-content/themes/sistina/theme/woocommerce.php",
-		"/home/kingkoded/Downloads/junky-ja.csv",
-		"/home/kingkoded/Integra/stoc-cloud/test/user/model.js",
-		"/home/kingkoded/Integra/stoc-cloud/.idea/modules.xml",
-		"/var/www/html/drugstoc/drugstoc/wp-admin/ms-options.php",
-		"/home/kingkoded/Integra/stoc-cloud/node_modules/mongoose/examples/population/population-of-existing-doc.js",
-		"/home/kingkoded/Integra/stoc-cloud/node_modules/should/.idea/inspectionProfiles/Project_Default.xml",
-		"/home/kingkoded/Integra/stoc-cloud/node_modules/lockit/node_modules/lockit-delete-account/views/post-delete-account.jade",
-		"/home/kingkoded/Integra/stoc-cloud/lib/message-strings.js",
-		"/var/www/html/drugstoc/.gitignore"
+		"/home/kingkoded/Projects/Integra/config/config.js"
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 38.0
 	},
 	"find_in_files":
 	{
 		"height": 93.0,
 		"where_history":
 		[
+			"/home/integrabuntu/Projects/Integra/public/js",
+			"/home/integrabuntu/Projects/Integra/app/models",
 			"/home/integrabuntu/Projects/Integra/app/controllers",
 			"/home/integrabuntu/Projects/Integra/app",
 			"/home/kingkoded/Projects/Integra/public/js",
@@ -903,9 +890,58 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"localStorage",
+			"boot",
+			"routes",
+			"AdminController",
+			"invoi",
+			"invoice",
+			"update",
+			"'B",
+			"B",
+			"};\n",
+			"\"",
+			"orderStatus",
+			"storage",
+			"\"",
+			"return",
+			"Results",
+			"resolvedPromise",
+			".text-center",
+			"col-md-",
+			"col-sm-",
+			"col-md-",
+			"col-sm-",
+			"item.",
+			"item",
+			"fetchByRegNo",
+			"NafdacDrugsModel",
+			"NafdacDrugs",
+			"String",
+			", default: ''",
+			", required: true",
+			"true",
+			"'', required: true",
+			", required: true",
+			"NafdacDrugs",
+			"Item",
+			"orderStatus",
+			"\")\n",
+			"\"",
+			"新疆",
+			".span5.offset1.account-information-pane\n    h4 Account Information\n    form#login(novalidate)\n      label(for=\"name\") Facility Name\n      input.span6(type=\"text\", ng-model=\"facility.name\", required, placeholder=\"Free Clinic Ltd\")\n      label(for=\"address\") Name\n      input.span6(type=\"text\", ng-model=\"facility.first_name\", placeholder=\"John\")\n      input.span6(type=\"text\", ng-model=\"facility.last_name\", placeholder=\"Doe\")\n      label(for=\"address\") Facility Address\n      input.span12(type=\"text\", ng-model=\"facility.address_1\", required, placeholder=\"1 Smith Way\")\n      input.span6(type=\"text\", ng-model=\"facility.address_2\", placeholder=\"Block 2\")\n      label(for=\"city\") City\n      input#city.span6(type=\"text\", name=\"city\", ng-model=\"facility.city\", placeholder=\"Victoria Island\")\n      label(for=\"state\") State\n      input#state.span6(type=\"text\", name=\"state\", ng-model=\"facility.state\", required, placeholder=\"Lagos\")\n\n      label(for=\"service_type\") Service Type\n      select#service_type.span5(type=\"text\", name=\"service_type\", ng-model=\"facility.service_type\", required)\n        option Hospital\n        option Pharmacy\n        option Clinic\n      label(for=\"telephone\") Phone Number\n      input#telephone(type=\"tel\", name=\"phone\", ng-model=\"facility.phone\", placeholder=\"0800 124 4567\")\n      label(for=\"telephone\") Email\n      input#telephone(type=\"tel\", name=\"email\", ng-model=\"facility.email\", placeholder=\"0800 124 4567\", readonly)\n      .control-group\n        .controls\n          button.btn.btn-info(type=\"submit\", ng-click=\"saveFacilityInformation(facility)\") Save\n  .span3.offset1\n    div.pr-btn-drpdwn.upd-menu\n      h4 Activate DDIMs\n      form(accept-charset='UTF-8', name=\"login_form\", ng-submit=\"login_user(facility)\", novalidate)\n        .control-group\n          .controls\n            input(style='margin-bottom: 15px;', type='text', placeholder='Email Address', name='email',ng-model=\"facility.email\", required)\n        .control-group\n          .controls\n            input(style='margin-bottom: 15px;', type='text', placeholder='Consumer Key', name='consumer_key',ng-model=\"facility.consumer_key\", required)\n        .control-group\n          .controls\n            input(style='margin-bottom: 15px;', type='password', placeholder='Consumer Secret', name='consumer_secret',ng-model=\"facility.consumer_secret\", required)\n        .control-group\n          .controls\n            button#sign-in.btn.btn-primary(type='submit', style=\"border-radius: 6px\", ng-disabled=\"login_form.$invalid\", ng-click=\"login_user(facility)\") Activate\n",
+			"login_",
+			"one",
+			"dsItems",
+			"DsItem",
+			"dsItems",
+			"DsItem",
+			"\"",
+			"#name",
+			"name=\"name\",",
 			"itemPurchaseRate",
 			"lastOrderP",
 			"lastOrder",
@@ -984,56 +1020,7 @@
 			"primary",
 			"profile",
 			"not found",
-			"options",
-			"Loading User Controller",
-			"{{act.created | date: 'medium'}}",
-			"removeI",
-			"deleteOn",
-			"remove",
-			"user/profile",
-			"/user/profile",
-			"url",
-			"'/signin'",
-			"sessionStorage",
-			"dd",
-			"dt",
-			" item-input item-stacked-label",
-			"label",
-			"btn",
-			"ion-pane",
-			"__modal_data",
-			"cmp",
-			".js",
-			"HospitalController",
-			"return (r) ? r.data : {};",
-			"return r.data;",
-			"data",
-			"{\n",
-			"internal",
-			"'/api",
-			"out",
-			"&quot;",
-			"Authorization",
-			"authorization",
-			"api",
-			"console",
-			"httpBackend",
-			"internal",
-			"&gt;",
-			"httpBackend",
-			"dist",
-			"toStr",
-			"console",
-			"case",
-			"route",
-			"\"",
-			"@import url(",
-			"\\x3C",
-			"logger",
-			"orderId",
-			"getOrders",
-			"!xInStr",
-			"{"
+			"options"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1041,6 +1028,9 @@
 		"regex": false,
 		"replace_history":
 		[
+			"'",
+			"span",
+			"item",
 			"'",
 			"saveProductUpdates",
 			"runProductUpdateRequest",
@@ -1120,29 +1110,28 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "public/js/modules/item/item.js",
+					"file": "app/controllers/orders.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 19775,
+						"buffer_size": 14282,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								570,
-								570
+								13245,
+								13245
 							]
 						],
 						"settings":
 						{
-							"WordCountShouldRun": false,
 							"WordCountSyntax": "javascript",
 							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
@@ -1154,137 +1143,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 6959.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "public/js/modules/admin/admin.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8606,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5725,
-								5725
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": false,
-							"WordCountSyntax": "javascript",
-							"auto_complete": false,
-							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "public/js/modules/order/order.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 14520,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								8511,
-								8511
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": false,
-							"WordCountSyntax": "javascript",
-							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3285.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/models/user.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1495,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1054,
-								1054
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": false,
-							"WordCountSyntax": "javascript",
-							"auto_complete": false,
-							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 72.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
 					"file": "todo",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 743,
+						"buffer_size": 1320,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								375,
-								375
+								1320,
+								1320
 							]
 						],
 						"settings":
@@ -1301,24 +1180,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "app/models/dsitem.js",
+					"buffer": 2,
+					"file": "lib/boot.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8915,
+						"buffer_size": 230,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4603,
-								4603
+								230,
+								230
 							]
 						],
 						"settings":
@@ -1335,32 +1214,31 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1050.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "app/models/dsitem/dsitem.js",
+					"buffer": 3,
+					"file": "app/controllers/items.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1288,
+						"buffer_size": 26685,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								734,
-								734
+								22585,
+								22585
 							]
 						],
 						"settings":
 						{
-							"WordCountShouldRun": false,
 							"WordCountSyntax": "javascript",
 							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
@@ -1368,6 +1246,77 @@
 							"remote_loading": false,
 							"synced": false,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 9385.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "app/models/admin.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3904,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3712,
+								3712
+							]
+						],
+						"settings":
+						{
+							"WordCountSyntax": "javascript",
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1917.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "app/views/orders/all.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1367,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1080,
+								1080
+							]
+						],
+						"settings":
+						{
+							"WordCountSyntax": "jade",
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -1377,6 +1326,76 @@
 					},
 					"stack_index": 12,
 					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "app/views/orders/cart.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2449,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2304,
+								2304
+							]
+						],
+						"settings":
+						{
+							"WordCountSyntax": "jade",
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 273.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "app/views/includes/foot.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2301,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								492,
+								492
+							]
+						],
+						"settings":
+						{
+							"WordCountSyntax": "jade",
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
 				}
 			]
 		},
@@ -1385,25 +1404,24 @@
 			"sheets":
 			[
 				{
-					"buffer": 7,
-					"file": "app/controllers/admin.js",
+					"buffer": 0,
+					"file": "app/controllers/orders.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7723,
+						"buffer_size": 14282,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1338,
-								1338
+								1770,
+								1770
 							]
 						],
 						"settings":
 						{
-							"WordCountShouldRun": false,
 							"WordCountSyntax": "javascript",
 							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
@@ -1415,10 +1433,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 144.0,
+						"translation.y": 988.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -1427,20 +1445,19 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6691,
+						"buffer_size": 6748,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3356,
-								3356
+								6748,
+								6748
 							]
 						],
 						"settings":
 						{
-							"WordCountShouldRun": false,
 							"WordCountSyntax": "javascript",
 							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
@@ -1452,104 +1469,69 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 828.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "app/views/items/new.jade",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4424,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								980,
-								980
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": true,
-							"WordCountSyntax": "jade",
-							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "app/views/items/index.jade",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4304,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1091,
-								1091
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": true,
-							"WordCountSyntax": "jade",
-							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2964.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 11,
-					"file": "app/models/item.js",
+					"buffer": 9,
+					"file": "public/js/modules/order/order.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5254,
+						"buffer_size": 16089,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								843,
-								843
+								1419,
+								1419
 							]
 						],
 						"settings":
 						{
-							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"history_list_is_closing": true,
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"sftp_duplicate_views": 0,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "public/js/app.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3530,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								302,
+								302
+							]
+						],
+						"settings":
+						{
 							"WordCountSyntax": "javascript",
 							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
@@ -1564,31 +1546,29 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 12,
-					"file": "app/controllers/orders.js",
-					"semi_transient": false,
+					"buffer": 11,
+					"file": "app/controllers/nafdacs.js",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 14355,
+						"buffer_size": 2065,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								989,
-								989
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"WordCountShouldRun": false,
 							"WordCountSyntax": "javascript",
-							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
 							"incomplete_sync": null,
 							"remote_loading": false,
@@ -1597,11 +1577,11 @@
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": -0.0,
-						"translation.y": 108.0,
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
@@ -1635,7 +1615,7 @@
 		"cols":
 		[
 			0.0,
-			0.505267231134,
+			0.537240477736,
 			1.0
 		],
 		"rows":
@@ -1661,11 +1641,15 @@
 	{
 		"height": 100.0
 	},
+	"output.unsaved_changes":
+	{
+		"height": 80.0
+	},
 	"pinned_build_system": "",
 	"project": "integra.sublime-project",
 	"replace":
 	{
-		"height": 66.0
+		"height": 72.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -1675,7 +1659,43 @@
 		"selected_items":
 		[
 			[
+				"controllers/ite",
+				"app/controllers/items.js"
+			],
+			[
+				"cart",
+				"app/views/orders/cart.jade"
+			],
+			[
+				"cart.jad",
+				"app/views/orders/cart.jade"
+			],
+			[
+				"app.js",
+				"public/js/app.js"
+			],
+			[
+				"order",
+				"app/controllers/orders.js"
+			],
+			[
+				"public/item",
+				"public/js/modules/item/item.js"
+			],
+			[
 				"app.css",
+				"public/css/app.css"
+			],
+			[
+				"todo",
+				"todo"
+			],
+			[
+				"direc",
+				"public/js/common/directives/directives.js"
+			],
+			[
+				"app.c",
 				"public/css/app.css"
 			],
 			[
@@ -1747,10 +1767,6 @@
 				"stoc-cloud/views/widgets/order/all-cart.jade"
 			],
 			[
-				"order",
-				"stoc-cloud/controllers/orders.js"
-			],
-			[
 				"models/i",
 				"stoc-cloud/models/item.js"
 			],
@@ -1777,10 +1793,6 @@
 			[
 				"build/order",
 				"stoc-cloud/build/js/modules/order/order.js"
-			],
-			[
-				"cart",
-				"stoc-cloud/views/order/cart.jade"
 			],
 			[
 				"order/order",
@@ -1821,10 +1833,6 @@
 			[
 				"grunt",
 				"stoc-cloud/gruntfile.js"
-			],
-			[
-				"direc",
-				"stoc-cloud/build/js/common/directives/directives.js"
 			],
 			[
 				"note",
@@ -2039,10 +2047,6 @@
 				"stoc-cloud/views/includes/pageheader.jade"
 			],
 			[
-				"app.js",
-				"stoc-cloud/build/js/app.js"
-			],
-			[
 				"order/inde",
 				"stoc-cloud/views/order/index.jade"
 			],
@@ -2165,26 +2169,6 @@
 			[
 				"utils",
 				"lib/utils.js"
-			],
-			[
-				"twil",
-				"test/sms/twilioSpec.js"
-			],
-			[
-				"db.",
-				"lib/db.js"
-			],
-			[
-				"public",
-				"public/js/modules/public.js"
-			],
-			[
-				"stydefau",
-				"build/css/style.default.css"
-			],
-			[
-				"splash",
-				"views/home/splash.jade"
 			]
 		],
 		"width": 0.0
@@ -2219,7 +2203,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 177.0,
+	"side_bar_width": 180.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

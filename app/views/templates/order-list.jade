@@ -1,16 +1,18 @@
 tr(ng-repeat="order in orderList | filter: ordersFilter", on-finish="tableheader")
   td {{order.orderType}}
-  td 
-    a(href="/items/{{order.itemData.id}}/edit") {{order.itemData.itemName}}
-  td 
+  td
+    //
+      a(href="/items/{{order.itemData.id}}/edit") {{order.itemName}}
+    | {{order.itemName}}
+  td
     | {{order.orderAmount}} <span style="color: grey">@ N{{order.orderPrice}}</span>
   td {{order.orderAmount * order.orderPrice}}
   td {{order.orderDate | date:'medium'}}
   td.orderDesc {{order.orderDescription}}
-  td {{order.orderSupplier[0].supplierName}} 
-  td.order-status 
+  td {{order.orderSupplier[0].supplierName}}
+  td.order-status
     .btn-group.dropdown
-      a.btn.btn-mini.btn-info {{order.orderStatus}}
+      a.btn.btn-mini.btn-info {{order.orderStatus | orderState}}
       a.btn.btn-dropdown-toggle.btn-info(data-toggle="dropdown")
         span.caret
       ul.dropdown-menu.alt-text
@@ -19,7 +21,7 @@ tr(ng-repeat="order in orderList | filter: ordersFilter", on-finish="tableheader
           | was supplied. <br>
           | Enter an invoice number.
         dl
-          dt Item Ordered: 
+          dt Item Ordered:
           dd(style="color: #3498db") {{order.itemData[0].itemName}}
 
         form.new-stock-down
@@ -48,9 +50,9 @@ tr(ng-repeat="order in orderList | filter: ordersFilter", on-finish="tableheader
               span.help-block {{addHelpText}}
           .control-group
             .controls
-              button.btn.btn-inverse.input-block-level(ng-click="updateOrder($index)") {{order.nextStatus}}
+              button.btn.btn-inverse.input-block-level(ng-click="updateOrder($index)" ng-disabled="order.nextStatus() > 5") {{order.nextStatus() | orderState | uppercase}}
               button.btn.btn-danger.input-block-level(ng-click="cancelOrder($index)", ng-disabled="order.nextStatus == null") Cancel
-  td                      
+  td
     .btn-group
       a.btn.btn-mini Return
       a.btn.btn-mini.btn-danger(ng-click="removeOrder($event, order._id)") <i class="icon-remove"></i>

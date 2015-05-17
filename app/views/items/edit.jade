@@ -15,36 +15,36 @@ block body
             select(name="itemtype",class="span6",ng-model="form.itemType", required)
               option Medication
               option Medical Equipment
-            label(for="name") Brand Name 
-            input.input-medium(type="text",name="name", ng-model="form.itemName", type-ahead, th-name="nafdacdrugs", required)              
+            label(for="name") Brand Name
+            input.input-medium(type="text",name="name", ng-model="form.itemName", type-ahead, th-name="nafdacdrugs", required)
             label(for="sci-name") Scientific Name / Composition
             input.input-medium(type="text", name="sci-name",ng-model="form.sciName", required)
             label(for="man-name") Manufacturer
-            input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName", required)                
+            input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName", required)
             label(for="supplier") Importer
-            input.input-medium(type="text", name="supplier",ng-model="form.importer", style="color:black;" )  
+            input.input-medium(type="text", name="supplier",ng-model="form.importer", style="color:black;" )
             label(for="supplier") NAFDAC Number
-            input.input-medium(type="text", name="supplier",ng-model="form.nafdacRegNo", style="color:black;") 
-            a(ng-click="getByRegNo()",  href="", style="margin-left: 10px; text-transform: Capitalize") Find            
+            input.input-medium(type="text", name="supplier",ng-model="form.nafdacRegNo", style="color:black;")
+            a(ng-click="getByRegNo()",  href="", style="margin-left: 10px; text-transform: Capitalize") Find
             label.lister(for="category") Category
               button.btn.btn-mini.btn-info.nop(new-modal="#dialog-category")
                 i.fa.fa-ellipsis-horizontal
             ul#itemCategory.fa-ul.listing(ng-model="form.itemCategory")
               li(ng-repeat="itemCat in form.itemCategory ", ng-click="removeItemCat($index)")
-                | {{itemCat.categoryName}}
+                | {{itemCat}}
             p {{form.itemCategory.length}} categories selected.
 
             label(for="itemdesc") Item Description
             textarea(name="itemdesc",ng-model="form.itemDescription")
-          .span4.offset2            
-            label.lister(for="supplier") Supplier  
+          .span4.offset2
+            label.lister(for="supplier") Supplier
             ul#itemSuppliers.fa-ul.listing(ng-model="form.suppliers")
               li(ng-repeat="itemSup in form.suppliers", ng-click="removeItemSup($index)")
                 | {{itemSup.supplierName}}
-            input.input-medium(type="text", name="supplier", supplier-name-type-ahead)                
+            input.input-medium(type="text", name="supplier", supplier-name-type-ahead)
             p {{form.suppliers.length}} suppliers selected.
             label(for="icd") ICD Code
-            input.input-small(type="text",name="icd",ng-model="form.icdcode")           
+            input.input-small(type="text",name="icd",ng-model="form.icdcode")
             label(for="bp") Boiling Point
             input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint", required, ng-minlength=0, ng-maxlength=100)
             label(for="itemsize") Package Size
@@ -56,4 +56,6 @@ block body
             p.disabled-input(ng-click="itemPackagingShow = !itemPackagingShow", ng-init="itemPackagingShow = false", ng-show="!itemPackagingShow") {{form.itemPackaging}}
             select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging", ng-show="itemPackagingShow")
             label(for="rate") Purchase Rate
-            input.input-medium(name="rate",type="number",ng-model="form.itemPurchaseRate", required, readonly)
+            p.disabled-input.input-medium {{form.itemPurchaseRate}}
+            label(for="rate") Your Rate
+            input.input-small(type="number",name="op",ng-model="form.ownerPrice")

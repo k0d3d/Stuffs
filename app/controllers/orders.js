@@ -21,23 +21,26 @@ function OrderController () {
 OrderController.prototype.constructor = OrderController;
 
 var updateTracking = function (r) {
-  _.each(r, function(v){
-    Order.update({_id: v.client}, {
-      onlineId: v.online,
-      orderStatus: 'received'
-    }, function(err){
-      if(err){
-        utils.puts(err);
-      }
-    });
+  Order.update({
+    orderStatus: 1
+  }, {
+    $set: {
+      orderStatus: 2,
+      order_number: r.order_number
+    }
+  }, function (err, n) {
+    console.log(err);
+    console.log(n);
   });
+
 };
 
 var postOrders = function(){
-  Order.find({orderStatus: 0}, 'itemData orderAmount orderDate orderSupplier nafdacRegNo nafdacRegName')
+  Order
+  .find({orderStatus: 1}, 'itemId product_id itemName orderAmount orderDate orderSupplier nafdacRegNo nafdacRegName')
   .populate({
-    path: 'itemData.id',
-    model: 'Item'
+    path: 'itemId',
+    model: 'item'
   })
   .exec(function(err, i){
     // var one = JSON.stringify(i);
@@ -46,25 +49,15 @@ var postOrders = function(){
     }else{
       var dsItems = new DsItems();
 
-      dsItems.postDSCloudOrders(i[0])
+      dsItems.postDSCloudOrders(i)
       .then(function (r) {
-        updateTracking(r);
+        updateTracking(r.order);
       }, function (err) {
         console.log(err);
       })
       .catch(function (err) {
         console.log(err.stack);
       });
-
-      // rest.postJson(online_api_url + '/api/orders', { data: one, hid: 1008} )
-      // .on('success', function(r){
-      // })
-      // .on('error', function(err){
-      //   utils.puts(err);
-      // })
-      // .on('fail', function(err){
-      //   utils.puts(err);
-      // });
     }
   });
 };
@@ -78,31 +71,27 @@ OrderController.prototype.placeCart = function(cartObj, cb){
     var item = cartObj.pop();
     var l = cartObj.length;
 
+    Order.update({
+      _id: item.orderId
+    }, {
+      $set: {
+        orderStatus: 1
+      }
+    }, function (err, n) {
 
-    var itemName = item.itemName;
-    var supplier = item.supplier;
-    var id = item.itemId;
-
-    var order = new Order(item);
-    var itemObj = {itemName: itemName, id: id};
-    order.orderSupplier =  supplier;
-
-    order.itemData = itemObj;
-
-    order.save(function (r) {
       //Check if the object returned is an error
-      if(utils.isError(r)){
+      if(err){
         //if we have some processed results
         //return that
-        if(doneIds.length > 0){
+        if(doneIds.length){
           return cb(doneIds);
         }else{
-          return cb(r);
+          return cb(n);
         }
 
       }else{
         //Add another done/placed order
-        doneIds.push(id);
+        doneIds.push(item.orderId);
         if(l--){
           _create();
         }else{
@@ -129,16 +118,16 @@ OrderController.prototype.createOrder = function (orderObj, cb) {
   //the absence of an itemId creates a new item
   register.once('checkId', function(data, isDone){
     console.log(data);
-    var id = data._id || data.itemData.id;
+    return isDone(data);
+    var id = data._id || data.itemId;
 
     if(!id){
       //Lets go create a new Item and return its id
       var item = new Items();
       item.create({
         item:{
-          itemName: data.itemData.itemName,
-          nafdacRegNo: data.nafdacRegNo,
-          sciName: data.itemData.sciName
+          itemName: data.itemName,
+          sciName: data.sciName
         }
       }, function(d){
         data.id = d._id;
@@ -151,15 +140,15 @@ OrderController.prototype.createOrder = function (orderObj, cb) {
   });
 
   register.once('saveOrder', function(data, isDone){
-    var itemName = data.itemName || data.itemData.itemName;
-    var supplier = data.supplier || data.suppliers;
+    // var itemName = data.itemName || data.itemData.itemName;
+    // var supplier = data.supplier || data.suppliers;
 
     var order = new Order(data);
-    var itemObj = {itemName: itemName, id: data.id};
+    // var itemObj = {itemName: itemName, id: data.id};
 
-    order.orderSupplier =  supplier;
+    // order.orderSupplier =  supplier;
 
-    order.itemData = itemObj;
+    // order.itemData = itemObj;
 
     order.save(function (err) {
       if (!err) {
@@ -192,17 +181,37 @@ OrderController.prototype.createOrder = function (orderObj, cb) {
  */
 
 OrderController.prototype.getOrders = function(req, res){
-  var page = (req.param('page') > 0 ? req.param('page') : 1) - 1;
-  var perPage = 30;
+
   var options = {
-    criteria: {orderVisibility: true}
+    conditions: {
+      orderVisibility: true,
+      orderStatus: {'$ne' : 0}
+    }
   };
 
   Order.list(options, function(err, orders) {
     if (err) return res.render('500');
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.write(JSON.stringify(orders));
-    res.end();
+    res.json(orders);
+  });
+};
+
+
+/**
+ * List All Cart
+ */
+
+OrderController.prototype.getOrderCart = function getOrderCart (req, res){
+
+  var options = {
+    conditions: {
+      orderVisibility: true,
+      orderStatus : 0
+    }
+  };
+
+  Order.list(options, function(err, orders) {
+    if (err) return res.render('500');
+    res.json(orders);
   });
 };
 
@@ -226,8 +235,8 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
       '_id':data.orderId
     },{
       $set: {
-        'orderStatus':data.orderbody.status,
-        'orderInvoice': data.orderbody.orderInvoiceNumber,
+        'orderStatus':data.orderbody.orderStatus,
+        'orderInvoiceNumber': data.orderbody.orderInvoiceNumber,
         'amountSupplied': data.orderbody.amountSupplied,
       }
     })
@@ -250,7 +259,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
       '_id':data.orderId
     },{
       $set: {
-        'orderStatus':data.orderbody.status,
+        'orderStatus':data.orderbody.orderStatus,
         'paymentReferenceType': data.orderbody.paymentReferenceType,
         'paymentReferenceID': data.orderbody.paymentReferenceID
       }
@@ -304,7 +313,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
       //This will handle stocking down
       stockman.stocking(reqObject, data.location, 'order',  function(d){
         isDone(data);
-      })
+      });
   });
 
 
@@ -363,8 +372,7 @@ OrderController.prototype.count = function(cb){
   var register = new EventRegister();
 
   register.once('doInvoice', function(data, isDone){
-    var d = Order.count({orderVisibility: true});
-    d.or([{orderStatus: 'Supplied'}, {orderStatus: 'supplied'}]);
+    var d = Order.count({orderVisibility: true, orderStatus: 3});
     d.exec(function(err,y){
       if(err){
         cb(err);
@@ -376,8 +384,8 @@ OrderController.prototype.count = function(cb){
   });
 
   register.once('doOrder', function(data, isDone){
-    var d = Order.count({orderVisibility: true});
-    d.or([{orderStatus: 'pending order'}, {orderStatus: 'Pending Order'}, {orderStatus: 'PENDING ORDER'}]);
+    var d = Order.count({orderVisibility: true, orderStatus: 1});
+    // d.or([{orderStatus: 'pending order'}, {orderStatus: 'Pending Order'}, {orderStatus: 'PENDING ORDER'}]);
     d.exec(function(err,y){
       if(err){
         cb(err);
@@ -396,7 +404,7 @@ OrderController.prototype.count = function(cb){
   .onEnd(function(r){
     cb(r);
   })
-  .start({"pendingpayment":0,"pendingorders":0});
+  .start({'pendingpayment':0,'pendingorders':0});
 };
 
 /**
@@ -462,14 +470,13 @@ OrderController.prototype.removeOrder = function(order_id, callback){
 
 OrderController.prototype.isDispatched = function(order){
   var lala = [];
-  console.log(order);
   return false;
   if (!order.length) {
   }
   _.each(order, function(v){
     var orderId = v.order_id.h_order_Id.substr(v.hospitalId.length + 1);
     Order.update({_id: orderId}, {
-      orderStatus: 'dispatched'
+      orderStatus: 0
     }, function(err){
       if(err){
         utils.puts(err);
@@ -477,7 +484,7 @@ OrderController.prototype.isDispatched = function(order){
     });
 
     var o = new OrderStatus();
-    o.status = 'dispatched';
+    o.status = 0;
     o.order_id = orderId;
     o.save(function(err){
       if(err){
@@ -529,6 +536,7 @@ module.exports.routes = function(app){
   );
   //Order  GET routes
   app.get('/api/orders',orders.getOrders);
+  app.get('/api/cart',orders.getOrderCart);
   app.get('/api/orders/count', function(req, res, next){
     orders.count(function(r){
       if(utils.isError(r)){
@@ -536,7 +544,7 @@ module.exports.routes = function(app){
       }else{
         res.json(200, r);
       }
-    })
+    });
   });
   // app.get('/api/orders/supplier', orders.allSuppliers);
   // app.get('/api/orders/supplier/:id', orders.getSupplier);

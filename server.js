@@ -62,6 +62,7 @@ function afterResourceFilesLoad () {
     }));
 
     app.locals.layout = false;
+
     app.set('views', __dirname + '/app/views');
     app.set('view engine', 'jade');
 
@@ -241,8 +242,11 @@ require('./lib/db').open()
 .then(function (mongoose) {
   console.log('Database Connection open...');
   require('mongoose-pureautoinc').init(mongoose);
-  //load resource
+
+  require('./lib/boot')();
   afterResourceFilesLoad();
+
+  //load resource
 
   // actual application start
   app.listen(port);

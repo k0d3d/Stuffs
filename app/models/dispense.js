@@ -39,6 +39,6 @@ var DispenseSchema = new Schema({
 
 
 
-mongoose.model('Dispense', DispenseSchema);
+mongoose.model('dispense', DispenseSchema);
 
-module.exports = mongoose.model('Dispense');
+module.exports = mongoose.model('dispense');

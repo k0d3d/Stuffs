@@ -14,33 +14,13 @@ var
     _ = require('lodash'),
     Q = require('q');
 
-function AdminController () {
+function AdminMethods () {
 
 }
 
-AdminController.prototype.constructor = AdminController;
+AdminMethods.prototype.constructor = AdminMethods;
 
-
-
-// AdminController.prototype.login = function(deets){
-//   var q = Q.defer(), adminInstance = this;
-
-//   var dsItems = new DsItems();
-//   dsItems.checkConsumerByEmail(deets)
-//   .then(function (userInfo) {
-//     adminInstance.updateUserProfile(deets.consumer_key)
-//     .then(function () {
-
-//       q.resolve(userInfo);
-//     });
-//   }, function(err) {
-//     q.reject(err);
-//   }) ;
-//   return q.promise;
-
-// };
-
-AdminController.prototype.removeAllDispense = function(cb){
+AdminMethods.prototype.removeAllDispense = function(cb){
   Dispense.remove({}, function(err, n){
     if(err){
       cb(err);
@@ -49,7 +29,7 @@ AdminController.prototype.removeAllDispense = function(cb){
     }
   });
 };
-AdminController.prototype.removeAllBills = function(cb){
+AdminMethods.prototype.removeAllBills = function(cb){
   Bills.remove({}, function(err, n){
     if(err){
       cb(err);
@@ -58,7 +38,7 @@ AdminController.prototype.removeAllBills = function(cb){
     }
   });
 };
-AdminController.prototype.removeAllBillProfiles = function(cb){
+AdminMethods.prototype.removeAllBillProfiles = function(cb){
   BillingProfile.remove({}, function(err, n){
     if(err){
       cb(err);
@@ -67,7 +47,7 @@ AdminController.prototype.removeAllBillProfiles = function(cb){
     }
   });
 };
-AdminController.prototype.removeAllRules = function(cb){
+AdminMethods.prototype.removeAllRules = function(cb){
   BillRules.remove({}, function(err, n){
     if(err){
       cb(err);
@@ -76,7 +56,7 @@ AdminController.prototype.removeAllRules = function(cb){
     }
   });
 };
-AdminController.prototype.removeAllStockHistory = function(cb){
+AdminMethods.prototype.removeAllStockHistory = function(cb){
   StockHistory.remove({}, function(err, n){
     if(err){
       cb(err);
@@ -85,7 +65,7 @@ AdminController.prototype.removeAllStockHistory = function(cb){
     }
   });
 };
-AdminController.prototype.removeAllStockCount = function(cb){
+AdminMethods.prototype.removeAllStockCount = function(cb){
   StockCount.remove({}, function(err, n){
     if(err){
       cb(err);
@@ -94,7 +74,7 @@ AdminController.prototype.removeAllStockCount = function(cb){
     }
   });
 };
-AdminController.prototype.removeAllOrders = function(cb){
+AdminMethods.prototype.removeAllOrders = function(cb){
   OrderModel.remove({}, function(err, n){
     if(err){
       cb(err);
@@ -103,7 +83,7 @@ AdminController.prototype.removeAllOrders = function(cb){
     }
   });
 };
-AdminController.prototype.removeAllOrderStatus = function(cb){
+AdminMethods.prototype.removeAllOrderStatus = function(cb){
   OrderStatus.remove({}, function(err, n){
     if(err){
       cb(err);
@@ -112,7 +92,7 @@ AdminController.prototype.removeAllOrderStatus = function(cb){
     }
   });
 };
-AdminController.prototype.removeAllTransactions = function(cb){
+AdminMethods.prototype.removeAllTransactions = function(cb){
   Transactions.remove({}, function(err, n){
     if(err){
       cb(err);
@@ -121,7 +101,7 @@ AdminController.prototype.removeAllTransactions = function(cb){
     }
   });
 };
-AdminController.prototype.removeAllItems = function(cb){
+AdminMethods.prototype.removeAllItems = function(cb){
   Items.remove({}, function(err, n){
     if(err){
       cb(err);
@@ -130,7 +110,7 @@ AdminController.prototype.removeAllItems = function(cb){
     }
   });
 };
-AdminController.prototype.removeAllLocations = function(cb){
+AdminMethods.prototype.removeAllLocations = function(cb){
   PointLocation.remove({}, function(err, n){
     if(err){
       cb(err);
@@ -140,14 +120,18 @@ AdminController.prototype.removeAllLocations = function(cb){
   });
 };
 
-AdminController.prototype.createMainLocation = function(cb){
+AdminMethods.prototype.findOrCreateMainStockLocation = function findOrCreateMainStockLocation (){
+  var q = Q.defer();
+
   //Check for a default location
   PointLocation.findOne({
     locationType: 'default'
   }, function(err, i){
-    if(!_.isEmpty(i)){
-      console.log('found');
-      cb(i);
+    if (err) {
+      return q.reject(err);
+    }
+    if(i){
+      q.resolve(i);
     }else{
       //Create a default loaction
       var pl = new PointLocation();
@@ -155,13 +139,18 @@ AdminController.prototype.createMainLocation = function(cb){
       pl.locationType = 'default';
       pl.locationDescription = 'Main Stock Location';
       pl.save(function(err, i){
-        cb(i);
+        if (err) {
+          return q.reject(err);
+        }
+        q.resolve(i);
       });
     }
   });
+
+  return q.promise;
 };
 
-AdminController.prototype.fetchUser = function fetchUser (csKey) {
+AdminMethods.prototype.fetchUser = function fetchUser (csKey) {
   var q = Q.defer();
 
 
@@ -179,7 +168,7 @@ AdminController.prototype.fetchUser = function fetchUser (csKey) {
 };
 
 
-AdminController.prototype.updateUserProfile = function updateUserProfile (csKey, user) {
+AdminMethods.prototype.updateUserProfile = function updateUserProfile (csKey, user) {
   var q = Q.defer();
   UserModel.update({
     consumer_key : csKey
@@ -194,4 +183,4 @@ AdminController.prototype.updateUserProfile = function updateUserProfile (csKey,
   return q.promise;
 };
 
-module.exports = AdminController;
+module.exports = AdminMethods;
