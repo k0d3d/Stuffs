@@ -261,44 +261,59 @@ ItemsObject.prototype.create = function (itemBody, cb) {
  * List
  */
 
-ItemsObject.prototype.list = function(req, res){
-
+ItemsObject.prototype.list = function(req, res, next){
+  //Some Callback hell, when team comes
+  //major code upgrade.. till then, unto
+  //the damned to strain eyes
+  //
   var options = {
-    "fields": "itemName itemCategory itemBoilingPoint"
+    'fields': 'itemName itemCategory itemBoilingPoint'
   };
-  Item.list(options, function(err, r) {
-    if (err) return res.json('500',{"mssg": 'Darn Fault!!!'});
-    /**
-     * Gets the current stock for all items in the inventory
-     */
-    var listofItems = [];
-    var x = r.length;
-    //msc means main stock count, #humorMe
-    function mscProcess(){
-      if(x === 0){
-        return res.json(200, {});
+  var x, listofItems = [], mainStockLocationId, mainInventory;
+
+  //msc means main stock count, #humorMe
+  function mscProcess(){
+    if(x === 0){
+      return res.json(listofItems);
+    }
+    var _item = mainInventory.pop();
+
+    StockCount.mainStockCount(_item._id, mainStockLocationId, function(stock){
+      var it = {
+        _id: _item._id,
+        itemName: _item.itemName,
+        itemBoilingPoint: stock.itemBoilingPoint,
+        itemCategory: _item.itemCategory,
+        currentStock: (stock === null)? 0 : stock.amount,
+      };
+      listofItems.push(it);
+
+      if(--x){
+        mscProcess();
+      }else{
+        res.status(200).json(listofItems);
       }
-      var _item = r.pop();
+    });
+  }
 
-      StockCount.mainStockCount(_item._id, function(stock){
-        var it = {
-          _id: _item._id,
-          itemName: _item.itemName,
-          itemBoilingPoint: stock.itemBoilingPoint,
-          itemCategory: _item.itemCategory,
-          currentStock: (stock === null)? 0 : stock.amount,
-        };
-        listofItems.push(it);
-
-        if(--x){
-          mscProcess();
+  Item.list(options, function(err, r) {
+    if (err) return next(err);
+    PointLocation.findOne({locationType: 'default'},
+      function(err, i){
+        if(err){
+          next(err);
         }else{
-          res.status(200).json(listofItems);
+
+        mainInventory = r;
+        x = r.length;
+        mainStockLocationId= i._id;
+
+        /**
+         * Gets the current stock for all items in the inventory
+         */
+        mscProcess();
         }
       });
-    }
-
-    mscProcess();
 
   });
 };

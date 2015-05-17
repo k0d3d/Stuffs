@@ -87,8 +87,8 @@
     * @param  {Function} callback [description]
     * @return {[type]}            [description]
     */
-    mainStockCount: function mainStockCount(id, callback){
-      var q = this.findOne({item: id, locationId: nconf.get('app:main_stock_id')});
+    mainStockCount: function mainStockCount(id, mainStockLocationId, callback){
+      var q = this.findOne({item: id, locationId: mainStockLocationId});
       q.lean();
       q.exec(function(err, i){
         //Might return null so
