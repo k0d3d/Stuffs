@@ -1,5 +1,4 @@
 tr(ng-repeat="order in orderList | filter: ordersFilter", on-finish="tableheader")
-  td {{order.orderType}}
   td
     //
       a(href="/items/{{order.itemData.id}}/edit") {{order.itemName}}
@@ -8,7 +7,6 @@ tr(ng-repeat="order in orderList | filter: ordersFilter", on-finish="tableheader
     | {{order.orderAmount}} <span style="color: grey">@ N{{order.orderPrice}}</span>
   td {{order.orderAmount * order.orderPrice}}
   td {{order.orderDate | date:'medium'}}
-  td.orderDesc {{order.orderDescription}}
   td {{order.orderSupplier[0].supplierName}}
   td.order-status
     .btn-group.dropdown
@@ -33,7 +31,7 @@ tr(ng-repeat="order in orderList | filter: ordersFilter", on-finish="tableheader
           .control-group
             label.control-label Invoice Number
             .controls
-              input.input-medium.input-block-level(type="text",ng-model="order.orderInvoice", required)
+              input.input-medium.input-block-level(type="text",ng-model="order.orderInvoiceNumber", required)
               span.help-block {{addHelpText}}
           .control-group
             label.control-label Payment Type
