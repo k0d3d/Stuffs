@@ -9,7 +9,7 @@ var mongoose = require('mongoose'),
  * Item Schema
  */
 var StockHistorySchema = new Schema({
-  item: {type: Schema.ObjectId, ref: 'Item'},
+  item: {type: Schema.ObjectId, ref: 'item'},
   locationId: {type: Schema.ObjectId, ref: 'Location'},
   locationName: String,
   date: {type: Date, default: Date.now},
