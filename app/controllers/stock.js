@@ -461,7 +461,7 @@ StockController.prototype.history = function (item_Id, location, date,  cb){
   //   options.date = {$gte: start, $lt: end};
   // }
 
-  console.log(options);
+  // console.log(options);
   StockHistory.find(options)
   .sort({date: -1})
   .populate('item', 'itemName')
@@ -565,18 +565,18 @@ module.exports.routes = function(app){
     };
     //Set Options
     location.origin.options = {
-      action: 'Requested Stock (Origin)',
+      action: util.format('Requested Stock (%s)', req.body.location.destination.locationName),
       reference: 'stockdown-'+ timenow
     };
     location.destination.options = {
-      action: 'Requested Stock (Destination)',
-      reference: 'stockdown-'+timenow
+      action: 'Requested Stock (Origin)',
+      reference: 'stockup-'+timenow
     };
     sc.stocking(req.body.request, location, 'restock', function(r){
         if(util.isError(r)){
             next(r);
         }else{
-            res.json(200, true);
+            res.json(true);
         }
     });
   });
