@@ -29,6 +29,7 @@
     "connect-mongo": "latest",
     "cookie-parser": "latest",
     "cron": "~1.0.1",
+    "debug": "^2.2.0",
     "errors": "latest",
     "express": "latest",
     "express-session": "^1.11.1",

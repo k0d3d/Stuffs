@@ -10,9 +10,9 @@ var mongoose = require('mongoose'),
  * @type {Schema}
  */
 var TransactionSchema = new Schema({
-	origin: {type: Schema.ObjectId, ref: 'Location'},
-	destination: {type: Schema.ObjectId, ref: 'Location'},
-	item: {type: Schema.ObjectId, ref: 'Item'},
+	origin: {type: Schema.ObjectId, ref: 'location'},
+	destination: {type: Schema.ObjectId, ref: 'location'},
+	item: {type: Schema.ObjectId, ref: 'item'},
 	amount: {type: Number},
 	recordId: {type: String},
 	status: {type: String},

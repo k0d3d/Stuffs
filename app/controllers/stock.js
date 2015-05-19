@@ -6,7 +6,8 @@ var
     EventRegister = require('../../lib/event_register').register,
     Transaction = require('./transactions'),
     cors = require('../../config/middlewares/cors'),
-    util = require("util");
+    debug = require('debug')('ddims'),
+    util = require('util');
 
 
 
@@ -29,13 +30,7 @@ StockController.prototype.createLocation = function(obj, callback){
   var pl = new PointLocation(obj);
   pl.save(function(err, saved){
     if(err) return callback(err);
-    var s = {
-      locationAuthority: saved.locationAuthority,
-      locationBoilingPoint: saved.locationBoilingPoint,
-      locationId: saved.locationId,
-      locationName: saved.locationName
-    };
-    callback(s);
+    callback(saved);
   });
 };
 
@@ -222,14 +217,14 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
             data.forLocation = originLocation;
             isDone(data);
           }
-        console.log('Main decremented: %s', i);
+        debug('Main decremented: %s', i);
       });
   });
 
   eventRegister.on('stockHistory', function(data, isDone){
     //Create a stock record for each requested stock down drug item
     var sh = new StockHistory();
-    console.log(data);
+    debug(data);
     sh.log(data, data.forLocation, data.forLocation.options, function(){
         isDone(data);
     });
@@ -256,7 +251,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
         },{
           locationId: destLocation.id
         }],
-       pendingTransactions: { $ne : data.currentTransaction.id}
+        pendingTransactions: { $ne : data.currentTransaction.id}
       },{
         $inc: {
           amount: data.amount
@@ -274,13 +269,14 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
         if(err){
           return isDone(err);
         }
-        if(i === 0){
-          console.log('update results: '+i);
+        if(i.nModified === 0){
+          debug('update results: '+i);
           var stockcount = new StockCount(data);
           stockcount.item = data.id;
           stockcount.locationId = data.currentTransaction.destination.id;
           stockcount.locationName = data.currentTransaction.destination.name;
           stockcount.pendingTransactions.push(data.currentTransaction.id);
+          stockcount.amount = data.amount;
           stockcount.save(function(err){
             if(err){
               return isDone(err);

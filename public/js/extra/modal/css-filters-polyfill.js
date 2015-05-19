@@ -20,49 +20,49 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 			v = 3,
 			div = document.createElement('div'),
 			all = div.getElementsByTagName('i');
-			
+
 			while(
 				div.innerHTML = '<!--[if gt IE ' + (++v) + ']><i></i><![endif]-->',
 				all[0]
 			);
-			
+
 			return v > 4 ? v : undef;
 		}()),
-		
+
 		_svg_cache: 		{},
-		
+
 		_create_svg_element: function(tagname,attributes){
 			var xmlns = 'http://www.w3.org/2000/svg';
 			var elem = document.createElementNS(xmlns,tagname);
 			for(key in attributes){
 				elem.setAttributeNS(null,key,attributes[key]);
 			}
-			
+
 			return elem;
 		},
-		
+
 		_create_svg:	function(id,filterelements){
 			var xmlns = 'http://www.w3.org/2000/svg';
 			var svg = document.createElementNS(xmlns,'svg');
 			svg.setAttributeNS(null,'width','0');
 			svg.setAttributeNS(null,'height','0');
 			svg.setAttributeNS(null,'style','position:absolute');
-			
+
 			var svg_filter = document.createElementNS(xmlns,'filter');
 			svg_filter.setAttributeNS(null,'id',id);
 			svg.appendChild(svg_filter);
-			
+
 			for(var i = 0; i < filterelements.length; i++){
 				svg_filter.appendChild(filterelements[i]);
 			}
-			
+
 			return svg;
 		},
-		
+
 		_pending_stylesheets: 0,
-	
+
 		_stylesheets: 		[],
-		
+
 		_development_mode: (function(){
 			if(location.hostname === 'localhost' || location.hostname.search(/.local$/) !== -1 || location.hostname.search(/\d+\.\d+\.\d+\.\d+/) !== -1){
 				if(window.console) console.log('Detected localhost or IP address. Assuming you are a developer. Caching of stylesheets is disabled.');
@@ -71,10 +71,10 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 			if(window.console) console.log('Caching of stylesheets is enabled. You need to refresh twice to see any changes.');
 			return false;
 		})(),
-		
+
 		process_stylesheets: function(){
 			var xmlHttp = [];
-			
+
 			// Check if path to library is correct, do that 2 secs. after this to not disturb initial processing
 			window.setTimeout(function(){
 				if (window.XMLHttpRequest) {
@@ -89,39 +89,39 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 					}
 				};
 				try{
-					xmlHttpCheck.send(null);
+					// xmlHttpCheck.send(null);
 				} catch(e){}
 			},2000);
-			
-			
+
+
 			var stylesheets = document.querySelectorAll ? document.querySelectorAll('style,link[rel="stylesheet"]') : document.getElementsByTagName('*');
-			
+
 			for(var i = 0; i < stylesheets.length; i++){
 				(function(i){
 					switch(stylesheets[i].nodeName){
 						default:
 						break;
-						
+
 						case 'STYLE':
 							polyfilter._stylesheets.push({
 								media:		stylesheets[i].media || 'all',
 								content: 	stylesheets[i].innerHTML
 							});
 						break;
-						
+
 						case 'LINK':
 							if(stylesheets[i].rel === 'stylesheet'){
 								var index = polyfilter._stylesheets.length;
-							
+
 								polyfilter._stylesheets.push({
 									media:		stylesheets[i].media || 'all'
 								});
-								
+
 								polyfilter._pending_stylesheets++;
-								
+
 								// Fetch external stylesheet
 								var href = stylesheets[i].href;
-								
+
 								// Use localStorage as cache for stylesheets, if available
 								if(!polyfilter._development_mode && window.localStorage && window.localStorage.getItem('polyfilter_' + href)){
 									polyfilter._pending_stylesheets--;
@@ -130,7 +130,7 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 										polyfilter.process();
 									}
 								}
-	
+
 								// Always fetch stylesheets to reflect possible changes
 								try{
 									if(window.XMLHttpRequest) {
@@ -191,21 +191,21 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 				this.process();
 			}
 		},
-	
+
 		_processDeclarations:	function(rule){
 			var newstyles = '';
 			for(var k in rule.declarations){
 				var declaration = rule.declarations[k];
-			
+
 				if(declaration.property === 'filter'){
-					
+
 					if(document.querySelectorAll){
 						var elems = document.querySelectorAll(rule.mSelectorText);
 						for(var k = 0; k < elems.length; k++){
 							elems[k].style.polyfilterStore = declaration.valueText;
 						}
 					}
-					
+
 					var gluedvalues = declaration.valueText;
 					var values = gluedvalues.split(/\)\s+/),
 						properties = {
@@ -215,28 +215,28 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 							filtersIE:		[],
 							behaviorsIE:	[]
 						};
-					
+
 					for(idx in values){
 						var value = values[idx] + ')';
-						
+
 						currentproperties = polyfilter.convert(value);
-		
+
 						for(key in currentproperties){
 							if(typeof properties[key] !== 'undefined'){
 								properties[key] = properties[key].concat(currentproperties[key]);
 							}
 						}
 					}
-					
+
 					newstyles += rule.mSelectorText + '{';
 					if(properties['filtersW3C'].length > 0){
-						var filter = 
-						webkitFilter = 
-						mozFilter = 
-						oFilter = 
-						msFilter = 
+						var filter =
+						webkitFilter =
+						mozFilter =
+						oFilter =
+						msFilter =
 						properties['filtersW3C'].join(' ');
-		
+
 						if(properties['filtersWebKit'] && properties['filtersWebKit'].length > 0){
 							webkitFilter = properties['filtersWebKit'].join(' ');
 						}
@@ -244,7 +244,7 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 						if(typeof this._ie === 'undefined'){
 							newstyles += '-ms-filter:' + msFilter + ';';
 						}
-						
+
 						newstyles += '-webkit-filter:' + webkitFilter + ';';
 						newstyles += '-moz-filter:' + mozFilter + ';';
 						newstyles += '-o-filter:' + oFilter + ';';
@@ -267,14 +267,14 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 									}
 								}
 							}
-		
+
 							if(typeof XMLSerializer === 'undefined'){
 								newstyles += 'filter: url(#' + id + ')';
 							}
 							else {
 								var s = new XMLSerializer();
 								var svgString = s.serializeToString(this._svg_cache[id]);
-								
+
 								if(svgString.search('SourceGraphic') != -1){
 									newstyles += 'filter: url(#' + id + ')';
 								}
@@ -290,12 +290,12 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 					if(typeof this._ie !== 'undefined'){
 						if(properties['filtersIE'].length > 0){
 							var filtersIE = properties['filtersIE'].join(' ');
-							
+
 							newstyles += 'filter:' + filtersIE + ';';
 						}
 						if(properties['behaviorsIE'].length > 0){
 							var behaviorsIE = properties['behaviorsIE'].join(' ');
-							
+
 							newstyles += 'behavior:' + behaviorsIE + ';';
 						}
 					}
@@ -304,37 +304,37 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 			}
 			return newstyles;
 		},
-		
+
 		// Absolute path to the .htc-files
-		scriptpath:		
+		scriptpath:
 			window.polyfilter_scriptpath ? window.polyfilter_scriptpath : (function(){
 				alert('Please configure the polyfill\'s absolute(!) script path before referencing the css-filters-polyfill.js, like so:\r\nvar polyfilter_scriptpath = "/js/css-filters-polyfill/";');
 				return './'
 			})(),
-		
+
 		// process stylesheets
 		process:		function(){
 			var parser = new CSSParser();
-	
+
 			for(var i = 0; i < this._stylesheets.length; i++){
 				var newstyles = '';
 				var sheet = parser.parse(this._stylesheets[i].content, false, true);
 				if(sheet !== null) for(var j in sheet.cssRules){
 					var rule = sheet.cssRules[j];
-					
+
 					switch(rule.type){
 						default:
 						break;
-						
+
 						case 1:
 							newstyles += this._processDeclarations(rule);
 						break;
-						
+
 						case 4:
 							newstyles += '@media ' + rule.media.join(',') + '{';
 							for(var k in rule.cssRules){
 								var mediarule = rule.cssRules[k];
-								
+
 								newstyles += this._processDeclarations(mediarule);
 							}
 							newstyles += '}';
@@ -343,7 +343,7 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 				}
 				var newstylesheet = document.createElement('style');
 				newstylesheet.setAttribute('media',this._stylesheets[i].media);
-				
+
 				if(typeof polyfilter._ie === 'undefined'){
 					newstylesheet.innerHTML = newstyles;
 					document.getElementsByTagName('head')[0].appendChild(newstylesheet);
@@ -354,7 +354,7 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 				}
 			}
 		},
-		
+
 		init:				function(){
 			if(Object.defineProperty){
 				Object.defineProperty(CSSStyleDeclaration.prototype, 'polyfilter', {
@@ -370,28 +370,28 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 							filtersIE:		[],
 							behaviorsIE:	[]
 						}
-				
+
 						for(idx in values){
 							var value = values[idx] + ')';
-							
+
 							currentproperties = polyfilter.convert(value);
-							
+
 							for(key in currentproperties){
 								if(typeof properties[key] !== 'undefined'){
 									properties[key] = properties[key].concat(currentproperties[key]);
 								}
 							}
 						}
-			
+
 						if(properties['filtersW3C'].length > 0){
 							if(typeof polyfilter._ie === 'undefined'){
-								this.msFilter = 
+								this.msFilter =
 									properties['filtersW3C'].join(' ');
 							}
-							
-							this.webkitFilter = 
-							this.mozFilter = 
-							this.oFilter = 
+
+							this.webkitFilter =
+							this.mozFilter =
+							this.oFilter =
 								properties['filtersW3C'].join(' ');
 						}
 						if(properties['filtersWebKit'].length > 0){
@@ -400,7 +400,7 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 						if(properties['filtersSVG'].length > 0){
 							if(properties['filtersSVG'][0] != 'none'){
 								var id = gluedvalues.replace(/[^a-z0-9]/g,'');
-					
+
 								if(typeof polyfilter._svg_cache[id] === 'undefined'){
 									polyfilter._svg_cache[id] = polyfilter._create_svg(id,properties['filtersSVG']);
 
@@ -415,7 +415,7 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 										}
 									}
 								}
-			
+
 								if(typeof XMLSerializer === 'undefined'){
 									this.filter = 'url(#' + id + ')';
 								}
@@ -436,14 +436,14 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 						}
 						if(typeof polyfilter._ie !== 'undefined'){
 							if(properties['filtersIE'].length > 0){
-								this.filter = 
+								this.filter =
 									properties['filtersIE'].join(' ');
 							}
 							else {
 								this.filter = '';
 							}
 							if(properties['behaviorsIE'].length > 0){
-								this.behavior = 
+								this.behavior =
 									properties['behaviorsIE'].join(' ');
 							}
 							else {
@@ -455,7 +455,7 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 				});
 			}
 		},
-		
+
 		convert:			function(value){
 			// None
 			var fmatch = value.match(/none/i);
@@ -501,21 +501,21 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 					color = fmatch[5],
 					properties = this.filters.dropShadow(offsetX,offsetY,radius,color);
 			}
-			
+
 			return properties;
 		},
-		
+
 		// EFFECTS SECTION -------------------------------------------------------------------------------------------------------------
-		
+
 		filters: 		{
 			// None
 			none:			function(){
 				var properties = {};
-				
+
 				if(typeof polyfilter._ie === 'undefined'){
 					// Proposed spec
 					properties['filtersW3C'] = ['none'];
-					
+
 					// Firefox
 					properties['filtersSVG'] = ['none'];
 				}
@@ -523,32 +523,32 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 					// IE
 					properties['filtersIE'] = ['none'];
 				}
-				
+
 				return properties;
 			},
-			
+
 			// Grayscale
 			grayscale:			function(amount){
 				amount = amount || 0;
-				
+
 				var properties = {};
-				
+
 				if(typeof polyfilter._ie === 'undefined'){
 					// Proposed spec
 					properties['filtersW3C'] = ['grayscale(' + amount + ')'];
-					
+
 					// Firefox
 					// https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html
 					var svg_fe1 = polyfilter._create_svg_element('feColorMatrix',{
 						type:	'matrix',
-						values:	(0.2126 + 0.7874 * (1 - amount)) + ' ' 
-							+ (0.7152 - 0.7152 * (1 - amount)) + ' ' 
-							+ (0.0722 - 0.0722 * (1 - amount)) + ' 0 0 ' 
-							+ (0.2126 - 0.2126 * (1 - amount)) + ' ' 
-							+ (0.7152 + 0.2848 * (1 - amount)) + ' ' 
-							+ (0.0722 - 0.0722 * (1 - amount)) + ' 0 0 ' 
-							+ (0.2126 - 0.2126 * (1 - amount)) + ' ' 
-							+ (0.7152 - 0.7152 * (1 - amount)) + ' ' 
+						values:	(0.2126 + 0.7874 * (1 - amount)) + ' '
+							+ (0.7152 - 0.7152 * (1 - amount)) + ' '
+							+ (0.0722 - 0.0722 * (1 - amount)) + ' 0 0 '
+							+ (0.2126 - 0.2126 * (1 - amount)) + ' '
+							+ (0.7152 + 0.2848 * (1 - amount)) + ' '
+							+ (0.0722 - 0.0722 * (1 - amount)) + ' 0 0 '
+							+ (0.2126 - 0.2126 * (1 - amount)) + ' '
+							+ (0.7152 - 0.7152 * (1 - amount)) + ' '
 							+ (0.0722 + 0.9278 * (1 - amount)) + ' 0 0 0 0 0 1 0'
 					});
 					properties['filtersSVG'] = [svg_fe1];
@@ -557,33 +557,33 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 					// IE
 					properties['filtersIE'] = amount >= 0.5 ? ['gray'] : [];
 				}
-				
+
 				return properties;
 			},
-			
+
 			// Sepia
 			sepia:			function(amount){
 				amount = amount || 0;
-		
+
 				var properties = {};
-		
+
 				if(typeof polyfilter._ie === 'undefined'){
-				
+
 					// Proposed spec
 					properties['filtersW3C'] = ['sepia(' + amount + ')'];
-					
+
 					// Firefox
 					// https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html
 					var svg_fe1 = polyfilter._create_svg_element('feColorMatrix',{
 						type:	'matrix',
-						values:	(0.393 + 0.607 * (1 - amount)) + ' ' 
-							+ (0.769 - 0.769 * (1 - amount)) + ' ' 
-							+ (0.189 - 0.189 * (1 - amount)) + ' 0 0 ' 
-							+ (0.349 - 0.349 * (1 - amount)) + ' ' 
-							+ (0.686 + 0.314 * (1 - amount)) + ' ' 
+						values:	(0.393 + 0.607 * (1 - amount)) + ' '
+							+ (0.769 - 0.769 * (1 - amount)) + ' '
+							+ (0.189 - 0.189 * (1 - amount)) + ' 0 0 '
+							+ (0.349 - 0.349 * (1 - amount)) + ' '
+							+ (0.686 + 0.314 * (1 - amount)) + ' '
 							+ (0.168 - 0.168 * (1 - amount)) + ' 0 0 '
-							+ (0.272 - 0.272 * (1 - amount)) + ' ' 
-							+ (0.534 - 0.534 * (1 - amount)) + ' ' 
+							+ (0.272 - 0.272 * (1 - amount)) + ' '
+							+ (0.534 - 0.534 * (1 - amount)) + ' '
 							+ (0.131 + 0.869 * (1 - amount)) + ' 0 0 0 0 0 1 0'
 					});
 					properties['filtersSVG'] = [svg_fe1];
@@ -593,20 +593,20 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 					properties['filtersIE'] = amount >= 0.5 ? ['gray','progid:DXImageTransform.Microsoft.Light()'] : [];
 					properties['behaviorsIE'] = amount >= 0.5 ? ['url("' + polyfilter.scriptpath + 'htc/sepia.htc")'] : [];
 				}
-				
+
 				return properties;
 			},
-			
+
 			// Blur
 			blur:			function(amount){
 				amount = Math.round(amount) || 0;
-				
+
 				var properties = {};
-				
+
 				if(typeof polyfilter._ie === 'undefined'){
 					// Proposed spec
 					properties['filtersW3C'] = ['blur(' + amount + 'px)'];
-					
+
 					// Firefox
 					// https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html
 					var svg_fe1 = polyfilter._create_svg_element('feGaussianBlur',{
@@ -619,20 +619,20 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 					// IE
 					properties['filtersIE'] = ['progid:DXImageTransform.Microsoft.Blur(pixelradius=' + amount + ')'];
 				}
-				
+
 				return properties;
 			},
-			
+
 			// Invert
 			invert:			function(amount){
 				amount = amount || 0;
-				
+
 				var properties = {};
-				
+
 				if(typeof polyfilter._ie === 'undefined'){
 					// Proposed spec
 					properties['filtersW3C'] = ['invert(' + amount + ')'];
-					
+
 					// Firefox
 					// https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html
 					var svg_fe1 = polyfilter._create_svg_element('feComponentTransfer',{});
@@ -657,23 +657,23 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 					// IE
 					properties['filtersIE'] = amount >= 0.5 ? ['invert'] : [];
 				}
-				
+
 				return properties;
 			},
-				
+
 			// Brightness
 			brightness:			function(amount){
 				amount = amount || 0;
-				
+
 				var properties = {};
-				
+
 				if(typeof polyfilter._ie === 'undefined'){
 					// Proposed spec
 					properties['filtersW3C'] = ['brightness(' + amount + '%)'];
-	
+
 					// WebKit "specialty"
 					properties['filtersWebKit'] = ['brightness(' + (amount - 100) + '%)'];
-					
+
 					// Firefox
 					// https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html
 					var svg_fe1 = polyfilter._create_svg_element('feComponentTransfer',{});
@@ -689,7 +689,7 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 					svg_fe1.appendChild(svg_fe1sub);
 					var svg_fe1sub = polyfilter._create_svg_element('feFuncB',{
 						type:	'linear',
-						slope: 	amount / 100 
+						slope: 	amount / 100
 					});
 					svg_fe1.appendChild(svg_fe1sub);
 					properties['filtersSVG'] = [svg_fe1];
@@ -699,23 +699,23 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 					properties['filtersIE'] = ['progid:DXImageTransform.Microsoft.Light()'];
 					properties['behaviorsIE'] = ['url("' + polyfilter.scriptpath + 'htc/brightness.htc")'];
 				}
-				
+
 				return properties;
 			},
-				
+
 			// Drop Shadow
 			dropShadow:			function(offsetX,offsetY,radius,color){
 				offsetX = Math.round(offsetX) || 0;
 				offsetY = Math.round(offsetY) || 0;
 				radius = Math.round(radius) || 0;
 				color = color || '#000000';
-				
+
 				var properties = {};
-				
+
 				if(typeof polyfilter._ie === 'undefined'){
 					// Proposed spec
 					properties['filtersW3C'] = ['drop-shadow(' + offsetX + 'px ' + offsetY + 'px ' + radius + 'px ' + color + ')'];
-					
+
 					// Firefox
 					// https://dvcs.w3.org/hg/FXTF/raw-file/tip/filters/index.html
 					var svg_fe1 = polyfilter._create_svg_element('feGaussianBlur',{
@@ -748,7 +748,7 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 					properties['filtersIE'] = ['progid:DXImageTransform.Microsoft.Glow(color=' + color + ',strength=0)','progid:DXImageTransform.Microsoft.Shadow(color=' + color + ',strength=0)'];
 					properties['behaviorsIE'] = ['url("' + polyfilter.scriptpath + 'htc/drop-shadow.htc")'];
 				}
-				
+
 				return properties;
 			}
 		}
@@ -773,7 +773,7 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 			document.addEventListener('DOMContentLoaded', function(){
 				polyfilter.process_stylesheets();
 			}, false);
-		} 
+		}
 		else if(window.attachEvent) // Microsoft
 		{
 			window.attachEvent('onload', function(){
@@ -781,7 +781,7 @@ var polyfilter_scriptpath = 'js/extra/modal/';
 			});
 		}
 	}
-	
+
 	// Install style setters and getters
 	polyfilter.init();
 })(window);

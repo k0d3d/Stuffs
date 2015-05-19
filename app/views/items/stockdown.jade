@@ -5,7 +5,7 @@ append head
 block body
   include ../includes/dialogs/stock/modal-stock-down.jade
   include ../includes/dialogs/stock/modal-request-stock.jade
-  
+
   nav.shpane.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu",ng-style="shpane")
     ul.cbp_tmtimeline.skdwn-hstry
       li(ng-repeat="sh in shz")
@@ -15,18 +15,18 @@ block body
         i.cbp_tmicon.fa.fa-level-up
         .cbp_tmlabel
           h2 {{sh.action}}
-          p <strong>At: </strong> {{sh.date| date:'shortTime'}} 
+          p <strong>At: </strong> {{sh.date| date:'shortTime'}}
     div.summary-actions.skdwn-summary
       p(style="height: 61px; background-color: rgb(255, 74, 74)")
         form.form-inline
           .form-group
             label Boiling Point
             input(type="number", ng-model="currentItemBP", style="padding: 0 0px;width: 100%;border-radius: 0;border: solid 1px #D51414;height: 32px;")
-      p 
+      p
         button.btn.btn-block.btn-warning(data-ng-click="commons.href('/items/'+summary._id+'/edit')") Update
-      p 
-        button.btn.btn-block.btn-default.btn-close(data-ng-click="spmenu=''", ng-class="spmenu") Close           
-    
+      p
+        button.btn.btn-block.btn-default.btn-close(data-ng-click="spmenu=''", ng-class="spmenu") Close
+
   .row-fluid.row-break
     .span2.actioncol
       button.btn.btn-large.btn-block.btn-primary(new-modal="#modal-create-stock-down") New Location
@@ -54,7 +54,7 @@ block body
                   td <a href="/items/{{lo.item._id}}/edit">{{lo.item.itemName}}</a>
                   td {{lo.lastOrderDate | date: 'medium' }}
                   td {{lo.amount}}
-                  td 
+                  td
                     .btn-group.dropdown
                       button.btn.btn-primary(data-toggle="dropdown", title="Boiling Point")
                         i.fa.fa-flask
@@ -65,12 +65,12 @@ block body
                             .controls
                               input.input-medium.input-block-level(type="number",ng-model="lo.boilingPoint", required)
                             .controls
-                              button.btn.btn-inverse.input-block-level(style="border-radius: 0", ng-click="postBp($index)") Update 
-                    button.btn.btn-primary(ng-click="doHistory($event, lo.locationId, lo.item._id)", title="Stock History") 
+                              button.btn.btn-inverse.input-block-level(style="border-radius: 0", ng-click="postBp($index)") Update
+                    button.btn.btn-primary(ng-click="doHistory($event, lo.locationId, lo.item._id)", title="Stock History")
                       i.fa.fa-clock-o
           .no-item-holder(ng-show="!hasItems")
-            h4 Choose a location.  
+            h4 Choose a location.
 
 append foot
-  script(src="js/table-fixed-header.js")                
+  script(src="js/table-fixed-header.js")
 

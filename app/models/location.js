@@ -4,8 +4,7 @@
  */
 
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema,
-  pureautoinc  = require('mongoose-pureautoinc');
+  Schema = mongoose.Schema;
 
 /**
  * Stock Down Location Schema
@@ -18,12 +17,6 @@ var LocationSchema = new Schema({
   locationType: {type: String},
   createdAt: {type: Date, default: Date.now}
 });
-
-LocationSchema.plugin(pureautoinc.plugin, {
-  model: 'locations',
-  field: 'locationId'
-});
-
 LocationSchema.statics = {
   /**
   *List All Stock Down Points

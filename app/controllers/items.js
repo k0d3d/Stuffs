@@ -330,17 +330,16 @@ ItemsObject.prototype.listOne = function(item, option, location, cb){
 
   register.once('findItem', function(data, isDone){
     var options = {criteria: {}, fields: {}};
-    var it ={};
     var reg = /^[0-9a-fA-F]{24}$/;
     if(item){
       if(reg.test(item)){
-        options.criteria = {"_id": item};
+        options.criteria = {'_id': item};
       }else{
-        options.criteria = {"itemName": item};
+        options.criteria = {'itemName': item};
       }
-      if(option == 'quick'){
+      if(option === 'quick'){
         //options.fields = " _id itemID itemName sciName manufacturerName itemSupplier.supplierName itemPurchaseRate itemBoilingPoint";
-        options.fields = "";
+        options.fields = '';
       }
       Item.listOne(options, function(err, r){
         //console.log(itemsResult);

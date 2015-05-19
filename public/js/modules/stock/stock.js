@@ -10,6 +10,8 @@ angular.module('stock', [])
 }])
 .controller('stockIndexController',['$scope','$location','$routeParams','itemsService', 'stockService',function ($scope, $location, $routeParams,itemsService, sS){
   var currentItem;
+  var thisItemName = '';
+
   function init(){
     //Location Array
     $scope.locations = [];
@@ -24,7 +26,6 @@ angular.module('stock', [])
     //Text on the buttons
     $scope.addButtonText = 'Add';
     $scope.addHelpText = '';
-    var thisItemName = '';
     $scope.stockDownRecord = [] ;
     $scope.hasItems = false;
 
@@ -38,16 +39,16 @@ angular.module('stock', [])
   init();
 
 
-  // Watch for changes in the selectedItem model scope and 
-  $scope.$watch('selectedItem.itemname', function(newValue, oldValue){
-    if(newValue !== oldValue){
-      thisItemName = newValue;
-    }
-  });
+  // Watch for changes in the selectedItem model scope and
+  // $scope.$watch('selectedItem.itemname', function(newValue, oldValue){
+  //   if(newValue !== oldValue){
+  //     $scope.thisItemName = newValue;
+  //   }
+  // });
 
   $scope.doHistory =  function (event, location, id){
     //We use 0 for the location to indicate the Main Inventory
-    
+
     //Set the current item var
     currentItem = event.currentTarget;
     sS.stockhistory(id, location,function(res){
@@ -65,14 +66,16 @@ angular.module('stock', [])
         event.stopPropagation();
       });
     });
-  }; 
+  };
   $scope.addDrug = function(){
     $scope.addHelpText = '';
+    var selectedItem = $scope.selectedItem.itemname;
     if($scope.drugname.length === 0) return false;
-    itemsService.summary(thisItemName,'main',function(c){
-      if(_.indexOf($scope.requestform.requestList, thisItemName) < 0){
-        $scope.requestform.requestList.push(thisItemName);
+    itemsService.summary(selectedItem._id,'main',function(c){
+      if(_.indexOf($scope.requestform.requestList, selectedItem.itemName) < 0){
+        $scope.requestform.requestList.push(selectedItem.itemName);
         $scope.requestform.request.push(c);
+        $scope.drugname = '';
       }else{
         alert('This item is in the list already');
       }
@@ -80,13 +83,13 @@ angular.module('stock', [])
   };
   $scope.sendIt = function(){
     var drugs = [];
-    _.forEach($scope.requestform.request, function(i,v){
+    _.forEach($scope.requestform.request, function(i){
       if(i.amount !== 0 && i.amount.length !== 0){
-        drugs.push({"id":i._id,"amount":i.amount,"itemName":i.itemName,"itemID": i.itemID});
+        drugs.push({'id':i._id,'amount':i.amount,'itemName':i.itemName,'itemID': i.itemID});
       }
     });
-    var sendDis = {"location":$scope.requestform.location,"request": drugs};
-    sS.stockdown(sendDis, function(c){
+    var sendDis = {'location':$scope.requestform.location,'request': drugs};
+    sS.stockdown(sendDis, function(){
       $scope.requestform.request.length = 0;
       $scope.requestform.requestList.length = 0;
       $('#modal-request-stock-down').modal('hide');
@@ -110,7 +113,7 @@ angular.module('stock', [])
     });
   };
   $scope.onLocation = function(id){
-    sS.showStockDown(id, function(data, response){
+    sS.showStockDown(id, function(data){
       $scope.hasItems = true;
       $scope.stockDownRecord = data;
     });
@@ -121,12 +124,11 @@ angular.module('stock', [])
     var bp = __scope.boilingPoint;
     var loc = __scope.locationId;
     sS.updateBp(id, bp, loc, function(r){
-      
+
     });
   };
   $scope.locationNameChange = function (new_name, index){
-    console.log(new_name);
-    var __scope = $scope.locations[index];
+    var __scope = $scope.sub_locations[index];
 
     sS.updateLocation(__scope._id, {locationName: new_name}, function(){
       __scope.locationName = new_name;
@@ -166,7 +168,7 @@ angular.module('stock', [])
       N.notifier({
         message : L.eng.stock.location.create.success,
         type: 'success'
-      });      
+      });
       callback(data);
     })
     .error(function(data, status){
@@ -175,7 +177,7 @@ angular.module('stock', [])
         type: 'error'
       });
     });
-  };  
+  };
 
   //Fetches all items / stockdown records for a location
   i.showStockDown = function(location_id, callback){
@@ -183,7 +185,7 @@ angular.module('stock', [])
     .success(callback);
   };
 
-  //sends a stockdown request, 
+  //sends a stockdown request,
   i.stockdown = function(list, callback){
     $http.post('/api/stock/stockdown', list)
     .success(function(data, res){
@@ -197,7 +199,7 @@ angular.module('stock', [])
       N.notifier({
         message : L.eng.stock.down.error,
         type: 'error'
-      });      
+      });
     });
   };
 
@@ -211,11 +213,11 @@ angular.module('stock', [])
       N.notifier({
         message: L.eng.items.location.history.fetch.error,
         type: "error"
-      });       
+      });
     });
   };
 
-  //Sets the boiling point of an item 
+  //Sets the boiling point of an item
   i.updateBp = function(id, bp, location, cb) {
     $http.put('/api/items/'+id+'/location/'+location, {
       bp: bp
@@ -249,7 +251,7 @@ angular.module('stock', [])
       N.notifier({
         message : L.eng.stock.location.edit.error,
         type: 'error'
-      });      
+      });
     });
   };
 

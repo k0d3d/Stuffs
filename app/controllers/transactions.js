@@ -11,7 +11,7 @@ var
 
     TransactionModel = require('../models/transaction'),
     // EventRegister = require('../../lib/event_register').register,
-    util = require("util");
+    util = require('util');
 
 
 

@@ -21,12 +21,16 @@
         };
         element.typeahead({
           source: function(query, process){
-            return ser[attrs.thName](query,function(results){
+            return ser[attrs.thName](query,function(results, s){
+              ser.listOfItems = s;
               return process(results);
             });
           },
           updater: function(item){
-            scope.selectedItem[attrs.thName] = item;
+            var selectedItemId = _.find(ser.listOfItems, function (name) {
+              return name.itemName = item;
+            });
+            scope.selectedItem[attrs.thName] = selectedItemId;
             scope.$apply();
             return item;
           }
@@ -249,12 +253,12 @@
         });
       });
     }
-    // return {
-    //   link:link,
-    //   scope: {
-    //     lcn: '&editable'
-    //   }
-    // };
+    return {
+      link:link,
+      scope: {
+        lcn: '&editable'
+      }
+    };
   }]);
 
 appDirectives.directive('printable', [
