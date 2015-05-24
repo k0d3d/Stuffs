@@ -2,16 +2,15 @@ var
     Items = require('./item').Item,
     OrderModel = require('./order').Order,
     OrderStatus = require('./order').OrderStatus,
-    Dispense = require('./dispense'),
-    Bills = require('./bill').Bill,
-    BillRules = require('./bill').BillRule,
-    BillingProfile = require('./bill').BillingProfile,
+    Dispense = require('./stock/dispense-schema'),
+    Bills = require('./stock/bill-schema').Bill,
+    BillRules = require('./stock/bill-schema').BillRule,
+    BillingProfile = require('./stock/bill-schema').BillingProfile,
     PointLocation = require('./stock/location-schema'),
     StockHistory = require('./stock/stockhistory-schema'),
     StockCount = require('./stock/stockcount-schema'),
     Transactions = require('./stock/transaction-schema'),
-    UserModel = require('./user').UserModel,
-    _ = require('lodash'),
+    UserModel = require('./user/user-schema').UserModel,
     Q = require('q');
 
 function AdminMethods () {

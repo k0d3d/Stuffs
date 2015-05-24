@@ -25,10 +25,7 @@ var ItemSchema = new Schema({
   itemDescription: {type: String},
   itemPackaging:{type: String},
   itemForm: {type: String},
-  itemPurchaseRate
-
-
-  : {type: Number},
+  itemPurchaseRate: {type: Number},
   dsPurchaseRate: {type: Number},
   sellingPrice: {type: Number},
   packageSize: {type: Number},

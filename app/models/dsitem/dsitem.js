@@ -48,7 +48,7 @@ DsOnlineScehma.statics = {
 };
 
 DsOnlineScehma.plugin(searchPlugin, {
-    fields: ['title', 'description', 'tags', 'categories', 'attributes.options']
+    fields: ['title', 'description', 'tags', 'categories', 'attributes', 'sku']
 });
 
 

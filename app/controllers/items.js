@@ -157,7 +157,6 @@ module.exports.routes = function(app){
 
 
     var query = req.query.s;
-    console.log(query);
     // if (!isNaN(query)) {
     //   options.conditions = {product_id: query};
     //   // options.conditions = {'product_id': 4207};

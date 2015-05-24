@@ -73,3 +73,4 @@ On update, all prices should be checked against items in the inventory
 change order buttons to include prices
 
 1. Check if product updates work
+2. ItemsObject model should return update operation

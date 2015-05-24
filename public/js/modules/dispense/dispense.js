@@ -9,7 +9,16 @@ angular.module('dispense', [])
 	$routeProvider.when('/dispensary', {templateUrl: '/items/dispense', controller: 'dispensaryController'})
   .when('/dispensary/:dispenseID', {templateUrl: '/items/prescribe', controller: 'dispensaryController'});
 }])
-.controller('dispensaryController', ["$scope","$location","$routeParams","itemsService", "Notification", "Language", "billsService",'stockService', function itemDispensaryController($scope,$location,$routeParams,itemsService, Notification, Lang, biller, sS){
+.controller('dispensaryController', [
+  '$scope',
+  '$location',
+  '$routeParams',
+  'itemsService',
+  'Notification',
+  'Language',
+  'billsService',
+  'stockService',
+  function itemDispensaryController($scope,$location,$routeParams,itemsService, Notification, Lang, biller, sS){
   function init(){
     //Holds the form for dispensing drugs to a patient.
     //Patient Name, Number, Type and the Drugs list
@@ -26,7 +35,7 @@ angular.module('dispense', [])
     //the options, dosage, and amount
     $scope.d = [];
     //Previously Dispensed Records. Get populated by the init function
-    itemsService.fetchDispenseRecords("complete", function(r){
+    itemsService.fetchDispenseRecords('complete', function(r){
       $scope.dispenseHistory = r;
     });
 
@@ -40,14 +49,14 @@ angular.module('dispense', [])
   //populates the waiting list object
   function chip_form(wl){
     return {
-      "patientName": wl.patientName,
-      "class": wl.class,
-      "patientno": wl.patientId,
-      "doctorName": wl.doctorName,
-      "doctorId": wl.doctorId,
-      "id": wl._id,
-      "location" : wl.locationId,
-      "prescription": []
+      'patientName': wl.patientName,
+      'class': wl.class,
+      'patientno': wl.patientId,
+      'doctorName': wl.doctorName,
+      'doctorId': wl.doctorId,
+      'id': wl._id,
+      'location' : wl.locationId,
+      'prescription': []
 
     };
   }
@@ -126,7 +135,7 @@ angular.module('dispense', [])
         $scope.drugname = '';
       }else{
         Notification.notifier({
-          message : Language.eng.dispense.addDrug.error,
+          message : Lang.eng.dispense.addDrug.error,
           type: 'error'
         });
       }
@@ -137,8 +146,8 @@ angular.module('dispense', [])
   $scope.prescribeThis = function(index){
     $scope.drugname = '';
 
-    if($scope.d[index].options == 'alternative'){
-      $scope.addHelpText = 'This is an alternative to '+d.itemName;
+    if($scope.d[index].options === 'alternative'){
+      $scope.addHelpText = 'This is an alternative to ' + d.itemName;
       $scope.dispenseform.prescription.push(d);
       $scope.d[index].ready = true;
       return;
@@ -163,13 +172,13 @@ angular.module('dispense', [])
     if($scope.dispenseform.prescription.length === 0){
       Notification.notifier({
         message: Lang.eng.dispense.approve.fail,
-        type : "error"
+        type : 'error'
       });
       return false;
     }else{
       Notification.modal({
-        heading: "Confirm Prescription",
-        type: "success"
+        heading: 'Confirm Prescription',
+        type: 'success'
       });
     }
   };
@@ -177,26 +186,26 @@ angular.module('dispense', [])
   // Send prescript
   $scope.sendDis = function(){
     var drugs = [];
-    _.forEach($scope.dispenseform.prescription, function(v,i){
+    _.forEach($scope.dispenseform.prescription, function(v){
       drugs.push({
-        "_id":v._id,
-        "amount":v.amount,
-        "itemName":v.itemName,
-        "status":v.options,
-        "dosage": v.dosage,
-        "period": v.period,
-        "cost": v.cost
+        '_id':v._id,
+        'amount':v.amount,
+        'itemName':v.itemName,
+        'status':v.options,
+        'dosage': v.dosage,
+        'period': v.period,
+        'cost': v.cost
       });
     });
     var toSend = {
-      "patientName":$scope.dispenseform.patientName,
-      "patientId": $scope.dispenseform.patientno,
-      "id": $scope.dispenseform.id,
-      "doctorName": $scope.dispenseform.doctorName,
-      "doctorId": $scope.dispenseform.doctorId,
-      "class": $scope.dispenseform.class._id || $scope.dispenseform.class,
-      "drugs": drugs,
-      "location": $scope.dispenseform.location
+      'patientName':$scope.dispenseform.patientName,
+      'patientId': $scope.dispenseform.patientno,
+      'id': $scope.dispenseform.id,
+      'doctorName': $scope.dispenseform.doctorName,
+      'doctorId': $scope.dispenseform.doctorId,
+      'class': $scope.dispenseform.class._id || $scope.dispenseform.class,
+      'drugs': drugs,
+      'location': $scope.dispenseform.location
     };
     itemsService.dispense(toSend, function(){
       //Empty all necessary scope, reset form
@@ -222,8 +231,8 @@ angular.module('dispense', [])
     });
   };
 
-  $scope.markpaid = function(amount, bill_id, index){
-    biller.postpay(amount, bill_id, function(r){
+  $scope.markpaid = function(amount, bill_id){
+    biller.postpay(amount, bill_id, function(){
       $scope.activeBill.paymentHistory.push({
         amount: amount,
         date: $.now()
@@ -236,16 +245,16 @@ angular.module('dispense', [])
   $scope.adjust_amount = function(index){
     var val;
     switch($scope.d[index].dosage){
-      case "1":
+      case '1':
         val = 1;
       break;
-      case "2":
+      case '2':
         val = 2;
       break;
-      case "3":
+      case '3':
         val = 3;
       break;
-      case "4":
+      case '4':
         val = 4;
       break;
       default:
@@ -256,10 +265,10 @@ angular.module('dispense', [])
 
   $scope.print_bill = function(cb){
     return cb(true);
-    $("#dialog-view-bill .modal-body").printArea({
-      mode: "iframe"
+    $('#dialog-view-bill .modal-body').printArea({
+      mode: 'iframe'
     });
-  }
+  };
 
 
   //Calls for the list of created profiles
@@ -267,18 +276,18 @@ angular.module('dispense', [])
       $scope.profiles = r;
   });
 }])
-.controller('viewBillController', ["$scope", "billsService", function($scope, biller){
+.controller('viewBillController', ['$scope', 'billsService', function($scope, biller){
   $scope.activeBill = {
     paymentHistory: []
   };
   biller.aBill(dispense_id, function(r){
-    console.log("why");
+    console.log('why');
     $scope.activeBill = r;
     if(r.paymentHistory.length === 0){
-      console.log("hello");
+      console.log('hello');
       $scope.activeBill.paymentHistory.push({
          amount: '',
-         date: "$.now("
+         date: '$.now()'
       });
     }
   });

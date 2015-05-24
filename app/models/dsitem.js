@@ -1,4 +1,5 @@
 var DsItems = require('./dsitem/dsitem'),
+    Items = require('./item').item,
     Logger = require('./dsitem/logger'),
     Admin = require('./admin'),
     config = require('config'),
@@ -305,11 +306,18 @@ DSClass.prototype.saveProductUpdates =   function saveProductUpdates (products, 
       console.log(err);
       return q.reject(err);
     }
-    if (didUpdate && (num < count - 1)) {
-      return saveProductUpdates(products, count, num + 1);
-    }
-    q.resolve(count);
-    console.log(num, count, num < count);
+    var item = new Items();
+    item.updateItem({
+      product_id: s.product_id
+    }, {
+      dsPurchaseRate: s.regular_price
+    }, function () {
+      if (didUpdate && (num < count - 1)) {
+        return saveProductUpdates(products, count, num + 1);
+      }
+      q.resolve(count);
+      console.log(num, count, num < count);
+    });
   });
   return q.promise;
 };
@@ -342,7 +350,12 @@ DSClass.prototype.runProductUpdateRequest =   function runProductUpdateRequest (
           DSC.saveProductUpdates(payload.products, payload.products.length);
           DSC.runProductUpdateRequest(page + 1);
 
-          q.resolve(payload.length);
+          //do nothing
+          DSC.setLastUpdateLog('PRODUCT')
+          .then(function () {
+            return q.resolve(payload.length);
+          });
+
         } else {
           //do nothing
           DSC.setLastUpdateLog('PRODUCT')

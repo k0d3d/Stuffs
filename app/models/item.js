@@ -3,22 +3,20 @@ var
     ItemCategory = require('./item/item-schema').ItemCategory,
     ItemForm = require('./item/item-schema').ItemForm,
     ItemPackaging = require('./item/item-schema').ItemPackaging,
-    Order = require('./order').Order,
-    OrderStatus = require('./order').OrderStatus,
+    OrderSchema = require('./order').schema,
     PointLocation = require('./stock/location-schema'),
-    DsItem = require('./dsitem'),
+    DsItem = require('./dsitem/dsitem'),
     StockHistory = require('./stock/stockhistory-schema'),
     StockCount = require('./stock/stockcount-schema'),
     _ = require('lodash'),
     NafdacDrugsModel = require('./item/nafdacdrugs'),
-    Ndl = require('./nafdac').ndl,
     Stock = require('./stock').manager,
     EventRegister = require('../../lib/event_register').register,
     nconf = require('nconf'),
     Q = require('q'),
-    cors = require('../../config/middlewares/cors'),
     util = require('util');
 
+var Order = OrderSchema.Order, OrderStatus = OrderSchema.OrderStatus;
 
 
 /**
@@ -484,12 +482,12 @@ ItemsObject.prototype.updateItem = function(itemId, body, cb){
   register.once('updateItem', function(data, isDone){
     var category = [], query;
     if (_.isObject(itemId)) {
-      query = itemId
+      query = itemId;
     } else {
       query = {_id: itemId};
     }
 
-    var o = _.omit(data, ["_id", "itemID", "itemCategory"]);
+    var o = _.omit(data, ['_id', 'itemID', 'itemCategory']);
     //i think unnecessary
     if (data.itemCategory) {
       _.each(data.itemCategory, function(v){
@@ -515,7 +513,7 @@ ItemsObject.prototype.updateItem = function(itemId, body, cb){
     if (data.itemBoilingPoint) {
 
       var stock = new Stock();
-      stock.updateBp(itemId, data.itemBoilingPoint, nconf.get("app:main_stock_id"), function(){
+      stock.updateBp(itemId, data.itemBoilingPoint, nconf.get('app:main_stock_id'), function(){
         isDone(data);
       });
     } else {
@@ -739,9 +737,8 @@ ItemsObject.prototype.findRegisteredItem = function findRegisteredItem (query_st
 
 ItemsObject.prototype.findDrugstocProduct = function findDrugstocProduct (query_string, query_options) {
   var q = Q.defer();
-  var dsItem = new DsItem();
-  console.log(arguments);
-  dsItem.DsItemsModel.search(query_string, null, query_options, function (err, data) {
+  // var dsItem = new DsItem();
+  DsItem.search(query_string, null, query_options, function (err, data) {
     if (err) {
       return q.reject(err);
     }
@@ -763,9 +760,9 @@ ItemsObject.prototype.findItem = function findItem (query_string, query_options)
 
 ItemsObject.prototype.findDrugstocProductById = function findDrugstocProductById (query_string) {
   var q = Q.defer();
-  var dsItem = new DsItem();
+  // var dsItem = new DsItem();
 
-  dsItem.DsItemsModel.findOne( {
+  DsItem.findOne( {
     '_id' : query_string
   })
   .exec(function (err, doc) {
