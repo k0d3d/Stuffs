@@ -46,6 +46,10 @@ integraApp.controller('MainController', [
   $scope.waiting = '';
   $scope.updates = [];
 
+  $scope.$on('$routeChangeSuccess', function () {
+    $('.modal-backdrop').hide();
+  });
+
   $scope.$on('newNotification', function(){
     $scope.notification = Notification.notice;
   });
@@ -77,6 +81,10 @@ integraApp.controller('MainController', [
         $scope.waiting = r;
     });
   };
+
+  $scope._stockDirection = function (record) {
+    return (record.reference.indexOf('stockdown') > -1) ? 'stockdown' : 'stockup';
+  }
 
   $scope.refreshUpdates = function (){
     $scope.isr = 'fa-spin';
@@ -157,7 +165,9 @@ integraApp.controller('MainController', [
         orderDate: item.orderDate,
         product_id: item.product_id,
         sku: item.sku,
-        orderId: item._id
+        orderId: item._id,
+        orderSupplier: item.orderSupplier,
+        isDrugStocOrder:item.isDrugStocOrder
       };
     });
     ordersService.cartLoaded(toOrder);

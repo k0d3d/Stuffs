@@ -46,9 +46,30 @@ Should add category on adding item
 send mail
 
 
-1. Add All Suppliers
-2.Adding all items in stock, with invoice number and current stock
+1. Add All Suppliers, add billing class
+2. Adding all items in stock, with invoice number and current stock
 3. inventory with your price and purchase cost.
 4. order notification for supplier
 5. Fix Dispensary
 6. billing profiles on selling rate
+
+
+Reports
+All orders placed from to that supplier -> summary of every order
+Balance of Accounts
+Time period based query
+
+Drug stock operations and events
+
+
+disable place order from drugstoc btn on place orde page
+add current stock to inventory place order tab
+// set purchase rate as drugstoc rate if you add item from drugstoc
+Adding Suppliers on items added from drugstoc on order page doesnt work
+should select drugstoc price when button clicked
+
+On update, all prices should be checked against items in the inventory
+
+change order buttons to include prices
+
+1. Check if product updates work

@@ -19,12 +19,12 @@ angular.module('dispense', [])
     // Gets the stock down points from the server
     sS.getAllLocations(function(res){
       $scope.locations = res;
-    });  
+    });
     $scope.drugsList = [];
 
     //Holds the selected drugs to be prescribed along with
     //the options, dosage, and amount
-    $scope.d = [];  
+    $scope.d = [];
     //Previously Dispensed Records. Get populated by the init function
     itemsService.fetchDispenseRecords("complete", function(r){
       $scope.dispenseHistory = r;
@@ -83,7 +83,7 @@ angular.module('dispense', [])
 
     return _.map(wl.drugs, function(v){
       return v.itemId.itemName;
-    }) ;   
+    }) ;
   }
 
   //If a dispense Id is present, work out a form
@@ -92,20 +92,20 @@ angular.module('dispense', [])
     $scope.all = false;
     $scope.btnState = true;
     itemsService.prdt($scope.waiting[$routeParams.dispenseID]._id, function(r){
-      //chip_form function copies and formats the waiting list object properties 
+      //chip_form function copies and formats the waiting list object properties
       // into the dispense form
       $scope.dispenseform = chip_form(r);
       //chip_d function copies and formats the drugs prescribed
       $scope.d = chip_d(r);
       $scope.od = chip_otherDrugs(r);
-      //Push item Names into drug list 
+      //Push item Names into drug list
       $scope.drugsList = chip_dl(r);
 
     });
   }else{
     $scope.n_w = false;
-    $scope.all = true;    
-    $scope.btnState = false;    
+    $scope.all = true;
+    $scope.btnState = false;
   }
 
   $scope.addButtonText = 'Add';
@@ -118,7 +118,7 @@ angular.module('dispense', [])
   $scope.addDrug = function(){
     if($scope.drugname.length === 0 || _.isUndefined($scope.dispenseform.location)) return false;
     $scope.addHelpText = '';
-    itemsService.summary($scope.thisItemName,$scope.dispenseform.location._id,function(c){
+    itemsService.summary($scope.thisItemName._id, $scope.dispenseform.location._id,function(c){
       if(_.indexOf($scope.drugsList, $scope.thisItemName) < 0){
         $scope.drugsList.push($scope.thisItemName);
         $scope.d.push(c);
@@ -128,7 +128,7 @@ angular.module('dispense', [])
         Notification.notifier({
           message : Language.eng.dispense.addDrug.error,
           type: 'error'
-        });        
+        });
       }
     });
   };
@@ -144,7 +144,7 @@ angular.module('dispense', [])
       return;
     }
     // Check if the amount to be dispensed is available
-    // (lesser than) from the current stock for the item 
+    // (lesser than) from the current stock for the item
     if($scope.d[index].amount < $scope.d[index].currentStock){
       $scope.dispenseform.prescription.push($scope.d[index]);
       $scope.d[index].ready = true;
@@ -193,7 +193,7 @@ angular.module('dispense', [])
       "patientId": $scope.dispenseform.patientno,
       "id": $scope.dispenseform.id,
       "doctorName": $scope.dispenseform.doctorName,
-      "doctorId": $scope.dispenseform.doctorId,      
+      "doctorId": $scope.dispenseform.doctorId,
       "class": $scope.dispenseform.class._id || $scope.dispenseform.class,
       "drugs": drugs,
       "location": $scope.dispenseform.location
@@ -213,13 +213,13 @@ angular.module('dispense', [])
     $scope.drugsList.splice(index, 1);
     $scope.d.splice(index, 1);
   };
-  
+
   $scope.viewBill = function(dispense_id){
     $scope.activeBill = {};
     biller.aBill(dispense_id, function(r){
       $scope.activeBill = r;
       $scope.activeBill.outstanding = Math.round((r.billCost - r.sofar));
-    });  
+    });
   };
 
   $scope.markpaid = function(amount, bill_id, index){

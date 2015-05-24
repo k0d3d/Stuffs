@@ -724,7 +724,7 @@ tr.faded {
 
 .btn-bell {
   background-color: #2C3E50;
-  border: solid 1px #D6D6D6;
+  border: solid 1px rgba(214, 214, 214, 0.36);
 }
 
 .btn-bell:hover {
@@ -958,4 +958,28 @@ em.versiontxt {
 
 .order-tabs .active {
   color: #476EA5;
+}
+
+.cart-order {
+  text-transform: none;
+}
+
+.cart-order a {
+  text-align: center;
+}
+
+.add-to-iv {
+  height: 200px;
+}
+
+.add-to-iv input {
+  width: 60%;
+  height: 35px;
+}
+
+.add-to-iv button {
+  background-color: transparent;
+  color: #000;
+  font-style: italic;
+  float: right;
 }

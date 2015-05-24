@@ -18,8 +18,8 @@ angular.module('item', [])
   '$routeParams',
   'itemsService',
   'stockService',
-  function itemIndexController($scope, $location, $routeParams,itemsService, sS){
-    var currentItem;
+  'ordersService',
+  function itemIndexController($scope, $location, $routeParams,itemsService, sS, ordersService){
     function init(){
       $scope.summary = {};
       $scope.form = {};
@@ -84,8 +84,8 @@ angular.module('item', [])
       //We use 0 for the location to indicate the Main Inventory
 
       //Set the current item var
-      currentItem = event.currentTarget;
-      itemsService.summary(id,'main',function(res){
+      $scope.currentItem = id;
+      itemsService.summary(id._id,'main',function(res){
         $scope.delConfirm = true;
         $scope.delBtnText = 'Delete Item';
         $scope.summary = res;
@@ -109,7 +109,7 @@ angular.module('item', [])
     $scope.deleteItem = function(id){
       itemsService.delete(id, function(data){
         if(data.state === 1){
-          currentItem.remove();
+          delete $scope.currentItem;
           $scope.spmenu = '';
         }
       });
@@ -125,22 +125,28 @@ angular.module('item', [])
       });
     };
 
-    $scope.addToCart = function (){
-      var summary = $scope.summary;
+    $scope.addToCart = function (summary){
+
       var toOrder = {
         itemId: summary._id,
         itemName: summary.itemName,
         sciName: summary.sciName,
-        orderAmount: $scope.sdqty,
-        orderPrice: ($scope.sdprice > 0)? $scope.sdprice : summary.itemPurchaseRate,
-        supplier: $scope.toOrderSupplier || summary.suppliers[0],
-        orderDate: Date.now()
+        orderAmount: summary.orderAmount,
+        orderPrice: (summary.supplierSelected === 'user_entry')? summary.itemPurchaseRate || 0 : summary.dsPurchaseRate,
+        orderSupplier: (summary.supplierSelected === 'user_entry') ? summary.orderSupplier || summary.suppliers[0] : {},
+        isDrugStocOrder: (summary.supplierSelected === 'user_entry') ? false: true,
+        orderDate: Date.now(),
+        product_id: summary.product_id,
+        sku: summary.sku
       };
 
       $scope.orderCart.push(toOrder);
-      $scope.sdqty = $scope.sdprice = $scope.toOrderSupplier = '';
+      ordersService.save(toOrder)
+      .then(function () {
+        ordersService.cartUpdated(toOrder);
+      });
       //Store Cart Locally
-      $scope.$storage.orderCart = __cleanJSON($scope.orderCart);
+      // $scope.$storage.orderCart = __cleanJSON($scope.orderCart);
     };
 
     $scope.addPane = function(){
@@ -185,17 +191,15 @@ angular.module('item', [])
         $scope.form = {
           itemName: item.title,
           sciName: $(item.description).text(),
-          manufacturerName: attributes['Manufacturer'][0],
-          importer: attributes['Manufacturer'][0],
-          nafdacRegNo: attributes['Nafdac-no'][0],
+          manufacturerName: (attributes.Manufacturer) ? attributes.Manufacturer[0]: '',
+          importer: (attributes.Manufacturer) ? attributes.Manufacturer[0]: '',
+          nafdacRegNo: (attributes['Nafdac-no']) ? attributes['Nafdac-no'][0]: '',
           itemCategory: item.categories,
           sku: item.sku,
-          itemPurchaseRate: item.price,
+          dsPurchaseRate: item.price,
           product_id: item.product_id,
           itemTags: item.tags,
-          itemForm: attributes['Item-form'][0]
-
-
+          itemForm: (attributes['Item-form']) ? attributes['Item-form'][0]: ''
         };
       });
     }
@@ -340,6 +344,11 @@ angular.module('item', [])
     });
   };
 
+
+  i.request_search = function request_search (query, scope, options) {
+    return $http.get('/api/items/search?s=' + query + '&scope=' + scope + '&' + $.param(options));
+  };
+
   //Typeahead Query
   i.getItemName = function(query, callback){
     $.getJSON('/api/items/typeahead/?q='+encodeURI(query), function(s) {
@@ -464,7 +473,7 @@ angular.module('item', [])
 
   //Post updated item fields
   i.update = function(form, callback){
-    $http.post('/api/items/'+encodeURI(form._id)+'/edit', form)
+    $http.put('/api/items/'+form._id+'/edit', form)
     .success(function(){
       Notification.notifier({
         message : Language.eng.items.update.success,
@@ -701,15 +710,14 @@ angular.module('item', [])
         });
       },
       updater: function(name){
-        _.some(nx, function(v,i){
-          if(v.supplierName === name){
-            scope.toOrderSupplier = {
-              supplierID : v._id,
-              supplierName: v.supplierName
-            };
-            return true;
-          }
+        var selectedItemId = _.find(nx, function (name) {
+          return name.supplierName = name;
         });
+        scope.orderSupplier = {
+          supplierID : selectedItemId._id,
+          supplierName: selectedItemId.supplierName
+        };
+
         scope.$apply();
         return name;
       }

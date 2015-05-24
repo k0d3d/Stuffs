@@ -565,11 +565,11 @@ module.exports.routes = function(app){
     };
     //Set Options
     location.origin.options = {
-      action: util.format('Requested Stock (%s)', req.body.location.destination.locationName),
+      action: util.format('Supplied Stock (%s)', req.body.location.destination.locationName),
       reference: 'stockdown-'+ timenow
     };
     location.destination.options = {
-      action: 'Requested Stock (Origin)',
+      action: util.format('Requested Stock (%s)', req.body.location.origin.locationName),
       reference: 'stockup-'+timenow
     };
     sc.stocking(req.body.request, location, 'restock', function(r){

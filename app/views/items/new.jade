@@ -17,9 +17,7 @@ block body
               option Medical Equipment
             label(for="name") Brand Name
             input.input-medium(type="text",name="name", ng-model="form.itemName", brand-name-type-ahead, required, autocomplete="off")
-            ul#dsProducts.fa-ul.listing()
-              li(ng-repeat="dsProduct in dsListOfMatchingProducts ", ng-click="attachSKU(dsProduct, form)")
-                | {{dsProduct.title}}
+
             label(for="sci-name") Scientific Name / Composition
             input.input-medium(type="text", name="sci-name",ng-model="form.sciName", required)
             label(for="man-name") Manufacturer
@@ -65,5 +63,7 @@ block body
             select(name="itemform",ng-model="form.itemForm", ng-options="c for c in commons.itemForm", required)
             label(for="itempackaging") Item Packaging
             select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging", required)
-            label(for="rate") Your Rate
-            input.input-small(type="number",name="op",ng-model="form.ownerPrice")
+            label(for="rate") Purchase Rate
+            input.input-small(type="number",name="op",ng-model="form.itemPurchaseRate")
+            label(for="rate") Selling Rate
+            input.input-small(type="number",name="op",ng-model="form.sellingPrice")

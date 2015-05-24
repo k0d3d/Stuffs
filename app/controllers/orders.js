@@ -1,14 +1,16 @@
 var
-    Items = require('../models/item').Item,
+    Items = require('./items').item,
     Order = require('../models/order').Order,
     DsItems = require('../models/dsitem'),
     OrderStatus = require('../models/order').OrderStatus,
     PointLocation = require('../models/location'),
     Supplier = require('../models/supplier'),
-    _ = require('lodash'),    Ndl = require('./nafdacs').ndl,
+    _ = require('lodash'),
+    Ndl = require('./nafdacs').ndl,
     EventRegister = require('../../lib/event_register').register,
     StockManager = require('./stock').manager,
     Ndl = require('./nafdacs').ndl,
+    debug = require('debug'),
     utils = require('util');
 /**
  * Module dependencies.
@@ -38,6 +40,7 @@ var updateTracking = function (r) {
 var postOrders = function(){
   Order
   .find({orderStatus: 1}, 'itemId product_id itemName orderAmount orderDate orderSupplier nafdacRegNo nafdacRegName')
+  .where('isDrugStocOrder', true)
   .populate({
     path: 'itemId',
     model: 'item'
@@ -45,8 +48,9 @@ var postOrders = function(){
   .exec(function(err, i){
     // var one = JSON.stringify(i);
     if(err){
-      utils.puts(err);
-    }else{
+      return debug(err);
+    }else
+    if (i.length) {
       var dsItems = new DsItems();
 
       dsItems.postDSCloudOrders(i)
@@ -58,24 +62,29 @@ var postOrders = function(){
       .catch(function (err) {
         console.log(err.stack);
       });
+      return;
     }
+    return;
   });
 };
 
 
 OrderController.prototype.placeCart = function(cartObj, cb){
   if(_.isEmpty(cartObj)) return cb(new Error('Empty Request'));
-  var doneIds = [];
+  var doneIds = [],
+      i = Date.now().toString(),
+      order_group_id = i.substring(i.length - 6);
 
   function _create(){
     var item = cartObj.pop();
     var l = cartObj.length;
 
     Order.update({
-      _id: item.orderId
+      _id: item.orderId,
     }, {
       $set: {
-        orderStatus: 1
+        orderStatus: 1,
+        order_group_id: order_group_id
       }
     }, function (err, n) {
 
@@ -117,53 +126,45 @@ OrderController.prototype.createOrder = function (orderObj, cb) {
   //Checks if an itemId is present in a request.
   //the absence of an itemId creates a new item
   register.once('checkId', function(data, isDone){
-    console.log(data);
-    return isDone(data);
-    var id = data._id || data.itemId;
+    // console.log(data);
+    // return isDone(data);
+    var isDrugStocOrder = data.isDrugStocOrder;
 
-    if(!id){
+    if(isDrugStocOrder && !data.itemId){
       //Lets go create a new Item and return its id
       var item = new Items();
       item.create({
-        item:{
-          itemName: data.itemName,
-          sciName: data.sciName
-        }
+        item: data
       }, function(d){
         data.id = d._id;
         isDone(data);
       });
     }else{
-      data.id = id;
       isDone(data);
     }
   });
 
   register.once('saveOrder', function(data, isDone){
-    // var itemName = data.itemName || data.itemData.itemName;
-    // var supplier = data.supplier || data.suppliers;
 
     var order = new Order(data);
-    // var itemObj = {itemName: itemName, id: data.id};
 
-    // order.orderSupplier =  supplier;
-
-    // order.itemData = itemObj;
-
-    order.save(function (err) {
-      if (!err) {
-        postOrders();
-        isDone(true);
-      }else{
-        isDone(new Error(err));
+    order.save(function (err, newOrder) {
+      if (err) {
+        isDone(err);
       }
+
+      if (newOrder.orderStatus > 0) {
+        postOrders();
+      }
+      isDone(true);
     });
   });
 
 
 
   register
-  .queue('checkId', 'saveOrder')
+  .queue('saveOrder')
+  // .queue('checkId', 'saveOrder')
   .onError(function(err){
     cb(err);
   })
@@ -232,7 +233,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
 
     //Updates the order status
     Order.update({
-      '_id':data.orderId
+      '_id':orderId
     },{
       $set: {
         'orderStatus':data.orderbody.orderStatus,
@@ -240,9 +241,9 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
         'amountSupplied': data.orderbody.amountSupplied,
       }
     })
-    .exec(function(err,numberAffected){
+    .exec(function(err){
       if(err){
-        isDone(new Error(err.message));
+        isDone(err);
       }else{
         isDone(data);
       }
@@ -256,7 +257,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
 
     //Updates the order status
     Order.update({
-      '_id':data.orderId
+      '_id':orderId
     },{
       $set: {
         'orderStatus':data.orderbody.orderStatus,
@@ -264,10 +265,10 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
         'paymentReferenceID': data.orderbody.paymentReferenceID
       }
     })
-    .exec(function(err,numberAffected){
+    .exec(function(err){
 
       if(err){
-        isDone(new Error(err.message));
+        isDone(err);
       }else{
         isDone(data);
       }
@@ -280,7 +281,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
     //updated and what action was taken.
     var orderstatus = new OrderStatus();
     orderstatus.status = data.orderbody.status;
-    orderstatus.order_id = data.orderId;
+    orderstatus.order_id = orderId;
     orderstatus.save(function(err){
       if(err)return isDone(err);
       isDone(data.orderbody.status);
@@ -294,7 +295,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
       //For reference
       data.location.destination.options = {
         action: 'Stock Up',
-        reference: 'orders-'+ data.orderId
+        reference: 'orders-'+ orderId
       };
 
       //Since Orders for main stock have no
@@ -304,8 +305,8 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
 
       var reqObject = [
         {
-          id: data.orderbody.itemData.id,
-          itemName: data.orderbody.itemData.itemName,
+          id: data.orderbody.itemId,
+          itemName: data.orderbody.itemName,
           amount: data.orderbody.amountSupplied,
         }
       ];
@@ -335,17 +336,17 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
   });
 
   //Switch / Conditional Event Queue
-  switch(orderbody.status){
-    case 'paid':
+  switch(orderbody.orderStatus){
+    case 4: //paid
       whatOrder = ['paidUpdate', 'statusUpdate'];
       break;
-    case 'supplied':
+    case 3: //supplied
       whatOrder = ['getMainLocation', 'supplyOrder', 'supplyUpdate', 'statusUpdate'];
       break;
     default:
       whatOrder = ['statusUpdate'];
       break;
-  };
+  }
 
   register
   .queue(whatOrder)
@@ -353,7 +354,7 @@ OrderController.prototype.updateOrder = function(orderbody, orderId, cb){
     cb(r);
   })
   .onEnd(function(r){
-    cb(r)
+    cb(r);
   })
   .start({orderbody: orderbody, orderId: orderId});
 

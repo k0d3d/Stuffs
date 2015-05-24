@@ -79,9 +79,7 @@ config(['$routeProvider',function($routeProvider){
 
     ordersService.orders(function(r){
       angular.forEach(r, function(v){
-        v.nextStatus = function () {
-          return ((v.orderStatus + 1) !== 2) ? v.orderStatus + 1 : 6;
-        };
+
         $scope.orders.push(v);
       });
       switch($routeParams.type){
@@ -131,28 +129,66 @@ config(['$routeProvider',function($routeProvider){
   'itemsService',
   '$routeParams',
   '$q',
-  function($scope, $http, $location, ordersService,itemsService, $routeParams, Q){
+  '$interpolate',
+  function($scope, $http, $location, ordersService,itemsService, $routeParams, Q, $interpolate){
+
   $scope.form = {
     itemData: {},
     supplierData: {}
   };
   $scope.modal = {};
-  if($routeParams.itemId){
-    itemsService.summary($routeParams.itemId, 'main', function(r){
-      $scope.summary = r;
-      $scope.form.itemData.itemName = r.itemName;
-      $scope.form.itemData.id = r._id;
-      $scope.form.nafdacRegNo = r.nafdacRegNo;
-      $scope.form.nafdacRegName = r.itemName;
-      $scope.form.orderPrice = r.itemPurchaseRate;
-      $scope.form.suppliers = {
-        supplierName : r.supplierName,
-        supplierID : r.supplierID
-      };
-    });
-  }
+  // if($routeParams.itemId){
+  //   itemsService.summary($routeParams.itemId, 'main', function(r){
+  //     $scope.summary = r;
+  //     $scope.form.itemData.itemName = r.itemName;
+  //     $scope.form.itemData.id = r._id;
+  //     $scope.form.nafdacRegNo = r.nafdacRegNo;
+  //     $scope.form.nafdacRegName = r.itemName;
+  //     $scope.form.orderPrice = r.itemPurchaseRate;
+  //     $scope.form.suppliers = {
+  //       supplierName : r.supplierName,
+  //       supplierID : r.supplierID
+  //     };
+  //   });
+  // }
 
-  console.log($location.search());
+  $scope.set_ds_product = function (ds) {
+    $scope.now_product = ds;
+  };
+
+  //should set product being viewed and
+  $scope.tag_ds_product = function () {
+    var product = $scope.now_product, inventory_item = $scope.selectedItem.itemname;
+    // var attributes = _.reduce(product.attributes, function (result, n) {
+    //   result[n.name] = n.options;
+    //   return result;
+    // });
+    var form = {
+      _id: inventory_item._id,
+      // itemName: product.title,
+      // sciName: $(product.description).text(),
+      // manufacturerName: attributes['Manufacturer'][0],
+      // importer: attributes['Manufacturer'][0],
+      // nafdacRegNo: attributes['Nafdac-no'][0],
+      // itemCategory: product.categories,
+      sku: product.sku,
+      dsPurchaseRate: product.price,
+      product_id: product.product_id,
+      itemBoilingPoint: 0,
+      itemPurchaseRate: product.price
+      // itemTags: product.tags,
+      // itemForm: attributes['Item-form'][0]
+    };
+    itemsService.update(form, function(){
+      delete $scope.now_product;
+      // var i = $interpolate('Good work! You can now <a ng-href="/dashboard/order?s={{itemName}}&tab=iv&productId={{productId}}">order this</a> item.');
+      $scope.attach_status = {itemName: inventory_item.itemName, productId: product.product_id};
+    });
+  };
+
+  $scope.more_info = function () {
+
+  };
 
   if($location.by === 'composition'){
     $scope.plcordr = true;
@@ -168,9 +204,9 @@ config(['$routeProvider',function($routeProvider){
   $scope.searchcmp = function(searchQuery, query){
     $scope.searching_icon = true;
     Q.all([
-      ordersService.request_search(searchQuery, 'inventory', query),
-      ordersService.request_search(searchQuery, 'drugstoc', query),
-      ordersService.request_search(searchQuery, 'nafdac', query)
+      itemsService.request_search(searchQuery, 'inventory', query),
+      itemsService.request_search(searchQuery, 'drugstoc', query),
+      itemsService.request_search(searchQuery, 'nafdac', query)
     ])
     .then(function (resolvedPromise) {
       $scope.searching_icon = false;
@@ -219,6 +255,14 @@ config(['$routeProvider',function($routeProvider){
     });
   };
 
+  $scope.order_by_ds_product = function (product_id) {
+    itemsService.request_search(product_id, 'checkProduct', {page: 0})
+    .then(function (result) {
+        $('#modal-tag-ds-product').modal('toggle');
+      // if (!result) {
+      // }
+    });
+  };
   // $scope.orderthis = function(){
   //   if($scope.ds.length === 0) return false;
   //   $scope.form = {
@@ -245,10 +289,15 @@ config(['$routeProvider',function($routeProvider){
         orderPrice: item.itemPurchaseRate || item.price,
         orderDate: Date.now(),
         product_id: item.product_id,
-        sku: item.sku
+        sku: item.sku,
+        orderSupplier: item.suppliers[0]
       };
       if (scope === 'iv') {
         toOrder.itemId = item._id;
+        toOrder.isDrugStocOrder = false;
+      }
+      if (scope === 'ds') {
+        toOrder.isDrugStocOrder = true;
       }
       ordersService.save(toOrder)
       .then(function () {
@@ -263,6 +312,13 @@ config(['$routeProvider',function($routeProvider){
   //     $scope.form = '';
   //   });
   // };
+  if ($location.search().s) {
+    var queryVars = $location.search();
+    $scope.searchcmp(queryVars.s, {'page' : 0});
+    $scope.activePane = queryVars.tab;
+    $scope.product_id_filter = queryVars.productId;
+    $scope.searchQuery = queryVars.s
+  }
 }])
 .factory('ordersService',[
   '$http',
@@ -286,7 +342,7 @@ config(['$routeProvider',function($routeProvider){
 
     f.searchCmp = function(srchstr, catrcmp, page, callback){
       $http.get('/api/orders/ndl/'+srchstr+'/'+catrcmp+'/'+page)
-      .success(function(d, r){
+      .success(function(d){
         if(_.isEmpty(d)){
           Notification.notifier({
             message: Lang.eng.order.search.notfound,
@@ -301,10 +357,6 @@ config(['$routeProvider',function($routeProvider){
           type: 'error'
         });
       });
-    };
-
-    f.request_search = function request_search (query, scope, options) {
-      return $http.get('/api/items/search?s=' + query + '&scope=' + scope + '&' + $.param(options));
     };
 
     f.getAllSuppliers = function(callback){
@@ -366,13 +418,7 @@ config(['$routeProvider',function($routeProvider){
         });
     };
     f.updateOrder = function(o, callback){
-      $http.put('/api/orders/' + o.order_id, {
-          'orderStatus': o.orderStatus,
-          'orderInvoiceNumber': o.orderInvoiceNumber,
-          'amountSupplied': o.amountSupplied || 0,
-          'paymentReferenceType': o.paymentReferenceType,
-          'paymentReferenceID': o.paymentReferenceID
-        })
+      $http.put('/api/orders/' + o._id, o)
       .success(function(data){
         Notification.notifier({
           message: Lang.eng.order.update.success,
@@ -517,39 +563,54 @@ config(['$routeProvider',function($routeProvider){
     return returnVal;
   };
 })
-.directive('orderList', ['ordersService','Notification','Language', function(OS, N, L){
+.directive('orderList', [function () {
+  return {
+    link: function () {},
+    // controller: Ctrlr,
+    scope: {
+      orderList: '=',
+      ordersFilter: '=',
+      getStatus: '&'
+    },
+    templateUrl: '/templates/order-list'
+  };
+}])
+.directive('orderItemMenu', ['ordersService','Notification','Language', function(OS, N, L){
   function link (scope, element, attrs) {
 
 
   }
   function Ctrlr ($scope){
 
-    $scope.updateOrder = function(index){
-      if (($scope.orderList[index].nextStatus()) === 2) return false;
-      if($scope.orderList[index].nextStatus === 2 &&
-        (!$scope.orderList[index].amountSupplied ||
-          !$scope.orderList[index].orderInvoice)){
+    $scope.updateOrder = function(){
+      if (($scope.order.nextStatus()) === 2) return false;
+      if($scope.order.nextStatus() === 2 &&
+        (!$scope.order.amountSupplied ||
+          !$scope.order.orderInvoiceNumber)){
         alert('Please check the required fields: Missing Amount / Invoice Number');
         return false;
       }
-      if($scope.orderList[index].nextStatus === 3 &&
-        (!$scope.orderList[index].paymentReferenceType ||
-          !$scope.orderList[index].paymentReferenceID)){
+      if($scope.order.nextStatus() === 3 &&
+        (!$scope.order.paymentReferenceType ||
+          !$scope.order.paymentReferenceID)){
         alert('Please check the required fields: Payment ID / Payment Type');
         return false;
       }
-      var o ={
-        orderStatus : $scope.orderList[index].nextStatus,
-        order_id : $scope.orderList[index]._id,
-        orderInvoiceNumber : $scope.orderList[index].orderInvoice,
-        amountSupplied: $scope.orderList[index].amountSupplied,
-        paymentReferenceType: $scope.orderList[index].paymentReferenceType,
-        paymentReferenceID: $scope.orderList[index].paymentReferenceID
-      };
-      OS.updateOrder(o, function(r){
-        $scope.orderList[index].orderStatus = r.result;
-        // $scope.orderList[index].nextStatus = $scope.getStatus({status: r.result});
-        if(r.result === 2 && ($scope.orderList[index].amountSupplied < $scope.orderList[index].orderAmount)){
+      var orderToGo = angular.copy($scope.order);
+      orderToGo.orderStatus = $scope.order.nextStatus();
+      // var o ={
+      //   orderStatus : $scope.order.nextStatus(),
+      //   order_id : $scope.order._id,
+      //   orderInvoiceNumber : $scope.order.orderInvoice,
+      //   amountSupplied: $scope.order.amountSupplied,
+      //   paymentReferenceType: $scope.order.paymentReferenceType,
+      //   paymentReferenceID: $scope.order.paymentReferenceID
+      // };
+      OS.updateOrder(orderToGo, function(r){
+        $scope.order.orderStatus = $scope.order.nextStatus();
+        // $scope.order.orderStatus = r.result;
+        // $scope.order.nextStatus = $scope.getStatus({status: r.result});
+        if(r.result === 3 && ($scope.order.amountSupplied < $scope.order.orderAmount)){
           N.notifier({
             message: L[L.set].order.update.amountDis,
             type: 'info'
@@ -572,11 +633,41 @@ config(['$routeProvider',function($routeProvider){
   return {
     link: link,
     controller: Ctrlr,
-    scope: {
-      orderList: '=',
-      ordersFilter: '=',
-      getStatus: '&'
-    },
-    templateUrl: '/templates/order-list'
+    // scope: {
+    //   orderList: '=',
+    //   ordersFilter: '=',
+    //   getStatus: '&'
+    // }
   };
-}]);
+}])
+.directive('orderItemActionBtn', [function () {
+  return {
+    link: function (scope) {
+      scope.order.nextStatus = function () {
+        //a drugstoc order and 'next' status is 'received'
+        //should only occur when an order is hasnt been sent
+        //to drugstoc WC online.once the order is 'received' (2)
+        //this will have a nextStatus of supplied (3). Till then
+        //return 6 or greater, meaning processing
+        if (scope.order.isDrugStocOrder && (scope.order.orderStatus + 1) === 2) {
+
+          return 6;
+        }
+        //not a drugstoc order and is still pending(1) , the next
+        //status is supplied (3).
+        if (!scope.order.isDrugStocOrder && scope.order.orderStatus === 1) {
+
+          return 3;
+        }
+        //if none if the above, we should proceed to the next status
+        return scope.order.orderStatus + 1;
+      };
+      scope.order.orderBtnDisabled = function () {
+        return (scope.order.orderStatus + 1) > 5;
+      };
+
+
+    }
+  };
+}])
+;

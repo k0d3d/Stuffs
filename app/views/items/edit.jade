@@ -55,7 +55,9 @@ block body
             label(for="itempackaging") Item Packaging
             p.disabled-input(ng-click="itemPackagingShow = !itemPackagingShow", ng-init="itemPackagingShow = false", ng-show="!itemPackagingShow") {{form.itemPackaging}}
             select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging", ng-show="itemPackagingShow")
+            label(for="rate") DrugStoc Rate
+            p.disabled-input.input-medium {{form.dsPurchaseRate}}
             label(for="rate") Purchase Rate
-            p.disabled-input.input-medium {{form.itemPurchaseRate}}
-            label(for="rate") Your Rate
-            input.input-small(type="number",name="op",ng-model="form.ownerPrice")
+            input.input-small(type="number",name="op",ng-model="form.itemPurchaseRate")
+            label(for="rate") Selling Rate
+            input.input-small(type="number",name="op",ng-model="form.sellingPrice")
