@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# object: http://ogp.me/ns/object# article: http://ogp.me/ns/article# profile: http://ogp.me/ns/profile#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Language" content="en">
+    
+    
+    <title>summernote/summernote · GitHub</title>
+    <link rel="search" type="application/opensearchdescription+xml" href="https://github.com/opensearch.xml" title="GitHub">
+    <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
+    <link rel="apple-touch-icon" sizes="57x57" href="https://github.com/apple-touch-icon-114.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://github.com/apple-touch-icon-114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://github.com/apple-touch-icon-144.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://github.com/apple-touch-icon-144.png">
+    <meta property="fb:app_id" content="1401488693436528">
+
+      <meta content="@github" name="twitter:site"><meta content="summary" name="twitter:card"><meta content="summernote/summernote" name="twitter:title"><meta content="summernote - Super simple WYSIWYG Editor using Bootstrap" name="twitter:description"><meta content="https://avatars2.githubusercontent.com/u/7778517?v=3&amp;s=400" name="twitter:image:src">
+      <meta content="GitHub" property="og:site_name"><meta content="object" property="og:type"><meta content="https://avatars2.githubusercontent.com/u/7778517?v=3&amp;s=400" property="og:image"><meta content="summernote/summernote" property="og:title"><meta content="https://github.com/summernote/summernote" property="og:url"><meta content="summernote - Super simple WYSIWYG Editor using Bootstrap" property="og:description">
+      <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
+    <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
+    <link rel="assets" href="https://assets-cdn.github.com/">
+    
+    <meta name="pjax-timeout" content="1000">
+    
+
+    <meta name="msapplication-TileImage" content="/windows-tile.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="selected-link" value="repo_source" data-pjax-transient="">
+      <meta name="google-analytics" content="UA-3769691-2">
+
+    <meta content="collector.githubapp.com" name="octolytics-host"><meta content="collector-cdn.github.com" name="octolytics-script-host"><meta content="github" name="octolytics-app-id"><meta content="C5F26D84:2D2B:39457A0:555F3C6C" name="octolytics-dimension-request_id">
+    
+    <meta content="Rails, view, files#disambiguate" name="analytics-event">
+    <meta class="js-ga-set" name="dimension1" content="Logged Out">
+    <meta class="js-ga-set" name="dimension2" content="Header v3">
+    <meta name="is-dotcom" content="true">
+      <meta name="hostname" content="github.com">
+    <meta name="user-login" content="">
+
+    
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+
+    <meta content="authenticity_token" name="csrf-param">
+<meta content="x9IrI/m87si17bGzZ6Yx/hi8EA39l2y8yA8wg3W23RGFmQOOTOIFSvMZOqZGkbpPqQcRGKH4MV970PbtC0Sl9A==" name="csrf-token">
+
+    
+    
+    
+    
+
+
+    <meta http-equiv="x-pjax-version" content="7fc176257d63090ee6378e931a73ea05">
+
+      
+  <meta name="description" content="summernote - Super simple WYSIWYG Editor using Bootstrap">
+  <meta name="go-import" content="github.com/summernote/summernote git https://github.com/summernote/summernote.git">
+
+  <meta content="7778517" name="octolytics-dimension-user_id"><meta content="summernote" name="octolytics-dimension-user_login"><meta content="9709563" name="octolytics-dimension-repository_id"><meta content="summernote/summernote" name="octolytics-dimension-repository_nwo"><meta content="true" name="octolytics-dimension-repository_public"><meta content="false" name="octolytics-dimension-repository_is_fork"><meta content="9709563" name="octolytics-dimension-repository_network_root_id"><meta content="summernote/summernote" name="octolytics-dimension-repository_network_root_nwo">
+  <link href="https://github.com/summernote/summernote/commits/develop.atom" rel="alternate" title="Recent Commits to summernote:develop" type="application/atom+xml">
+
+  <script src="api.js" async="" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="summernote.css" media="all">
+<script src="//collector-cdn.github.com/assets/api.js" async="" type="text/javascript"></script></head>
+<body class="logged_out  env-production linux vis-public">
+    <a href="#start-of-content" tabindex="1" class="accessibility-aid js-skip-to-content">Skip to content</a>
+    <div class="wrapper">
+      
+      
+      
+
+
+        
+        <div class="header header-logged-out" role="banner">
+  <div class="container clearfix">
+
+    <a class="header-logo-wordmark" href="https://github.com/" data-ga-click="(Logged out) Header, go to homepage, icon:logo-wordmark">
+      <span class="mega-octicon octicon-logo-github"></span>
+    </a>
+
+    <div class="header-actions" role="navigation">
+        <a class="btn btn-primary" href="https://github.com/join" data-ga-click="(Logged out) Header, clicked Sign up, text:sign-up">Sign up</a>
+      <a class="btn" href="https://github.com/login?return_to=%2Fsummernote%2Fsummernote" data-ga-click="(Logged out) Header, clicked Sign in, text:sign-in">Sign in</a>
+    </div>
+
+    <div class="site-search repo-scope js-site-search" role="search">
+      <form accept-charset="UTF-8" action="https://github.com/summernote/summernote/search" class="js-site-search-form" data-global-search-url="/search" data-repo-search-url="/summernote/summernote/search" method="get"><div style="margin: 0px; padding: 0px; display: inline;"><input name="utf8" value="✓" type="hidden"></div>
+  <label class="js-chromeless-input-container form-control">
+    <div class="scope-badge">This repository</div>
+    <input value="" class="js-site-search-focus js-site-search-field is-clearable chromeless-input" data-hotkey="s" name="q" placeholder="Search" data-global-scope-placeholder="Search GitHub" data-repo-scope-placeholder="Search" tabindex="1" autocapitalize="off" type="text">
+  </label>
+</form>
+    </div>
+
+      <ul class="header-nav left" role="navigation">
+          <li class="header-nav-item">
+            <a class="header-nav-link" href="https://github.com/explore" data-ga-click="(Logged out) Header, go to explore, text:explore">Explore</a>
+          </li>
+          <li class="header-nav-item">
+            <a class="header-nav-link" href="https://github.com/features" data-ga-click="(Logged out) Header, go to features, text:features">Features</a>
+          </li>
+          <li class="header-nav-item">
+            <a class="header-nav-link" href="https://enterprise.github.com/" data-ga-click="(Logged out) Header, go to enterprise, text:enterprise">Enterprise</a>
+          </li>
+          <li class="header-nav-item">
+            <a class="header-nav-link" href="https://github.com/blog" data-ga-click="(Logged out) Header, go to blog, text:blog">Blog</a>
+          </li>
+      </ul>
+
+  </div>
+</div>
+
+
+
+      <div id="start-of-content" class="accessibility-aid"></div>
+          <div class="site" itemscope="" itemtype="http://schema.org/WebPage">
+    <div id="js-flash-container">
+      
+    </div>
+    <div class="pagehead repohead instapaper_ignore readability-menu">
+      <div class="container">
+        
+<ul class="pagehead-actions">
+
+  <li>
+      <a href="https://github.com/login?return_to=%2Fsummernote%2Fsummernote" class="btn btn-sm btn-with-count tooltipped tooltipped-n" aria-label="You must be signed in to watch a repository" rel="nofollow">
+    <span class="octicon octicon-eye"></span>
+    Watch
+  </a>
+  <a class="social-count" href="https://github.com/summernote/summernote/watchers">
+    171
+  </a>
+
+  </li>
+
+  <li>
+      <a href="https://github.com/login?return_to=%2Fsummernote%2Fsummernote" class="btn btn-sm btn-with-count tooltipped tooltipped-n" aria-label="You must be signed in to star a repository" rel="nofollow">
+    <span class="octicon octicon-star"></span>
+    Star
+  </a>
+
+    <a class="social-count js-social-count" href="https://github.com/summernote/summernote/stargazers">
+      2,523
+    </a>
+
+  </li>
+
+    <li>
+      <a href="https://github.com/login?return_to=%2Fsummernote%2Fsummernote" class="btn btn-sm btn-with-count tooltipped tooltipped-n" aria-label="You must be signed in to fork a repository" rel="nofollow">
+        <span class="octicon octicon-repo-forked"></span>
+        Fork
+      </a>
+      <a href="https://github.com/summernote/summernote/network" class="social-count">
+        590
+      </a>
+    </li>
+</ul>
+
+        <h1 itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb" class="entry-title public">
+          <span class="mega-octicon octicon-repo"></span>
+          <span class="author"><a href="https://github.com/summernote" class="url fn" itemprop="url" rel="author"><span itemprop="title">summernote</span></a></span><!--
+       --><span class="path-divider">/</span><!--
+       --><strong><a href="https://github.com/summernote/summernote" class="js-current-repository" data-pjax="#js-repo-pjax-container">summernote</a></strong>
+
+          <span class="page-context-loader">
+            <img alt="" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </span>
+
+        </h1>
+      </div><!-- /.container -->
+    </div><!-- /.repohead -->
+
+    <div class="container">
+      <div class="repository-with-sidebar repo-container new-discussion-timeline with-full-navigation">
+        <div class="repository-sidebar clearfix">
+            
+<nav class="sunken-menu repo-nav js-repo-nav js-sidenav-container-pjax js-octicon-loaders" role="navigation" data-pjax="#js-repo-pjax-container" data-issue-count-url="/summernote/summernote/issues/counts">
+  <ul class="sunken-menu-group">
+    <li class="tooltipped tooltipped-w" aria-label="Code">
+      <a href="https://github.com/summernote/summernote" aria-label="Code" class="selected js-selected-navigation-item sunken-menu-item" data-hotkey="g c" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches /summernote/summernote">
+        <span class="octicon octicon-code"></span> <span class="full-word">Code</span>
+        <img alt="" class="mini-loader" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+</a>    </li>
+
+      <li class="tooltipped tooltipped-w" aria-label="Issues">
+        <a href="https://github.com/summernote/summernote/issues" aria-label="Issues" class="js-selected-navigation-item sunken-menu-item" data-hotkey="g i" data-selected-links="repo_issues repo_labels repo_milestones /summernote/summernote/issues">
+          <span class="octicon octicon-issue-opened"></span> <span class="full-word">Issues</span>
+          <span class="counter">368</span>
+
+          <img alt="" class="mini-loader" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+</a>      </li>
+
+    <li class="tooltipped tooltipped-w" aria-label="Pull requests">
+      <a href="https://github.com/summernote/summernote/pulls" aria-label="Pull requests" class="js-selected-navigation-item sunken-menu-item" data-hotkey="g p" data-selected-links="repo_pulls /summernote/summernote/pulls">
+          <span class="octicon octicon-git-pull-request"></span> <span class="full-word">Pull requests</span>
+          <span class="counter">23</span>
+
+          <img alt="" class="mini-loader" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+</a>    </li>
+
+  </ul>
+  <div class="sunken-menu-separator"></div>
+  <ul class="sunken-menu-group">
+
+    <li class="tooltipped tooltipped-w" aria-label="Pulse">
+      <a href="https://github.com/summernote/summernote/pulse" aria-label="Pulse" class="js-selected-navigation-item sunken-menu-item" data-selected-links="pulse /summernote/summernote/pulse">
+        <span class="octicon octicon-pulse"></span> <span class="full-word">Pulse</span>
+        <img alt="" class="mini-loader" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+</a>    </li>
+
+    <li class="tooltipped tooltipped-w" aria-label="Graphs">
+      <a href="https://github.com/summernote/summernote/graphs" aria-label="Graphs" class="js-selected-navigation-item sunken-menu-item" data-selected-links="repo_graphs repo_contributors /summernote/summernote/graphs">
+        <span class="octicon octicon-graph"></span> <span class="full-word">Graphs</span>
+        <img alt="" class="mini-loader" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+</a>    </li>
+  </ul>
+
+
+</nav>
+
+              <div class="only-with-full-nav">
+                  
+<div class="clone-url open" data-protocol-type="http" data-url="/users/set_protocol?protocol_selector=http&amp;protocol_type=clone">
+  <h3><span class="text-emphasized">HTTPS</span> clone URL</h3>
+  <div class="input-group js-zeroclipboard-container">
+    <input class="input-mini input-monospace js-url-field js-zeroclipboard-target" value="https://github.com/summernote/summernote.git" readonly="readonly" type="text">
+    <span class="input-group-button">
+      <button aria-label="Copy to clipboard" class="js-zeroclipboard btn btn-sm zeroclipboard-button tooltipped tooltipped-s" data-copied-hint="Copied!" type="button"><span class="octicon octicon-clippy"></span></button>
+    </span>
+  </div>
+</div>
+
+  
+<div class="clone-url " data-protocol-type="subversion" data-url="/users/set_protocol?protocol_selector=subversion&amp;protocol_type=clone">
+  <h3><span class="text-emphasized">Subversion</span> checkout URL</h3>
+  <div class="input-group js-zeroclipboard-container">
+    <input class="input-mini input-monospace js-url-field js-zeroclipboard-target" value="https://github.com/summernote/summernote" readonly="readonly" type="text">
+    <span class="input-group-button">
+      <button aria-label="Copy to clipboard" class="js-zeroclipboard btn btn-sm zeroclipboard-button tooltipped tooltipped-s" data-copied-hint="Copied!" type="button"><span class="octicon octicon-clippy"></span></button>
+    </span>
+  </div>
+</div>
+
+
+
+<p class="clone-options">You can clone with
+  <a href="#" class="js-clone-selector" data-protocol="http">HTTPS</a> or <a href="#" class="js-clone-selector" data-protocol="subversion">Subversion</a>.
+  <a href="https://help.github.com/articles/which-remote-url-should-i-use" class="help tooltipped tooltipped-n" aria-label="Get help on which URL is right for you.">
+    <span class="octicon octicon-question"></span>
+  </a>
+</p>
+
+
+
+
+                <a href="develop.zip" class="btn btn-sm sidebar-button" aria-label="Download the contents of summernote/summernote as a zip file" title="Download the contents of summernote/summernote as a zip file" rel="nofollow">
+                  <span class="octicon octicon-cloud-download"></span>
+                  Download ZIP
+                </a>
+              </div>
+        </div><!-- /.repository-sidebar -->
+
+        <div id="js-repo-pjax-container" class="repository-content context-loader-container" data-pjax-container="">
+
+          
+<span id="js-show-full-navigation"></span>
+
+<div class="repository-meta js-details-container ">
+    <div class="repository-description">
+      Super simple WYSIWYG Editor using Bootstrap
+    </div>
+
+    <div class="repository-website">
+      <p><a indepth="true" href="default_003.html" rel="nofollow">http://summernote.org</a></p>
+    </div>
+
+
+</div>
+
+<div class="overall-summary overall-summary-bottomless">
+
+  <div class="stats-switcher-viewport js-stats-switcher-viewport">
+    <div class="stats-switcher-wrapper">
+    <ul class="numbers-summary">
+      <li class="commits">
+        <a data-pjax="" href="https://github.com/summernote/summernote/commits/develop">
+            <span class="octicon octicon-history"></span>
+            <span class="num text-emphasized">
+              1,349
+            </span>
+            commits
+        </a>
+      </li>
+      <li>
+        <a data-pjax="" href="https://github.com/summernote/summernote/branches">
+          <span class="octicon octicon-git-branch"></span>
+          <span class="num text-emphasized">
+            8
+          </span>
+          branches
+        </a>
+      </li>
+
+      <li>
+        <a data-pjax="" href="https://github.com/summernote/summernote/releases">
+          <span class="octicon octicon-tag"></span>
+          <span class="num text-emphasized">
+            27
+          </span>
+          releases
+        </a>
+      </li>
+
+      <li>
+        
+  <a href="https://github.com/summernote/summernote/graphs/contributors">
+    <span class="octicon octicon-organization"></span>
+    <span class="num text-emphasized">
+      98
+    </span>
+    contributors
+  </a>
+      </li>
+    </ul>
+
+      <div class="repository-lang-stats">
+        <ol class="repository-lang-stats-numbers">
+          <li>
+              <a href="https://github.com/summernote/summernote/search?l=javascript">
+                <span class="color-block language-color" style="background-color: rgb(241, 224, 90);"></span>
+                <span class="lang">JavaScript</span>
+                <span class="percent">67.0%</span>
+              </a>
+          </li>
+          <li>
+              <a href="https://github.com/summernote/summernote/search?l=css">
+                <span class="color-block language-color" style="background-color: rgb(86, 61, 124);"></span>
+                <span class="lang">CSS</span>
+                <span class="percent">25.5%</span>
+              </a>
+          </li>
+          <li>
+              <a href="https://github.com/summernote/summernote/search?l=html">
+                <span class="color-block language-color" style="background-color: rgb(228, 75, 35);"></span>
+                <span class="lang">HTML</span>
+                <span class="percent">7.3%</span>
+              </a>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  <div class="repository-lang-stats-graph js-toggle-lang-stats" title="Click for language details">
+    <span class="language-color" aria-label="JavaScript 67.0%" style="width: 67%; background-color: rgb(241, 224, 90);" itemprop="keywords">JavaScript</span>
+    <span class="language-color" aria-label="CSS 25.5%" style="width: 25.5%; background-color: rgb(86, 61, 124);" itemprop="keywords">CSS</span>
+    <span class="language-color" aria-label="HTML 7.3%" style="width: 7.3%; background-color: rgb(228, 75, 35);" itemprop="keywords">HTML</span>
+  </div>
+
+
+
+<div class="file-navigation in-mid-page">
+  <a href="https://github.com/summernote/summernote/find/develop" class="js-show-file-finder btn btn-sm empty-icon tooltipped tooltipped-s right" data-pjax="" data-hotkey="t" aria-label="Quickly jump between files">
+    <span class="octicon octicon-list-unordered"></span>
+  </a>
+    <a href="https://github.com/summernote/summernote/compare" aria-label="Compare, review, create a pull request" class="btn btn-sm btn-primary tooltipped tooltipped-se left compare-button" data-pjax="" data-ga-click="Repository, go to compare view, location:repo overview; icon:git-compare">
+      <span class="octicon octicon-git-compare"></span>
+    </a>
+
+  
+<div class="select-menu js-menu-container js-select-menu left">
+  <span class="btn btn-sm select-menu-button js-menu-target css-truncate" data-hotkey="w" data-master-branch="develop" data-ref="develop" title="develop" role="button" aria-label="Switch branches or tags" tabindex="0" aria-haspopup="true">
+    <span class="octicon octicon-git-branch"></span>
+    <i>branch:</i>
+    <span class="js-select-button css-truncate-target">develop</span>
+  </span>
+
+  <div class="select-menu-modal-holder js-menu-content js-navigation-container" data-pjax="" aria-hidden="true">
+
+    <div class="select-menu-modal">
+      <div class="select-menu-header">
+        <span class="select-menu-title">Switch branches/tags</span>
+        <span class="octicon octicon-x js-menu-close" role="button" aria-label="Close"></span>
+      </div>
+
+      <div class="select-menu-filters">
+        <div class="select-menu-text-filter">
+          <input value="" aria-label="Filter branches/tags" id="context-commitish-filter-field" class="js-filterable-field js-navigation-enable" placeholder="Filter branches/tags" type="text">
+        </div>
+        <div class="select-menu-tabs">
+          <ul>
+            <li class="select-menu-tab">
+              <a href="#" data-tab-filter="branches" data-filter-placeholder="Filter branches/tags" class="js-select-menu-tab">Branches</a>
+            </li>
+            <li class="select-menu-tab">
+              <a href="#" data-tab-filter="tags" data-filter-placeholder="Find a tag…" class="js-select-menu-tab">Tags</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="select-menu-list select-menu-tab-bucket js-select-menu-tab-bucket" data-tab-filter="branches">
+
+        <div data-filterable-for="context-commitish-filter-field" data-filterable-type="substring">
+
+
+            <a class="select-menu-item js-navigation-item js-navigation-open " href="https://github.com/summernote/summernote/tree/bugfix/enterkey-scrollIntoView" data-name="bugfix/enterkey-scrollIntoView" data-skip-pjax="true" rel="nofollow">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <span class="select-menu-item-text css-truncate-target" title="bugfix/enterkey-scrollIntoView">
+                bugfix/enterkey-scrollIntoView
+              </span>
+            </a>
+            <a class="select-menu-item js-navigation-item js-navigation-open selected" href="https://github.com/summernote/summernote/tree/develop" data-name="develop" data-skip-pjax="true" rel="nofollow">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <span class="select-menu-item-text css-truncate-target" title="develop">
+                develop
+              </span>
+            </a>
+            <a class="select-menu-item js-navigation-item js-navigation-open " href="https://github.com/summernote/summernote/tree/feature/backspace" data-name="feature/backspace" data-skip-pjax="true" rel="nofollow">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <span class="select-menu-item-text css-truncate-target" title="feature/backspace">
+                feature/backspace
+              </span>
+            </a>
+            <a class="select-menu-item js-navigation-item js-navigation-open " href="https://github.com/summernote/summernote/tree/feature/renderer-bootstrap" data-name="feature/renderer-bootstrap" data-skip-pjax="true" rel="nofollow">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <span class="select-menu-item-text css-truncate-target" title="feature/renderer-bootstrap">
+                feature/renderer-bootstrap
+              </span>
+            </a>
+            <a class="select-menu-item js-navigation-item js-navigation-open " href="https://github.com/summernote/summernote/tree/feature/skin" data-name="feature/skin" data-skip-pjax="true" rel="nofollow">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <span class="select-menu-item-text css-truncate-target" title="feature/skin">
+                feature/skin
+              </span>
+            </a>
+            <a class="select-menu-item js-navigation-item js-navigation-open " href="https://github.com/summernote/summernote/tree/feature/table-selection" data-name="feature/table-selection" data-skip-pjax="true" rel="nofollow">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <span class="select-menu-item-text css-truncate-target" title="feature/table-selection">
+                feature/table-selection
+              </span>
+            </a>
+            <a class="select-menu-item js-navigation-item js-navigation-open " href="https://github.com/summernote/summernote/tree/fixed-on-image-upload" data-name="fixed-on-image-upload" data-skip-pjax="true" rel="nofollow">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <span class="select-menu-item-text css-truncate-target" title="fixed-on-image-upload">
+                fixed-on-image-upload
+              </span>
+            </a>
+            <a class="select-menu-item js-navigation-item js-navigation-open " href="https://github.com/summernote/summernote/tree/master" data-name="master" data-skip-pjax="true" rel="nofollow">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <span class="select-menu-item-text css-truncate-target" title="master">
+                master
+              </span>
+            </a>
+        </div>
+
+          <div class="select-menu-no-results">Nothing to show</div>
+      </div>
+
+      <div class="select-menu-list select-menu-tab-bucket js-select-menu-tab-bucket" data-tab-filter="tags">
+        <div data-filterable-for="context-commitish-filter-field" data-filterable-type="substring">
+
+
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.6.7" data-name="v0.6.7" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.6.7">v0.6.7</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.6.6" data-name="v0.6.6" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.6.6">v0.6.6</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.6.5" data-name="v0.6.5" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.6.5">v0.6.5</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.6.4" data-name="v0.6.4" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.6.4">v0.6.4</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.6.3" data-name="v0.6.3" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.6.3">v0.6.3</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.6.2" data-name="v0.6.2" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.6.2">v0.6.2</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.6.1" data-name="v0.6.1" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.6.1">v0.6.1</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.6.0" data-name="v0.6.0" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.6.0">v0.6.0</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.5.10" data-name="v0.5.10" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.5.10">v0.5.10</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.5.9" data-name="v0.5.9" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.5.9">v0.5.9</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.5.8" data-name="v0.5.8" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.5.8">v0.5.8</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.5.7" data-name="v0.5.7" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.5.7">v0.5.7</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.5.6" data-name="v0.5.6" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.5.6">v0.5.6</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.5.5" data-name="v0.5.5" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.5.5">v0.5.5</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.5.4" data-name="v0.5.4" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.5.4">v0.5.4</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.5.3" data-name="v0.5.3" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.5.3">v0.5.3</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.5.2" data-name="v0.5.2" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.5.2">v0.5.2</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.5.1" data-name="v0.5.1" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.5.1">v0.5.1</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.5.0" data-name="v0.5.0" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.5.0">v0.5.0</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.4.2" data-name="v0.4.2" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.4.2">v0.4.2</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.4.1" data-name="v0.4.1" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.4.1">v0.4.1</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.4" data-name="v0.4" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.4">v0.4</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.3.1" data-name="v0.3.1" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.3.1">v0.3.1</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.3" data-name="v0.3" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.3">v0.3</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.2.1" data-name="v0.2.1" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.2.1">v0.2.1</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.2" data-name="v0.2" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.2">v0.2</a>
+            </div>
+            <div class="select-menu-item js-navigation-item ">
+              <span class="select-menu-item-icon octicon octicon-check"></span>
+              <a href="https://github.com/summernote/summernote/tree/v0.1" data-name="v0.1" data-skip-pjax="true" rel="nofollow" class="js-navigation-open select-menu-item-text css-truncate-target" title="v0.1">v0.1</a>
+            </div>
+        </div>
+
+        <div class="select-menu-no-results">Nothing to show</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+  <div class="breadcrumb"><span class="repo-root js-repo-root"><span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a href="https://github.com/summernote/summernote" class="" data-branch="develop" data-direction="back" data-pjax="true" itemscope="url"><span itemprop="title">summernote</span></a></span></span><span class="separator">/</span>
+    <a class="btn-link disabled tooltipped tooltipped-e" href="#" aria-label="You must be signed in to make or propose changes">
+      <span class="octicon octicon-plus"></span>
+    </a>
+</div>
+</div>
+
+
+
+  
+  <div class="commit commit-tease js-details-container">
+    <p class="commit-title ">
+        <a href="https://github.com/summernote/summernote/commit/b15f7da94cc675607e50d7b336c1279415d2a72f" class="message" data-pjax="true" title="Rollback #951, because of #1093.">Rollback</a> <a href="https://github.com/summernote/summernote/issues/951" class="issue-link" title="Hide popover when editable lost focus">#951</a><a href="https://github.com/summernote/summernote/commit/b15f7da94cc675607e50d7b336c1279415d2a72f" class="message" data-pjax="true" title="Rollback #951, because of #1093.">, because of</a> <a href="https://github.com/summernote/summernote/issues/1093" class="issue-link" title="In airMode toolbar gets hide when clicked on any drop menu in toolbar or toolbar also get hides if click any where on page">#1093</a><a href="https://github.com/summernote/summernote/commit/b15f7da94cc675607e50d7b336c1279415d2a72f" class="message" data-pjax="true" title="Rollback #951, because of #1093.">.</a>
+        
+    </p>
+    <div class="commit-meta">
+      <button aria-label="Copy SHA" class="js-zeroclipboard zeroclipboard-link tooltipped tooltipped-s" data-clipboard-text="b15f7da94cc675607e50d7b336c1279415d2a72f" data-copied-hint="Copied!" type="button"><span class="octicon octicon-clippy"></span></button>
+      <a href="https://github.com/summernote/summernote/commit/b15f7da94cc675607e50d7b336c1279415d2a72f" class="sha-block" data-pjax="">latest commit <span class="sha">b15f7da94c</span></a>
+
+      <div class="authorship">
+        <img alt="@HackerWins" class="avatar" data-user="2059311" src="2059311" height="20" width="20">
+        <span class="author-name"><a href="https://github.com/HackerWins" rel="contributor">HackerWins</a></span>
+        authored <time title="May 21, 2015, 2:28 PM GMT+1" class="updated" datetime="2015-05-21T13:28:36Z" is="relative-time">a day ago</time>
+
+      </div>
+    </div>
+  </div>
+
+  
+<div class="file-wrap">
+  <a href="https://github.com/summernote/summernote/tree/b15f7da94cc675607e50d7b336c1279415d2a72f" class="hidden js-permalink-shortcut" data-hotkey="y">Permalink</a>
+
+  <table class="files" data-pjax="">
+
+
+    <tbody>
+      <tr class="warning include-fragment-error">
+        <td class="icon"><span class="octicon octicon-alert"></span></td>
+        <td class="content" colspan="3">Failed to load latest commit information.</td>
+      </tr>
+
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-directory"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/tree/develop/dist" class="js-directory-link" id="2a6d07eef8b10b84129b42424ed99327-d3e1cc338d1980024b81c1fd702472975cfee986" title="dist">dist</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/0e17e8fa32e53ffafd25291ee9ce59879b32fe74" class="message" data-pjax="true" title="Merge branch 'master' into develop
+
+Conflicts:
+	dist/summernote.js
+	dist/summernote.min.js">Merge branch 'master' into develop</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="May 17, 2015, 7:58 AM GMT+1" datetime="2015-05-17T06:58:28Z" is="time-ago">5 days ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-directory"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/tree/develop/examples" class="js-directory-link" id="bfebe34154a0dfd9fc7b447fc9ed74e9-dee5c79ad670e9700933558c7045707c033a62ca" title="examples">examples</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/af5c0d5249d06cc29295dd0b8f9712e1bb08b1d0" class="message" data-pjax="true" title="implements github emoji and user define hint">implements github emoji and user define hint</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="May 12, 2015, 3:49 PM GMT+1" datetime="2015-05-12T14:49:38Z" is="time-ago">10 days ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-directory"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/tree/develop/grunts" class="js-directory-link" id="c00fd9006f1464bcf0f544ccda70d94b-e8ad66f504011168d801bb46ddfbd75183647942" title="grunts">grunts</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/195a7ee1aab45547c9278cfa992c86f0e50dcb04" class="message" data-pjax="true" title="Add grunt-compress for `summernote-{{version}}-dist.zip`.">Add grunt-compress for `summernote-{{version}}-dist.zip`.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="Mar 14, 2015, 4:38 AM GMT+1" datetime="2015-03-14T03:38:48Z" is="time-ago">2 months ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-directory"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/tree/develop/lang" class="js-directory-link" id="7572559ca86e781ba8fe8073a0b725c6-e1f1ccdd4e02b650518c539849760e430e2aed1a" title="lang">lang</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/4b5df331708d0b68f3a24692f5f6a259d6036743" class="message" data-pjax="true" title="Merge branch 'develop' into feature/plugin-hint
+
+Conflicts:
+	dist/summernote.js">Merge branch 'develop' into feature/plugin-hint</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="May 16, 2015, 11:26 PM GMT+1" datetime="2015-05-16T22:26:56Z" is="time-ago">6 days ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-directory"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/tree/develop/meteor" class="js-directory-link" id="8f6b983ad06881847a180f1398910891-4d69b71b7ba32f586d5a3c4182e75a0f08a3653c" title="meteor">meteor</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/7dc964de73e2c20fcba9f5822bd1060ee8fa6dfb" class="message" data-pjax="true" title="Update repository and homepage.
+ - repository: `HackerWins/summernote` to `summernote/summernote`
+ - homepage: `//hackerwins.github.io/summernote/` to `//summernote.org`">Update repository and homepage.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="Jan 31, 2015, 1:30 PM GMT+1" datetime="2015-01-31T12:30:02Z" is="time-ago">4 months ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-directory"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/tree/develop/plugin" class="js-directory-link" id="a24bcf2198b1b13ad985304483f7f324-d1b3a377abaa8ae815170ba56a2f8a8773539cc2" title="plugin">plugin</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/e6414d3cbbb34097dd1e6f2d8f7fa5ce0f76d616" class="message" data-pjax="true" title="Add FIXME comment for unload handler.">Add FIXME comment for unload handler.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="May 17, 2015, 7:42 AM GMT+1" datetime="2015-05-17T06:42:59Z" is="time-ago">5 days ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-directory"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/tree/develop/src" class="js-directory-link" id="25d902c24283ab8cfbac54dfa101ad31-7cbaee4670d92bffdbf7b0b3c768c93b84736c30" title="src">src</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/b15f7da94cc675607e50d7b336c1279415d2a72f" class="message" data-pjax="true" title="Rollback #951, because of #1093.">Rollback</a> <a href="https://github.com/summernote/summernote/issues/951" class="issue-link" title="Hide popover when editable lost focus">#951</a><a href="https://github.com/summernote/summernote/commit/b15f7da94cc675607e50d7b336c1279415d2a72f" class="message" data-pjax="true" title="Rollback #951, because of #1093.">, because of</a> <a href="https://github.com/summernote/summernote/issues/1093" class="issue-link" title="In airMode toolbar gets hide when clicked on any drop menu in toolbar or toolbar also get hides if click any where on page">#1093</a><a href="https://github.com/summernote/summernote/commit/b15f7da94cc675607e50d7b336c1279415d2a72f" class="message" data-pjax="true" title="Rollback #951, because of #1093.">.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="May 21, 2015, 2:28 PM GMT+1" datetime="2015-05-21T13:28:36Z" is="time-ago">a day ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-directory"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/tree/develop/test" class="js-directory-link" id="098f6bcd4621d373cade4e832627b4f6-f01075526ca94eef3c26ea499822a070271df3f8" title="test">test</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/25a467e6c049975b99fed54c3820484352d7901a" class="message" data-pjax="true" title="Implement `rng.getWordRange`.">Implement `rng.getWordRange`.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="Apr 23, 2015, 2:24 PM GMT+1" datetime="2015-04-23T13:24:24Z" is="time-ago">29 days ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-text"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/blob/develop/.gitignore" class="js-directory-link" id="a084b794bc0759e7a6b77810e01874f2-37a5d157de97545ddba78a9f8990ba46a85a92b0" title=".gitignore">.gitignore</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/195a7ee1aab45547c9278cfa992c86f0e50dcb04" class="message" data-pjax="true" title="Add grunt-compress for `summernote-{{version}}-dist.zip`.">Add grunt-compress for `summernote-{{version}}-dist.zip`.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="Mar 14, 2015, 4:38 AM GMT+1" datetime="2015-03-14T03:38:48Z" is="time-ago">2 months ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-text"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/blob/develop/.jshintignore" class="js-directory-link" id="41546aea3e8547821bb47ed9a922004f-8f868b40d19398b88cf38a22eaab7dec3a07db7c" title=".jshintignore">.jshintignore</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/4daf2fdeac5afd710e3f4f9ac56f7443f670b12c" class="message" data-pjax="true" title="Add grunt-contrib-jshint and resolve warnings.">Add grunt-contrib-jshint and resolve warnings.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="Dec 26, 2013, 7:52 AM GMT+1" datetime="2013-12-26T06:52:18Z" is="time-ago">a year ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-text"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/blob/develop/.jshintrc" class="js-directory-link" id="4d5aa81bf4f18104bb6ea53a8b5d1f43-db83ad01694c9aa064c191b530edf3e9b0cf1b9d" title=".jshintrc">.jshintrc</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/95299ce2a26eed6601e87cef7fcef724f0420a57" class="message" data-pjax="true" title="Fixed missing custom event and refactoring.
+ - refactor: callback and custom event trigger with `bindCustomEvent`.
+ - spec change: callback's name always camel case. ex) `onfocus` to `onFocus`
+ - bug fix: native command trigger twice `change`">Fixed missing custom event and refactoring.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="Apr 24, 2015, 3:58 PM GMT+1" datetime="2015-04-24T14:58:07Z" is="time-ago">28 days ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-text"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/blob/develop/.travis.yml" class="js-directory-link" id="354f30a63fb0907d4ad57269548329e3-9244ac03a4c5f3690b21e8b8d56715d8e6c2fb9f" title=".travis.yml">.travis.yml</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/46f84a34f166f8d03d3c75972748a38ae32144a6" class="message" data-pjax="true" title="comment install meteor on travis.">comment install meteor on travis.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="Apr 5, 2015, 7:26 AM GMT+1" datetime="2015-04-05T06:26:47Z" is="time-ago">2 months ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-text"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/blob/develop/CONTRIBUTING.md" class="js-directory-link" id="6a3371457528722a734f3c51d9238c13-1947a0274c18b5003d3734324aba26cda6655ddd" title="CONTRIBUTING.md">CONTRIBUTING.md</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/5a721a53819d4c4848690696c1905cd8e0aa2792" class="message" data-pjax="true" title="Update example filename for CONTRIBUTING.md.">Update example filename for CONTRIBUTING.md.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="Apr 9, 2015, 10:06 AM GMT+1" datetime="2015-04-09T09:06:02Z" is="time-ago">a month ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-text"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/blob/develop/Gruntfile.js" class="js-directory-link" id="35b4a816e0441e6a375cd925af50752c-72406b2edae721fc8b2578fd7c6fea1c706acd55" title="Gruntfile.js">Gruntfile.js</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/9d2f38e907fccfbc60699e38ad325c72ad03af3e" class="message" data-pjax="true" title="remove space for convention">remove space for convention</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="Apr 9, 2015, 10:02 AM GMT+1" datetime="2015-04-09T09:02:57Z" is="time-ago">a month ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-text"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/blob/develop/History.md" class="js-directory-link" id="e1bbd4f15e3b63427b4261e05b948ea8-d27d0c271e2bf97955dd0922c168eb7e220a82fa" title="History.md">History.md</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/ce32fca9e38d636c252f3053348a9d7150055b55" class="message" data-pjax="true" title="Update History.md with 0.6.5.">Update History.md with 0.6.5.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="Apr 26, 2015, 4:34 AM GMT+1" datetime="2015-04-26T03:34:07Z" is="time-ago">26 days ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-text"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/blob/develop/README.md" class="js-directory-link" id="04c6e90faac2675aa89e2176d2eec7d8-aee9a9a61cec9a27e715a3d9a10c284f297e03ed" title="README.md">README.md</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/d0916e28b7715d16665ce29be85194ac0e85b519" class="message" data-pjax="true" title="Update README.md: editor.js as module.">Update README.md: editor.js as module.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="May 1, 2015, 6:37 AM GMT+1" datetime="2015-05-01T05:37:34Z" is="time-ago">21 days ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-text"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/blob/develop/bower.json" class="js-directory-link" id="0a08a7565aba4405282251491979bb6b-45637f8394e99b1d7ddf87dc0556f93b358d8f3a" title="bower.json">bower.json</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/c3c5d028a70bda94c52abaf34fe938b3f95adb50" class="message" data-pjax="true" title="Update version for next release(v0.6.8).">Update version for next release(v0.6.8).</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="May 17, 2015, 8:06 AM GMT+1" datetime="2015-05-17T07:06:11Z" is="time-ago">5 days ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-text"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/blob/develop/composer.json" class="js-directory-link" id="b5d0ee8c97c7abd7e3fa29b9a27d1780-90822398103964330ed4242e58568befc531ca5e" title="composer.json">composer.json</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/7dc964de73e2c20fcba9f5822bd1060ee8fa6dfb" class="message" data-pjax="true" title="Update repository and homepage.
+ - repository: `HackerWins/summernote` to `summernote/summernote`
+ - homepage: `//hackerwins.github.io/summernote/` to `//summernote.org`">Update repository and homepage.</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="Jan 31, 2015, 1:30 PM GMT+1" datetime="2015-01-31T12:30:02Z" is="time-ago">4 months ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-text"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/blob/develop/index.html" class="js-directory-link" id="eacf331f0ffc35d4b482f1d15a887d3b-677a8d17393b537da1d9ff0f6c65d0d4149e8546" title="index.html">index.html</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/7a83ff4925aeefe1216b3344fb56c35d5dcda1c7" class="message" data-pjax="true" title="Remove bs2 test from index.html">Remove bs2 test from index.html</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="Oct 8, 2014, 7:07 AM GMT+1" datetime="2014-10-08T06:07:23Z" is="time-ago">8 months ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-text"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/blob/develop/index.js" class="js-directory-link" id="168726dbe96b3ce427e7fedce31bb0bc-3d319309ba1c2cb34f2235379678949c23664454" title="index.js">index.js</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/61ed8b3f4c83432f5fcfc60dc97cfe01305cfaf8" class="message" data-pjax="true" title="Added index.js to expose summernote via require for npm
+
+There was no way I could find to reference summernote via a
+require('summernote') call, so I added index.js in order to do that.">Added index.js to expose summernote via require for npm</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="May 12, 2015, 11:03 PM GMT+1" datetime="2015-05-12T22:03:53Z" is="time-ago">10 days ago</time></span>
+          </td>
+        </tr>
+        <tr>
+          <td class="icon">
+            <span class="octicon octicon-file-text"></span>
+            <img alt="" class="spinner" src="octocat-spinner-32-e513294efa576953719e4e2de888dd9cf929b7d62ed8d05f25e731d02452ab6c.gif" height="16" width="16">
+          </td>
+          <td class="content">
+            <span class="css-truncate css-truncate-target"><a href="https://github.com/summernote/summernote/blob/develop/package.json" class="js-directory-link" id="b9cfc7f2cdf78a7f4b91a753d10865a2-7858f8472e124f2bec104c814136ae3ef33e4b58" title="package.json">package.json</a></span>
+          </td>
+          <td class="message">
+            <span class="css-truncate css-truncate-target">
+              <a href="https://github.com/summernote/summernote/commit/c3c5d028a70bda94c52abaf34fe938b3f95adb50" class="message" data-pjax="true" title="Update version for next release(v0.6.8).">Update version for next release(v0.6.8).</a>
+            </span>
+          </td>
+          <td class="age">
+            <span class="css-truncate css-truncate-target"><time title="May 17, 2015, 8:06 AM GMT+1" datetime="2015-05-17T07:06:11Z" is="time-ago">5 days ago</time></span>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+</div>
+
+
+  <div id="readme" class="boxed-group flush clearfix announce instapaper_body md">
+    <h3>
+      <span class="octicon octicon-book"></span>
+      README.md
+    </h3>
+
+    <article class="markdown-body entry-content" itemprop="mainContentOfPage"><h1><a id="user-content-summernote" class="anchor" href="#summernote" aria-hidden="true"><span class="octicon octicon-link"></span></a>Summernote</h1>
+
+<p>Super simple WYSIWYG Editor using Bootstrap (3.0 and 2.x).</p>
+
+<p><a href="http://travis-ci.org/summernote/summernote"><img src="68747470733a2f2f7365637572652e7472617669732d63692e6f72672f73756d6d65726e6f74652f73756d6d65726e6f74652e706e67" alt="Build Status" data-canonical-src="https://secure.travis-ci.org/summernote/summernote.png" style="max-width: 100%;"></a></p>
+
+<h3><a id="user-content-summernote-1" class="anchor" href="#summernote-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Summernote</h3>
+
+<p>Summernote is a JavaScript library that helps you create WYSIWYG editors online.</p>
+
+<p>Home Page: <a indepth="true" href="default_003.html">http://summernote.org</a></p>
+
+<h3><a id="user-content-why-summernote" class="anchor" href="#why-summernote" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why Summernote?</h3>
+
+<p>Summernote has a few special features:</p>
+
+<ul>
+<li>Paste images from clipboard</li>
+<li>Saves images directly in the content of the field using base64 encoding, so you don't need to implement image handling at all</li>
+<li>Simple UI</li>
+<li>Interactive WYSIWYG editing</li>
+<li>Handy integration with server</li>
+</ul>
+
+<h4><a id="user-content-inspired-by" class="anchor" href="#inspired-by" aria-hidden="true"><span class="octicon octicon-link"></span></a>Inspired by</h4>
+
+<ul>
+<li>Gmail's WYSIWYG editor (<a href="http://www.gmail.com/">http://www.gmail.com</a>)</li>
+<li>Redactor (<a href="http://imperavi.com/redactor/">http://imperavi.com/redactor/</a>)</li>
+</ul>
+
+<h3><a id="user-content-installation-and-dependencies" class="anchor" href="#installation-and-dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation and dependencies</h3>
+
+<p>Summernote uses opensource libraries: <a href="http://jquery.com/">jQuery</a>, <a href="http://getbootstrap.com/">Bootstrap</a>, <a href="https://github.com/FortAwesome/Font-Awesome">Font Awesome</a>.</p>
+
+<p>For <a href="http://github.com/meteor/meteor">Meteor</a>, just run <code>meteor add summernote:summernote</code>. More info in the <a href="https://github.com/summernote/summernote/blob/develop/meteor/README.md">Meteor README</a>.</p>
+
+<p>For other/no frameworks:</p>
+
+<h4><a id="user-content-1-include-jscss" class="anchor" href="#1-include-jscss" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. include JS/CSS</h4>
+
+<p>Include the following code in the <code>&lt;head&gt;</code> tag of your HTML:</p>
+
+<div class="highlight highlight-html"><pre><span class="pl-c">&lt;!-- include libraries(jQuery, bootstrap, fontawesome) --&gt;</span>
+&lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>//code.jquery.com/jquery-1.9.1.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt; 
+&lt;<span class="pl-ent">link</span> <span class="pl-e">rel</span>=<span class="pl-s"><span class="pl-pds">"</span>stylesheet<span class="pl-pds">"</span></span> <span class="pl-e">href</span>=<span class="pl-s"><span class="pl-pds">"</span>//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css<span class="pl-pds">"</span></span> /&gt;
+&lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;
+&lt;<span class="pl-ent">link</span> <span class="pl-e">rel</span>=<span class="pl-s"><span class="pl-pds">"</span>stylesheet<span class="pl-pds">"</span></span> <span class="pl-e">href</span>=<span class="pl-s"><span class="pl-pds">"</span>//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css<span class="pl-pds">"</span></span> /&gt;
+
+<span class="pl-c">&lt;!-- include summernote css/js--&gt;</span>
+&lt;<span class="pl-ent">link</span> <span class="pl-e">href</span>=<span class="pl-s"><span class="pl-pds">"</span>summernote.css<span class="pl-pds">"</span></span> <span class="pl-e">rel</span>=<span class="pl-s"><span class="pl-pds">"</span>stylesheet<span class="pl-pds">"</span></span>&gt;
+&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>summernote.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<h4><a id="user-content-2-target-elements" class="anchor" href="#2-target-elements" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. target elements</h4>
+
+<p>Then place a <code>div</code> tag somewhere in the <code>body</code> tag. This element will be replaced with the summernote editor.</p>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>summernote<span class="pl-pds">"</span></span>&gt;Hello Summernote&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<h4><a id="user-content-3-summernote" class="anchor" href="#3-summernote" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. summernote</h4>
+
+<p>Finally, run this script after the DOM is ready:</p>
+
+<div class="highlight highlight-javascript"><pre>$(<span class="pl-c1">document</span>).ready(<span class="pl-k">function</span>() {
+  $(<span class="pl-s"><span class="pl-pds">'</span>#summernote<span class="pl-pds">'</span></span>).summernote();
+});</pre></div>
+
+<h3><a id="user-content-api" class="anchor" href="#api" aria-hidden="true"><span class="octicon octicon-link"></span></a>API</h3>
+
+<p><code>code</code> - get the HTML source code underlying the text in the editor:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> sHTML <span class="pl-k">=</span> $(<span class="pl-s"><span class="pl-pds">'</span>#summernote<span class="pl-pds">'</span></span>).<span class="pl-c1">code</span>();</pre></div>
+
+<p><code>Destroy</code> summernote:</p>
+
+<div class="highlight highlight-javascript"><pre>$(<span class="pl-s"><span class="pl-pds">'</span>#summernote<span class="pl-pds">'</span></span>).destroy();</pre></div>
+
+<h3><a id="user-content-supported-platforms" class="anchor" href="#supported-platforms" aria-hidden="true"><span class="octicon octicon-link"></span></a>Supported platforms</h3>
+
+<p>Any modern browser: Safari, Chrome, Firefox, Opera, Internet Explorer 9+.</p>
+
+<h3><a id="user-content-upcoming-features" class="anchor" href="#upcoming-features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Upcoming Features</h3>
+
+<ul>
+<li>Responsive toolbar</li>
+<li>Table: Handles (sizing, selection) and popover</li>
+<li>IE8 Support</li>
+<li>Clipboard (you can paste images already)</li>
+<li>Media object selection</li>
+</ul>
+
+<h3><a id="user-content-developer-information" class="anchor" href="#developer-information" aria-hidden="true"><span class="octicon octicon-link"></span></a>Developer information</h3>
+
+<h4><a id="user-content-structure-of-summernotejs" class="anchor" href="#structure-of-summernotejs" aria-hidden="true"><span class="octicon octicon-link"></span></a>structure of summernote.js</h4>
+
+<pre><code>summernote.js - Renderer.js (Generate markup) - Locale.js (Locale object)
+              ㄴEventHandler.js - Toolbar.js (Toolbar module)
+                                ㄴPopover.js (Popover module)
+                                ㄴHandle.js  (Handle module)
+                                ㄴDialog.js  (Dialog module)
+                                ㄴEditor.js  (Abstract editor module) - Style.js (Style Getter and Setter)
+                                                                      ㄴHistory.js (Store on jQuery.data)
+-----------------------------Core Script-----------------------------
+  agent.js  (agent information)
+  async.js  (aysnc utility)
+  key.js    (keycode object)
+  dom.js    (dom functions)
+  list.js   (list functions)
+  range.js  (W3CRange extention)
+---------------------------------------------------------------------
+</code></pre>
+
+<h4><a id="user-content-document-structure" class="anchor" href="#document-structure" aria-hidden="true"><span class="octicon octicon-link"></span></a>document structure</h4>
+
+<pre><code> - body container: &lt;div class="note-editable"&gt;, &lt;td&gt;, &lt;blockquote&gt;, &lt;ul&gt;
+ - block node: &lt;div&gt;, &lt;p&gt;, &lt;li&gt;, &lt;h1&gt;, &lt;table&gt;
+ - void block node: &lt;hr&gt;
+ - inline node: &lt;span&gt;, &lt;b&gt;, &lt;font&gt;, &lt;a&gt;, ...
+ - void inline node: &lt;img&gt;
+ - text node: #text
+</code></pre>
+
+<ol>
+<li>A body container has block node, but <code>&lt;ul&gt;</code> has only <code>&lt;li&gt;</code> nodes.</li>
+<li>A body container also has inline nodes sometimes. This inline nodes will be wraped with <code>&lt;p&gt;</code> when enter key pressed.</li>
+<li>A block node only has inline nodes.</li>
+<li>A inline nodes has another inline nodes</li>
+<li><code>#text</code> and void inline node doesn't have children.</li>
+</ol>
+
+<h4><a id="user-content-build-summernote" class="anchor" href="#build-summernote" aria-hidden="true"><span class="octicon octicon-link"></span></a>build summernote</h4>
+
+<div class="highlight highlight-bash"><pre><span class="pl-c"># grunt-cli is need by grunt; you might have this installed already</span>
+npm install -g grunt-cli
+npm install
+
+<span class="pl-c"># build full version of summernote: dist/summernote.js</span>
+grunt build
+
+<span class="pl-c"># generate minified copy: dist/summernote.min.js, dist/summernote.css</span>
+grunt dist</pre></div>
+
+<p>At this point, you should now have a <code>build/</code> directory populated with everything you need to use summernote.</p>
+
+<h4><a id="user-content-test-summernote" class="anchor" href="#test-summernote" aria-hidden="true"><span class="octicon octicon-link"></span></a>test summernote</h4>
+
+<p>run tests with PhantomJS</p>
+
+<div class="highlight highlight-bash"><pre>grunt <span class="pl-c1">test</span></pre></div>
+
+<h4><a id="user-content-start-local-server-for-developing-summernote" class="anchor" href="#start-local-server-for-developing-summernote" aria-hidden="true"><span class="octicon octicon-link"></span></a>start local server for developing summernote.</h4>
+
+<p>run local server with connect and watch.</p>
+
+<div class="highlight highlight-bash"><pre><span class="pl-c"># this will open a browser on http://localhost:3000.</span>
+grunt server
+<span class="pl-c"># If you change source code, automatically reload your page.</span></pre></div>
+
+<h4><a id="user-content-coding-convention" class="anchor" href="#coding-convention" aria-hidden="true"><span class="octicon octicon-link"></span></a>Coding convention</h4>
+
+<ul>
+<li>JSHint: <a href="http://www.jshint.com/about/">http://www.jshint.com/about/</a></li>
+<li>JSHint rule: <a href="https://github.com/summernote/summernote/blob/master/.jshintrc">https://github.com/summernote/summernote/blob/master/.jshintrc</a></li>
+</ul>
+
+<h3><a id="user-content-contacts" class="anchor" href="#contacts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contacts</h3>
+
+<ul>
+<li>Email: <a href="mailto:susukang98@gmail.com">susukang98@gmail.com</a></li>
+<li>Twitter: <a href="http://twitter.com/hackerwins">http://twitter.com/hackerwins</a></li>
+</ul>
+
+<h3><a id="user-content-license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h3>
+
+<p>summernote may be freely distributed under the MIT license.</p>
+</article>
+  </div>
+
+
+        </div>
+
+      </div><!-- /.repo-container -->
+      <div class="modal-backdrop"></div>
+    </div><!-- /.container -->
+  </div><!-- /.site -->
+
+
+    </div><!-- /.wrapper -->
+
+      <div class="container">
+  <div class="site-footer" role="contentinfo">
+    <ul class="site-footer-links right">
+        <li><a href="https://status.github.com/" data-ga-click="Footer, go to status, text:status">Status</a></li>
+      <li><a href="https://developer.github.com/" data-ga-click="Footer, go to api, text:api">API</a></li>
+      <li><a href="https://training.github.com/" data-ga-click="Footer, go to training, text:training">Training</a></li>
+      <li><a href="https://shop.github.com/" data-ga-click="Footer, go to shop, text:shop">Shop</a></li>
+        <li><a href="https://github.com/blog" data-ga-click="Footer, go to blog, text:blog">Blog</a></li>
+        <li><a href="https://github.com/about" data-ga-click="Footer, go to about, text:about">About</a></li>
+
+    </ul>
+
+    <a href="https://github.com/" aria-label="Homepage">
+      <span class="mega-octicon octicon-mark-github" title="GitHub"></span>
+</a>
+    <ul class="site-footer-links">
+      <li>© 2015 <span title="0.05085s from github-fe136-cp1-prd.iad.github.net">GitHub</span>, Inc.</li>
+        <li><a href="https://github.com/site/terms" data-ga-click="Footer, go to terms, text:terms">Terms</a></li>
+        <li><a href="https://github.com/site/privacy" data-ga-click="Footer, go to privacy, text:privacy">Privacy</a></li>
+        <li><a href="https://github.com/security" data-ga-click="Footer, go to security, text:security">Security</a></li>
+        <li><a href="https://github.com/contact" data-ga-click="Footer, go to contact, text:contact">Contact</a></li>
+    </ul>
+  </div>
+</div>
+
+
+    <div class="fullscreen-overlay js-fullscreen-overlay" id="fullscreen_overlay">
+  <div class="fullscreen-container js-suggester-container">
+    <div class="textarea-wrap">
+      <textarea name="fullscreen-contents" id="fullscreen-contents" class="fullscreen-contents js-fullscreen-contents" placeholder=""></textarea>
+      <div class="suggester-container">
+        <div class="suggester fullscreen-suggester js-suggester js-navigation-container"></div>
+      </div>
+    </div>
+  </div>
+  <div class="fullscreen-sidebar">
+    <a href="#" class="exit-fullscreen js-exit-fullscreen tooltipped tooltipped-w" aria-label="Exit Zen Mode">
+      <span class="mega-octicon octicon-screen-normal"></span>
+    </a>
+    <a href="#" class="theme-switcher js-theme-switcher tooltipped tooltipped-w" aria-label="Switch themes">
+      <span class="octicon octicon-color-mode"></span>
+    </a>
+  </div>
+</div>
+
+
+
+    
+
+    <div id="ajax-error-message" class="flash flash-error">
+      <span class="octicon octicon-alert"></span>
+      <a href="#" class="octicon octicon-x flash-close js-ajax-error-dismiss" aria-label="Dismiss error"></a>
+      Something went wrong with that request. Please try again.
+    </div>
+
+
+      <script crossorigin="anonymous" src="frameworks-447ce66a36506ebddc8e84b4e32a77f6062f3d3482e77dd21a77a01f0643ad98.js"></script>
+      <script async="async" crossorigin="anonymous" src="index-991c6e3570dd4bec2717ccbefb4d38e93871d54a7038c010fd30e8932aa10875.js"></script>
+      
+      
+  
+
+
+<div style="position: absolute; left: 0px; top: -9999px; width: 1px; height: 1px; z-index: 999999999;" class="global-zeroclipboard-container" id="global-zeroclipboard-html-bridge"><object id="global-zeroclipboard-flash-bridge" name="global-zeroclipboard-flash-bridge" type="application/x-shockwave-flash" data="zeroclipboard.v2.1.6.swf" height="100%" width="100%"><param name="allowScriptAccess" value="always"><param name="allowNetworking" value="all"><param name="menu" value="false"><param name="wmode" value="transparent"><param name="flashvars" value="trustedOrigins=github.com%2C%2F%2Fgithub.com%2Chttps%3A%2F%2Fgithub.com&amp;swfObjectId=global-zeroclipboard-flash-bridge"></object></div>
+
+<div style="position: absolute; left: 0px; top: -9999px; width: 1px; height: 1px; z-index: 999999999;" class="global-zeroclipboard-container" id="global-zeroclipboard-html-bridge"><object id="global-zeroclipboard-flash-bridge" name="global-zeroclipboard-flash-bridge" type="application/x-shockwave-flash" data="https://assets-cdn.github.com/flash/ZeroClipboard.v2.1.6.swf" height="100%" width="100%"><param name="allowScriptAccess" value="never"><param name="allowNetworking" value="none"><param name="menu" value="false"><param name="wmode" value="transparent"><param name="flashvars" value="swfObjectId=global-zeroclipboard-flash-bridge"></object></div></body></html>
