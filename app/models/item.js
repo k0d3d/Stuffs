@@ -123,13 +123,14 @@ ItemsObject.prototype.create = function (itemBody, cb) {
       order.itemName = data.item.itemName;
       order.itemId = data.item.id;
 
-      order.orderSupplier = data.item.suppliers;
+      order.orderSupplier = data.item.suppliers[0];
       order.orderInvoiceNumber = data.item.orderInvoiceData.orderInvoiceNumber;
-      order.orderStatus = 3            ;
+      order.orderStatus = 3;
       order.orderType = data.item.itemType;
       order.orderAmount= data.item.orderInvoiceData.orderInvoiceAmount;
       order.amountSupplied= data.item.orderInvoiceData.orderInvoiceAmount;
       order.orderDate= data.item.orderInvoiceData.orderInvoiceDate;
+      order.orderPrice = data.item.itemPurchaseRate;
       order.save(function(err, i){
         if(err){
           isDone(err);
@@ -382,7 +383,6 @@ ItemsObject.prototype.listOne = function(item, option, location, cb){
         }else{
           //Get stock count by location id
           StockCount.getStockAmountbyId(data._id,{id: location} ,function(stock){
-            console.log(stock);
             data.currentStock =  (stock === null)? 0 : stock.amount;
             data.lastSupplyDate =  (stock === null)? '' : stock.lastOrderDate;
 
@@ -392,7 +392,7 @@ ItemsObject.prototype.listOne = function(item, option, location, cb){
   });
 
   register.on('itemCosts', function(data, isDone){
-    Order.find({'itemData.id': data._id,
+    Order.find({'itemId': data._id,
       $or:[
         {'orderStatus': 2},
         {'orderStatus': 3},
@@ -487,14 +487,14 @@ ItemsObject.prototype.updateItem = function(itemId, body, cb){
       query = {_id: itemId};
     }
 
-    var o = _.omit(data, ['_id', 'itemID', 'itemCategory']);
+    var o = _.omit(data, ['_id', 'itemID']);
     //i think unnecessary
-    if (data.itemCategory) {
-      _.each(data.itemCategory, function(v){
-        category.push(v._id);
-      });
-      o.itemCategory = category;
-    }
+    // if (data.itemCategory) {
+    //   _.each(data.itemCategory, function(v){
+    //     category.push(v._id);
+    //   });
+    //   o.itemCategory = category;
+    // }
 
     Item.update(query, {
       $set: o

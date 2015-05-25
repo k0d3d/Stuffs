@@ -146,7 +146,7 @@ TransactionModel.prototype.makeDone = function(cb){
     });
 };
 
-TransactionModel.getTransactions = function(cb){
+TransactionModel.prototype.getTransactions = function(cb){
     TransactionModel.find()
     .populate('origin')
     .populate('destination')

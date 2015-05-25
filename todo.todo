@@ -1,0 +1,37 @@
+
+
+DDIMs Operations Checked and Bug Fix statuses,
+  ✔ Typeahead on adding brand name  when adding new inventory item broken. @critical @done (15-05-25 09:07)
+  ✔ Fix update operation after using the typeahead on item/add @critical @done (15-05-25 09:07)
+  ✔ Fix category list look when attaching a category on item/add @high @done (15-05-25 11:41)
+ ✔  Adding item with stock gives error  @done (15-05-25 08:51)
+ ☐ Fix cartLoaded events, cart count and refresh by using cart button as a directive
+ ✔ Add price to item added with invoice number @critical @done (15-05-25 11:45)
+ ✔ Updating order to 'supplied' adds stock @done (15-05-25 09:06)
+ ☐ deleting items from inventory should immediately update view @high
+ ☐ Add notice / label for items already tagged on inventory from drugstoc view on order/add @high
+ ☐ Note:: When attaching items drom ds to iv, ds replaces itemPurchasePrice @low
+ ✔ Placing order from 'Place Order Inventory' @done (15-05-25 16:47)
+ ✔ Attaching DS Product to existing Inventory @done (15-05-25 16:48)
+ ☐ Make Purchase rate mandatory when adding inventory item with Stock @low
+ ✔ Creating new inventory item from DS product, adding stock and fixing purchase rate @done (15-05-25 16:53)
+ ✔ Order Update operations  @done (15-05-25 17:11)
+ ✔ Fixed admin transactions @done (15-05-25 17:17)
+ ✔ Adding rules to existing billing profile @done (15-05-25 17:19)
+ ☐ Should update rules on current billing profile @low
+ ✔ Requesting Stock to stock down location  @done (15-05-25 17:21)
+     ☐ Updating view after successful stockdown operation
+ ✔ Creating stock down locations @done (15-05-25 17:22)
+     ☐ Update list of stock locations on creation
+ ✔ Renaming Stockdown location @done (15-05-25 17:23)
+ Log record for multiple dispensed items from a stockdown location
+ ☐ Should check if Selected Profile has rules on it at admin->billing->select profile->save, dispense->select profile @high
+ ☐ Pre-save middleware for billing rule ; should uppercase 'all' value @low
+ ✔ Billing dispense list works with billing rules @done (15-05-25 19:18)
+ ✔ Payment History works on bill @done (15-05-25 19:19)
+
+
+
+
+
+

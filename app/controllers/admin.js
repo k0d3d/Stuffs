@@ -1,6 +1,7 @@
 
 var util = require('util'),
     Admin = require('../models/admin'),
+    Order = require('../models/order').order,
     DSItems = require('../models/dsitem');
 
 
@@ -8,19 +9,24 @@ var util = require('util'),
 
 
 module.exports.routes = function(app){
-  var admin = new Admin();
+  var admin = new Admin(), order = new Order();
   app.get('/admin',function(req, res){
     res.render('index',{
       title: 'Admin Area'
     });
   });
 
-  app.get('/api/admin/updates',  function(req, res){
+  app.get('/api/admin/updates',  function(req, res, next){
     var dsitem = new DSItems();
     //return  res.json(200,['happu']);
     dsitem.checkProductUpdates()
     .then(function(r){
-      res.json(r);
+      order.postOrders()
+      .then(function () {
+        res.json(r);
+      }, function (err) {
+        next(err);
+      });
     }, function (err) {
       res.status(400).json(err.message);
 

@@ -42,7 +42,7 @@
         .control-group(ng-show="activeBill.outstanding > 0")
           .controls
             input.input-medium(type="number", ng-model="newpaymentamount", placeholder="Amount Paid", style="height: 41px")
-            button.btn(type="button", disabled) {{p.date | date: mediumDate}}
+            //button.btn(type="button", disabled) {{p.date | date: mediumDate}}
             button.btn.btn-info(type="button", ng-click="markpaid(newpaymentamount, activeBill._id, $index)") Mark Paid
   .modal-footer
     button.btn.btn-default(new-modal="#dialog-view-bill") Back

@@ -165,8 +165,6 @@ angular.module('item', [])
   function itemAddController ($scope, $location, $routeParams,itemsService){
   $scope.form = {
     itemCategory: [],
-    itemForm: [],
-    itemPackaging: [],
     suppliers: []
   };
   $scope.catList = [];
@@ -197,9 +195,12 @@ angular.module('item', [])
           itemCategory: item.categories,
           sku: item.sku,
           dsPurchaseRate: item.price,
+          itemPurchaseRate: item.price,
           product_id: item.product_id,
           itemTags: item.tags,
-          itemForm: (attributes['Item-form']) ? attributes['Item-form'][0]: ''
+          itemForm: (attributes['Item-form']) ? attributes['Item-form'][0]: '',
+          itemPackaging: '',
+          suppliers: []
         };
       });
     }
@@ -275,7 +276,7 @@ angular.module('item', [])
   //Add a category to the item's category list
   $scope.addToItem = function(index){
     var i = $scope.catList[index];
-    $scope.form.itemCategory.push(i);
+    $scope.form.itemCategory.push(i.categoryName);
   };
 
   $scope.removeItemCat = function(index){
@@ -288,7 +289,7 @@ angular.module('item', [])
   };
 
   $scope.updateItem = function(){
-    itemsService.update($scope.form, function(status,res){
+    itemsService.update($scope.form, function(){
       $scope.saveButtonText = 'Save Item';
     });
   };
@@ -301,7 +302,7 @@ angular.module('item', [])
       $scope.form.sciName = r.composition;
       $scope.form.nafdacId = r._id;
     });
-  }
+  };
 
 }])
 .controller('itemEditController', function itemEditController($scope, $location, $routeParams,itemsService){
@@ -315,7 +316,7 @@ angular.module('item', [])
   }
   $scope.saveitem = function(){
     $scope.saveButtonClass = 'btn-info';
-    itemsService.update($scope.form, function(status,res){
+    itemsService.update($scope.form, function(){
       $scope.saveButtonText = 'Save Item';
     });
   };
@@ -332,7 +333,7 @@ angular.module('item', [])
     .success(function(data){
       Notification.notifier({
         message: Language.eng.items.list.fetch.success,
-        type: "success"
+        type: 'success'
       });
       callback(data);
     })
@@ -632,7 +633,7 @@ angular.module('item', [])
   return i;
 }])
 .directive('brandNameTypeAhead', ['itemsService', function(itemsService){
-  var linker = function(scope, element, attrs){
+  var linker = function(scope, element){
     var nx;
       element.typeahead({
         source: function(query, process){
@@ -647,17 +648,17 @@ angular.module('item', [])
             return thisItem.productName === item;
           });
           if (v) {
+            scope.form.nafdacRegNo = v.regNo;
+            scope.form.importer = v.man_imp_supp;
+            scope.form.sciName = v.composition;
+            scope.form.nafdacId = v._id;
             // check ds cloud list for matching products
-            itemsService.fetchDSProductInformation(v.regNo)
-            .then(function (listOfMatches) {
+            //itemsService.fetchDSProductInformation(v.regNo)
+            //.then(function (listOfMatches) {
               // scope.form = {};
-              scope.dsListOfMatchingProducts = listOfMatches.data;
-              scope.form.nafdacRegNo = v.regNo;
-              scope.form.importer = v.man_imp_supp;
-              // scope.form.sciName = v.composition;
-              scope.form.nafdacId = v._id;
+              //scope.dsListOfMatchingProducts = listOfMatches.data;
               // scope.$apply();
-            });
+            //});
           }
 
           return item;

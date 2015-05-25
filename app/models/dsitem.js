@@ -161,6 +161,9 @@ DSClass.prototype.postDSCloudOrders = function postDSCloudOrders (orders, extraQ
         if (body.errors) {
           q.reject(body.errors);
         } else {
+          if (!body.order.order_number) {
+            return q.reject(new Error('failed with unknown errors. NullOrderNumber'));
+          }
           q.resolve(body);
         }
     });

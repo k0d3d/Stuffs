@@ -1,7 +1,9 @@
 var utils = require('util');
 
 module.exports.routes = function(app){
-  var SupplierController = require('../models/supplier');
+  var SupplierModel = require('../models/supplier');
+  var supplierController = new SupplierModel();
+
 
   app.get('/suppliers', function(req, res){
     res.render('index',{
@@ -20,7 +22,7 @@ module.exports.routes = function(app){
       page: req.params.page || 1,
       limit: req.params.limit
     };
-    SupplierController.list(options, function(i){
+    supplierController.list(options, function(i){
       if(utils.isError(i)){
         next(i);
       }else{
@@ -31,7 +33,7 @@ module.exports.routes = function(app){
 
   //Search for suppliers by name
   app.get('/api/suppliers/search/query', function(req, res, next){
-    SupplierController.search(req.query, function(i){
+    supplierController.search(req.query, function(i){
       if(utils.isError(i)){
         next(i);
       }else{
@@ -43,7 +45,7 @@ module.exports.routes = function(app){
   //Fetch one supplier record
   app.get("/api/suppliers/:supplierId", function(req, res, next){
 
-    SupplierController.one(req.params.supplierId, function(i){
+    supplierController.one(req.params.supplierId, function(i){
       if(utils.isError(i)){
         next(i);
       }else{
@@ -55,7 +57,7 @@ module.exports.routes = function(app){
 
   //Typeahead for suppliers' name
   app.get('/api/supplier/typeahead/term/supplierName/query/:query', function(req, res, next){
-    SupplierController.typeahead(req.params.query, function(i){
+    supplierController.typeahead(req.params.query, function(i){
       if(utils.isError(i)){
         next(i);
       }else{
@@ -67,7 +69,7 @@ module.exports.routes = function(app){
   //requests to add a new supplier
   app.post('/api/suppliers', function(req, res, next){
     //return next(new Error('lol'));
-    SupplierController.add(req.body, function(i){
+    supplierController.add(req.body, function(i){
       if(utils.isError(i)){
         next(i);
       }else{
@@ -78,7 +80,7 @@ module.exports.routes = function(app){
   });
 
   app.post('/api/suppliers/:supplierId/notify', function(req, res, next){
-    SupplierController.sendNotice(req.params.supplierId, req.query.type, function(r){
+    supplierController.sendNotice(req.params.supplierId, req.query.type, function(r){
       if(utils.isError(r)){
         next(r);
       }else{
@@ -88,7 +90,7 @@ module.exports.routes = function(app){
   });
 
   app.put('/api/suppliers/:supplierId', function(req, res, next){
-    SupplierController.update(req.body, function(i){
+    supplierController.update(req.body, function(i){
       if(utils.isError(i)){
         next(i);
       }else{
@@ -98,7 +100,7 @@ module.exports.routes = function(app){
   });
 
   app.delete('/api/suppliers/:supplierId', function(req, res, next){
-    SupplierController.remove(req.params.supplierId, function(i){
+    supplierController.remove(req.params.supplierId, function(i){
       if(utils.isError(i)){
         next(i);
       }else{

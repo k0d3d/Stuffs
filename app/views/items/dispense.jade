@@ -12,7 +12,7 @@ append mainbody
     button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
   .span8.offset1(ng-show="n_w")
     h3 Dispense Prescription
-    form.newdispense
+    form.newdispense(name="newdispense")
       .control-group
           label.control-label Patient Name
           .controls
@@ -20,7 +20,7 @@ append mainbody
       .control-group
           label.control-label Patient Class / Company
           .controls
-              select(ng-options="a.profileName for a in profiles", ng-model="dispenseform.class")
+              select(ng-options="a.profileName for a in profiles", ng-model="dispenseform.billClass", required)
       .control-group
           label.control-label Patient Hospital Number
           .controls
@@ -29,8 +29,8 @@ append mainbody
           label.control-label Drug Name
           .controls
               input.input-xlarge(type="text",ng-model="drugname", type-ahead, th-name="itemname", ng-minlength="1")
-              button.btn.btn-warning.pull-right(type="button", ng-click="addDrug()", style="position: relative;left: -53px;top: 5px;") {{addButtonText}}
-              span.help-block {{addHelpText}}                
+              button.btn.btn-warning.pull-right(type="button", ng-click="addDrug()", style="position: relative;left: -53px;top: 5px;", ng-disabled="newdispense.$invalid || !dispenseform.location") {{addButtonText}}
+              span.help-block {{addHelpText}}
       table.table.drugs-list.table-fixed-header(ng-show="drugsList.length > 0")
         thead.header
           tr
@@ -39,33 +39,33 @@ append mainbody
             th Stock
             th Amount
             th Options
-            th 
+            th
         tbody
           tr(data-ng-repeat="(i,drugs) in drugsList", ng-class="{faded: d[$index].ready}")
-            td 
+            td
               | {{d[$index].itemName}}
-            td  
+            td
               select(style="width: 70px", ng-model="d[$index].cost", ng-options="c for c in d[$index].orderPrice", ng-init="d[$index].cost = d[$index].orderPrice[0]")
                 option {{d[$index].itemPurchaseRate}}
             td {{d[$index].currentStock}}
-            td 
+            td
               .control-group(ng-class="{ error: d[$index].amount > d[$index].currentStock }")
                 input.input-small(ng-model="d[$index].amount", type="number")
-            td 
+            td
               select(ng-model="d[$index].options", required)
                 option(value="dispense") Dispense
                 option(value="alternative") Give Alternative
                 option(value="purchase") Immediate Purchase
                 option(value="appointment") Supply on appointment
                 option(value="rx") RX
-              select(ng-model="d[$index].dosage",placeholder="Dosage", ng-change="adjust_amount($index)",)
+              select(ng-model="d[$index].dosage",placeholder="Dosage", ng-change="adjust_amount($index)",required)
                 option(value="1") 1x Daily (OD)
                 option(value="2") 2x Daily (BD)
                 option(value="3") 3x Daily (TDS)
                 option(value="4") 4x Daily (QDS)
                 option(value="5") When Necessary (PRN)
             td
-              input.input-small(ng-model="d[$index].period",placeholder="Duration", type="number", min="1", max="31", ng-change="adjust_amount($index)")                
+              input.input-small(ng-model="d[$index].period",placeholder="Duration", type="number", min="1", max="31", ng-change="adjust_amount($index)")
             td
               button.btn.btn-mini.btn-primary(ng-click="prescribeThis($index)", ng-disabled="!d[$index].options.length > 0 || d[$index].ready", ng-init="d[$index].ready = false") Confirm
               i.icon-remove.icon-white.pull-right(ng-click="removeDrug($index)")
@@ -90,11 +90,11 @@ append mainbody
                 td {{record.issueDate | date: 'medium'}}
                 td
                   .btn-group.dropdown
-                    a.btn.btn-mini.btn-info {{record.drugs.length}}
+                    a.btn.btn-info {{record.drugs.length}}
                     a.btn.btn-dropdown-toggle.btn-info(data-toggle="dropdown")
                       span.caret
                     ul.dropdown-menu.alt-text
-                      li.listofdrugs(ng-repeat="listofdrugs in record.drugs") 
+                      li.listofdrugs(ng-repeat="listofdrugs in record.drugs")
                         a(href="#")
                           p {{listofdrugs.itemName}}
                           span.label.label-info {{listofdrugs.amount}}
@@ -105,4 +105,4 @@ append mainbody
 
 
 append foot
-  script(src="js/table-fixed-header.js")                              
+  script(src="js/table-fixed-header.js")

@@ -84,7 +84,7 @@ integraApp.controller('MainController', [
 
   $scope._stockDirection = function (record) {
     return (record.reference.indexOf('stockdown') > -1) ? 'stockdown' : 'stockup';
-  }
+  };
 
   $scope.refreshUpdates = function (){
     $scope.isr = 'fa-spin';
@@ -98,7 +98,7 @@ integraApp.controller('MainController', [
   };
 
   //Run Update
-  $scope.refreshUpdates();
+  // $scope.refreshUpdates();
 
   //Fetch updates
   //setInterval($scope.refreshUpdates, 15000);

@@ -3,7 +3,7 @@ var
     Dispense = require('./stock/dispense-schema'),
     StockHistory = require('./stock/stockhistory-schema'),
     StockCount = require('./stock/stockcount-schema'),
-    Biller = require('./stock/bill-schema').Bill,
+    Biller = require('./bill').bills,
     config = require('config'),
     _ = require('underscore'),
     rest = require('restler'),
@@ -167,7 +167,7 @@ DispenseController.prototype.dispenseThis = function(o, callback){
     //by now we've completed 'createrecords'
     dispense.patientName = data.patientName;
     dispense.patientId =  data.patientId;
-    dispense.class = data.class;
+    dispense.billClass = data.billClass;
     dispense.doctorId = data.doctorId;
     dispense.doctorName = data.doctorName;
     dispense.dispenseDate = Date.now();
@@ -218,7 +218,7 @@ DispenseController.prototype.dispenseThis = function(o, callback){
   });
 
   eventRegister.once('saveBill', function(data, isDone){
-    console.log(data);
+
     Biller.serveBill(o, function(r){
       isDone(r);
     });
@@ -314,10 +314,10 @@ DispenseController.prototype.prescribeThis = function(o, cb){
       prescribe.doctorId = o.doctorId;
       prescribe.doctorName = o.doctorName;
       prescribe.locationId = location.id;
-      prescribe.class = o.class;
+      prescribe.billClass = o.billClass;
       prescribe.drugs = o.drugs;
       prescribe.otherDrugs = o.otherDrugs;
-      console.log(prescribe);
+      // console.log(prescribe);
         prescribe.save(function(err){
           console.log(err);
           if(err){

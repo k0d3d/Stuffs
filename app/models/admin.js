@@ -1,15 +1,15 @@
 var
-    Items = require('./item').Item,
-    OrderModel = require('./order').Order,
-    OrderStatus = require('./order').OrderStatus,
-    Dispense = require('./stock/dispense-schema'),
-    Bills = require('./stock/bill-schema').Bill,
-    BillRules = require('./stock/bill-schema').BillRule,
-    BillingProfile = require('./stock/bill-schema').BillingProfile,
+    // Items = require('./item').Item,
+    // OrderModel = require('./order').Order,
+    // OrderStatus = require('./order').OrderStatus,
+    // Dispense = require('./stock/dispense-schema'),
+    // Bills = require('./stock/bill-schema').Bill,
+    // BillRules = require('./stock/bill-schema').BillRule,
+    // BillingProfile = require('./stock/bill-schema').BillingProfile,
     PointLocation = require('./stock/location-schema'),
-    StockHistory = require('./stock/stockhistory-schema'),
-    StockCount = require('./stock/stockcount-schema'),
-    Transactions = require('./stock/transaction-schema'),
+    // StockHistory = require('./stock/stockhistory-schema'),
+    // StockCount = require('./stock/stockcount-schema'),
+    // Transactions = require('./stock/transaction-schema'),
     UserModel = require('./user/user-schema').UserModel,
     Q = require('q');
 
@@ -19,105 +19,105 @@ function AdminMethods () {
 
 AdminMethods.prototype.constructor = AdminMethods;
 
-AdminMethods.prototype.removeAllDispense = function(cb){
-  Dispense.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminMethods.prototype.removeAllBills = function(cb){
-  Bills.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminMethods.prototype.removeAllBillProfiles = function(cb){
-  BillingProfile.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminMethods.prototype.removeAllRules = function(cb){
-  BillRules.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminMethods.prototype.removeAllStockHistory = function(cb){
-  StockHistory.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminMethods.prototype.removeAllStockCount = function(cb){
-  StockCount.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminMethods.prototype.removeAllOrders = function(cb){
-  OrderModel.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminMethods.prototype.removeAllOrderStatus = function(cb){
-  OrderStatus.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminMethods.prototype.removeAllTransactions = function(cb){
-  Transactions.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminMethods.prototype.removeAllItems = function(cb){
-  Items.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
-AdminMethods.prototype.removeAllLocations = function(cb){
-  PointLocation.remove({}, function(err, n){
-    if(err){
-      cb(err);
-    }else{
-      cb(n);
-    }
-  });
-};
+// AdminMethods.prototype.removeAllDispense = function(cb){
+//   Dispense.remove({}, function(err, n){
+//     if(err){
+//       cb(err);
+//     }else{
+//       cb(n);
+//     }
+//   });
+// };
+// AdminMethods.prototype.removeAllBills = function(cb){
+//   Bills.remove({}, function(err, n){
+//     if(err){
+//       cb(err);
+//     }else{
+//       cb(n);
+//     }
+//   });
+// };
+// AdminMethods.prototype.removeAllBillProfiles = function(cb){
+//   BillingProfile.remove({}, function(err, n){
+//     if(err){
+//       cb(err);
+//     }else{
+//       cb(n);
+//     }
+//   });
+// };
+// AdminMethods.prototype.removeAllRules = function(cb){
+//   BillRules.remove({}, function(err, n){
+//     if(err){
+//       cb(err);
+//     }else{
+//       cb(n);
+//     }
+//   });
+// };
+// AdminMethods.prototype.removeAllStockHistory = function(cb){
+//   StockHistory.remove({}, function(err, n){
+//     if(err){
+//       cb(err);
+//     }else{
+//       cb(n);
+//     }
+//   });
+// };
+// AdminMethods.prototype.removeAllStockCount = function(cb){
+//   StockCount.remove({}, function(err, n){
+//     if(err){
+//       cb(err);
+//     }else{
+//       cb(n);
+//     }
+//   });
+// };
+// AdminMethods.prototype.removeAllOrders = function(cb){
+//   OrderModel.remove({}, function(err, n){
+//     if(err){
+//       cb(err);
+//     }else{
+//       cb(n);
+//     }
+//   });
+// };
+// AdminMethods.prototype.removeAllOrderStatus = function(cb){
+//   OrderStatus.remove({}, function(err, n){
+//     if(err){
+//       cb(err);
+//     }else{
+//       cb(n);
+//     }
+//   });
+// };
+// AdminMethods.prototype.removeAllTransactions = function(cb){
+//   Transactions.remove({}, function(err, n){
+//     if(err){
+//       cb(err);
+//     }else{
+//       cb(n);
+//     }
+//   });
+// };
+// AdminMethods.prototype.removeAllItems = function(cb){
+//   Items.remove({}, function(err, n){
+//     if(err){
+//       cb(err);
+//     }else{
+//       cb(n);
+//     }
+//   });
+// };
+// AdminMethods.prototype.removeAllLocations = function(cb){
+//   PointLocation.remove({}, function(err, n){
+//     if(err){
+//       cb(err);
+//     }else{
+//       cb(n);
+//     }
+//   });
+// };
 
 AdminMethods.prototype.findOrCreateMainStockLocation = function findOrCreateMainStockLocation (){
   var q = Q.defer();

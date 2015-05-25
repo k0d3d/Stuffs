@@ -45,7 +45,7 @@ module.exports.routes = function(app){
       if(utils.isError(r)){
         next(r);
       }else{
-        res.json(200, r);
+        res.json(r);
       }
     });
   });
@@ -59,7 +59,7 @@ module.exports.routes = function(app){
       if(utils.isError(r)){
         next(r);
       }else{
-        res.json(200, true);
+        res.json(true);
       }
     });
   });
@@ -69,7 +69,7 @@ module.exports.routes = function(app){
       if(utils.isError(r)){
         next(r);
       }else{
-        res.json(200, r);
+        res.json(r);
       }
     });
   });
@@ -84,7 +84,7 @@ module.exports.routes = function(app){
       if(utils.isError(r)){
         next(r);
       }else{
-        res.json(200, {"task": true, "result": r});
+        res.json({"task": true, "result": r});
       }
     });
   });
@@ -96,7 +96,7 @@ module.exports.routes = function(app){
         next(err);
         return;
       }else{
-        res.json(200, {state: 1});
+        res.json({state: 1});
       }
     });
   });
@@ -109,7 +109,7 @@ module.exports.routes = function(app){
         next(r);
         return;
       }else{
-        res.json(200, r);
+        res.json(r);
       }
     });
   });
@@ -121,7 +121,7 @@ module.exports.routes = function(app){
         next(r);
         return;
       }else{
-        res.json(200, r);
+        res.json(r);
       }
     });
   });
@@ -132,7 +132,7 @@ module.exports.routes = function(app){
         next(r);
         return;
       }else{
-        res.json(200, r);
+        res.json(r);
       }
     });
   });

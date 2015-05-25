@@ -1,11 +1,12 @@
 var
     Items = require('./item').item,
     Order = require('./stock/order-schema').Order,
-    DsItems = require('./dsitem/dsitem'),
+    DsItems = require('./dsitem'),
     OrderStatus = require('./stock/order-schema').OrderStatus,
     PointLocation = require('./stock/location-schema'),
     Supplier = require('./user/supplier-schema'),
     _ = require('lodash'),
+    Q = require('q'),
     EventRegister = require('../../lib/event_register').register,
     StockManager = require('./stock').manager,
     debug = require('debug'),
@@ -20,50 +21,73 @@ function OrderModel () {
 
 OrderModel.prototype.constructor = OrderModel;
 
-var updateTracking = function (r) {
+OrderModel.prototype.updateTracking = function updateTracking (r) {
+  var q = Q.defer();
+
   Order.update({
-    orderStatus: 1
+    orderStatus: 1,
+    orderVisibility: true
   }, {
     $set: {
       orderStatus: 2,
       order_number: r.order_number
     }
-  }, function (err, n) {
-    console.log(err);
-    console.log(n);
+  }, {multi: true}, function (err, n) {
+    if (err) {
+      return q.reject(err);
+    }
+    q.resolve(n);
+    // console.log(err);
+    // console.log(n);
   });
+
+  return q.promise;
 
 };
 
-var postOrders = function(){
-  Order
-  .find({orderStatus: 1}, 'itemId product_id itemName orderAmount orderDate orderSupplier nafdacRegNo nafdacRegName')
-  .where('isDrugStocOrder', true)
-  .populate({
-    path: 'itemId',
-    model: 'item'
-  })
-  .exec(function(err, i){
-    // var one = JSON.stringify(i);
-    if(err){
-      return debug(err);
-    }else
-    if (i.length) {
-      var dsItems = new DsItems();
+OrderModel.prototype.postOrders = function postOrders (){
+    var q = Q.defer();
+    var thisOrder = this;
 
-      dsItems.postDSCloudOrders(i)
-      .then(function (r) {
-        updateTracking(r.order);
-      }, function (err) {
-        console.log(err);
-      })
-      .catch(function (err) {
-        console.log(err.stack);
-      });
+    Order
+    .find({
+      orderStatus: 1,
+      orderVisibility: true
+    }, 'itemId product_id itemName orderAmount orderDate orderSupplier nafdacRegNo nafdacRegName')
+    .where('isDrugStocOrder', true)
+    .populate({
+      path: 'itemId',
+      model: 'item'
+    })
+    .exec(function(err, i){
+      // var one = JSON.stringify(i);
+      if(err){
+        return debug(err);
+      }else
+      if (i.length) {
+        var dsItems = new DsItems();
+
+        dsItems.postDSCloudOrders(i)
+        .then(function (r) {
+          thisOrder.updateTracking(r.order)
+          .then(function (n) {
+            q.resolve(n);
+          });
+        }, function (err) {
+          console.log(err);
+          return q.reject(err);
+        })
+        .catch(function (err) {
+          console.log(err.stack);
+          return q.reject(err);
+        });
+        return;
+      } else {
+        q.resolve([]);
+      }
       return;
-    }
-    return;
-  });
+    });
+    return q.promise;
 };
 
 
@@ -71,7 +95,7 @@ OrderModel.prototype.placeCart = function(cartObj, cb){
   if(_.isEmpty(cartObj)) return cb(new Error('Empty Request'));
   var doneIds = [],
       i = Date.now().toString(),
-      order_group_id = i.substring(i.length - 6);
+      order_group_id = i.substring(i.length - 6), selfOrder = this;
 
   function _create(){
     var item = cartObj.pop();
@@ -102,7 +126,7 @@ OrderModel.prototype.placeCart = function(cartObj, cb){
         if(l--){
           _create();
         }else{
-          postOrders();
+          selfOrder.postOrders();
           cb(doneIds);
         }
       }
@@ -118,7 +142,7 @@ OrderModel.prototype.placeCart = function(cartObj, cb){
  * Create an order
  */
 OrderModel.prototype.createOrder = function (orderObj, cb) {
-
+  var selfOrder = this;
   var register = new EventRegister();
 
   //Checks if an itemId is present in a request.
@@ -152,7 +176,7 @@ OrderModel.prototype.createOrder = function (orderObj, cb) {
       }
 
       if (newOrder.orderStatus > 0) {
-        postOrders();
+        selfOrder.postOrders();
       }
       isDone(true);
     });

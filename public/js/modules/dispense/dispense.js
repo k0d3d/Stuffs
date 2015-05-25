@@ -203,7 +203,7 @@ angular.module('dispense', [])
       'id': $scope.dispenseform.id,
       'doctorName': $scope.dispenseform.doctorName,
       'doctorId': $scope.dispenseform.doctorId,
-      'class': $scope.dispenseform.class._id || $scope.dispenseform.class,
+      'billClass': $scope.dispenseform.billClass._id || $scope.dispenseform.billClass,
       'drugs': drugs,
       'location': $scope.dispenseform.location
     };

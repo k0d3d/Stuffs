@@ -188,7 +188,7 @@ BillsController.prototype.oneBill = function(dispense_id, callback){
     var q = Bill.findOne({dispenseID: dispense_id});
   q.populate('dispenseID');
   q.exec(function(err, i){
-    console.log(i.dispenseID.drugs);
+    // console.log(i.dispenseID.drugs);
     if(err){
         callback(err);
     }else{
@@ -210,7 +210,7 @@ BillsController.prototype.oneBill = function(dispense_id, callback){
  * @return {[type]}            [description]
  */
 BillsController.fixCost = function(bp, callback){
-  var rules = bp.billClass;
+  var rules = bp.billrules;
   function _adjust (cost, value, by, directive){
     if(by === 'Percentage'){
       //Increse or decrease the cost by percentage
@@ -332,7 +332,7 @@ BillsController.serveBill = function(d, callback){
       bill.patientName = d.patientName;
       bill.patientId =  d.patientId;
       _.each(rules.rules, function(v){
-        bill.billClass.push(v);
+        bill.billrules.push(v);
       });
       bill.save(function(err, i){
         if(err) return callback(err);

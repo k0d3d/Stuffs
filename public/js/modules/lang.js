@@ -95,6 +95,10 @@ angular.module('language', [])
 			},
 			"summary":{
 				"error": "Can not fetch more information now."
+			},
+			'cart' : {
+				'success' : 'Item Added to Cart',
+				'error' : 'Failed to add item to cart'
 			}
 
 		},

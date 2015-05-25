@@ -4,6 +4,38 @@
 		"selected_items":
 		[
 			[
+				"self",
+				"selfOrder〔variable〕"
+			],
+			[
+				"Or",
+				"OrderStatus"
+			],
+			[
+				"Order",
+				"OrderStatus〔variable〕"
+			],
+			[
+				"Dis",
+				"DispenseController〔class〕"
+			],
+			[
+				"Suppl",
+				"SupplierController"
+			],
+			[
+				"Sup",
+				"SupplierModel〔class〕"
+			],
+			[
+				"Transa",
+				"TransactionModel"
+			],
+			[
+				"item",
+				"item/"
+			],
+			[
 				"req",
 				"require〔function〕"
 			],
@@ -482,67 +514,24 @@
 			[
 				"toLower",
 				"toLowerCase"
-			],
-			[
-				"toLowe",
-				"toLowerCase"
-			],
-			[
-				"ng",
-				"ng-click"
-			],
-			[
-				"ues",
-				"userData"
-			],
-			[
-				"backgroun",
-				"background-position"
-			],
-			[
-				"im",
-				"images/"
-			],
-			[
-				"allowed",
-				"allowedSMS"
-			],
-			[
-				"allowe",
-				"allowedNotifications"
-			],
-			[
-				"Drug",
-				"DrugStoc"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"contents": "var DsItems = require('./dsitem/dsitem'),\n    Logger = require('./dsitem/logger'),\n    Admin = require('./admin'),\n    config = require('config'),\n    Q = require('q'),\n    moment = require('moment'),\n    OrderController = require('./order').order,\n    request = require('request'),\n    _ = require('lodash'),\n    util = require('util');\n\n\nfunction DSClass () {\n  DsItems.setKeywords();\n  // this.requestLib = request;\n  this.DS_CLOUD_URL = config.api.DS_CLOUD_URL;\n  this.DS_CLOUD_ROUTES = config.api.DS_CLOUD_ROUTES;\n  this.lastUpdateLog = {};\n  this.requestOptions = {\n    headers: {\n      'Authorization': 'Basic ZHJ1Z3N0b2M6ZHJ1Z3N0b2M='\n    },\n    baseUrl: this.DS_CLOUD_URL,\n    qs : {\n    consumer_key : 'ck_74d23e186250997246f0c198148441d4',\n    consumer_secret :'cs_f80adcc85109c0611a2a5aedce731df7',\n    consumer_email : 'ddadmin@drugstoc.ng',\n    'filter[limit]' : config.api.DS_CLOUD_PAGE_LIMIT\n    }\n  };\n\n  this.getLastUpdateLog = function () {\n      var q = Q.defer();\n\n      Logger.findOne()\n      .limit(1)\n      .sort('-lastUpdateTime')\n      .exec(function (err, i) {\n        if (err) {\n          return q.reject(err);\n        }\n        if (i) {\n          q.resolve(i);\n        } else {\n\n          q.resolve({lastUpdateTime: moment().format('YYYY-MM-DD')});\n        }\n      });\n      return q.promise;\n  };\n\n  this.setLastUpdateLog = function (scope) {\n    var q = Q.defer();\n\n    var logger = new Logger({\n      scope: scope\n    });\n\n    logger.save(function (err, log) {\n        if (err) {\n          return q.reject(err);\n        }\n        return q.resolve(log);\n    });\n    return q.promise;\n  };\n\n  this.DsItemsModel = DsItems;\n\n}\n\nDSClass.prototype.constructor = DSClass;\n\n\nDSClass.prototype.checkConsumerByEmail = function checkConsumerByEmail (deets) {\n  var q = Q.defer(), DSC = this;\n\n  request(_.extend(DSC.requestOptions, {\n    url : DSC.DS_CLOUD_ROUTES.ACTIVE_CONSUMER + '/' + deets.email,\n    method: 'GET',\n    qs : {\n      consumer_key : deets.consumer_key,\n      consumer_secret :deets.consumer_secret\n      }\n    }),\n    function (e, r, body) {\n      if (e) {\n        return q.reject(e);\n      }\n\n      var b = JSON.parse(body).customer;\n      b.consumer_key = deets.consumer_key;\n      b.consumer_secret = deets.consumer_secret;\n      q.resolve(b);\n  });\n\n  return q.promise;\n};\n\nDSClass.prototype.postDSCloudOrders = function postDSCloudOrders (orders, extraQs) {\n  var q = Q.defer(), DSC = this;\n  extraQs = extraQs || {};\n  var admin = new Admin();\n\n  function sortOrdersToArray (o) {\n    return {\n      'product_id' : o.product_id,\n      'quantity' : o.orderAmount\n    };\n  }\n  admin.fetchUser('ck_74d23e186250997246f0c198148441d4')\n  .then(function (adminUser) {\n    function returnAddresses (a) {\n      return {\n        first_name: a.first_name,\n        last_name: a.last_name,\n        address_1: a.address_1,\n        address_2: a.address_2,\n        city: a.city,\n        state: a.state,\n        postcode: a.postcode,\n        country: 'NG',\n        phone: a.phone,\n      };\n    }\n    var orderData;\n    try {\n\n      orderData = {\n        'payment_details': {\n          'method_id': 'cod',\n          'method_title': 'Cash on Delivery',\n          'paid': 'true'\n        },\n        'billing_address' : returnAddresses(adminUser),\n        'shipping_address' : returnAddresses(adminUser),\n        'customer_id' : adminUser.customer_id,\n        'line_items' : _.map(orders, sortOrdersToArray)\n        // 'line_items' : _.map(orders, function (order) {\n        //   return {\n        //     'product_id' : order.itemData.id.product_id,\n        //     'quantity' : order.orderAmount\n        //   };\n        // })\n      };\n    } catch (e) {\n      console.log(e.stack);\n    }\n    request(_.extend(DSC.requestOptions, {\n      url : extraQs.url || DSC.DS_CLOUD_ROUTES.CREATE_ORDER,\n      method: 'POST',\n      qs : _.extend(DSC.requestOptions.qs, extraQs.qs),\n      body: {order: orderData},\n      json: true\n      }),\n      function (e, r, body) {\n        if (e) {\n          return q.reject(e);\n        }\n        if (body.errors) {\n          q.reject(body.errors);\n        } else {\n          q.resolve(body);\n        }\n    });\n\n  });\n\n\n  return q.promise;\n};\n\nDSClass.prototype.checkUpdates = function(req, cb){\n  var r = [];\n  var dt = new Date();\n  var ld = req.session.lastUpdate || dt.toJSON();\n  //var ld = '2013-10-29T16:42:17.158Z';\n  var spoken = [];\n  var DSC = this;\n\n\n  function speakPrice (){\n    _.each(r[1], function(v){\n      spoken.push(\n        v.product_id.productName + ' by ' + v.product_id.man_imp_supp + ' updates price to ' + v.price\n      );\n    });\n  }\n\n  function speakOrders () {\n    _.each(r[0], function(v){\n      spoken.push(\n        'Order for ' + v.order_id.orderAmount + ' ' +  v.order_id.nafdacRegName + ' from ' + v.order_id.orderSupplier[0].supplierName + ' is ' + v.status\n      );\n    });\n  }\n\n  function orderCheck(){\n    rest.get(DSC.DS_CLOUD_URL + '/api/orders/hospital/1008/updates/' + ld)\n    .on('success', function(data){\n      if(!_.isEmpty(data)){\n        var orders = new OrderController();\n        orders.isDispatched(data);\n      }\n      r.push(data);\n      drugCheck(ld);\n    })\n    .on('error', function(err){\n      cb(err);\n    })\n    .on('fail', function(err){\n      cb(err);\n    });\n  }\n  function drugCheck(){\n    rest.get(DSC.DS_CLOUD_URL + '/api/drugs/updates/'+ld)\n    .on('success', function(data){\n      if(!_.isEmpty(data)){\n        var ndl = new NDL();\n        ndl.priceUpdated(data);\n        var items = new Items();\n        items.updateByReg(data);\n      }\n      r.push(data);\n\n      speakPrice();\n      speakOrders();\n\n        //Final Callback :: remember to set last update\n        req.session.lastUpdate = dt.toJSON();\n        cb(spoken);\n    })\n    .on('error', function(err){\n      cb(err);\n    })\n    .on('fail', function(err){\n      cb(err);\n    });\n  }\n\n\n\n  orderCheck();\n\n\n};\n\nDSClass.prototype.checkProductUpdates = function checkProductUpdates () {\n  var q = Q.defer(), DSC = this;\n\n\n  DSC.getLastUpdateLog()\n  .then(function (logObj) {\n    DSC.runProductUpdateRequest(0, {\n      qs: {'filter[updated_at_min]': logObj.lastUpdateTime}\n    })\n    .then(function () {\n      q.resolve();\n    }, function (err) {\n      q.reject(err);\n    });\n\n  });\n\n  return q.promise;\n};\n\nDSClass.prototype.saveProductUpdates =   function saveProductUpdates (products, count, num) {\n  var q = Q.defer();\n  num = num || 0;\n\n  function mapImgSrc (img) {\n    return img.src;\n  }\n\n  function mapProductAttribs (attrs) {\n    return {\n      'name': attrs.name,\n      'options': attrs.options\n    };\n  }\n\n  var s = {\n    product_id : products[num].id,\n    title: products[num].title,\n    sku: products[num].sku,\n    price: products[num].price,\n    regular_price: products[num].regular_price,\n    description: products[num].description,\n    categories: products[num].categories,\n    tags: products[num].tags,\n    imagesSrc: _.map(products[num].images, mapImgSrc),\n    attributes: _.map(products[num].attributes, mapProductAttribs),\n    created_at: products[num].created_at,\n    updated_at: products[num].updated_at,\n    permalink: products[num].permalink\n  };\n\n  DsItems.update({\n    sku: products[num].sku\n  },s ,{\n    upsert: true\n  }, function (err, didUpdate) {\n    if (err) {\n      console.log(err);\n      return q.reject(err);\n    }\n    if (didUpdate && (num < count - 1)) {\n      \n      return saveProductUpdates(products, count, num + 1);\n    }\n    q.resolve(count);\n    console.log(num, count, num < count);\n  });\n  return q.promise;\n};\n\nDSClass.prototype.runProductUpdateRequest =   function runProductUpdateRequest (page, extraQs) {\n    var q = Q.defer(), DSC = this;\n    console.log('runProductUpdateRequest');\n    page = page || 0;\n    extraQs = extraQs || {};\n\n    request(_.extend(DSC.requestOptions, {\n      url : extraQs.url || DSC.DS_CLOUD_ROUTES.ALL_WC_PRODUCTS,\n      method: 'GET',\n      qs : _.extend(DSC.requestOptions.qs, {page: page}, extraQs.qs)\n      }),\n      function (e, r, body) {\n        if (e) {\n          return q.reject(e);\n        }\n        var payload = JSON.parse(body);\n\n        if (!payload) return q.reject(new Error(util.format('Update Failed: %s', payload)));\n\n        if (!payload.products && payload.errors) return q.reject(payload.errors[0].message);\n\n        if (payload.products.length) {\n          console.log(payload.products.length);\n          console.log(page);\n\n          DSC.saveProductUpdates(payload.products, payload.products.length);\n          DSC.runProductUpdateRequest(page + 1);\n\n          q.resolve(payload.length);\n        } else {\n          //do nothing\n          DSC.setLastUpdateLog('PRODUCT')\n          .then(function () {\n            return q.resolve(true);\n          });\n        }\n    });\n    return q.promise;\n  };\n\nDSClass.prototype.refreshProductInformation = function refreshProductInformation () {\n  var q = Q.defer(), DSC = this;\n\n  DSC.runProductUpdateRequest()\n  .then(function(b){\n    q.resolve(b);\n  }, function (err) {\n    q.reject(err);\n  });\n\n  return q.promise;\n};\n\nDSClass.prototype.findByNafdacNo = function findByNafdacNo(regNo) {\n  var q = Q.defer();\n\n  DsItems.find({\n    'attributes.name' : 'Nafdac-no',\n    'attributes.options' : regNo\n  })\n  .exec(function (err, docs) {\n    if (err) {\n      return q.reject(err);\n    }\n    return q.resolve(docs);\n  });\n\n  return q.promise;\n};\n\nmodule.exports = DSClass;",
-			"file": "app/models/dsitem.js",
-			"file_size": 9369,
-			"file_write_time": 130759121189181228,
-			"settings":
-			{
-				"buffer_size": 9376,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "public/js/modules/order/order.js",
 			"settings":
 			{
-				"buffer_size": 18817,
+				"buffer_size": 19320,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "public/js/modules/dispense/dispense.js",
+			"file": "public/js/modules/item/item.js",
 			"settings":
 			{
-				"buffer_size": 7975,
+				"buffer_size": 21466,
 				"line_ending": "Windows"
 			}
 		},
@@ -550,63 +539,63 @@
 			"file": "todo",
 			"settings":
 			{
-				"buffer_size": 1936,
+				"buffer_size": 2032,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/controllers/items.js",
+			"file": "public/js/app.js",
 			"settings":
 			{
-				"buffer_size": 27724,
+				"buffer_size": 3848,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/views/orders/cart.jade",
+			"file": "app/models/order.js",
 			"settings":
 			{
-				"buffer_size": 2490,
+				"buffer_size": 11393,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/models/item.js",
+			"file": "app/models/admin.js",
 			"settings":
 			{
-				"buffer_size": 27882,
+				"buffer_size": 4224,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/controllers/nafdacs.js",
+			"file": "app/models/stock/dispense-schema.js",
 			"settings":
 			{
-				"buffer_size": 2065,
+				"buffer_size": 965,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "app/models/nafdacs.js",
+			"file": "app/models/bill.js",
 			"settings":
 			{
-				"buffer_size": 2066,
+				"buffer_size": 14094,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/views/items/dispense.jade",
+			"file": "app/controllers/admin.js",
 			"settings":
 			{
-				"buffer_size": 5409,
+				"buffer_size": 3534,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "app/views/orders/add.jade",
+			"file": "app/views/items/new.jade",
 			"settings":
 			{
-				"buffer_size": 5688,
+				"buffer_size": 4482,
 				"line_ending": "Unix"
 			}
 		}
@@ -720,70 +709,83 @@
 		"/home/integrabuntu/Projects/Integra/app",
 		"/home/integrabuntu/Projects/Integra/app/controllers",
 		"/home/integrabuntu/Projects/Integra/app/models",
-		"/home/integrabuntu/Projects/Integra/app/models/item",
-		"/home/integrabuntu/Projects/Integra/app/views/orders",
+		"/home/integrabuntu/Projects/Integra/app/views",
+		"/home/integrabuntu/Projects/Integra/app/views/home",
+		"/home/integrabuntu/Projects/Integra/app/views/items",
+		"/home/integrabuntu/Projects/Integra/app/views/templates",
 		"/home/integrabuntu/Projects/Integra/public",
 		"/home/integrabuntu/Projects/Integra/public/js",
-		"/home/integrabuntu/Projects/Integra/public/js/common/services",
 		"/home/integrabuntu/Projects/Integra/public/js/modules",
+		"/home/integrabuntu/Projects/Integra/public/js/modules/item",
 		"/home/integrabuntu/Projects/Integra/public/js/modules/order"
 	],
 	"file_history":
 	[
+		"/home/integrabuntu/Projects/Integra/app/models/dsitem.js",
+		"/home/integrabuntu/Projects/Integra/app/models/item.js",
+		"/home/integrabuntu/Projects/Integra/app/views/orders/cart.jade",
+		"/home/integrabuntu/Projects/Integra/app/views/orders/add.jade",
+		"/home/integrabuntu/Projects/Integra/app/views/templates/order-list.jade",
+		"/home/integrabuntu/Projects/Integra/app/views/orders/all.jade",
+		"/home/integrabuntu/Projects/Integra/app/controllers/suppliers.js",
+		"/home/integrabuntu/Projects/Integra/app/models/supplier.js",
+		"/home/integrabuntu/Projects/Integra/app/controllers/items.js",
+		"/home/integrabuntu/Projects/Integra/app/views/items/index.jade",
+		"/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/order/modal-tag-ds-product.jade",
+		"/home/integrabuntu/Projects/Integra/app/models/stock/order-schema.js",
+		"/home/integrabuntu/Projects/Integra/app/views/home/index.jade",
 		"/home/integrabuntu/Projects/Integra/app/models/item/item-schema.js",
+		"/home/integrabuntu/Projects/Integra/app/models/dsitem/dsitem.js",
+		"/home/integrabuntu/Projects/Integra/app/models/bill.js",
+		"/home/integrabuntu/Projects/Integra/app/models/stock.js",
+		"/home/integrabuntu/Projects/Integra/app/controllers/stock.js",
+		"/home/integrabuntu/Projects/Integra/app/controllers/orders.js",
+		"/home/integrabuntu/Projects/Integra/app/models/dispense.js",
+		"/home/integrabuntu/Projects/Integra/app/controllers/dispense.js",
+		"/home/integrabuntu/Projects/Integra/app/controllers/bills.js",
+		"/home/integrabuntu/Projects/Integra/app/models/admin.js",
+		"/home/integrabuntu/Projects/Integra/public/js/modules/dispense/dispense.js",
+		"/home/integrabuntu/Projects/Integra/server.js",
+		"/home/integrabuntu/Projects/Integra/lib/passport.js",
+		"/home/integrabuntu/Projects/Integra/public/js/modules/order/order.js",
+		"/home/integrabuntu/Projects/Integra/app/models/nafdac.js",
+		"/home/integrabuntu/Projects/Integra/app/views/items/dispense.jade",
+		"/home/integrabuntu/Projects/Integra/todo",
+		"/home/integrabuntu/Projects/Integra/app/controllers/transactions.js",
+		"/home/integrabuntu/Projects/Integra/app/models/transaction.js",
+		"/home/integrabuntu/Projects/Integra/app/models/nafdacs.js",
+		"/home/integrabuntu/Projects/Integra/app/controllers/nafdacs.js",
 		"/home/integrabuntu/Projects/Integra/app/models/order.js",
 		"/home/integrabuntu/Projects/Integra/public/js/modules/item/item.js",
-		"/home/integrabuntu/Projects/Integra/app/models/dsitem.js",
 		"/home/integrabuntu/.zshrc",
 		"/home/integrabuntu/.bashrc",
-		"/home/integrabuntu/Projects/Integra/public/js/modules/order/order.js",
 		"/media/integrabuntu/e6224e80-6563-4e23-8cf0-92086de10e93/kingkoded/.zshrc",
 		"/media/integrabuntu/c7a1b953-7ddf-4ee3-8ff9-8542d7ddc86c/kingkoded/.zshrc",
 		"/home/integrabuntu/Projects/Integra/app/models/stockhistory.js",
 		"/home/integrabuntu/Projects/Integra/public/js/modules/stock/stock.js",
-		"/home/integrabuntu/Projects/Integra/app/controllers/items.js",
-		"/home/integrabuntu/Projects/Integra/app/controllers/orders.js",
-		"/home/integrabuntu/Projects/Integra/app/views/orders/add.jade",
 		"/home/integrabuntu/Projects/Integra/app/views/items/stockdown.jade",
 		"/home/integrabuntu/Projects/Integra/public/js/app.js",
-		"/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/order/modal-tag-ds-product.jade",
 		"/home/integrabuntu/Projects/Integra/app/views/items/new.jade",
-		"/home/integrabuntu/Projects/Integra/app/views/items/index.jade",
-		"/home/integrabuntu/Projects/Integra/app/models/item.js",
 		"/home/integrabuntu/Projects/Integra/public/css/app.css",
 		"/home/integrabuntu/Projects/Integra/public/js/common/directives/directives.js",
 		"/home/integrabuntu/Projects/Integra/app/views/items/edit.jade",
 		"/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/stock/modal-request-stock.jade",
-		"/home/integrabuntu/Projects/Integra/app/views/orders/all.jade",
-		"/home/integrabuntu/Projects/Integra/app/controllers/stock.js",
-		"/home/integrabuntu/Projects/Integra/app/views/orders/cart.jade",
-		"/home/integrabuntu/Projects/Integra/app/views/templates/order-list.jade",
 		"/home/integrabuntu/Projects/Integra/app/models/stockcount.js",
 		"/tmp/fz3temp-1/index 2.html",
 		"/tmp/fz3temp-1/index.html",
 		"/home/integrabuntu/Projects/Integra/app/views/includes/header.jade",
-		"/home/integrabuntu/Projects/Integra/app/controllers/transactions.js",
 		"/home/integrabuntu/Projects/Integra/app/models/location.js",
-		"/home/integrabuntu/Projects/Integra/app/models/transaction.js",
 		"/home/integrabuntu/Projects/Integra/public/js/extra/modal/css-filters-polyfill.js",
-		"/home/integrabuntu/Projects/Integra/app/models/admin.js",
-		"/home/integrabuntu/Projects/Integra/server.js",
 		"/home/integrabuntu/Projects/Integra/.gitignore",
-		"/home/integrabuntu/Projects/Integra/todo",
-		"/home/integrabuntu/Projects/Integra/app/controllers/suppliers.js",
 		"/home/integrabuntu/Projects/Integra/lib/boot.js",
 		"/home/integrabuntu/Projects/Integra/app/views/includes/foot.jade",
 		"/home/integrabuntu/Projects/Integra/test/helper.js",
 		"/tmp/fz3temp-1/about.php",
 		"/home/integrabuntu/Projects/Integra/app/routes.js",
 		"/home/integrabuntu/Projects/Integra/app/models/nafdacdrugs.js",
-		"/home/integrabuntu/Projects/Integra/app/models/bill.js",
 		"/home/integrabuntu/Projects/Integra/app/models/user.js",
-		"/home/integrabuntu/Projects/Integra/app/models/supplier.js",
-		"/home/integrabuntu/Projects/Integra/app/models/dispense.js",
 		"/home/integrabuntu/Projects/Integra/app/views/orders/add.__jade",
 		"/home/integrabuntu/Projects/Integra/node_modules/mongoose-search-plugin/index.js",
-		"/home/integrabuntu/Projects/Integra/app/models/dsitem/dsitem.js",
 		"/home/integrabuntu/Documents/Dear Hiring Manager,",
 		"/home/integrabuntu/Projects/Integra/app/views/index.jade",
 		"/home/integrabuntu/Projects/Integra/app/views/layouts/default.jade",
@@ -795,9 +797,7 @@
 		"/home/integrabuntu/Projects/Integra/public/js/lodash.min.js",
 		"/home/integrabuntu/Projects/Integra/app/models/dsitem/logger.js",
 		"/home/integrabuntu/Projects/Integra/app/views/admin/index.jade",
-		"/home/integrabuntu/Projects/Integra/app/controllers/nafdacs.js",
 		"/home/integrabuntu/Projects/Integra/app/views/templates/admin-configuration-tpl.jade",
-		"/home/integrabuntu/Projects/Integra/lib/passport.js",
 		"/home/integrabuntu/Projects/Integra/public/js/modules/lang.js",
 		"/home/integrabuntu/Projects/Integra/app/views/templates/admin-bill-profile-tpl.jade",
 		"/home/integrabuntu/Projects/Integra/config/development.json",
@@ -848,16 +848,7 @@
 		"/home/kingkoded/Projects/Integra/app/controllers/bills.js",
 		"/home/kingkoded/Projects/Integra/app/controllers/stock.js",
 		"/home/kingkoded/Projects/Integra/lib/db.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/mongoose-pureautoinc/lib/pureautoinc.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/forever/node_modules/cliff/examples/put-rows.js",
-		"/home/kingkoded/Projects/IntegraSup/node_modules/grunt-contrib-uglify/node_modules/uglify-js/node_modules/source-map/build/prefix-utils.jsm",
-		"/home/kingkoded/Projects/IntegraSup/Procfile",
-		"/home/kingkoded/Projects/Integra/app/views/partials/list-order.jade",
-		"/home/kingkoded/Projects/IntegraSup/logs/log.log",
-		"/home/kingkoded/Projects/Integra/app/models/admin.js",
-		"/home/kingkoded/Projects/Integra/app/models/transaction.js",
-		"/home/kingkoded/Projects/Integra/app/models/stockhistory.js",
-		"/home/kingkoded/Projects/Integra/app/models/order.js"
+		"/home/kingkoded/Projects/IntegraSup/node_modules/mongoose-pureautoinc/lib/pureautoinc.js"
 	],
 	"find":
 	{
@@ -897,6 +888,23 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"'Location'",
+			"Location",
+			"postOrders",
+			"SupplierController",
+			"DsItem",
+			"DsItemsModel",
+			"DsItem",
+			"\"",
+			"OrderController",
+			"SupplierModel.",
+			"SupplierController",
+			"(req",
+			"./models",
+			"TransactionController",
+			"models",
+			"../",
+			"Item",
 			"NafdacDrugsModel",
 			"(req",
 			"res",
@@ -1007,24 +1015,7 @@
 			"\"",
 			"body",
 			"angular.module('directives')",
-			"checkfunc",
-			"class",
-			"p.del",
-			".del",
-			"../",
-			"wishlist",
-			"<br>",
-			"sendEmail",
-			"postCartItem",
-			"This users profile is here",
-			"cartO",
-			"adminInvoicesCt",
-			"selectPage",
-			"pagination",
-			"deliveryAge",
-			"deliverAge",
-			"delivery",
-			"info-alt"
+			"checkfunc"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1032,6 +1023,10 @@
 		"regex": false,
 		"replace_history":
 		[
+			"'",
+			"OrderModel",
+			"SupplierModel",
+			"TransactionModel",
 			"'",
 			"span",
 			"item",
@@ -1114,61 +1109,24 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/models/dsitem.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9376,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								418,
-								418
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": false,
-							"WordCountSyntax": "javascript",
-							"auto_complete": false,
-							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
 					"file": "public/js/modules/order/order.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 18817,
+						"buffer_size": 19320,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4311,
-								4311
+								19242,
+								19242
 							]
 						],
 						"settings":
@@ -1185,7 +1143,44 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 714.0,
+						"translation.y": 6978.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "public/js/modules/item/item.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 21466,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4894,
+								4894
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": -0.0,
+						"translation.y": 252.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 5,
@@ -1193,55 +1188,19 @@
 				},
 				{
 					"buffer": 2,
-					"file": "public/js/modules/dispense/dispense.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7975,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3955,
-								3955
-							]
-						],
-						"settings":
-						{
-							"WordCountSyntax": "javascript",
-							"auto_complete": false,
-							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1428.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
 					"file": "todo",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1936,
+						"buffer_size": 2032,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1135,
-								1135
+								1340,
+								1340
 							]
 						],
 						"settings":
@@ -1257,33 +1216,33 @@
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 420.0,
+						"translation.y": 504.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 4,
 			"sheets":
 			[
 				{
-					"buffer": 4,
-					"file": "app/controllers/items.js",
+					"buffer": 3,
+					"file": "public/js/app.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 27724,
+						"buffer_size": 3848,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								548,
-								548
+								1789,
+								1789
 							]
 						],
 						"settings":
@@ -1294,70 +1253,71 @@
 							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
 							"incomplete_sync": null,
 							"remote_loading": false,
-							"sftp_duplicate_views": 0,
 							"synced": false,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 504.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "app/views/orders/cart.jade",
+					"buffer": 4,
+					"file": "app/models/order.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2490,
+						"buffer_size": 11393,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2177,
-								2177
+								3060,
+								3060
 							]
 						],
 						"settings":
 						{
-							"WordCountShouldRun": true,
-							"WordCountSyntax": "jade",
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
 							"incomplete_sync": null,
+							"open_with_edit": true,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 41.0,
+						"translation.y": 1554.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "app/models/item.js",
+					"buffer": 5,
+					"file": "app/models/admin.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 27882,
+						"buffer_size": 4224,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								687,
-								687
+								3453,
+								3453
 							]
 						],
 						"settings":
@@ -1381,56 +1341,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 7,
-					"file": "app/controllers/nafdacs.js",
+					"buffer": 6,
+					"file": "app/models/stock/dispense-schema.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2065,
+						"buffer_size": 965,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2065,
-								2065
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": false,
-							"WordCountSyntax": "javascript",
-							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 126.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "app/models/nafdacs.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2066,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								166,
-								166
+								363,
+								363
 							]
 						],
 						"settings":
@@ -1440,35 +1364,107 @@
 							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
 							"incomplete_sync": null,
-							"open_with_edit": true,
 							"remote_loading": false,
 							"synced": false,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
-						"translation.x": -0.0,
+						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "app/models/bill.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14094,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4952,
+								4952
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2303.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
+					"buffer": 8,
+					"file": "app/controllers/admin.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3534,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								113,
+								113
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
 					"buffer": 9,
-					"file": "app/views/items/dispense.jade",
+					"file": "app/views/items/new.jade",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5409,
+						"buffer_size": 4482,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								959,
-								959
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1484,79 +1480,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 168.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "app/views/orders/add.jade",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5688,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2284,
-								2284
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": true,
-							"WordCountSyntax": "jade",
-							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 210.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "todo",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1936,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1604,
-								1604
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": true,
-							"WordCountSyntax": "plain text",
-							"color_scheme": "Packages/User/Color Highlighter/themes/base16-ocean.dark (SL).tmTheme",
-							"history_list_is_closing": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"sftp_duplicate_views": 0,
-							"synced": false,
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 462.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 7,
@@ -1593,7 +1517,7 @@
 		"cols":
 		[
 			0.0,
-			0.388165286828,
+			0.472073332805,
 			1.0
 		],
 		"rows":
@@ -1609,7 +1533,7 @@
 	},
 	"output.find_results":
 	{
-		"height": 0.0
+		"height": 92.0
 	},
 	"output.git":
 	{
@@ -1636,6 +1560,14 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"modal-ta",
+				"app/views/includes/dialogs/order/modal-tag-ds-product.jade"
+			],
+			[
+				"add.jade",
+				"app/views/orders/add.jade"
+			],
 			[
 				"todo",
 				"todo"
@@ -2139,14 +2071,6 @@
 			[
 				"menu.html",
 				"drugStoc/www/templates/menu.html"
-			],
-			[
-				"signin.html",
-				"drugStoc/www/templates/user/signin.html"
-			],
-			[
-				"brows",
-				"drugStoc/www/templates/browse.html"
 			]
 		],
 		"width": 0.0
@@ -2173,7 +2097,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},

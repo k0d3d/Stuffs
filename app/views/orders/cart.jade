@@ -43,7 +43,7 @@ block body
                 td {{or.orderAmount}}
                 td {{or.orderPrice}}
                 td.noprint {{or.orderDate | moment}}
-                td.noprint {{(or.isDrugStocOrder) ? or.orderSupplier.supplierName : 'DrugStoc'}}
+                td.noprint {{(or.isDrugStocOrder) ? 'DrugStoc' : or.orderSupplier.supplierName }}
                 td.noprint
                   button.btn.btn-small.btn-danger.btn-bell(ng-click="removeFromCart($index)")
                     i.fa.fa-times

@@ -447,6 +447,7 @@ ul.index-list .active {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  font-size:
 }
 
 .panorama.nohidden {
@@ -982,4 +983,33 @@ em.versiontxt {
   color: #000;
   font-style: italic;
   float: right;
+}
+
+.btn-mini {
+  padding: 2px;
+  font-size: 12px;
+}
+
+.btn-sky-blue {
+  background-color: #3FCABF;
+  color: white;
+}
+
+.btn-sky-blue:hover {
+  background-color: #3593CB;
+  color: white;
+}
+
+.order-row .btn {
+  font-size: 11px;
+  padding: 2px;
+  border-radius: 0 !important;
+}
+
+.order-row .btn-nobg {
+  background-color: transparent;
+}
+
+.panorama h5 {
+  font-size: 14px
 }

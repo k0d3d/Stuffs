@@ -1,4 +1,4 @@
-tr(ng-repeat="order in orderList | filter: ordersFilter", on-finish="tableheader")
+tr.order-row(ng-repeat="order in orderList | filter: ordersFilter", on-finish="tableheader")
   td
     //
       a(href="/items/{{order.itemData.id}}/edit") {{order.itemName}}
@@ -9,17 +9,16 @@ tr(ng-repeat="order in orderList | filter: ordersFilter", on-finish="tableheader
   td(title="{{order.orderDate | date:'medium'}}")
     | {{order.orderDate | date:'shortDate'}}
 
-  td {{order.orderSupplier.supplierName}}
+  td {{(order.isDrugStocOrder) ? 'DrugStoc' : order.orderSupplier.supplierName }}
   td.order-status
     .btn-group.dropdown(order-item-menu)
-      a.btn.btn-mini.btn-info {{order.orderStatus | orderState}}
-      a.btn.btn-dropdown-toggle.btn-info(data-toggle="dropdown")
+      a.btn.btn-mini.btn-nobg(data-toggle="dropdown") {{order.orderStatus | orderState}}
+      a.btn.btn-dropdown-toggle.btn-nobg(data-toggle="dropdown")
         span.caret
-      ul.dropdown-menu.alt-text
+      div.dropdown-menu.alt-text
         p
           | Please confirm the following <br>
           | was supplied. <br>
-          | Enter an invoice number.
         dl
           dt Item Ordered:
           dd(style="color: #3498db") {{order.itemName}}

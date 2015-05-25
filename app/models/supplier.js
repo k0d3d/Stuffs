@@ -4,7 +4,8 @@
  */
 
 var
-    Supplier = require('./user/supplier-schema');
+    Supplier = require('./user/supplier-schema'),
+    _ = require('lodash');
 
 
 
