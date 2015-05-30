@@ -13,6 +13,7 @@ var OrderSchema = new Schema({
   orderType: {type: String, default: 'Medical Equipment'},
   itemName: {type: String, default: ''},
   itemId: {type: Schema.ObjectId, ref: 'Item'},
+  orderItemSize: {type: Number},
   product_id : {type: Number},
   sku: {type: String},
   nafdacRegNo: {type: String},
@@ -88,7 +89,7 @@ OrderSchema.statics = {
   list: function (options, cb) {
     var conditions = options.conditions || {};
     var q = this.find(conditions);
-    q.sort({orderDate: -1});
+    q.sort({'orderDate':  -1});
     q.exec(cb);
   }
 };

@@ -172,7 +172,7 @@ DispenseController.prototype.dispenseThis = function(o, callback){
     dispense.doctorName = data.doctorName;
     dispense.dispenseDate = Date.now();
     dispense.locationId = location.id;
-    dispense.status = "complete";
+    dispense.status = 'complete';
     dispense.save(function(err){
       if(err){
         return isDone(new Error(err));
@@ -238,13 +238,17 @@ DispenseController.prototype.dispenseThis = function(o, callback){
 
       // Call the create_record function
       __createRecord({id: record._id, amount: record.amount}, function(p){
+        var quantityToDispense = parseInt('-' + p.amount);
+        if (isNaN(quantityToDispense)) {
+          return isDone(new Error('Error dispensing quantity: parameter is NaN'));
+        }
         // Create or update this locations stock count
         StockCount.update({
           item: p.item,
           locationId: location.id
           },{
             $inc: {
-              amount: -p.amount
+              amount: quantityToDispense
             }
           }, function(err, i){
             console.log('Dispense '+ i);
@@ -262,7 +266,7 @@ DispenseController.prototype.dispenseThis = function(o, callback){
           dosage: record.dosage,
           period: record.period
         });
-        if(data.drugs.length > 0){
+        if(data.drugs.length){
           saveAll();
         }else{
           //call the next event

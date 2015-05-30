@@ -1,5 +1,5 @@
 var DsItems = require('./dsitem/dsitem'),
-    Items = require('./item').item,
+    Items = require('./item'),
     Logger = require('./dsitem/logger'),
     Admin = require('./admin'),
     config = require('config'),
@@ -10,9 +10,12 @@ var DsItems = require('./dsitem/dsitem'),
     _ = require('lodash'),
     util = require('util');
 
-
 function DSClass () {
-  DsItems.setKeywords();
+  console.log('Init DSClass');
+  DsItems.setKeywords(function (err) {
+    console.log(err);
+    console.log('Indexing DSItems');
+  });
   // this.requestLib = request;
   this.DS_CLOUD_URL = config.api.DS_CLOUD_URL;
   this.DS_CLOUD_ROUTES = config.api.DS_CLOUD_ROUTES;
@@ -400,4 +403,35 @@ DSClass.prototype.findByNafdacNo = function findByNafdacNo(regNo) {
   return q.promise;
 };
 
+DSClass.prototype.findDrugstocProduct = function findDrugstocProduct (query_string, query_options) {
+  var q = Q.defer();
+  // var dsItem = new DsItem();
+  DsItems.search(query_string, null, query_options, function (err, data) {
+    if (err) {
+      return q.reject(err);
+    }
+    q.resolve(data);
+  });
+  return q.promise;
+};
+
+DSClass.prototype.findDrugstocProductById = function findDrugstocProductById (query_string) {
+  var q = Q.defer();
+  // var dsItem = new DsItem();
+
+  DsItems.findOne( {
+    '_id' : query_string
+  })
+  .exec(function (err, doc) {
+    if (err) {
+      return q.reject(err);
+    }
+    if (!doc) {
+      return q.reject(new Error('document not found'));
+    }
+    q.resolve(doc);
+  });
+
+  return q.promise;
+};
 module.exports = DSClass;

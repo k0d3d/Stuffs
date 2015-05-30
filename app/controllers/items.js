@@ -1,5 +1,5 @@
 var
-    ItemFn = require('../models/item').item,
+    ItemFn = require('../models/item'),
     _ = require('lodash'),
     Ndl = require('../models/nafdac').ndl,
     cors = require('../../config/middlewares/cors'),
@@ -15,6 +15,7 @@ var
 
 module.exports.routes = function(app){
   var itemInstance = new ItemFn();
+  var dsItems = new DsItem();
   var ndls = new Ndl();
 
   app.get('/items', function(req, res){
@@ -94,7 +95,7 @@ module.exports.routes = function(app){
   //Fetches data for an item when editing
   app.get('/api/items/:item_id/ds-product', function(req, res, next){
     var itemId = req.params.item_id;
-    itemInstance.findDrugstocProductById(itemId)
+    dsItems.findDrugstocProductById(itemId)
     .then(function(r){
 
         res.json(r);
@@ -164,7 +165,7 @@ module.exports.routes = function(app){
     // }
 
     if (req.query.scope === 'drugstoc') {
-      itemInstance.findDrugstocProduct(query, options)
+      dsItems.findDrugstocProduct(query, options)
       .then(function (result) {
         res.json(result);
       }, function (err) {
@@ -334,7 +335,6 @@ module.exports.routes = function(app){
   });
 
   app.get('/api/dsproducts', function (req, res, next) {
-    var dsItems = new DsItem();
     dsItems.findByNafdacNo(req.query.s)
     .then(function (r) {
       res.json(r);

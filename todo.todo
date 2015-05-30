@@ -1,6 +1,6 @@
 
 
-DDIMs Operations Checked and Bug Fix statuses,
+DDIMs Operations Checked and Bug Fix statuses:
   ✔ Typeahead on adding brand name  when adding new inventory item broken. @critical @done (15-05-25 09:07)
   ✔ Fix update operation after using the typeahead on item/add @critical @done (15-05-25 09:07)
   ✔ Fix category list look when attaching a category on item/add @high @done (15-05-25 11:41)
@@ -18,20 +18,55 @@ DDIMs Operations Checked and Bug Fix statuses,
  ✔ Order Update operations  @done (15-05-25 17:11)
  ✔ Fixed admin transactions @done (15-05-25 17:17)
  ✔ Adding rules to existing billing profile @done (15-05-25 17:19)
- ☐ Should update rules on current billing profile @low
+ ☐ Should update rules when adding new rules  @low
  ✔ Requesting Stock to stock down location  @done (15-05-25 17:21)
      ☐ Updating view after successful stockdown operation
  ✔ Creating stock down locations @done (15-05-25 17:22)
      ☐ Update list of stock locations on creation
  ✔ Renaming Stockdown location @done (15-05-25 17:23)
- Log record for multiple dispensed items from a stockdown location
+ ☐ Log record for multiple dispensed items from a stockdown location @critical
  ☐ Should check if Selected Profile has rules on it at admin->billing->select profile->save, dispense->select profile @high
  ☐ Pre-save middleware for billing rule ; should uppercase 'all' value @low
  ✔ Billing dispense list works with billing rules @done (15-05-25 19:18)
  ✔ Payment History works on bill @done (15-05-25 19:19)
+ ✔ Enabled Patient Hospital Number @done (15-05-29 03:04)
+ ✔ Added itemsize field changed field names @done (15-05-29 03:21)
+ ✔ @bug unique index key on name field created dispense errors @critical  @done (15-05-29 06:33)
+
+✔ Remove Selling Rate from add inventory form   @done (15-05-29 07:00)
+✔ Make Manufacturer field optional @done (15-05-29 07:00)
+✔ Add extra textfield for Stock Amount [ Inventory Form ] @done (15-05-29 07:00)
+      [ 1 ] stock item contains
+      [ 100 ] [ item form (e.g capsules/syrup/pills) ] dispense
+      [ 1 ] [ package form (e.g sachet) ] has minimum of [ 10 ] [ item form ]
+
+ ✔ Add unique historic prices to dispense list preceeded by itemPurchaseRate and dsPrice if available @done (15-05-29 14:45)
+
+      ✔ Use the itemsize * quantity ordered for orders i.e. when supplied, stock should update itemsi @done (15-05-30 12:44)
+
+      ✔ use minimum dispense qty * dispense quantity for dispensing. @done (15-05-30 13:11)
+        NOTE: using stock.stocking method, all 'quantities' are exact, all calculations and multiplications should be done prior to making the request or transaction
+ ✔ Creating an item and adding a stock quantity should add the correct stock in terms of item size * stock quantity orderd. @done (15-05-29 16:19)
+ ✔ Request stock typeahead bug where selected drug information is mixed up @done (15-05-29 17:27)
 
 
+ ✔ discussion on stockdown request, @done (15-05-30 12:45)
 
+ ✔ Add 'start' to list of dosage @done (15-05-30 13:11)
+View order page should sort by date, most recent
+Block multiple clicks after order has been set : all transaction buttons should be disabled till response comes
+sms, email and print purchase orders.
 
+bug on item already in list when dispensing
 
+use jxcore or use kue for update scheduling
 
+print orders,
+add order id column
+order id filter
+
+ ☐ Delete Stock from a location,
+ ☐ Search Stock on a location
+ ☐ remove item from 'confirmed' if property is edited on dispense list
+ ☐ use find and create / update for stocking method on model/stock.js
+ ☐ adjust amount on dispense form when duration is changed @low

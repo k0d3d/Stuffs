@@ -50,6 +50,7 @@ module.exports.routes = function(app){
       action: util.format('Requested Stock (%s)', req.body.location.origin.locationName),
       reference: 'stockup-'+timenow
     };
+    // quantity sent in should in exact quanity to be deducted from stock
     sc.stocking(req.body.request, location, 'restock', function(r){
         if(util.isError(r)){
             next(r);

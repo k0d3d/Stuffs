@@ -24,7 +24,7 @@ append mainbody
       .control-group
           label.control-label Patient Hospital Number
           .controls
-              input.input-large(disabled, type="text",name="patientnumber", ng-model="dispenseform.patientno")
+              input.input-large(type="text",name="patientnumber", ng-model="dispenseform.patientId")
       .control-group
           label.control-label Drug Name
           .controls
@@ -47,10 +47,10 @@ append mainbody
             td
               select(style="width: 70px", ng-model="d[$index].cost", ng-options="c for c in d[$index].orderPrice", ng-init="d[$index].cost = d[$index].orderPrice[0]")
                 option {{d[$index].itemPurchaseRate}}
-            td {{d[$index].currentStock}}
+            td {{d[$index].currentStock / d[$index].packageSize}}
             td
               .control-group(ng-class="{ error: d[$index].amount > d[$index].currentStock }")
-                input.input-small(ng-model="d[$index].amount", type="number")
+                input.input-small(ng-change="quantityChanges(d[$index])" ng-model="d[$index].unitQuantity", type="number")
             td
               select(ng-model="d[$index].options", required)
                 option(value="dispense") Dispense
@@ -63,7 +63,8 @@ append mainbody
                 option(value="2") 2x Daily (BD)
                 option(value="3") 3x Daily (TDS)
                 option(value="4") 4x Daily (QDS)
-                option(value="5") When Necessary (PRN)
+                option(value="1") When Necessary (PRN)
+                option(value="1") Start
             td
               input.input-small(ng-model="d[$index].period",placeholder="Duration", type="number", min="1", max="31", ng-change="adjust_amount($index)")
             td
@@ -98,7 +99,7 @@ append mainbody
                         a(href="#")
                           p {{listofdrugs.itemName}}
                           span.label.label-info {{listofdrugs.amount}}
-                  button.btn.btn-danger
+                  //button.btn.btn-danger
                     i.fa.fa-print(title="Print Prescription")
                 td
                   button.btn.btn-primary(type="button", new-modal="#dialog-view-bill", ng-click="viewBill(record._id)") View Bill

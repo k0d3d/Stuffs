@@ -135,6 +135,7 @@ angular.module('item', [])
         orderPrice: (summary.supplierSelected === 'user_entry')? summary.itemPurchaseRate || 0 : summary.dsPurchaseRate,
         orderSupplier: (summary.supplierSelected === 'user_entry') ? summary.orderSupplier || summary.suppliers[0] : {},
         isDrugStocOrder: (summary.supplierSelected === 'user_entry') ? false: true,
+        orderItemSize: summary.itemSize,
         orderDate: Date.now(),
         product_id: summary.product_id,
         sku: summary.sku
@@ -354,9 +355,10 @@ angular.module('item', [])
   i.getItemName = function(query, callback){
     $.getJSON('/api/items/typeahead/?q='+encodeURI(query), function(s) {
         var results = [];
-        $.each(s,function(){
-          results.push(this.itemName);
+        _.forEach(s, function (i) {
+          results.push(i.itemName);
         });
+
         callback(results, s);
     });
   };

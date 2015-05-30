@@ -119,17 +119,17 @@ angular.module('dispense', [])
 
   $scope.addButtonText = 'Add';
   $scope.addHelpText = '';
-  $scope.$watch('selectedItem.itemname', function(newValue, oldValue){
-    if(newValue !== oldValue){
-      $scope.thisItemName = newValue;
-    }
-  });
+  // $scope.$watch('selectedItem.itemname', function(newValue, oldValue){
+  //   if(newValue !== oldValue){
+  //     $scope.thisItemName = newValue;
+  //   }
+  // });
   $scope.addDrug = function(){
     if($scope.drugname.length === 0 || _.isUndefined($scope.dispenseform.location)) return false;
     $scope.addHelpText = '';
-    itemsService.summary($scope.thisItemName._id, $scope.dispenseform.location._id,function(c){
-      if(_.indexOf($scope.drugsList, $scope.thisItemName) < 0){
-        $scope.drugsList.push($scope.thisItemName);
+    itemsService.summary($scope.selectedItem.itemname._id, $scope.dispenseform.location._id,function(c){
+      if(_.indexOf($scope.drugsList, $scope.selectedItem.itemname.itemName) < 0){
+        $scope.drugsList.push($scope.selectedItem.itemname.itemName);
         $scope.d.push(c);
         //Empty the drugname field
         $scope.drugname = '';
@@ -199,7 +199,7 @@ angular.module('dispense', [])
     });
     var toSend = {
       'patientName':$scope.dispenseform.patientName,
-      'patientId': $scope.dispenseform.patientno,
+      'patientId': $scope.dispenseform.patientId,
       'id': $scope.dispenseform.id,
       'doctorName': $scope.dispenseform.doctorName,
       'doctorId': $scope.dispenseform.doctorId,
@@ -258,18 +258,30 @@ angular.module('dispense', [])
         val = 4;
       break;
       default:
+        val = 1;
       break;
     }
-    $scope.d[index].amount = val * $scope.d[index].period;
+    $scope.d[index].unitQuantity = val * $scope.d[index].period;
   };
 
-  $scope.print_bill = function(cb){
-    return cb(true);
-    $('#dialog-view-bill .modal-body').printArea({
-      mode: 'iframe'
+  $scope.print_bill = function(ele){
+    // return cb(true);
+    $(ele).printThis({
+       debug: false,
+       importCSS: true,
+       importStyle: false,
+       printContainer: false,
+       pageTitle: 'Bill',
+       formValues: true
     });
+    // $('#dialog-view-bill .modal-body').printArea({
+    //   mode: 'iframe'
+    // });
   };
 
+  $scope.quantityChanges = function (reqIndex) {
+    reqIndex.amount = reqIndex.unitQuantity * reqIndex.packageSize;
+  };
 
   //Calls for the list of created profiles
   biller.profiles(function(r){

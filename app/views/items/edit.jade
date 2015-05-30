@@ -16,11 +16,11 @@ block body
               option Medication
               option Medical Equipment
             label(for="name") Brand Name
-            input.input-medium(type="text",name="name", ng-model="form.itemName", type-ahead, th-name="nafdacdrugs", required)
+            input.input-medium(type="text",name="name", ng-model="form.itemName", type-ahead, th-name="nafdacdrugs")
             label(for="sci-name") Scientific Name / Composition
-            input.input-medium(type="text", name="sci-name",ng-model="form.sciName", required)
+            input.input-medium(type="text", name="sci-name",ng-model="form.sciName")
             label(for="man-name") Manufacturer
-            input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName", required)
+            input#manufacturerName.input-medium(name="manufacturerName",type="text",ng-model="form.manufacturerName")
             label(for="supplier") Importer
             input.input-medium(type="text", name="supplier",ng-model="form.importer", style="color:black;" )
             label(for="supplier") NAFDAC Number
@@ -43,21 +43,21 @@ block body
                 | {{itemSup.supplierName}}
             input.input-medium(type="text", name="supplier", supplier-name-type-ahead)
             p {{form.suppliers.length}} suppliers selected.
-            label(for="icd") ICD Code
-            input.input-small(type="text",name="icd",ng-model="form.icdcode")
-            label(for="bp") Boiling Point
-            input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint", required, ng-minlength=0, ng-maxlength=100)
-            label(for="itemsize") Package Size
-            input.input-small(name="itemsize",type="number",ng-model="form.packageSize", required)
-            label(for="itemform") Item Form
+
+
+            label(for="item-size") Item contains a total of
+            input.input-small(type="text",name="item-size",ng-model="form.itemSize", required)
+            label(for="itemform") (Item Form)
             p.disabled-input(ng-click="itemFormShow = !itemFormShow", ng-init="itemFormShow = false", ng-show="!itemFormShow") {{form.itemForm}}
             select(name="itemform",ng-model="form.itemForm", ng-options="c for c in commons.itemForm", ng-show="itemFormShow")
-            label(for="itempackaging") Item Packaging
+            label(for="itemsize") minimally dispensed in (Package Size)
+            input.input-small(name="itemsize",type="number",ng-model="form.packageSize")
+            label(for="itempackaging") (Item Packaging)
             p.disabled-input(ng-click="itemPackagingShow = !itemPackagingShow", ng-init="itemPackagingShow = false", ng-show="!itemPackagingShow") {{form.itemPackaging}}
             select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging", ng-show="itemPackagingShow")
+            label(for="bp") Reorder Level
+            input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint", ng-minlength=0, ng-maxlength=100)
             label(for="rate") DrugStoc Rate
             p.disabled-input.input-medium {{form.dsPurchaseRate}}
             label(for="rate") Purchase Rate
             input.input-small(type="number",name="op",ng-model="form.itemPurchaseRate")
-            label(for="rate") Selling Rate
-            input.input-small(type="number",name="op",ng-model="form.sellingPrice")

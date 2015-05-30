@@ -13,22 +13,22 @@
               label.control-label Dispense
               .controls
                   input.input-xlarge(type="text",ng-model="drugname", type-ahead, th-name="itemname")
-                  button.btn.btn-warning.pull-right(type="button", ng-click="addDrug()", style="position: relative;left: -53px;top: 5px;") {{addButtonText}}
+                  button.btn.btn-warning.pull-right(type="button", ng-click="addSelectedDrug()", style="position: relative;left: -53px;top: 5px;") {{addButtonText}}
                   span.help-block {{addHelpText}}
           table.table.drugs-list.table-fixed-header(ng-show="requestform.request.length > 0")
             thead.header
               tr
                 th Drug Name
                 th Stock
-                th Amount
+                th Quantity
                 th
             tbody
               tr(data-ng-repeat="(i,drugs) in requestform.request")
                 td {{requestform.request[$index].itemName}}
-                td {{requestform.request[$index].currentStock}}
+                td {{requestform.request[$index].currentStock / requestform.request[$index].itemSize}}
                 td
                   .control-group(ng-class="{ error: requestform.request[$index].amount > requestform.request[$index].currentStock}")
-                    input.input-small(ng-model="requestform.request[$index].amount",placeholder="amount", type="number")
+                    input.input-small(ng-change="quantityChanges(requestform.request[$index])" ng-model="requestform.request[$index].unitQuantity", placeholder="quantity", type="number", data-toggle="tooltip", data-placement="top", title="{{requestform.request[$index].itemPackaging}}")
                 td
                   i.icon-remove.pull-right(ng-click="removeDrug($index)")
 

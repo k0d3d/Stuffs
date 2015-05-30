@@ -16,7 +16,7 @@ var mongoose = require('mongoose'),
  * directive specifies if the calculation will increment or decrement the value.
  */
 var BillRulesSchema = new Schema({
-  name: {type: String, unique: true},
+  name: {type: String},
   by: {type: String},
   value: {type: Number},
   servicename:{type: String},
