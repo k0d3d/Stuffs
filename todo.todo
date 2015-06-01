@@ -53,11 +53,12 @@ DDIMs Operations Checked and Bug Fix statuses:
  ✔ discussion on stockdown request, @done (15-05-30 12:45)
 
  ✔ Add 'start' to list of dosage @done (15-05-30 13:11)
-View order page should sort by date, most recent
-Block multiple clicks after order has been set : all transaction buttons should be disabled till response comes
-sms, email and print purchase orders.
+ ✔ View order page should sort by date, most recent @done (15-05-30 15:21)
+ ☐ Block multiple clicks after order , (also creating / adding items)has been set : all transaction buttons should be disabled till response comes. @high @critical
 
-bug on item already in list when dispensing
+ ☐ sms, email and print purchase orders.  @high
+
+ ✔ bug on item already in list when dispensing @done (15-05-30 15:21)
 
 use jxcore or use kue for update scheduling
 
@@ -69,4 +70,16 @@ order id filter
  ☐ Search Stock on a location
  ☐ remove item from 'confirmed' if property is edited on dispense list
  ☐ use find and create / update for stocking method on model/stock.js
- ☐ adjust amount on dispense form when duration is changed @low
+ ✔ adjust amount on dispense form when duration is changed @low @done (15-05-30 15:12)
+ ☐ Fix search
+ ☐ Quick switch for itemSize and packageSize on inventory list (hold down tile)
+ NOTE: Reorder level is based on the quantity / stock in the inventory
+ ☐ Clear totally what eva value is in invoice number when adding an item, if its not necessary.. unset item.orderInvoiceNumber
+ ☐ Purchase order at carting point / check out point @critical
+ ☐ Small tooltip on view orders that shows, amount / quantity disparity when order is supplied
+ ☐ Add column that describes the item form and package size. when dispensing
+ ☐ describe items being dispensed on confirmation modal
+
+
+
+

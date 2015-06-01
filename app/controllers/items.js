@@ -13,9 +13,10 @@ var
 
 
 
-module.exports.routes = function(app){
+module.exports.routes = function(app, jobQueue){
   var itemInstance = new ItemFn();
   var dsItems = new DsItem();
+  dsItems.jobQueue = jobQueue;
   var ndls = new Ndl();
 
   app.get('/items', function(req, res){

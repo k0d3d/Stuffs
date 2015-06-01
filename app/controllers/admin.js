@@ -8,7 +8,7 @@ var util = require('util'),
 
 
 
-module.exports.routes = function(app){
+module.exports.routes = function(app, jobQueue){
   var admin = new Admin(), order = new Order();
   app.get('/admin',function(req, res){
     res.render('index',{
@@ -18,6 +18,7 @@ module.exports.routes = function(app){
 
   app.get('/api/admin/updates',  function(req, res, next){
     var dsitem = new DSItems();
+    dsitem.jobQueue = jobQueue;
     //return  res.json(200,['happu']);
     dsitem.checkProductUpdates()
     .then(function(r){
@@ -53,6 +54,7 @@ module.exports.routes = function(app){
 
   app.post('/api/admin/update-product-information',  function(req, res){
     var dsitem = new DSItems();
+    dsitem.jobQueue = jobQueue;
     dsitem.refreshProductInformation(req)
     .then(function(r){
         res.json(r);

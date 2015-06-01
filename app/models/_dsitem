@@ -5,16 +5,16 @@ var DsItems = require('./dsitem/dsitem'),
     config = require('config'),
     Q = require('q'),
     moment = require('moment'),
-    // OrderController = require('./order').order,
+    OrderController = require('./order').order,
     request = require('request'),
     _ = require('lodash'),
-    debug = require('debug')('dsItem-model'),
     util = require('util');
 
 function DSClass () {
+  console.log('Init DSClass');
   DsItems.setKeywords(function (err) {
-    debug(err);
-    debug('Indexing DSItems');
+    console.log(err);
+    console.log('Indexing DSItems');
   });
   // this.requestLib = request;
   this.DS_CLOUD_URL = config.api.DS_CLOUD_URL;
@@ -177,6 +177,81 @@ DSClass.prototype.postDSCloudOrders = function postDSCloudOrders (orders, extraQ
   return q.promise;
 };
 
+DSClass.prototype.checkUpdates = function(req, cb){
+  var r = [];
+  var dt = new Date();
+  var ld = req.session.lastUpdate || dt.toJSON();
+  //var ld = '2013-10-29T16:42:17.158Z';
+  var spoken = [];
+  var DSC = this;
+
+
+  function speakPrice (){
+    _.each(r[1], function(v){
+      spoken.push(
+        v.product_id.productName + ' by ' + v.product_id.man_imp_supp + ' updates price to ' + v.price
+      );
+    });
+  }
+
+  function speakOrders () {
+    _.each(r[0], function(v){
+      spoken.push(
+        'Order for ' + v.order_id.orderAmount + ' ' +  v.order_id.nafdacRegName + ' from ' + v.order_id.orderSupplier[0].supplierName + ' is ' + v.status
+      );
+    });
+  }
+
+  function orderCheck(){
+    rest.get(DSC.DS_CLOUD_URL + '/api/orders/hospital/1008/updates/' + ld)
+    .on('success', function(data){
+      if(!_.isEmpty(data)){
+        var orders = new OrderController();
+        orders.isDispatched(data);
+      }
+      r.push(data);
+      drugCheck(ld);
+    })
+    .on('error', function(err){
+      cb(err);
+    })
+    .on('fail', function(err){
+      cb(err);
+    });
+  }
+  function drugCheck(){
+    rest.get(DSC.DS_CLOUD_URL + '/api/drugs/updates/'+ld)
+    .on('success', function(data){
+      if(!_.isEmpty(data)){
+        var ndl = new NDL();
+        ndl.priceUpdated(data);
+        var items = new Items();
+        items.updateByReg(data);
+      }
+      r.push(data);
+
+      speakPrice();
+      speakOrders();
+
+        //Final Callback :: remember to set last update
+        req.session.lastUpdate = dt.toJSON();
+        cb(spoken);
+    })
+    .on('error', function(err){
+      cb(err);
+    })
+    .on('fail', function(err){
+      cb(err);
+    });
+  }
+
+
+
+  orderCheck();
+
+
+};
+
 DSClass.prototype.checkProductUpdates = function checkProductUpdates () {
   var q = Q.defer(), DSC = this;
 
@@ -200,29 +275,7 @@ DSClass.prototype.checkProductUpdates = function checkProductUpdates () {
 DSClass.prototype.saveProductUpdates =   function saveProductUpdates (products, count, num) {
   var q = Q.defer();
   num = num || 0;
-  var jobQueue = this.jobQueue;
-  if (!jobQueue) {
-    q.reject(new Error('unavailable job queue for process'));
-    return q.promise;
-  }
 
-  //should add chunk processing to job queue
-  var job = jobQueue.create('save_one_product', {
-    startTime: Date.now()
-  }).priority('medium');
-  job.on('complete', function (){
-      console.log('Job', job.id, ' has completed');
-  });
-  job.on('failed', function (){
-      console.log('Job', job.id, ' has failed');
-  });
-  job.save(function (err) {
-    if (err) {
-      console.log(err.stack);
-      q.reject(new Error('update has errors'));
-    }
-    q.resolve({jobId: job.id});
-  });
   function mapImgSrc (img) {
     return img.src;
   }
@@ -234,52 +287,44 @@ DSClass.prototype.saveProductUpdates =   function saveProductUpdates (products, 
     };
   }
 
-  jobQueue.process('save_requested_product_list', 100, function (job, done){
-    /* carry out all the job function here */
-    var s = {
-      product_id : products[num].id,
-      title: products[num].title,
-      sku: products[num].sku,
-      price: products[num].price,
-      regular_price: products[num].regular_price,
-      description: products[num].description,
-      categories: products[num].categories,
-      tags: products[num].tags,
-      imagesSrc: _.map(products[num].images, mapImgSrc),
-      attributes: _.map(products[num].attributes, mapProductAttribs),
-      created_at: products[num].created_at,
-      updated_at: products[num].updated_at,
-      permalink: products[num].permalink
-    };
+  var s = {
+    product_id : products[num].id,
+    title: products[num].title,
+    sku: products[num].sku,
+    price: products[num].price,
+    regular_price: products[num].regular_price,
+    description: products[num].description,
+    categories: products[num].categories,
+    tags: products[num].tags,
+    imagesSrc: _.map(products[num].images, mapImgSrc),
+    attributes: _.map(products[num].attributes, mapProductAttribs),
+    created_at: products[num].created_at,
+    updated_at: products[num].updated_at,
+    permalink: products[num].permalink
+  };
 
-    DsItems.update({
-      sku: products[num].sku
-    },s ,{
-      upsert: true
-    }, function (err, didUpdate) {
-      if (err) {
-        console.log(err);
-        return q.reject(err);
+  DsItems.update({
+    sku: products[num].sku
+  },s ,{
+    upsert: true
+  }, function (err, didUpdate) {
+    if (err) {
+      console.log(err);
+      return q.reject(err);
+    }
+    var item = new Items();
+    item.updateItem({
+      product_id: s.product_id
+    }, {
+      dsPurchaseRate: s.regular_price
+    }, function () {
+      if (didUpdate && (num < count - 1)) {
+        return saveProductUpdates(products, count, num + 1);
       }
-      var item = new Items();
-      item.updateItem({
-        product_id: s.product_id
-      }, {
-        dsPurchaseRate: s.regular_price
-      }, function () {
-        if (didUpdate && (num < count - 1)) {
-          if (done) {
-            done();
-          }
-          return saveProductUpdates(products, count, num + 1);
-        }
-        q.resolve(count);
-        console.log(num, count, num < count);
-      });
+      q.resolve(count);
+      console.log(num, count, num < count);
     });
   });
-
-
   return q.promise;
 };
 
@@ -288,29 +333,6 @@ DSClass.prototype.runProductUpdateRequest =   function runProductUpdateRequest (
     console.log('runProductUpdateRequest');
     page = page || 0;
     extraQs = extraQs || {};
-    var jobQueue = this.jobQueue;
-    if (!jobQueue) {
-      q.reject(new Error('unavailable job queue for process'));
-      return q.promise;
-    }
-
-    //should add chunk processing to job queue
-    var job = jobQueue.create('save_requested_product_list', {
-      startTime: Date.now()
-    }).priority('high');
-    job.on('complete', function (){
-        console.log('Job', job.id, ' has completed');
-    });
-    job.on('failed', function (){
-        console.log('Job', job.id, ' has failed');
-    });
-    job.save(function (err) {
-      if (err) {
-        console.log(err.stack);
-        q.reject(new Error('update has errors'));
-      }
-      q.resolve({jobId: job.id});
-    });
 
     request(_.extend(DSC.requestOptions, {
       url : extraQs.url || DSC.DS_CLOUD_ROUTES.ALL_WC_PRODUCTS,
@@ -330,14 +352,8 @@ DSClass.prototype.runProductUpdateRequest =   function runProductUpdateRequest (
         if (payload.products.length) {
           console.log(payload.products.length);
           console.log(page);
-          jobQueue.process('save_requested_product_list', 20, function (job, done){
-          /* carry out all the job function here */
-            DSC.saveProductUpdates(payload.products, payload.products.length)
-            .then(function () {
-              if(done) done();
-            });
-          });
 
+          DSC.saveProductUpdates(payload.products, payload.products.length);
           DSC.runProductUpdateRequest(page + 1);
 
           //do nothing

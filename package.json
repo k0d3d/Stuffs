@@ -38,6 +38,7 @@
     "imager": "0.4.0",
     "jade": "~1.2.0",
     "jasmine-node": "latest",
+    "kue": "^0.9.3",
     "lingua": "~0.3.6",
     "lodash": "latest",
     "method-override": "latest",
