@@ -210,7 +210,7 @@ DSClass.prototype.saveProductUpdates =   function saveProductUpdates (products, 
   //should add chunk processing to job queue
   var job = jobQueue.create('save_one_product', {
     startTime: Date.now()
-  }).priority('medium');
+  });
   job.on('complete', function (){
       console.log('Job', job.id, ' has completed');
   });
@@ -298,7 +298,7 @@ DSClass.prototype.runProductUpdateRequest =   function runProductUpdateRequest (
     //should add chunk processing to job queue
     var job = jobQueue.create('save_requested_product_list', {
       startTime: Date.now()
-    }).priority('high');
+    });
     job.on('complete', function (){
         console.log('Job', job.id, ' has completed');
     });
@@ -331,7 +331,7 @@ DSClass.prototype.runProductUpdateRequest =   function runProductUpdateRequest (
         if (payload.products.length) {
           console.log(payload.products.length);
           console.log(page);
-          jobQueue.process('save_requested_product_list', 20, function (job, done){
+          jobQueue.process('save_requested_product_list', function (job, done){
           /* carry out all the job function here */
             DSC.saveProductUpdates(payload.products, payload.products.length)
             .then(function () {
@@ -391,11 +391,11 @@ DSClass.prototype.findByNafdacNo = function findByNafdacNo(regNo) {
 DSClass.prototype.findDrugstocProduct = function findDrugstocProduct (query_string, query_options, countOrDoc, cb) {
   var
     queryString = new RegExp(query_string, 'i'), self = this,
-    result = this.searchResult, builder;
+    result = this.searchResult, builder, method = countOrDoc || 'find';
   // var dsItem = new DsItem();
-  if (countOrDoc === '') {
 
-    builder = DsItems.find({
+
+    builder = DsItems[method]({
       $or :       [
           {
             'title' : queryString,
@@ -405,66 +405,29 @@ DSClass.prototype.findDrugstocProduct = function findDrugstocProduct (query_stri
           },
           {
            'tags' :  queryString
-
-           // 'attributes.options' : {
-            //   $in: queryString
-            // },
-            // 'sku' : {
-            //   $regex: queryString
-            // }
           },
         ]
     });
-  }
-  if (countOrDoc && countOrDoc === 'count') {
-    builder = DsItems.count({
-      $or :       [
-          {
-            'title' : queryString,
-          },
-          {
-            'description' : queryString,
-          },
-          {
-           'tags' :  queryString
 
-           // 'attributes.options' : {
-            //   $in: queryString
-            // },
-            // 'sku' : {
-            //   $regex: queryString
-            // }
-          },
-        ]
-    });
-  }
-  // var builder = DsItems.find({
-  //   'title' : queryString
-  // });
-  // builder.or(
-  //     [
-  //       {
-  //         'title' : {
-  //           $regex: queryString
+  // if (countOrDoc && countOrDoc === 'count') {
+  //   builder = DsItems.count({
+  //     $or :       [
+  //         {
+  //           'title' : queryString,
   //         },
-  //         'description' : {
-  //           $regex: queryString
+  //         {
+  //           'description' : queryString,
   //         },
-  //         'tags' : {
-  //           $regex: queryString
+  //         {
+  //          'tags' :  queryString
   //         },
-  //         'attributes.options' : {
-  //           $regex: queryString
-  //         },
-  //         'sku' : {
-  //           $regex: queryString
-  //         }
-  //       },
-  //     ]
-  //   );
-  // if (!isNaN(query_string)) {
-  //   builder.where('product_id').eq(query_string);
+  //       ]
+  //   });
   // }
+
+  if (!isNaN(query_string)) {
+    builder.where('product_id').eq(query_string);
+  }
   builder.limit(query_options.limit);
   builder.skip(query_options.skip);
   builder.exec(function (err, doc) {

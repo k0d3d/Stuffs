@@ -31,6 +31,7 @@ function ItemsObject(){
   Item.setKeywords();
   NafdacDrugsModel.setKeywords();
   // console.log(Item);
+  this.searchResult = {};
 }
 
 
@@ -724,27 +725,86 @@ ItemsObject.prototype.fetchByRegNo = function(query, cb){
   });
 };
 
-ItemsObject.prototype.findRegisteredItem = function findRegisteredItem (query_string, query_options) {
-  var q = Q.defer();
-  NafdacDrugsModel.search(query_string, null, query_options, function (err, data) {
+ItemsObject.prototype.findRegisteredItem = function findRegisteredItem (query_string, query_options, countOrDoc, cb) {
+  var
+      queryString = new RegExp(query_string, 'i'),
+      result = this.searchResult,
+      self = this, method = countOrDoc || 'find';
+
+  var builder = NafdacDrugsModel[method]({
+      $or :       [
+          {
+            'productName' : queryString,
+          },
+          {
+            'composition' : queryString,
+          },
+          {
+           'man_imp_supp' :  queryString
+          },
+        ]
+    });
+  builder.limit(query_options.limit);
+  builder.skip(query_options.skip);
+  builder.exec(function (err, doc) {
     if (err) {
-      return q.reject(err);
+      return cb(err);
     }
-    q.resolve(data);
+    // return q.resolve(doc);
+    if (countOrDoc && countOrDoc === 'count') {
+      result.totalCount = doc;
+      if (cb) {
+        cb(result);
+      }
+      // return q.resolve(result);
+    } else {
+      result.results = doc;
+      self.findRegisteredItem(query_string, query_options, 'count', cb);
+
+    }
   });
-  return q.promise;
 };
 
 
-ItemsObject.prototype.findItem = function findItem (query_string, query_options) {
-  var q = Q.defer();
-  Item.search(query_string, null, query_options, function (err, data) {
+ItemsObject.prototype.findItem = function findItem (query_string, query_options, countOrDoc, cb) {
+  var
+    queryString = new RegExp(query_string, 'i'),
+    result = this.searchResult,
+    self = this, method = countOrDoc || 'find';
+  var builder = Item[method]({
+      $or :       [
+          {
+            'manufacturerName' : queryString,
+          },
+          {
+            'sciName' : queryString,
+          },
+          {
+           'itemName' :  queryString
+          },
+        ]
+    });
+  builder.limit(query_options.limit);
+  builder.skip(query_options.skip);
+  builder.exec(function (err, doc) {
     if (err) {
-      return q.reject(err);
+      return cb(err);
     }
-    q.resolve(data);
+    // return q.resolve(doc);
+    if (countOrDoc && countOrDoc === 'count') {
+      console.log('count query');
+      result.totalCount = doc;
+      if (cb) {
+        cb(result);
+      }
+      // return q.resolve(result);
+    } else {
+      console.log('result');
+      result.results = doc;
+      self.findItem(query_string, query_options, 'count', cb);
+
+    }
   });
-  return q.promise;
 };
 
 ItemsObject.prototype.searchInventory = function searchInventory (query) {

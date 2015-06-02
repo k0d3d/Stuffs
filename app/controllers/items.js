@@ -166,7 +166,7 @@ module.exports.routes = function(app, jobQueue){
     // }
 
     if (req.query.scope === 'drugstoc') {
-      dsItems.findDrugstocProduct(query, options, '', function (r) {
+      dsItems.findDrugstocProduct(query, options, null, function (r) {
         res.json(r);
       });
       // .then(function (result) {
@@ -176,19 +176,13 @@ module.exports.routes = function(app, jobQueue){
       // });
     }
     if (req.query.scope === 'inventory') {
-      itemInstance.findItem(query, options)
-      .then(function (result) {
+      itemInstance.findItem(query, options, null, function  (result) {
         res.json(result);
-      }, function (err) {
-        next(err);
       });
     }
     if (req.query.scope === 'nafdac') {
-      itemInstance.findRegisteredItem(query, options)
-      .then(function (result) {
+      itemInstance.findRegisteredItem(query, options, null, function  (result) {
         res.json(result);
-      }, function (err) {
-        next(err);
       });
     }
     if (req.query.scope === 'checkProduct') {
