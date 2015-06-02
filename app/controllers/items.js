@@ -166,12 +166,14 @@ module.exports.routes = function(app, jobQueue){
     // }
 
     if (req.query.scope === 'drugstoc') {
-      dsItems.findDrugstocProduct(query, options)
-      .then(function (result) {
-        res.json(result);
-      }, function (err) {
-        next(err);
+      dsItems.findDrugstocProduct(query, options, '', function (r) {
+        res.json(r);
       });
+      // .then(function (result) {
+      //   res.json(result);
+      // }, function (err) {
+      //   next(err);
+      // });
     }
     if (req.query.scope === 'inventory') {
       itemInstance.findItem(query, options)

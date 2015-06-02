@@ -70,6 +70,7 @@ function DSClass () {
   };
 
   this.DsItemsModel = DsItems;
+  this.searchResult = {};
 
 }
 
@@ -387,16 +388,108 @@ DSClass.prototype.findByNafdacNo = function findByNafdacNo(regNo) {
   return q.promise;
 };
 
-DSClass.prototype.findDrugstocProduct = function findDrugstocProduct (query_string, query_options) {
-  var q = Q.defer();
+DSClass.prototype.findDrugstocProduct = function findDrugstocProduct (query_string, query_options, countOrDoc, cb) {
+  var
+    queryString = new RegExp(query_string, 'i'), self = this,
+    result = this.searchResult, builder;
   // var dsItem = new DsItem();
-  DsItems.search(query_string, null, query_options, function (err, data) {
+  if (countOrDoc === '') {
+
+    builder = DsItems.find({
+      $or :       [
+          {
+            'title' : queryString,
+          },
+          {
+            'description' : queryString,
+          },
+          {
+           'tags' :  queryString
+
+           // 'attributes.options' : {
+            //   $in: queryString
+            // },
+            // 'sku' : {
+            //   $regex: queryString
+            // }
+          },
+        ]
+    });
+  }
+  if (countOrDoc && countOrDoc === 'count') {
+    builder = DsItems.count({
+      $or :       [
+          {
+            'title' : queryString,
+          },
+          {
+            'description' : queryString,
+          },
+          {
+           'tags' :  queryString
+
+           // 'attributes.options' : {
+            //   $in: queryString
+            // },
+            // 'sku' : {
+            //   $regex: queryString
+            // }
+          },
+        ]
+    });
+  }
+  // var builder = DsItems.find({
+  //   'title' : queryString
+  // });
+  // builder.or(
+  //     [
+  //       {
+  //         'title' : {
+  //           $regex: queryString
+  //         },
+  //         'description' : {
+  //           $regex: queryString
+  //         },
+  //         'tags' : {
+  //           $regex: queryString
+  //         },
+  //         'attributes.options' : {
+  //           $regex: queryString
+  //         },
+  //         'sku' : {
+  //           $regex: queryString
+  //         }
+  //       },
+  //     ]
+  //   );
+  // if (!isNaN(query_string)) {
+  //   builder.where('product_id').eq(query_string);
+  // }
+  builder.limit(query_options.limit);
+  builder.skip(query_options.skip);
+  builder.exec(function (err, doc) {
     if (err) {
-      return q.reject(err);
+      return cb(err);
     }
-    q.resolve(data);
+    // return q.resolve(doc);
+    if (countOrDoc && countOrDoc === 'count') {
+      console.log('count query');
+      result.totalCount = doc;
+      if (cb) {
+        cb(result);
+      }
+      // return q.resolve(result);
+    } else {
+      console.log('result');
+      result.results = doc;
+      self.findDrugstocProduct(query_string, query_options, 'count', cb);
+
+    }
+
+
   });
-  return q.promise;
+
+  // return q.promise;
 };
 
 DSClass.prototype.findDrugstocProductById = function findDrugstocProductById (query_string) {
