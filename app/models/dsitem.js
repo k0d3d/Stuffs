@@ -234,7 +234,7 @@ DSClass.prototype.saveProductUpdates =   function saveProductUpdates (products, 
     };
   }
 
-  jobQueue.process('save_requested_product_list', 100, function (job, done){
+  jobQueue.process('save_one_product', 100, function (job, done){
     /* carry out all the job function here */
     var s = {
       product_id : products[num].id,

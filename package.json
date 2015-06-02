@@ -62,6 +62,7 @@
     "request": "^2.55.0",
     "restler": "~2.0.1",
     "sinon": "latest",
+    "twilio": "^2.2.1",
     "view-helpers": "latest"
   },
   "devDependencies": {

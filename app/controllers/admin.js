@@ -38,7 +38,10 @@ module.exports.routes = function(app, jobQueue){
   .get(function (req, res, next) {
     admin.fetchUser(req.consumer_key)
     .then(function (user) {
-      res.json(user);
+       if (user) {
+        return res.json(user);
+       }
+       return res.status(404).json();
     }, function (err) {
       next(err);
     });

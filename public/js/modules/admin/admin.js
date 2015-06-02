@@ -174,9 +174,12 @@ angular.module('admin', [])
   //$scope.run_setup =  adminService.initSetup();
 }])
 .controller('usersController', ['$scope', 'adminService', function ($scope, adminService) {
+    $scope.facility = {};
     adminService.loadUserProfile()
     .then(function (userInfo) {
-      $scope.facility = userInfo.data;
+      if (userInfo.data) {
+        $scope.facility = userInfo.data;
+      }
     });
 
     $scope.login_user = function (f) {

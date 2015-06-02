@@ -25,7 +25,8 @@ var DispenseSchema = new Schema({
     status: {type: String},
     dosage: {type: String},
     period: {type: Number},
-    cost: {type: Number}
+    cost: {type: Number},
+    dose: {type: String}
   }],
   otherDrugs: [{
     itemName: {type: String},

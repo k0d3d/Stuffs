@@ -46,6 +46,22 @@ angular.module('dispense', [])
   //Initialize
   init();
 
+  $scope.is_fluid = function is_fluid (str) {
+    return [
+     'Vials',
+     'Emugels',
+     'Gels',
+     'Ointments',
+     'Suspensions',
+     'Syrup',
+     'Cream',
+     'Lotion',
+     'Drops',
+     'Sprays',
+     'Solutions',
+    ].indexOf(str) > -1;
+  };
+
   //populates the waiting list object
   function chip_form(wl){
     return {
@@ -71,7 +87,8 @@ angular.module('dispense', [])
         itemPurchaseRate: v.cost,
         dosage: v.dosage,
         period: v.period,
-        status: v.status
+        status: v.status,
+        dose: v.dose
       };
     });
   }
@@ -147,8 +164,8 @@ angular.module('dispense', [])
     $scope.drugname = '';
 
     if($scope.d[index].options === 'alternative'){
-      $scope.addHelpText = 'This is an alternative to ' + d.itemName;
-      $scope.dispenseform.prescription.push(d);
+      // $scope.addHelpText = 'This is an alternative to ' + d.itemName;
+      // $scope.dispenseform.prescription.push();
       $scope.d[index].ready = true;
       return;
     }
@@ -243,7 +260,7 @@ angular.module('dispense', [])
   };
 
   $scope.adjust_amount = function(index){
-    var val;
+    var val, d = $scope.d[index];
     switch($scope.d[index].dosage){
       case '1':
         val = 1;
@@ -258,10 +275,19 @@ angular.module('dispense', [])
         val = 4;
       break;
       default:
-        val = 1;
+        val = d.qty;
       break;
     }
-    $scope.d[index].unitQuantity = val * $scope.d[index].period;
+
+    var calc_dosage = val * d.dose * d.period;
+    console.log(calc_dosage);
+    var dosage_count_in_package_size = Math.ceil(calc_dosage / d.packageSize);
+
+    $scope.d[index].unitQuantity = dosage_count_in_package_size;
+    // $scope.d[index].unitQuantity = Math.ceil((val * $scope.d[index].period) /
+    //                                 $scope.d[index].packageSize / $scope.d[index].dose);
+
+    $scope.d[index].amount = $scope.d[index].unitQuantity * $scope.d[index].packageSize;
   };
 
   $scope.print_bill = function(ele){
@@ -279,9 +305,9 @@ angular.module('dispense', [])
     // });
   };
 
-  $scope.quantityChanges = function (reqIndex) {
-    reqIndex.amount = reqIndex.unitQuantity * reqIndex.packageSize;
-  };
+  // $scope.quantityChanges = function (reqIndex) {
+  //   reqIndex.amount = reqIndex.unitQuantity * reqIndex.packageSize;
+  // };
 
   //Calls for the list of created profiles
   biller.profiles(function(r){

@@ -5,6 +5,9 @@
 
 var
     Supplier = require('./user/supplier-schema'),
+    sendSMS = require('../../lib/smsSend'),
+    util = require('util'),
+    Admin = require('./admin'),
     _ = require('lodash');
 
 
@@ -139,12 +142,31 @@ SupplierModel.prototype.typeahead  = function(query, callback){
   });
 };
 
-SupplierModel.prototype.sendNotice = function(id, type, cb){
+SupplierModel.prototype.sendNotice = function(id, type, order, cb){
+  var admin = new Admin();
+  function returnAddresses (a) {
+    return {
+      first_name: a.first_name,
+      last_name: a.last_name,
+      address_1: a.address_1,
+      address_2: a.address_2,
+      city: a.city,
+      state: a.state,
+      postcode: a.postcode,
+      country: 'NG',
+      phone: a.phone,
+    };
+  }
+  function get_user_phone_numbers (d) {
+    var phones = [];
+    if(type === 'sms' && (d.contactPersonPhone || d.phoneNumber)){
+      if (d.contactPersonPhone) {
+        phones = _.union(phones, d.contactPersonPhone.split(','));
+      }
 
-  function put_notice (d) {
-    console.log(d);
-    if(type === 'sms' && !_.isUndefined(d.contactPersonPhone)){
-      var phones = d.contactPersonPhone.split(",");
+      if (d.phoneNumber) {
+        phones = _.union(phones, d.phoneNumber.split(','));
+      }
       phones = _.map(phones, function(v){
         return v.trim();
       });
@@ -161,7 +183,23 @@ SupplierModel.prototype.sendNotice = function(id, type, cb){
     if(err){
       cb(err);
     }else{
-      cb(put_notice(i));
+      admin.fetchUser('ck_74d23e186250997246f0c198148441d4')
+      .then(function (adminUser) {
+        var user = returnAddresses(adminUser);
+        var msg = util.format('%s %s', user.first_name, user.last_name) + '\n' ;
+        msg += util.format('%s',user.address_1) + '\n';
+        msg += util.format('%s', user.city) + '\n';
+
+        _.each(order, function (o) {
+          msg += util.format('%s-%d', o.itemName, o.orderAmount);
+        });
+        sendSMS.sendSMS(msg, get_user_phone_numbers(i))
+        .then(function () {
+          cb(true);
+        }, function (err) {
+          cb(err);
+        });
+      });
     }
   });
 

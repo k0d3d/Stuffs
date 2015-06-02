@@ -233,7 +233,10 @@ angular.module('item', [])
     itemsService.save($scope.form, function(status){
       $scope.saveButtonText = 'Save Item';
       if(status){
-        $scope.form = '';
+        $scope.form = {
+          itemCategory: [],
+          suppliers: []
+        };
         $scope.saveButtonClass = 'btn-primary';
       }
     });
@@ -672,7 +675,7 @@ angular.module('item', [])
   };
 }])
 .directive('supplierNameTypeAhead', ['itemsService', function (itemsService){
-  var linker = function(scope, element, attrs){
+  var linker = function(scope, element){
     var nx;
     var typeFunc = {
       source: function(query, process){
@@ -682,7 +685,7 @@ angular.module('item', [])
         });
       },
       updater: function(name){
-        _.some(nx, function(v,i){
+        _.some(nx, function(v){
           if(v.supplierName === name){
             scope.form.suppliers.push({
               supplierID : v._id,

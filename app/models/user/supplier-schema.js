@@ -32,7 +32,7 @@ SuppliersSchema.statics = {
   */
   autocomplete: function(name, cb){
     console.log(name);
-    var wit = this.find({},'supplierName');
+    var wit = this.find({});
     wit.regex('supplierName',new RegExp(name, 'i'))
     .limit(10)
     .exec(cb);

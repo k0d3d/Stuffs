@@ -28,7 +28,7 @@
                 td {{requestform.request[$index].currentStock / requestform.request[$index].itemSize}}
                 td
                   .control-group(ng-class="{ error: requestform.request[$index].amount > requestform.request[$index].currentStock}")
-                    input.input-small(ng-change="quantityChanges(requestform.request[$index])" ng-model="requestform.request[$index].unitQuantity", placeholder="quantity", type="number", data-toggle="tooltip", data-placement="top", title="{{requestform.request[$index].itemPackaging}}")
+                    input.input-small(ng-change="quantityChanges(requestform.request[$index])" ng-model="requestform.request[$index].unitQuantity", placeholder="quantity", type="number", data-toggle="tooltip", data-placement="top", title="{{requestform.request[$index].itemForm}}")
                 td
                   i.icon-remove.pull-right(ng-click="removeDrug($index)")
 

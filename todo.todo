@@ -13,7 +13,7 @@ DDIMs Operations Checked and Bug Fix statuses:
  ☐ Note:: When attaching items drom ds to iv, ds replaces itemPurchasePrice @low
  ✔ Placing order from 'Place Order Inventory' @done (15-05-25 16:47)
  ✔ Attaching DS Product to existing Inventory @done (15-05-25 16:48)
- ☐ Make Purchase rate mandatory when adding inventory item with Stock @low
+ ✔ Make Purchase rate mandatory when adding inventory item with Stock @low @done (15-06-02 05:49)
  ✔ Creating new inventory item from DS product, adding stock and fixing purchase rate @done (15-05-25 16:53)
  ✔ Order Update operations  @done (15-05-25 17:11)
  ✔ Fixed admin transactions @done (15-05-25 17:17)
@@ -56,30 +56,34 @@ DDIMs Operations Checked and Bug Fix statuses:
  ✔ View order page should sort by date, most recent @done (15-05-30 15:21)
  ☐ Block multiple clicks after order , (also creating / adding items)has been set : all transaction buttons should be disabled till response comes. @high @critical
 
- ☐ sms, email and print purchase orders.  @high
+ ✔ sms, email and print purchase orders.  @high @done (15-06-02 05:50)
 
  ✔ bug on item already in list when dispensing @done (15-05-30 15:21)
 
-use jxcore or use kue for update scheduling
+ ✔ use jxcore or use kue for update scheduling @done (15-06-02 05:50)
 
-print orders,
-add order id column
-order id filter
-
+ ✔ print orders, @done (15-06-02 05:50)
+ ✔ add order id column @done (15-06-02 05:50)
+ ✔ order id filter @done (15-06-02 05:50)
+ ✔ After adding an item, clearing the form to add another item disables the supplier add field @high @done (15-06-02 05:53)
+ ✔ adjust amount on dispense form when duration is changed @low @done (15-05-30 15:12)
+ ✔ Purchase order at carting point / check out point @critical @done (15-06-02 05:57)
+ ✔ Add column that describes the item form and package size. when dispensing @done (15-06-02 05:58)
+ ✔ describe items being dispensed on confirmation modal @done (15-06-02 05:58)
+ ☐ use find and create / update for stocking method on model/stock.js
+ ☐ review stock history implementation @critical
+ ☐ Order number not generated when adding item with stock @high
+ ☐ Use db values for cs key and cs secret on dsitems @high
  ☐ Delete Stock from a location,
  ☐ Search Stock on a location
  ☐ remove item from 'confirmed' if property is edited on dispense list
- ☐ use find and create / update for stocking method on model/stock.js
- ✔ adjust amount on dispense form when duration is changed @low @done (15-05-30 15:12)
+ ☐ remove item from 'confirmed' dispense list when removes from dispense list
  ☐ Fix search
  ☐ Quick switch for itemSize and packageSize on inventory list (hold down tile)
  NOTE: Reorder level is based on the quantity / stock in the inventory
  ☐ Clear totally what eva value is in invoice number when adding an item, if its not necessary.. unset item.orderInvoiceNumber
- ☐ Purchase order at carting point / check out point @critical
  ☐ Small tooltip on view orders that shows, amount / quantity disparity when order is supplied
- ☐ Add column that describes the item form and package size. when dispensing
- ☐ describe items being dispensed on confirmation modal
-
+ ☐ Transactions does not capture dispense @critical
 
 
 

@@ -11,5 +11,25 @@
     },
     "api":{
 			"hmis_url": "http://192.168.2.7"
+    },
+    "sms" : {
+        "accounts" : {
+            "smslive" : {
+                "owneremail" : "koded730@yahoo.com",
+                "subacct" : "EMAIL2SMS",
+                "subacctpwd" : "login60",
+                "sender" : "DrugStoc"
+            },
+            "twilio" : {
+                "accountSID" : "ACee9332ba9fa2eb4becb6eb25e8a9f1eb",
+                "accountToken": "bda3517430f468419934d1ea054675a8"
+            }
+        },
+        "delimeter": {
+            "accepted": "#"
+        },
+        "general" : {
+            "sender" : "DrugStoc"
+        }
     }
 }

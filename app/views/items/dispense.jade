@@ -29,7 +29,7 @@ append mainbody
           label.control-label Drug Name
           .controls
               input.input-xlarge(type="text",ng-model="drugname", type-ahead, th-name="itemname", ng-minlength="1")
-              button.btn.btn-warning.pull-right(type="button", ng-click="addDrug()", style="position: relative;left: -53px;top: 5px;", ng-disabled="newdispense.$invalid || !dispenseform.location") {{addButtonText}}
+              button.btn.btn-warning(type="button", ng-click="addDrug()", style="position: relative", ng-disabled="newdispense.$invalid || !dispenseform.location") {{addButtonText}}
               span.help-block {{addHelpText}}
       table.table.drugs-list.table-fixed-header(ng-show="drugsList.length > 0")
         thead.header
@@ -37,7 +37,8 @@ append mainbody
             th Drug Name
             th.span1 Price@
             th Stock
-            th Amount
+            th
+              span.label.label-warning Quantity
             th Options
             th
         tbody
@@ -47,31 +48,47 @@ append mainbody
             td
               select(style="width: 70px", ng-model="d[$index].cost", ng-options="c for c in d[$index].orderPrice", ng-init="d[$index].cost = d[$index].orderPrice[0]")
                 option {{d[$index].itemPurchaseRate}}
-            td {{d[$index].currentStock / d[$index].packageSize}}
+            td <span>{{d[$index].currentStock / d[$index].itemSize}}</span> <em style="text-transform: none"> as </em><span class="badge badge-warning" data-toggle="tooltip" data-placement="top" title="item of {{d[$index].packageSize}} {{d[$index].itemForm}}">{{d[$index].currentStock / d[$index].packageSize}}</span>
             td
               .control-group(ng-class="{ error: d[$index].amount > d[$index].currentStock }")
-                input.input-small(ng-change="quantityChanges(d[$index])" ng-model="d[$index].unitQuantity", type="number")
+                //input.input-small(ng-change="adjust_amount($index)" ng-model="d[$index].unitQuantity", type="number", readonly)
+                p.input-small {{d[$index].unitQuantity || 0}} {{d[$index].itemPackaging}}
             td
-              select(ng-model="d[$index].options", required)
-                option(value="dispense") Dispense
-                option(value="alternative") Give Alternative
-                option(value="purchase") Immediate Purchase
-                option(value="appointment") Supply on appointment
-                option(value="rx") RX
-              select(ng-model="d[$index].dosage",placeholder="Dosage", ng-change="adjust_amount($index)",required)
-                option(value="1") 1x Daily (OD)
-                option(value="2") 2x Daily (BD)
-                option(value="3") 3x Daily (TDS)
-                option(value="4") 4x Daily (QDS)
-                option(value="1") When Necessary (PRN)
-                option(value="1") Start
+              .row
+                .span6
+                  select(ng-model="d[$index].options", required)
+                    option(value="dispense") Dispense
+                    option(value="alternative") Give Alternative
+                    option(value="purchase") Immediate Purchase
+                    option(value="appointment") Supply on appointment
+                    option(value="rx") RX
+                .span6
+                  select(ng-model="d[$index].dosage",placeholder="Dosage", ng-change="adjust_amount($index)",required)
+                    option(value="1") 1x Daily (OD)
+                    option(value="2") 2x Daily (BD)
+                    option(value="3") 3x Daily (TDS)
+                    option(value="4") 4x Daily (QDS)
+                    option(value="5") When Necessary (PRN)
+                    option(value="5") Start
+              .row(ng-show="is_fluid(d[$index].itemForm)")
+                .span6(ng-init="d[$index].dose = 1")
+                  label.control-label Dose <span style="text-transform: none">(ml)</span>
+                  .controls
+                      input.input-mini(type="number",ng-model="d[$index].dose", ng-change="adjust_amount($index)")
+                .span6(ng-init="d[$index].qty = 1", ng-show="d[$index].dosage == 5")
+                  label.control-label Quantity
+                  .controls
+                      input.input-mini(type="number",ng-model="d[$index].qty", ng-change="adjust_amount($index)")
             td
-              input.input-small(ng-model="d[$index].period",placeholder="Duration", type="number", min="1", max="31", ng-change="adjust_amount($index)")
+              input.input-small(ng-model="d[$index].period",placeholder="Duration", type="number", min="1", ng-change="adjust_amount($index)")
             td
               button.btn.btn-mini.btn-primary(ng-click="prescribeThis($index)", ng-disabled="!d[$index].options.length > 0 || d[$index].ready", ng-init="d[$index].ready = false") Confirm
               i.icon-remove.icon-white.pull-right(ng-click="removeDrug($index)")
-      button.btn.btn-bordered(ng-click="n_w = !n_w;all = !all;btnState = !btnState") Show Dispense Records
-      button.btn.btn-primary(ng-click="approveThis()",ng-init="saveButtonText='Approve'") {{saveButtonText}}
+        tfoot
+          tr
+            td(ng-show="dispenseform.prescription.length")
+              button.btn.btn-bordered(ng-click="n_w = !n_w;all = !all;btnState = !btnState") Show Dispense Records
+              button.btn.btn-primary(ng-click="approveThis()",ng-init="saveButtonText='Approve'") {{saveButtonText}}
   .span8.offset1(ng-show="all")
     .row-fluid.fixed-table
       .span12

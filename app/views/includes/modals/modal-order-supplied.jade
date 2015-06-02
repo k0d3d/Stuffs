@@ -1,20 +1,45 @@
 #modal-order-supplied.modal.hide.fade.alt-text(data-backdrop="static")
     .modal-header
-        h3 Request Stock
-      .modal-body
-        p
-          | Please confirm the following was supplied. 
-          | Enter an invoice number.
-        h4 Item Ordered: Drug Name
-        h5 Amount Ordered: 500
+        div(style="float: left;width: 50%;display: inline-block;")
 
-        form.new-stock-down
-          .control-group
-              label.control-label Invoice Number
-              .controls
-                  input.input-xlarge(type="text",ng-model="form.orderInvoiceNo")
-                  span.help-block {{addHelpText}}                
+        div(style="float: left;width: 50%;display: inline-block;")
+          form(style="margin-bottom: 0")
+            label.lister(for="supplier") Choose Supplier
+            input.input-medium(type="text", name="supplier", order-supplier-type-ahead)
+        .clearfix
+    .modal-body.purchase-order(ng-show="selectedCart.length && printOrderToSupplier")
+      h3(style="text-decoration: underline; text-align: center") Purchase Order
 
-      .modal-footer
-        button.btn.btn-default(new-modal="#modal-order-supplied") Back
-        button.btn(ng-click="changeStatus()",ng-init="saveButtonText='Confirm Supplied'", ng-class="saveButtonClass") {{saveButtonText}}
+      address
+        | <strong> {{printOrderToSupplier.supplierName}} </strong><br>
+        | {{printOrderToSupplier.address}}<br>
+        | {{printOrderToSupplier.email}}<br>
+        | {{printOrderToSupplier.phoneNumber}}<br>
+
+      div.date-field
+        span {{selectedCart[0].orderDate | date:'short'}}
+
+        #print-table-cart.table-content
+          table#list-cart.table.table-fixed-header
+            thead.header
+              tr
+                th Item
+                th Quantity
+                th Price (N)
+            tbody
+              tr(ng-repeat="or in selectedCart")
+                td {{or.itemName}}
+                td {{or.orderAmount}}
+                td {{or.orderPrice}}
+
+
+
+
+    .modal-footer
+      button.btn.btn-default(new-modal="#modal-order-supplied") Back
+      button.btn(ng-click="sms_purchase_order()" ng-class="saveButtonClass", ng-disabled="!printOrderToSupplier.phoneNumber && !printOrderToSupplier.isRequesting")
+        | <i class="fa fa-envelope-o " > SMS</i>
+      button.btn(ng-class="saveButtonClass", ng-disabled="!printOrderToSupplier.email")
+        | <i class="fa fa-at" > Email</i>
+      button.btn(ng-class="saveButtonClass", ng-click="print_purchase_order('.purchase-order')")
+        | <i class="fa fa-print" > Print</i>
