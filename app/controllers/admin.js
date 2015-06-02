@@ -132,15 +132,16 @@ module.exports.routes = function(app, jobQueue){
 
   app.post('/admin/session', function(req, res, next){
     var dsitem = new DSItems();
+    admin.updateUserProfile(req.body.consumer_key, req.body)
+    .then(function () {
+      res.json(true);
+    }, function (err) {
+      next(err);
+    });
+    return ;
     dsitem.checkConsumerByEmail(req.body)
     .then(function(d){
       d.customer_id = d.id;
-      admin.updateUserProfile(d.consumer_key, d)
-      .then(function () {
-        res.json(true);
-      }, function (err) {
-        next(err);
-      });
 
     }, function (err) {
       next(err);
