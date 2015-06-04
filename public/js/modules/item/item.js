@@ -135,6 +135,7 @@ angular.module('item', [])
         orderPrice: (summary.supplierSelected === 'user_entry')? summary.itemPurchaseRate || 0 : summary.dsPurchaseRate,
         orderSupplier: (summary.supplierSelected === 'user_entry') ? summary.orderSupplier || summary.suppliers[0] : {},
         isDrugStocOrder: (summary.supplierSelected === 'user_entry') ? false: true,
+        orderItemSize: summary.itemSize,
         orderDate: Date.now(),
         product_id: summary.product_id,
         sku: summary.sku
@@ -232,7 +233,10 @@ angular.module('item', [])
     itemsService.save($scope.form, function(status){
       $scope.saveButtonText = 'Save Item';
       if(status){
-        $scope.form = '';
+        $scope.form = {
+          itemCategory: [],
+          suppliers: []
+        };
         $scope.saveButtonClass = 'btn-primary';
       }
     });
@@ -354,9 +358,10 @@ angular.module('item', [])
   i.getItemName = function(query, callback){
     $.getJSON('/api/items/typeahead/?q='+encodeURI(query), function(s) {
         var results = [];
-        $.each(s,function(){
-          results.push(this.itemName);
+        _.forEach(s, function (i) {
+          results.push(i.itemName);
         });
+
         callback(results, s);
     });
   };
@@ -670,7 +675,7 @@ angular.module('item', [])
   };
 }])
 .directive('supplierNameTypeAhead', ['itemsService', function (itemsService){
-  var linker = function(scope, element, attrs){
+  var linker = function(scope, element){
     var nx;
     var typeFunc = {
       source: function(query, process){
@@ -680,7 +685,7 @@ angular.module('item', [])
         });
       },
       updater: function(name){
-        _.some(nx, function(v,i){
+        _.some(nx, function(v){
           if(v.supplierName === name){
             scope.form.suppliers.push({
               supplierID : v._id,

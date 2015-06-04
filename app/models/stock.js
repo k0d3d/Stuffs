@@ -68,9 +68,11 @@ StockController.prototype.getStockDown = function (location_id, callback){
 };
 
 /**
- * stockDown Handles Stock Down Operation. The whole process is event based
+ * stockDown Handles Stock Down Operation. The whole process is event based.
  * the parent event 'stockDown' initiates a recusive event which calls a list
- * of child events on the data 'obj' sent.
+ * of child events on the data 'obj' sent. all 'quantities' are exact, all
+ * calculations and multiplications should be done prior to making the request
+ * or transaction.
  * @param {Array} reqObject This contains all the drug items to stock down including the amount.
  * @param  {Object} location Object with origin and/or destination properties.
  * @param {String} operation Specifies what stock operation is to be carried out.
@@ -184,7 +186,10 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
 
     var originUpdate = StockCount;
 
-
+    var record_quantity = parseInt(-data.amount);
+    if (isNaN(record_quantity)) {
+      return isDone(new Error('Error dispensing quantity: parameter is NaN'));
+    }
     //Deducts the amount from each items main stock count.
     //Important:: Stock down means decrementing the
     //amount from the main stock count
@@ -198,7 +203,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
 
       },{
         $inc: {
-          amount: -data.amount
+          amount: record_quantity
         },
         //pushing this transactions id into the
         //pending transaction's array serves as a check
@@ -239,7 +244,10 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
 
     //Fix in the transactionId into options
     destLocation.options.transactionId = data.currentTransaction.id;
-
+    var record_quantity = parseInt(data.amount);
+    if (isNaN(record_quantity)) {
+      return isDone(new Error('Error dispensing quantity: parameter is NaN'));
+    }
     var destUpdate = StockCount;
     // Create or update this locations stock count
     // by adding / incrementing the amount to its stock
@@ -253,7 +261,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
         pendingTransactions: { $ne : data.currentTransaction.id}
       },{
         $inc: {
-          amount: data.amount
+          amount: record_quantity
         },
         //pushing this transactions id into the
         //pending transaction's array serves as a check
@@ -292,7 +300,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
   });
 
 
-  eventRegister.on('restock', function(data, isDone, self){
+  eventRegister.once('restock', function(data, isDone, self){
       //Repeats theses events on every element in data.
       self.until(data, [
         //Inserts a transaction record and status to 'initial'
@@ -316,7 +324,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
 
   });
 
-  eventRegister.on('order', function(data, isDone, self){
+  eventRegister.once('order', function(data, isDone, self){
     //Repeats theses events on every element in data.
     self.until(data, [
       //Inserts a transaction record and status to 'initial'
@@ -334,7 +342,7 @@ StockController.prototype.stocking = function(reqObject, location, operation, ca
         isDone(r);
     });
   });
-  eventRegister.on('dispense', function(data, isDone, self){
+  eventRegister.once('dispense', function(data, isDone, self){
     //Repeats theses events on every element in data.
     self.until(data, [
       //Inserts a transaction record and status to 'initial'

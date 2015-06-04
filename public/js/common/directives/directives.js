@@ -28,7 +28,7 @@
           },
           updater: function(item){
             var selectedItemId = _.find(ser.listOfItems, function (name) {
-              return name.itemName = item;
+              return name.itemName === item;
             });
             scope.selectedItem[attrs.thName] = selectedItemId;
             scope.$apply();

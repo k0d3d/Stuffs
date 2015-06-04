@@ -46,6 +46,22 @@ angular.module('dispense', [])
   //Initialize
   init();
 
+  $scope.is_fluid = function is_fluid (str) {
+    return [
+     'Vials',
+     'Emugels',
+     'Gels',
+     'Ointments',
+     'Suspensions',
+     'Syrup',
+     'Cream',
+     'Lotion',
+     'Drops',
+     'Sprays',
+     'Solutions',
+    ].indexOf(str) > -1;
+  };
+
   //populates the waiting list object
   function chip_form(wl){
     return {
@@ -71,7 +87,8 @@ angular.module('dispense', [])
         itemPurchaseRate: v.cost,
         dosage: v.dosage,
         period: v.period,
-        status: v.status
+        status: v.status,
+        dose: v.dose
       };
     });
   }
@@ -119,17 +136,17 @@ angular.module('dispense', [])
 
   $scope.addButtonText = 'Add';
   $scope.addHelpText = '';
-  $scope.$watch('selectedItem.itemname', function(newValue, oldValue){
-    if(newValue !== oldValue){
-      $scope.thisItemName = newValue;
-    }
-  });
+  // $scope.$watch('selectedItem.itemname', function(newValue, oldValue){
+  //   if(newValue !== oldValue){
+  //     $scope.thisItemName = newValue;
+  //   }
+  // });
   $scope.addDrug = function(){
     if($scope.drugname.length === 0 || _.isUndefined($scope.dispenseform.location)) return false;
     $scope.addHelpText = '';
-    itemsService.summary($scope.thisItemName._id, $scope.dispenseform.location._id,function(c){
-      if(_.indexOf($scope.drugsList, $scope.thisItemName) < 0){
-        $scope.drugsList.push($scope.thisItemName);
+    itemsService.summary($scope.selectedItem.itemname._id, $scope.dispenseform.location._id,function(c){
+      if(_.indexOf($scope.drugsList, $scope.selectedItem.itemname.itemName) < 0){
+        $scope.drugsList.push($scope.selectedItem.itemname.itemName);
         $scope.d.push(c);
         //Empty the drugname field
         $scope.drugname = '';
@@ -147,8 +164,8 @@ angular.module('dispense', [])
     $scope.drugname = '';
 
     if($scope.d[index].options === 'alternative'){
-      $scope.addHelpText = 'This is an alternative to ' + d.itemName;
-      $scope.dispenseform.prescription.push(d);
+      // $scope.addHelpText = 'This is an alternative to ' + d.itemName;
+      // $scope.dispenseform.prescription.push();
       $scope.d[index].ready = true;
       return;
     }
@@ -199,7 +216,7 @@ angular.module('dispense', [])
     });
     var toSend = {
       'patientName':$scope.dispenseform.patientName,
-      'patientId': $scope.dispenseform.patientno,
+      'patientId': $scope.dispenseform.patientId,
       'id': $scope.dispenseform.id,
       'doctorName': $scope.dispenseform.doctorName,
       'doctorId': $scope.dispenseform.doctorId,
@@ -243,7 +260,7 @@ angular.module('dispense', [])
   };
 
   $scope.adjust_amount = function(index){
-    var val;
+    var val, d = $scope.d[index];
     switch($scope.d[index].dosage){
       case '1':
         val = 1;
@@ -258,18 +275,39 @@ angular.module('dispense', [])
         val = 4;
       break;
       default:
+        val = d.qty;
       break;
     }
-    $scope.d[index].amount = val * $scope.d[index].period;
+
+    var calc_dosage = val * d.dose * d.period;
+    console.log(calc_dosage);
+    var dosage_count_in_package_size = Math.ceil(calc_dosage / d.packageSize);
+
+    $scope.d[index].unitQuantity = dosage_count_in_package_size;
+    // $scope.d[index].unitQuantity = Math.ceil((val * $scope.d[index].period) /
+    //                                 $scope.d[index].packageSize / $scope.d[index].dose);
+
+    $scope.d[index].amount = $scope.d[index].unitQuantity * $scope.d[index].packageSize;
   };
 
-  $scope.print_bill = function(cb){
-    return cb(true);
-    $('#dialog-view-bill .modal-body').printArea({
-      mode: 'iframe'
+  $scope.print_bill = function(ele){
+    // return cb(true);
+    $(ele).printThis({
+       debug: false,
+       importCSS: true,
+       importStyle: false,
+       printContainer: false,
+       pageTitle: 'Bill',
+       formValues: true
     });
+    // $('#dialog-view-bill .modal-body').printArea({
+    //   mode: 'iframe'
+    // });
   };
 
+  // $scope.quantityChanges = function (reqIndex) {
+  //   reqIndex.amount = reqIndex.unitQuantity * reqIndex.packageSize;
+  // };
 
   //Calls for the list of created profiles
   biller.profiles(function(r){

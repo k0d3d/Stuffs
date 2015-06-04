@@ -115,7 +115,7 @@ integraApp.controller('MainController', [
    'Capsules',
    'Vials',
    'Caplets',
-   'Amples',
+   'Ampoules',
    'Emugels',
    'Gels',
    'Ointments',

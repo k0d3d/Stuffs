@@ -1,10 +1,10 @@
 
 
-module.exports = function (app) {
+module.exports = function (app, jobQueue) {
   // home route
 
   var items = require('./controllers/items');
-  items.routes(app);
+  items.routes(app, jobQueue);
   var orders = require('./controllers/orders');
   orders.routes(app);
   var suppliers = require('./controllers/suppliers');
@@ -16,7 +16,7 @@ module.exports = function (app) {
   var bills = require('./controllers/bills');
   bills.routes(app);
   var admin = require('./controllers/admin');
-  admin.routes(app);
+  admin.routes(app, jobQueue);
   var stock = require('./controllers/stock');
   stock.routes(app);
   var transaction = require('./controllers/transactions');
@@ -57,4 +57,4 @@ module.exports = function (app) {
       //res.render('/');
   });
 
-}
+};

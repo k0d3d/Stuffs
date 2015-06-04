@@ -25,6 +25,8 @@ var express = require('express'),
     crashProtector = require('common-errors').middleware.crashProtector,
     helpers = require('view-helpers'),
     lingua = require('lingua'),
+    kue = require('kue'),
+    url = require('url'),
     MongoStore = require('connect-mongo')(session);
 
 
@@ -148,9 +150,22 @@ function afterResourceFilesLoad () {
 
     });
 
+    var REDIS = url.parse(process.env.REDIS_URL || 'redis://127.0.0.1:6379'), con_opts = {};
+
+    con_opts.port = REDIS.port;
+    con_opts.host = REDIS.hostname;
+
+    if (REDIS.auth) {
+      var REDIS_AUTH = REDIS.auth.split(':');
+      con_opts.auth = REDIS_AUTH[1];
+    }
+
+
+    //job queue instance
+    var jobQueue = kue.createQueue({redis: con_opts});
     // our routes
     console.log('setting up routes, please wait...');
-    routes(app, express);
+    routes(app, jobQueue);
 
     // assume "not found" in the error msgs
     // is a 404. this is somewhat silly, but

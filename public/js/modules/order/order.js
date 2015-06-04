@@ -13,14 +13,35 @@ config(['$routeProvider',function($routeProvider){
   .when('/dashboard/order/by/:by', {templateUrl: '/orders/add', controller: 'orderAddController'})
   .when('/dashboard/order/:itemId', {templateUrl: '/orders/add', controller: 'orderAddController'});
 }])
+/** jshint maxlen: 300 */
 .controller('orderCartController', [
   '$scope',
   '$http',
   'ordersService',
   function($scope, $http, ordersService){
-  // $scope.orderCart = ordersService.cart;
+
+  $scope.print_purchase_order = function(ele){
+    // return cb(true);
+    $(ele).printThis({
+       debug: false,
+       importCSS: true,
+       importStyle: false,
+       printContainer: false,
+       pageTitle: 'Purchase Order',
+       formValues: true
+    });
+    // $('#dialog-view-bill .modal-body').printArea({
+    //   mode: 'iframe'
+    // });
+  };
+
   $scope.selectedCart = [];
 
+  $scope.form = {
+    suppliers: []
+  };
+
+  $scope.selectedSuplier = $scope.form.suppliers;
   $scope.selectedView = false;
 
   $scope.checkAllClick = function () {
@@ -64,18 +85,15 @@ config(['$routeProvider',function($routeProvider){
     });
   };
 
-  $scope.send_sms = function(){
-    var allSuppliers = _.map($scope.basket, function(v){
-      return v.supplier.supplierID;
-    });
-    var uniqSupId = _.uniq(allSuppliers);
-    if(uniqSupId.length > 1){
-      return alert('Cannot send SMS to '+ uniqSupId.length +' suppliers at once');
-    }else{
-      ordersService.notifySupplier(uniqSupId, 'sms', function(){
+  $scope.sms_purchase_order = function sms_purchase_order (){
 
+    if ($scope.printOrderToSupplier && $scope.selectedCart) {
+      $scope.printOrderToSupplier.isRequesting = true;
+      ordersService.notifySupplier($scope.printOrderToSupplier._id, 'sms', $scope.selectedCart, function(){
+        $scope.printOrderToSupplier.isRequesting = false;
       });
     }
+
   };
 
 }])
@@ -332,7 +350,7 @@ config(['$routeProvider',function($routeProvider){
     $scope.searchcmp(queryVars.s, {'page' : 0});
     $scope.activePane = queryVars.tab;
     $scope.product_id_filter = queryVars.productId;
-    $scope.searchQuery = queryVars.s
+    $scope.searchQuery = queryVars.s;
   }
 }])
 .factory('ordersService',[
@@ -366,7 +384,7 @@ config(['$routeProvider',function($routeProvider){
         }
         callback(d);
       })
-      .error(function(d, r){
+      .error(function(){
         Notification.notifier({
           message: Lang.eng.order.search.error,
           type: 'error'
@@ -466,7 +484,7 @@ config(['$routeProvider',function($routeProvider){
       .success(function (d) {
         callback(d);
       })
-      .error(function (d) {
+      .error(function () {
         Notification.notifier({
           message: Lang[Lang.set].order.summary.error,
           type: 'error'
@@ -474,49 +492,49 @@ config(['$routeProvider',function($routeProvider){
       });
     };
 
-    f.notifySupplier = function(id, type, cb){
-      $http.post('/api/suppliers/'+id+'/notify?type='+type)
+    f.notifySupplier = function(id, type, orders, cb){
+      $http.post('/api/suppliers/'+id+'/notify?type='+type, orders)
       .success(function(d){
         cb(d);
       })
-      .error(function(err){
+      .error(function(){
         //Fit in error here
       });
     };
 
     return f;
 }])
-.directive('orderSupplierTypeAhead', ['itemsService', function(itemsService){
-  var linker = function(scope, element, attrs){
+.directive('orderSupplierTypeAhead', ['itemsService', function (itemsService){
+  var linker = function(scope, element){
     var nx;
-      element.typeahead({
-        source: function(query, process){
-          return itemsService.getSupplierName(query,function(results, s){
-            nx = s;
-            return process(results);
-          });
-        },
-        updater: function(name){
-          _.some(nx, function(v,i){
-            if(v.supplierName === name){
-              scope.form.suppliers = {
-                supplierID : v._id,
-                supplierName: v.supplierName
-              };
-              return true;
-            }
-          });
-          scope.$apply();
-          return name;
-        }
-      });
+    var typeFunc = {
+      source: function(query, process){
+        return itemsService.getSupplierName(query,function(results, s){
+          nx = s;
+          return process(results);
+        });
+      },
+      updater: function(name){
+        _.some(nx, function(v){
+          if(v.supplierName === name){
+            scope.printOrderToSupplier = v;
+            return true;
+          }
+        });
+        scope.$apply();
+        return '';
+      }
+    };
+
+    element.typeahead(typeFunc);
   };
   return {
     link: linker
   };
 }])
+
 .directive('orderItemTypeAhead', ['itemsService', function(itemsService){
-  var linker = function(scope, element, attrs){
+  var linker = function(scope, element){
     var nx;
       element.typeahead({
         source: function(query, process){
@@ -593,7 +611,7 @@ config(['$routeProvider',function($routeProvider){
   };
 }])
 .directive('orderItemMenu', ['ordersService','Notification','Language', function(OS, N, L){
-  function link (scope, element, attrs) {
+  function link () {
 
 
   }

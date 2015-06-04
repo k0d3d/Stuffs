@@ -1,5 +1,5 @@
 var
-    Items = require('./item').item,
+    Items = require('./item'),
     Order = require('./stock/order-schema').Order,
     DsItems = require('./dsitem'),
     OrderStatus = require('./stock/order-schema').OrderStatus,
@@ -329,12 +329,12 @@ OrderModel.prototype.updateOrder = function(orderbody, orderId, cb){
         {
           id: data.orderbody.itemId,
           itemName: data.orderbody.itemName,
-          amount: data.orderbody.amountSupplied,
+          amount: data.orderbody.amountSupplied * data.orderbody.orderItemSize,
         }
       ];
 
       //This will handle stocking down
-      stockman.stocking(reqObject, data.location, 'order',  function(d){
+      stockman.stocking(reqObject, data.location, 'order',  function(){
         isDone(data);
       });
   });
@@ -519,4 +519,3 @@ OrderModel.prototype.isDispatched = function(order){
 };
 
 module.exports.order = OrderModel;
-module.exports.schema = {'Order': Order, 'OrderStatus': OrderStatus};

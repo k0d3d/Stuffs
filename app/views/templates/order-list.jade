@@ -1,4 +1,5 @@
 tr.order-row(ng-repeat="order in orderList | filter: ordersFilter", on-finish="tableheader")
+  td {{order.order_group_id}}
   td
     //
       a(href="/items/{{order.itemData.id}}/edit") {{order.itemName}}

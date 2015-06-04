@@ -15,13 +15,6 @@ function BillsController (){
     this.figure = 0;
 }
 
-function defaultRules (){
-    return [{
-        profileName: 'All Drugs',
-        _id: 0
-    }];
-}
-
 BillsController.prototype.constructor =  BillsController;
 
 /**

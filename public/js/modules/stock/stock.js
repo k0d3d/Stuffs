@@ -8,9 +8,15 @@ angular.module('stock', [])
 .config(['$routeProvider', function($routeProvider){
   $routeProvider.when('/stock/locations', {templateUrl: '/items/stockdown', controller: 'stockIndexController'});
 }])
-.controller('stockIndexController',['$scope','$location','$routeParams','itemsService', 'stockService',function ($scope, $location, $routeParams,itemsService, sS){
+.controller('stockIndexController',[
+  '$scope',
+  '$location',
+  '$routeParams',
+  'itemsService',
+  'stockService',
+  function ($scope, $location, $routeParams,itemsService, sS){
   var currentItem;
-  var thisItemName = '';
+
 
   function init(){
     //Location Array
@@ -67,7 +73,7 @@ angular.module('stock', [])
       });
     });
   };
-  $scope.addDrug = function(){
+  $scope.addSelectedDrug = function(){
     $scope.addHelpText = '';
     var selectedItem = $scope.selectedItem.itemname;
     if($scope.drugname.length === 0) return false;
@@ -133,6 +139,11 @@ angular.module('stock', [])
     sS.updateLocation(__scope._id, {locationName: new_name}, function(){
       __scope.locationName = new_name;
     });
+  };
+
+
+  $scope.quantityChanges = function (reqIndex) {
+    reqIndex.amount = reqIndex.unitQuantity * reqIndex.itemSize;
   };
 }])
 .factory('stockService',['$http', 'Language', 'Notification', function($http, L, N){
