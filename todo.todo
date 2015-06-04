@@ -9,7 +9,7 @@ DDIMs Operations Checked and Bug Fix statuses:
  ✔ Add price to item added with invoice number @critical @done (15-05-25 11:45)
  ✔ Updating order to 'supplied' adds stock @done (15-05-25 09:06)
  ☐ deleting items from inventory should immediately update view @high
- ☐ Add notice / label for items already tagged on inventory from drugstoc view on order/add @high
+ ☐ Add notice / label fozr items already tagged on inventory from drugstoc view on order/add @high
  ☐ Note:: When attaching items drom ds to iv, ds replaces itemPurchasePrice @low
  ✔ Placing order from 'Place Order Inventory' @done (15-05-25 16:47)
  ✔ Attaching DS Product to existing Inventory @done (15-05-25 16:48)
@@ -86,4 +86,4 @@ DDIMs Operations Checked and Bug Fix statuses:
  ☐ Transactions does not capture dispense @critical
 
 
-
+ls102

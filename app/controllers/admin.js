@@ -17,8 +17,7 @@ module.exports.routes = function(app, jobQueue){
   });
 
   app.get('/api/admin/updates',  function(req, res, next){
-    var dsitem = new DSItems();
-    dsitem.jobQueue = jobQueue;
+    var dsitem = new DSItems(jobQueue);
     //return  res.json(200,['happu']);
     dsitem.checkProductUpdates()
     .then(function(r){
@@ -56,8 +55,8 @@ module.exports.routes = function(app, jobQueue){
   });
 
   app.post('/api/admin/update-product-information',  function(req, res){
-    var dsitem = new DSItems();
-    dsitem.jobQueue = jobQueue;
+    var dsitem = new DSItems(jobQueue);
+    // dsitem.jobQueue = jobQueue;
     dsitem.refreshProductInformation(req)
     .then(function(r){
         res.json(r);
@@ -131,7 +130,7 @@ module.exports.routes = function(app, jobQueue){
   });
 
   app.post('/admin/session', function(req, res, next){
-    var dsitem = new DSItems();
+    var dsitem = new DSItems(jobQueue);
     admin.updateUserProfile(req.body.consumer_key, req.body)
     .then(function () {
       res.json(true);
