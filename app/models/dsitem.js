@@ -94,12 +94,19 @@ function DSClass (jobQueue) {
   });
   jobQueue.process('save_requested_product_list', 100, function (products, done){
     console.log('adding products to child queue');
-    /* carry out all the job function here */
-    DSC.saveProductUpdates(products.data, products.data.length, null, null, function () {
+    function cb () {
       console.log('added to child queue');
       done();
 
-    });
+    }
+    /* carry out all the job function here */
+    //appends the list of products gotten from the request
+    //to  a job queue. which will in turn , for the amount of
+    //products in returned from the request (in 'products.data' object/ array)
+    //add the  each product to an 'child' job queue (save_one_product) that handles
+    //the updates necessary.
+    //TODO: use callback before calling done();
+    DSC.saveProductUpdates(products.data, products.data.length, 0, cb);
   });
 
   // process for save_one_product
@@ -278,10 +285,17 @@ DSClass.prototype.checkProductUpdates = function checkProductUpdates () {
   return q.promise;
 };
 
-DSClass.prototype.saveProductUpdates =   function saveProductUpdates (products, count, num, q) {
+/**
+ * creates a job for each item in the products argument.
+ * @param  {[type]} products [description]
+ * @param  {[type]} count    [description]
+ * @param  {[type]} num      [description]
+ * @return {[type]}          [description]
+ */
+DSClass.prototype.saveProductUpdates =   function saveProductUpdates (products, count, num, cb) {
   num = num || 0;
   var jobQueue = this.jobQueue, DSC = this;
-  var cb = arguments[4];
+  // var cb = arguments[3];
   if (!jobQueue) {
     console.log('unavailable jobQueue');
     cb(new Error('unavailable job queue for process'));
@@ -300,27 +314,36 @@ DSClass.prototype.saveProductUpdates =   function saveProductUpdates (products, 
   job.save(function (err) {
     if (err) {
       console.log(err.stack);
-      q.reject(new Error('update has errors'));
     }
     var next_product = num + 1;
-    if (_.isFunction(cb)) {
+
+    console.log('saved item: %d', next_product);
+    if (products[next_product]) {
+      DSC.saveProductUpdates(products, count, next_product, cb);
+    } else {
+      // this will call the done() function on the jobQueue
+      // instance.
+      //
       cb();
     }
-    console.log('saved item: %d', next_product);
-    console.log(products[next_product].title);
-    if (products[next_product]) {
-      DSC.saveProductUpdates(products, count, next_product, q, cb);
-    } else {
 
-      q.resolve(count);
-    }
-    // console.log(num, count, num < count);
-    // q.resolve({jobId: job.id});
   });
 
 
 };
 
+/**
+ * creates a job queue for every request made to the Drugstoc
+ * server. Each job created is a collection of product objects.
+ * For each product object, another job queue is created (DSClass.saveProductUpdates).
+ * This handles the actual update of the product.
+ * @param  {[type]} page    [description]
+ * @param  {[type]} extraQs [description]
+ * @param  {[type]} q       A promise that represent the initial promise created when this
+ * method is called. This promise should be resolved when all request have been made, or if
+ * there are no products to update in the response of an update.
+ * @return {[type]}         [description]
+ */
 DSClass.prototype.runProductUpdateRequest =   function runProductUpdateRequest (page, extraQs, q) {
     var q = q || Q.defer();
     var DSC = this;
@@ -376,9 +399,9 @@ DSClass.prototype.runProductUpdateRequest =   function runProductUpdateRequest (
           //timestamp
           DSC.setLastUpdateLog('PRODUCT')
           .then(function () {
-            return q.resolve(true);
           });
         }
+        return q.resolve(true);
     });
     return q.promise;
   };
