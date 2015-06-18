@@ -2,13 +2,13 @@ append head
   link(rel='stylesheet', href='/css/table-fixed-header.css')
 
 block body
-  include ../includes/modals/modal-order-supplied.jade
   .row-fluid.row-break
     .span2.actioncol
       .search-bar
         input.input-medium(type="search", ng-model="ordersfilter.itemName", placeholder="Search Item Name")
         input.input-medium(type="search", ng-model="ordersfilter.orderSupplier", placeholder="Search Suppliers")
         input.input-medium(type="search", ng-model="ordersfilter.orderInvoiceNumber", placeholder="Search Invoices")
+        input.input-medium(type="search", ng-model="ordersfilter.order_group_id", placeholder="Search OrderIds")
         select.input-medium(ng-model="ordersfilter.orderStatus")
           option
           option(value="3") Supplied
@@ -21,6 +21,7 @@ block body
           table#list-orders.table.table-fixed-header
             thead.header
               tr
+                th OrderID
                 th Item
                 th Quantity
                 th Cost (N)

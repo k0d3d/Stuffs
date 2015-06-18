@@ -14,13 +14,14 @@
           thead
             tr
               th Drugs
-              th Amount
+              th Quantity
               th Option
           tbody
             tr(ng-repeat="p in dispenseform.prescription")
               td {{p.itemName}}
-              td {{p.amount}}
-              td {{p.options}} 
+              td
+                p.input-small {{d[$index].unitQuantity || 0}} {{d[$index].itemPackaging}}
+              td {{p.options}}
 
         button.md-close(ng-click="modal.close()") Close
-        button(ng-click="sendDis()") Dispense List 
+        button(ng-click="sendDis()") Dispense List

@@ -29,6 +29,7 @@ var ItemSchema = new Schema({
   dsPurchaseRate: {type: Number},
   sellingPrice: {type: Number},
   packageSize: {type: Number},
+  itemSize: {type: Number},
   icdcode: {type: String},
   suppliers: [{
     supplierID: {type: Schema.ObjectId},

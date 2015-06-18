@@ -2,7 +2,6 @@ append head
   link(rel='stylesheet', href='/css/table-fixed-header.css')
 
 block body
-  include ../includes/modals/modal-order-supplied.jade
   .row-fluid.row-break
     .span2.actioncol
       button.btn.btn-large.btn-block.btn-primary(ng-click="commons.backBtn()") Items
@@ -24,14 +23,14 @@ block body
                 th Status
             tbody
               tr(ng-repeat="order in orders | filter: ordersfilter", on-finish="tableheader")
-                td {{order.orderDate | date:'medium'}}                
-                td 
+                td {{order.orderDate | date:'medium'}}
+                td
                   a(href="/items/{{order.itemData[0]._id}}/edit") {{order.itemData[0].itemName}}
                 td {{order.orderAmount}}
-                td {{order.orderSupplier[0].supplierName}} 
+                td {{order.orderSupplier[0].supplierName}}
                 td
 
 
 append foot
-  script(src="js/table-fixed-header.js")                
+  script(src="js/table-fixed-header.js")
 

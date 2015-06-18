@@ -1,11 +1,14 @@
 var
+
     Item = require('./item/item-schema').Item,
     ItemCategory = require('./item/item-schema').ItemCategory,
     ItemForm = require('./item/item-schema').ItemForm,
     ItemPackaging = require('./item/item-schema').ItemPackaging,
-    OrderSchema = require('./order').schema,
+
+    Order = require('./stock/order-schema').Order,
+    OrderStatus = require('./stock/order-schema').OrderStatus,
+
     PointLocation = require('./stock/location-schema'),
-    DsItem = require('./dsitem/dsitem'),
     StockHistory = require('./stock/stockhistory-schema'),
     StockCount = require('./stock/stockcount-schema'),
     _ = require('lodash'),
@@ -16,7 +19,7 @@ var
     Q = require('q'),
     util = require('util');
 
-var Order = OrderSchema.Order, OrderStatus = OrderSchema.OrderStatus;
+// var Order = OrderSchema.Order, OrderStatus = OrderSchema.OrderStatus;
 
 
 /**
@@ -24,27 +27,11 @@ var Order = OrderSchema.Order, OrderStatus = OrderSchema.OrderStatus;
  */
 
 
-
-
-function sortItems (list,justkeys){
-  var k = {}, l=[];
-  list.forEach(function(ele,index,array){
-    var fchar = ele.itemName.split("");
-    l.push(fchar[0].toUpperCase());
-  });
-  if(justkeys){
-    return l;
-  }else{
-    //o.push(k);
-    return list;
-  }
-}
-
-
 function ItemsObject(){
   Item.setKeywords();
   NafdacDrugsModel.setKeywords();
   // console.log(Item);
+  this.searchResult = {};
 }
 
 
@@ -79,7 +66,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
     var shark = data.item.itemCategory;
 
     //omit the itemCategory property
-    var joel = _.omit(data.item, "itemCategory");
+    var joel = _.omit(data.item, 'itemCategory');
 
     itemObject = new Item(joel);
 
@@ -129,6 +116,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
       order.orderType = data.item.itemType;
       order.orderAmount= data.item.orderInvoiceData.orderInvoiceAmount;
       order.amountSupplied= data.item.orderInvoiceData.orderInvoiceAmount;
+      order.orderItemSize = data.item.itemSize * data.item.orderInvoiceData.orderInvoiceAmount;
       order.orderDate= data.item.orderInvoiceData.orderInvoiceDate;
       order.orderPrice = data.item.itemPurchaseRate;
       order.save(function(err, i){
@@ -183,7 +171,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
     if(!hasOrder) return isDone(data);
     var itemObj = {
       id: data.item.id,
-      amount: data.item.orderInvoiceData.orderInvoiceAmount
+      amount: data.item.orderInvoiceData.orderInvoiceAmount * data.item.itemSize
     };
 
     var options = {
@@ -208,7 +196,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
     stockcount.item = data.item.id;
     stockcount.locationId = data.location.id;
     stockcount.locationName = data.location.name;
-    stockcount.save(function(err, i){
+    stockcount.save(function(err){
       if(err){
         isDone(err);
       }else{
@@ -392,12 +380,14 @@ ItemsObject.prototype.listOne = function(item, option, location, cb){
   });
 
   register.on('itemCosts', function(data, isDone){
+    //get last 3 order prices, itempurchaserate and dspurchase rate
     Order.find({'itemId': data._id,
       $or:[
         {'orderStatus': 2},
         {'orderStatus': 3},
         {'orderStatus': 4},
     ]}, 'orderPrice')
+    // .distinct('orderPrice')
     .sort({'orderDate': 1})
     .limit(3)
     .exec(function(err, i){
@@ -413,7 +403,19 @@ ItemsObject.prototype.listOne = function(item, option, location, cb){
           });
           return k;
         }());
-        isDone(data);
+        //Now query the items itemPurchasePrice and DSProductPrice
+        Item.findOne({
+          _id: data._id
+        }, 'itemPurchaseRate dsPurchaseRate')
+        .exec(function (err, itemDoc) {
+          if (err) {
+            isDone(err);
+          }
+          data.orderPrice.push(itemDoc.itemPurchaseRate);
+          data.orderPrice.push(itemDoc.dsPurchaseRate);
+          data.orderPrice = _.unique(data.orderPrice);
+          isDone(data);
+        });
       }
     });
 
@@ -723,59 +725,86 @@ ItemsObject.prototype.fetchByRegNo = function(query, cb){
   });
 };
 
-ItemsObject.prototype.findRegisteredItem = function findRegisteredItem (query_string, query_options) {
-  var q = Q.defer();
-  NafdacDrugsModel.search(query_string, null, query_options, function (err, data) {
+ItemsObject.prototype.findRegisteredItem = function findRegisteredItem (query_string, query_options, countOrDoc, cb) {
+  var
+      queryString = new RegExp(query_string, 'i'),
+      result = this.searchResult,
+      self = this, method = countOrDoc || 'find';
+
+  var builder = NafdacDrugsModel[method]({
+      $or :       [
+          {
+            'productName' : queryString,
+          },
+          {
+            'composition' : queryString,
+          },
+          {
+           'man_imp_supp' :  queryString
+          },
+        ]
+    });
+  builder.limit(query_options.limit);
+  builder.skip(query_options.skip);
+  builder.exec(function (err, doc) {
     if (err) {
-      return q.reject(err);
+      return cb(err);
     }
-    q.resolve(data);
+    // return q.resolve(doc);
+    if (countOrDoc && countOrDoc === 'count') {
+      result.totalCount = doc;
+      if (cb) {
+        cb(result);
+      }
+      // return q.resolve(result);
+    } else {
+      result.results = doc;
+      self.findRegisteredItem(query_string, query_options, 'count', cb);
+
+    }
   });
-  return q.promise;
 };
 
 
-ItemsObject.prototype.findDrugstocProduct = function findDrugstocProduct (query_string, query_options) {
-  var q = Q.defer();
-  // var dsItem = new DsItem();
-  DsItem.search(query_string, null, query_options, function (err, data) {
+ItemsObject.prototype.findItem = function findItem (query_string, query_options, countOrDoc, cb) {
+  var
+    queryString = new RegExp(query_string, 'i'),
+    result = this.searchResult,
+    self = this, method = countOrDoc || 'find';
+  var builder = Item[method]({
+      $or :       [
+          {
+            'manufacturerName' : queryString,
+          },
+          {
+            'sciName' : queryString,
+          },
+          {
+           'itemName' :  queryString
+          },
+        ]
+    });
+  builder.limit(query_options.limit);
+  builder.skip(query_options.skip);
+  builder.exec(function (err, doc) {
     if (err) {
-      return q.reject(err);
+      return cb(err);
     }
-    q.resolve(data);
+    // return q.resolve(doc);
+    if (countOrDoc && countOrDoc === 'count') {
+      console.log('count query');
+      result.totalCount = doc;
+      if (cb) {
+        cb(result);
+      }
+      // return q.resolve(result);
+    } else {
+      console.log('result');
+      result.results = doc;
+      self.findItem(query_string, query_options, 'count', cb);
+
+    }
   });
-  return q.promise;
-};
-
-ItemsObject.prototype.findItem = function findItem (query_string, query_options) {
-  var q = Q.defer();
-  Item.search(query_string, null, query_options, function (err, data) {
-    if (err) {
-      return q.reject(err);
-    }
-    q.resolve(data);
-  });
-  return q.promise;
-};
-
-ItemsObject.prototype.findDrugstocProductById = function findDrugstocProductById (query_string) {
-  var q = Q.defer();
-  // var dsItem = new DsItem();
-
-  DsItem.findOne( {
-    '_id' : query_string
-  })
-  .exec(function (err, doc) {
-    if (err) {
-      return q.reject(err);
-    }
-    if (!doc) {
-      return q.reject(new Error('document not found'));
-    }
-    q.resolve(doc);
-  });
-
-  return q.promise;
 };
 
 ItemsObject.prototype.searchInventory = function searchInventory (query) {
@@ -794,5 +823,6 @@ ItemsObject.prototype.searchInventory = function searchInventory (query) {
 
 
 
-module.exports.item = ItemsObject;
+module.exports = ItemsObject;
+
 

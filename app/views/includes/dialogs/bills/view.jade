@@ -46,5 +46,7 @@
             button.btn.btn-info(type="button", ng-click="markpaid(newpaymentamount, activeBill._id, $index)") Mark Paid
   .modal-footer
     button.btn.btn-default(new-modal="#dialog-view-bill") Back
-    button.btn.btn-inverse(printable="print-bill", print-tpl="bill-print", checkfunc="print_bill(cb)") Print
+    button.btn.btn-inverse(ng-click="print_bill('#print-bill')") Print
+      i.fa.fa-print
+    //button.btn.btn-inverse(printable="print-bill", print-tpl="bill-print", checkfunc="print_bill(cb)") Print
       i.fa.fa-print

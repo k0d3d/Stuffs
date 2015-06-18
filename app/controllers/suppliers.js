@@ -80,7 +80,7 @@ module.exports.routes = function(app){
   });
 
   app.post('/api/suppliers/:supplierId/notify', function(req, res, next){
-    supplierController.sendNotice(req.params.supplierId, req.query.type, function(r){
+    supplierController.sendNotice(req.params.supplierId, req.query.type, req.body, function(r){
       if(utils.isError(r)){
         next(r);
       }else{

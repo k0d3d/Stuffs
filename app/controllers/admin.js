@@ -8,7 +8,7 @@ var util = require('util'),
 
 
 
-module.exports.routes = function(app){
+module.exports.routes = function(app, jobQueue){
   var admin = new Admin(), order = new Order();
   app.get('/admin',function(req, res){
     res.render('index',{
@@ -17,7 +17,7 @@ module.exports.routes = function(app){
   });
 
   app.get('/api/admin/updates',  function(req, res, next){
-    var dsitem = new DSItems();
+    var dsitem = new DSItems(jobQueue);
     //return  res.json(200,['happu']);
     dsitem.checkProductUpdates()
     .then(function(r){
@@ -37,7 +37,10 @@ module.exports.routes = function(app){
   .get(function (req, res, next) {
     admin.fetchUser(req.consumer_key)
     .then(function (user) {
-      res.json(user);
+       if (user) {
+        return res.json(user);
+       }
+       return res.status(404).json();
     }, function (err) {
       next(err);
     });
@@ -52,7 +55,8 @@ module.exports.routes = function(app){
   });
 
   app.post('/api/admin/update-product-information',  function(req, res){
-    var dsitem = new DSItems();
+    var dsitem = new DSItems(jobQueue);
+    // dsitem.jobQueue = jobQueue;
     dsitem.refreshProductInformation(req)
     .then(function(r){
         res.json(r);
@@ -126,16 +130,17 @@ module.exports.routes = function(app){
   });
 
   app.post('/admin/session', function(req, res, next){
-    var dsitem = new DSItems();
+    var dsitem = new DSItems(jobQueue);
+    admin.updateUserProfile(req.body.consumer_key, req.body)
+    .then(function () {
+      res.json(true);
+    }, function (err) {
+      next(err);
+    });
+    return ;
     dsitem.checkConsumerByEmail(req.body)
     .then(function(d){
       d.customer_id = d.id;
-      admin.updateUserProfile(d.consumer_key, d)
-      .then(function () {
-        res.json(true);
-      }, function (err) {
-        next(err);
-      });
 
     }, function (err) {
       next(err);
