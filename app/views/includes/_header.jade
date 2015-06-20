@@ -1,0 +1,61 @@
+div#frontpage.container-fluid
+  .row-fluid
+    .span2
+      .logo-block
+        a(href="/")
+          img(src="/img/splash-logo-beta.png")
+      .clear-fix
+
+    .offset5.span5
+      .btn-toolbar.pull-right
+        .btn-group
+          button.btn.btn-bell.btn-small(type="button", data-toggle="dropdown", ng-disabled="orderCart.length === 0")
+            i.fa.fa-message
+            |  Cart
+            span.label.label-info {{orderCart.length}}
+          .dropdown-menu.alt-text.pr-btn-drpdwn(role="menu", style="text-transform: capitalize;z-index: 99999")
+            table.table.table-hover(cart-table="orderCart")
+              thead
+                tr
+                  th Item
+                  th Amount
+              tbody
+                tr(ng-repeat="cartItem in orderCart")
+                  td {{cartItem.itemName}}
+                  td {{cartItem.orderAmount}}
+            button.btn.btn-info.btn-block.btn-mini(style="border-radius: 0", ng-click="commons.href('dashboard/orders/cart')") View All Items
+            button.btn.btn-block.btn-danger.btn-bell.btn-mini(style="border-radius: 0", ng-click="clearCart()", ng-show="orderCart.length > 0") Empty Cart
+        .btn-group
+          button.btn.btn-bell.btn-small(type="button", data-toggle="dropdown")
+            i.fa.fa-bell
+            |  Waiting
+            span.label.label-info {{waiting.length}}
+          .bell.dropdown-menu.alt-text.pr-btn-drpdwn(role="menu", ng-show="waiting.length > 0")
+            table.table.table-hover
+              thead
+                tr
+                  th Patient Name
+                  th Doctor
+                  th Wait time
+              tbody
+                tr(ng-repeat="w in waiting", ng-click="commons.href('dispensary/'+$index)")
+                  td {{w.patientName}}
+                  td {{w.doctorName}}
+                  td {{w.issueDate | moment}}
+        .btn-group
+          button.btn.btn-bell.btn-small(type="button", data-toggle="dropdown")
+            i.fa.fa-message
+            |  Updates
+            span.label.label-info {{updates.length}}
+          ul.dropdown-menu.alt-text.pr-btn-drpdwn.upd-menu(role="menu", style="text-transform: capitalize;z-index: 99999")
+            li(ng-repeat="mssg in updates")
+              p
+                a(href="#")
+                  span
+                    | {{mssg}}
+
+          button.btn.btn-small.btn-bell(ng-click="refreshUpdates()")
+            i.fa.fa-refresh(ng-class="isr")
+          button.btn.btn-small.btn-danger.btn-bell(ng-click="clearUpdates()", ng-show="updates.length > 0")
+            i.fa.fa-trash-o
+
