@@ -1,0 +1,14 @@
+aside#sidepane(ng-class="{'toggled': summaryView.opened}")
+  ul.tab-nav.tn-justified(role='tablist')
+    li(role='presentation' ng-class="{'active': summaryView.info}")
+      a(ui-sref='items.summary.info', aria-controls='summary-view', role='tab', data-toggle='tab') Summary
+    li(role='presentation', ng-class="{'active': summaryView.history}", ng-show="summaryView.history")
+      a(ui-sref='items.summary.stockhistory', aria-controls='online', role='tab', data-toggle='tab') History
+    li(role='presentation', ng-class="{'active': summaryView.order}", ng-show="summaryView.order")
+      a(ui-sref='items.summary.quickorder', aria-controls='online', role='tab', data-toggle='tab') Order
+
+  .tab-content()
+    #summary-view.tab-pane(ui-view="summaryview", ng-class="{'active': summaryView.info}")
+
+    #quick-history.tab-pane(ui-view="quickhistory", ng-class="{'active': summaryView.history}")
+    #quick-order.tab-pane(ui-view="quickorder", ng-class="{'active': summaryView.order}")

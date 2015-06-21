@@ -1,0 +1,39 @@
+div.summary
+  form
+    .form-group.fg-line
+      label(for='exampleInputEmail1') Name
+      p.form-control-static.input-sm  {{summary.itemName}}
+    .form-group.fg-line
+      label(for='exampleInputEmail1') Composition
+      p.form-control-static.input-sm {{summary.sciName || 'N/A'}}
+    .form-group.fg-line
+      label(for='exampleInputEmail1') Manufacturer
+      p.form-control-static.input-sm {{summary.manufacturerName || 'N/A'}}
+    .form-group.fg-line
+      label(for='exampleInputEmail1') Current Stock
+      p.form-control-static.input-sm {{summary.currentStock || 'Empty'}}
+    .form-group.fg-line
+      label(for='exampleInputEmail1') Last Order Date
+      p.form-control-static.input-sm {{summary.lastSupplyDate | date: 'medium'}}
+    .form-group.fg-line
+      label(for='exampleInputEmail1') DrugStoc Rate
+      p.form-control-static.input-sm {{summary.dsPurchaseRate || 0}}
+    .form-group.fg-line
+      label(for='exampleInputEmail1') Purchase Rate
+      p.form-control-static.input-sm {{summary.itemPurchaseRate || 0}}
+
+div.summary-actions
+  p
+    a.btn.btn-block.btn-warning(ui-sref="items.edit({itemId: summary._id,action: 'iv-edit'})") Edit Item
+  p
+    a.btn.btn-block.btn-warning(ui-sref="items.summary.quickorder") Add to cart
+  p
+    a.btn.btn-block.btn-warning(ui-sref="items.summary.stockhistory") Stock History
+  p
+    a.btn.btn-block.btn-danger(data-ng-click="delConfirm = !delConfirm; delBtnText = 'Are you sure ?'") Delete
+    //
+      div(ng-show="!delConfirm")
+        button.btn.btn-danger.btn-block(data-ng-click="deleteItem(summary._id)") Yes
+        button.btn.btn-inverse.btn-block(data-ng-click="delConfirm = true; delBtnText = 'Delete Item'") Cancel
+  p
+    button.btn.btn-block.btn-default.btn-close(data-ng-click="summary =''") Close

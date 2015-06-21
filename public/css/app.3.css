@@ -1,0 +1,87 @@
+.color-block {
+    height: 100px;
+    color: rgba(255,255,255,0.9);
+    text-align: center;
+    padding: 15px 0;
+    border-radius: 2px;
+    margin-bottom: 25px;
+}
+
+.color-block span {
+    display: block;
+}
+
+.color-block .color {
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.color-block .code {
+    margin: 5px 0;
+}
+
+.color-block .less {
+    font-size: 11px;
+}
+
+.row-break {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.actions-alt {
+    position: relative;
+  display: inline;
+  top: -25px;
+}
+.block-header {
+    margin-bottom: 0;
+}
+
+.summary {
+  padding: 15px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.summary-actions p {
+  margin: 0 0 0px;
+}
+
+.summary-actions .btn {
+  border-radius: 0px;
+}
+
+/*.summary-actions button.btn-warning {
+  background-color: #304D7B;
+}
+
+.summary-actions button.btn-warning:hover {
+  background-color: #7299D6;
+}*/
+
+.summary .form-group {
+  margin-bottom: 0
+}
+
+.date-input-field {
+  width: 200px;
+  height: 20px;
+}
+
+#sidepane {
+  padding-top: 0;
+}
+#item-summary {
+  background-color: #233243;
+  border: 1px solid #202E3C;
+  padding: 5px;
+}
+
+#item-summary dt {
+  color: #fff;
+}
+
+#item-summary dd {
+  color: #1ABC9C;
+}

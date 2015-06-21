@@ -1,0 +1,73 @@
+aside#sidebar
+  .sidebar-inner
+    .si-inner
+      .profile-menu
+        a(href='')
+          .profile-pic
+            img(src='img/profile-pics/1.jpg', alt='')
+          .profile-info
+            | New Ikeja Hospital
+            i.md.md-arrow-drop-down
+        ul.main-menu
+          li
+            a(href='profile-about.html')
+              i.md.md-person
+              |  View Account
+          li
+            a(href='#')
+              i.md.md-settings
+              |  Settings
+          li
+            a(href='#')
+              i.md.md-history
+              |  Logout
+      ul.main-menu
+        li.sub-menu
+          a(href='')
+            i.md.md-assignment
+            |  Inventory
+          ul
+            li.active
+              a(ui-sref="items")
+                //- i.md.md-view-module
+                |  View Inventory
+            li
+              a(ui-sref="items.add")
+                //- i.md.md-playlist-add
+                |  Add Inventory
+        li.sub-menu
+          a(href='')
+            i.md.md-shopping-cart
+            | Orders
+          ul
+            li
+              a(ui-sref="orders")
+                //- i.md.md-receipt
+                | All Orders
+            li
+              a.active(ui-sref="orders.add")
+                //- i.md.md-add-shopping-cart
+                | Place Orders
+        li.sub-menu
+          a(href='')
+            i.md.md-insert-chart
+            |  Stock
+          ul
+            li
+              a(ui-sref='dispensary') Dispense
+            li
+              a(ui-sref='stock') Stockdown
+        li.sub-menu
+          a(href='')
+            i.md.md-settings-applications
+            |  Admin
+          ul
+            li
+              a(ui-sref="suppliers") Suppliers
+            li
+              a(ui-sref="bills.billing") Billing
+            li
+              a(ui-sref='reports') Reports
+            li
+              a(ui-sref='admin') Management
+
