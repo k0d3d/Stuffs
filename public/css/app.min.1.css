@@ -8623,7 +8623,7 @@ button.close {
  * Scale 3d
  */
 
-/* 
+/*
  * Load Font
  */
 
@@ -10177,11 +10177,11 @@ button.close {
 
 /*!
  * Waves v0.7.1
- * http://fian.my.id/Waves 
- * 
- * Copyright 2014 Alfiana E. Sibuea and other contributors 
- * Released under the MIT license 
- * https://github.com/fians/Waves/blob/master/LICENSE 
+ * http://fian.my.id/Waves
+ *
+ * Copyright 2014 Alfiana E. Sibuea and other contributors
+ * Released under the MIT license
+ * https://github.com/fians/Waves/blob/master/LICENSE
  */
 
 .waves-effect {
@@ -10329,7 +10329,7 @@ a.waves-effect .waves-ripple {
 */
 
 /*
- * Load Website related LESS files 
+ * Load Website related LESS files
  */
 
 /*
@@ -10690,7 +10690,7 @@ a.waves-effect .waves-ripple {
   display: inline-block !important;
 }
 
-/* 
+/*
  * Material Background Colors
  */
 
@@ -11507,7 +11507,7 @@ body #content {
   }
 }
 
-/* 
+/*
  * For Stupid IE9
  */
 
@@ -12197,7 +12197,7 @@ input:focus {
   box-shadow: none;
 }
 
-#chat {
+#sidepane {
   position: fixed;
   background: #fff;
   padding: 20px 0;
@@ -12216,17 +12216,17 @@ input:focus {
   filter: alpha(opacity=0);
 }
 
-#chat.toggled {
+#sidepane.toggled {
   right: 0;
   opacity: 1;
   filter: alpha(opacity=100);
 }
 
-#chat .chat-search {
+#sidepane .chat-search {
   padding: 20px 20px 15px 20px;
 }
 
-#chat .chat-search .form-control {
+#sidepane .chat-search .form-control {
   background-image: url("../img/icons/search-2.png");
   background-repeat: no-repeat;
   background-position: left center;
@@ -12239,13 +12239,13 @@ input:focus {
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
-  #chat .chat-search .form-control {
+  #sidepane .chat-search .form-control {
     background-image: url("../img/icons/search-2%402x.png");
     background-size: 24px 24px;
   }
 }
 
-#chat .chat-search .form-control:focus {
+#sidepane .chat-search .form-control:focus {
   background-position: right center;
   padding: 0 30px 0 0;
 }
@@ -12285,11 +12285,11 @@ input:focus {
  * For Stupid IE9
  */
 
-.ie9 #chat {
+.ie9 #sidepane {
   right: 0;
 }
 
-.ie9 #chat:not(.toggled) {
+.ie9 #sidepane:not(.toggled) {
   display: none;
 }
 
@@ -15495,7 +15495,7 @@ a.thumbnail.active {
 }
 
 /*
- * Lightbox  
+ * Lightbox
  */
 
 .lightbox .lightbox-item {

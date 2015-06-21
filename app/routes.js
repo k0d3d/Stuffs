@@ -36,9 +36,9 @@ module.exports = function (app, jobQueue) {
       });
     }
   );
-  app.get('/partials/:name', function (req, res) {
+  app.get('/includes/:mod/:name', function (req, res) {
       var name = req.params.name;
-      res.render('partials/' + name);
+      res.render('includes/'+ req.params.mod + '/' + name);
     }
   );
   app.get('/templates/:name', function (req, res) {

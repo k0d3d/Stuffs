@@ -5,8 +5,13 @@
 */
 angular.module('stock', [])
 
-.config(['$routeProvider', function($routeProvider){
-  $routeProvider.when('/stock/locations', {templateUrl: '/items/stockdown', controller: 'stockIndexController'});
+.config(['$stateProvider', function($stateProvider){
+  $stateProvider
+    .state('stock', {
+      templateUrl: '/items/stockdown',
+      controller: 'stockIndexController',
+      url: '/stock/locations'
+    });
 }])
 .controller('stockIndexController',[
   '$scope',

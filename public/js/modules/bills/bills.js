@@ -5,8 +5,13 @@
 */
 angular.module('bills', [])
 
-.config(['$routeProvider', function ($routeProvider){
-  $routeProvider.when('/bills', {templateUrl: '/bills/index', controller: 'billsController'});
+.config(['$stateProvider', function ($stateProvider){
+  $stateProvider
+  .state('bills', {
+    url: '/bills',
+    templateUrl: '/bills/index',
+    controller: 'billsController'
+  });
 }])
 .controller('billsController', ['$scope', '$location', '$routeParams', 'billsService', function itemIndexController($scope, $location, $routeParams,billsService){
     function init(){
@@ -64,7 +69,7 @@ angular.module('bills', [])
           results.push(this.profileName);
         });
         callback(results, s);
-    });    
+    });
   };
 
   // Fetches all the billing profiles
@@ -86,7 +91,7 @@ angular.module('bills', [])
     var r = [];
     _.each(rules, function(v, i){
       r.push(v._id);
-    });    
+    });
     $http.post('/api/bills/profiles/', {
       rules: r,
       name: profile.name

@@ -5,13 +5,38 @@
 */
 angular.module('order', []).
 
-config(['$routeProvider',function($routeProvider){
-  $routeProvider.when('/orders', {templateUrl: '/orders/all', controller: 'ordersIndexController'})
-  .when('/orders/pending/:type', {templateUrl: '/orders/all', controller: 'ordersIndexController'})
-  .when('/dashboard/orders/cart', {templateUrl: '/orders/cart', controller: 'orderCartController'})
-  .when('/dashboard/order', {templateUrl: '/orders/add', controller: 'orderAddController'})
-  .when('/dashboard/order/by/:by', {templateUrl: '/orders/add', controller: 'orderAddController'})
-  .when('/dashboard/order/:itemId', {templateUrl: '/orders/add', controller: 'orderAddController'});
+config(['$stateProvider',function($stateProvider){
+  $stateProvider
+    .state('orders', {
+      url: '/orders',
+      templateUrl: '/orders/all',
+      controller: 'ordersIndexController'
+    })
+    .state('orders.pending', {
+      url: '/orders/pending/:type',
+      templateUrl: '/orders/all',
+      controller: 'ordersIndexController'
+    })
+    .state('orders.cart', {
+      templateUrl: '/orders/cart',
+      url: '/dashboard/orders/cart',
+      controller: 'orderCartController'
+    })
+    .state('orders.add', {
+      templateUrl: '/orders/add',
+      controller: 'orderAddController',
+      url: '/dashboard/order'
+    })
+    .state('orders.add.by', {
+      templateUrl: '/orders/add',
+      controller: 'orderAddController',
+      url:'/dashboard/order/by/:by'
+    })
+    .state('orders.add.item', {
+      templateUrl: '/orders/add',
+      controller: 'orderAddController',
+      url: '/dashboard/order/:itemId'
+    });
 }])
 /** jshint maxlen: 300 */
 .controller('orderCartController', [

@@ -5,8 +5,13 @@
 */
 angular.module('admin', [])
 
-.config(['$routeProvider', function ($routeProvider){
-  $routeProvider.when('/admin', {templateUrl: '/admin/index', controller: 'adminController'});
+.config(['$stateProvider', function ($stateProvider){
+  $stateProvider
+    .state('admin', {
+        url: '/admin',
+        templateUrl: '/admin/index',
+        controller: 'adminController'
+      });
 }])
 .controller('adminController', [
   '$scope',

@@ -5,8 +5,12 @@
 */
 angular.module('report', []).
 
-config(['$routeProvider',function($routeProvider){
-  $routeProvider.when('/reports', {templateUrl: '/reports/dashboard', controller: 'reportsDashboardController'});
+config(['$stateProvider',function($stateProvider){
+  $stateProvider.state('reports', {
+    templateUrl: '/reports/dashboard',
+    url: '/reports',
+    controller: 'reportsDashboardController'
+  });
 }]).
 controller('reportsDashboardController', ['$scope', '$http', '$location', 'ordersService', function($scope, $http, $location, ordersService){
   $scope.template = {
@@ -64,7 +68,7 @@ controller('reportsDashboardController', ['$scope', '$http', '$location', 'order
             //   supplierName: r.suppliers[0].supplierName
             // };
             // scope.form.nafdacRegNo = r.nafdacRegNo;
-            // scope.form.nafdacRegName = r.itemName;            
+            // scope.form.nafdacRegName = r.itemName;
             // scope.summary = r;
           });
           scope.$apply();

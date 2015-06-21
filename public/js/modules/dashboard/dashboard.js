@@ -5,8 +5,13 @@
 */
 angular.module('dashboard', [])
 
-.config(['$routeProvider', function ($routeProvider){
-	$routeProvider.when('/', {templateUrl: '/home/index', controller: 'dashboardIndexController'});
+.config(['$stateProvider', function ($stateProvider){
+	$stateProvider
+    .state('dashboard', {
+      url:'/',
+      templateUrl: '/home/index',
+      controller: 'dashboardIndexController'
+    });
 }])
 .controller('dashboardIndexController', ['$scope', 'stockService', 'ordersService', function($scope,stockService,ordersService){
 	stockService.count(function(data){
@@ -17,5 +22,5 @@ angular.module('dashboard', [])
 	});
 }])
 .controller('dashboardOrderController', function(){
-	
+
 });

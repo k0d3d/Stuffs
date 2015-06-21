@@ -1,100 +1,50 @@
-append head
-  link(rel='stylesheet', href='/css/extra/timeline/component.css')
 
-nav.shpane.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu",ng-style="a2cpane")
-  h3(style="padding-top: 60px") Add to cart
-  form.cart-order(role="form", ng-submit="addToCart(summary)", style="padding: 5px", name="cartorder")
-    label Quantity
-    input(type="number", ng-model="summary.orderAmount", required)
-    //
-      label Purchase Price: <b>{{summary.itemPurchaseRate}}</b>
-      label Order Price
-      input(type="number", ng-model="sdprice", ng-required="!summary.itemPurchaseRate")
-    label Current Supplier: <b>{{summary.suppliers[0].supplierName}}</b>
-    label Change Supplier
-    input(type="text", placeholder="Supplier", cart-supplier, ng-model="summary.orderSupplier.supplierName", ng-required="!summary.suppliers.length && !summary.dsPurchaseRate")
-    button.btn.btn-bell.btn-block(type="submit" ng-click="summary.supplierSelected = 'drugstoc'", ng-disabled="cartorder.$invalid || !summary.dsPurchaseRate", ng-show="summary.product_id") Order from DrugStoc
-    button.btn.btn-warning.btn-block(type="submit", ng-disabled="cartorder.$invalid", ng-click="summary.supplierSelected = 'user_entry'") Add to Cart
-nav.shpane.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu",ng-style="shpane")
-  ul.cbp_tmtimeline.stup-hstry
-    li(ng-repeat="sh in shz")
-      time.cbp_tmtime(datetime="{{sh.date}}")
-        span  {{sh.date| date: 'fullDate'}}
-        span  {{sh.amount}}
-      i.cbp_tmicon.fa(ng-class="{'fa-level-up' : _stockDirection(sh), 'fa-level-down' : _stockDirection(sh) }")
-      .cbp_tmlabel
-        h4 {{sh.action}}
-        p <strong>At: </strong> {{sh.date| date:'shortTime'}}
-nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu", ng-style="smpane")
-  h3 Item Summary
-  div.summary
-    dl
-      dt Name
-      dd {{summary.itemName}}
-      dt Scientific Name
-      dd {{summary.sciName}}
-      dt Manufacturer
-      dd {{summary.manufacturerName}}
-      dt Current Stock
-      dd {{summary.currentStock}}
-      dt Last Order Date
-      dd {{summary.lastSupplyDate | date: 'medium'}}
-      dt DrugStoc Rate
-      dd {{summary.dsPurchaseRate || 0}}
-      dt Purchase Rate
-      dd {{summary.itemPurchaseRate || 0}}
-  div.summary-actions
-    p
-      button.btn.btn-block.btn-warning(data-ng-click="commons.href('/items/'+summary._id+'/edit/iv-edit')") Edit Item
-    p
-      button.btn.btn-block.btn-warning(data-ng-click="addPane()") Add to cart
-    p
-      button.btn.btn-block.btn-warning(ng-click="stockhistory(summary._id)") Stock History
-    p
-      button.btn.btn-block.btn-danger(data-ng-click="delConfirm = !delConfirm; delBtnText = 'Are you sure ?'", ng-init="delConfirm = true") {{delBtnText}}
-      div(ng-show="!delConfirm")
-        button.btn.btn-danger.btn-block(data-ng-click="deleteItem(summary._id)") Yes
-        button.btn.btn-inverse.btn-block(data-ng-click="delConfirm = true; delBtnText = 'Delete Item'") Cancel
-    p
-      button.btn.btn-block.btn-default.btn-close(data-ng-click="spmenu=''", ng-class="spmenu") Close
+.block-header
+  h2 All Inventory
+  .actions-alt
+    .row
+      .col-md-6.col-xs-12.col-md-offset-6
+        .row
+          .col-xs-6.col-md-6.col-md-offset-2
+              .form-group(style="margin-bottom: 0")
+                .fg-line
+                  input.form-control(type='search', placeholder='Search Brand Name', ng-model="search.itemName", style="background-color: transparent;")
+          .col-xs-6.col-md-4
+              .btn-group.pull-right
+                button.btn.btn-default(type='button') Stock Level
+                button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='false')
+                  span.caret
+                  span.sr-only Stock Level
+                ul.dropdown-menu(role='menu')
+                  li
+                    a(href='#', ng-click="search.stockView = 'bgm-green'") Ample Stock
+                  li
+                    a(href='#', ng-click="search.stockView = 'bgm-red'") Low action
+                  li
+                    a(href='#', ng-click="search.stockView = 'bgm-gray'") Empty
+                  li.divider
+                  li
+                    a(href='#', ng-click="search.stockView = ''") All Stock
+              //.btn-group
+                button.btn-default(key-press-jump)
+                  i.md.md-keyboard-tab
+                input.current-anchor(type="text", maxlength="1", ng-model="anchor_index", ng-change="go_to_anchor(anchor_index)")
 
-.row-fluid.row-break
-  .span2.actioncol
-    .row-fluid
-      input.input-medium(type="search", ng-model="search", placeholder="Search Items")
-    .row-fluid
-      select.select-block(name="inventoryType", value="Medication")
-        option(value="Medication") Medication
-        option(value="Medical Equipement") Medical Equipment
-    //
-      .row-fluid
-        select.select-block(name="categorylist",value="Category", ng-show="false")
-          option(value="") Category
-          option(value="0") Antibiotics & Antimicrobal
-          option(value="1") Anti Malaria
-          option(value="2") Antiseptic
-          option(value="3") Cardio
-    .row-fluid
-      select.select-block.stockFilter
-        option(selected)
-        option(value="") All Stock
-        option(value="good-stock") Good Stock
-        option(value="low-stock") Low Stock
-        option(value="empty-stock") Empty Stock
-  .span10
-    .row-fluid
-      .panorama
-        .sectionAZ.panorama-sections(ng-show="hasItems")
-          .card-section.span6.panorama-section(data-ng-repeat="(key,az) in itemsList", id="section{{key}}", on-finish="panorama")
-            .card(data-ng-repeat="item in az  | orderBy:'itemName' | filter: search", class="{{item.currentStock | stockclass: item.itemBoilingPoint}}", data-ng-click="summaryDo($event, item)", on-finish="checkViewState")
-              h5 {{item.itemName}}
-              span.low {{item.currentStock}}
-        .no-item-holder(ng-show="!hasItems")
-          h4 No Items added.
-          a.btn.btn-primary(href="items/add") Add
-      .row-fluid.row-break
-        ul.index-list
-          li(data-ng-repeat="index in indexes", class="index {{enabledIndex | indexclass: index}}") {{index}}
 
+
+.card(ng-repeat="(key,az) in itemsList", id="section{{key}}", on-finish="panorama")
+  .card-header.ch-alt
+    h2 {{key | uppercase}}
+  .card-body.card-padding
+    .row
+      a.col-sm-3.col-xs-6(ng-repeat="item in az  | orderBy:'itemName' | filter: search", ng-click="summaryDo($event, item, az, $index)", on-finish="checkViewState", ui-sref="items.summary.info({'itemId' : item._id})")
+        .color-block(class="{{item.currentStock | stockclass: item.itemBoilingPoint}}")
+          span.color {{item.itemName}}
+          span.less {{item.currentStock}}
+
+
+.card.no-item-holder(ng-show="!hasItems")
+  h4 No Items added.
+  a.btn.btn-primary(href="items/add") Add
+include ../includes/inventory-side-pane.jade
 append foot
-  script(src="js/index.js")

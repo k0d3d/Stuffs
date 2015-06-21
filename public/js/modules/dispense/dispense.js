@@ -5,9 +5,18 @@
 */
 angular.module('dispense', [])
 
-.config(['$routeProvider', function ($routeProvider){
-	$routeProvider.when('/dispensary', {templateUrl: '/items/dispense', controller: 'dispensaryController'})
-  .when('/dispensary/:dispenseID', {templateUrl: '/items/prescribe', controller: 'dispensaryController'});
+.config(['$stateProvider', function ($stateProvider){
+	$stateProvider
+    .state('dispensary', {
+      url: '/dispensary',
+      templateUrl: '/items/dispense',
+      controller: 'dispensaryController'
+    })
+    .state('dispensary.prescribe', {
+      url: '/dispensary/:dispenseID',
+      templateUrl: '/items/prescribe',
+      controller: 'dispensaryController'
+    });
 }])
 .controller('dispensaryController', [
   '$scope',

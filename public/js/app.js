@@ -1,7 +1,9 @@
 // Declare app level module which depends on filters, and services
 
 var integraApp  = angular.module('integraApp', [
+  'ui.router',
   'ngSanitize',
+  'duScroll',
   'admin',
   'order',
   'stock',
@@ -18,14 +20,10 @@ var integraApp  = angular.module('integraApp', [
   ]);
 
 integraApp.config([
-  '$routeProvider',
-  '$locationProvider',
-  function ($routeProvider, $locationProvider) {
-  $routeProvider.
-    otherwise({
-      redirectTo: '/'
-    });
-  $locationProvider.html5Mode(true);
+  '$urlRouterProvider',
+  function ($urlRouterProvider) {
+  $urlRouterProvider.
+    otherwise('/');
 }]);
 
 

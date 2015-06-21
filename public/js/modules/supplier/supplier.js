@@ -5,9 +5,18 @@
 */
 angular.module('supplier', [])
 
-.config(['$routeProvider', function ($routeProvider){
-  $routeProvider.when('/suppliers', {templateUrl: '/suppliers/index', controller: 'supplierIndexController'})
-  .when('/suppliers/:supplierId/edit', {templateUrl: '/suppliers/edit', controller: 'supplierEditController'});
+.config(['$stateProvider', function ($stateProvider){
+  $stateProvider
+    .state('suppliers', {
+      templateUrl: '/suppliers/index',
+      url: '/suppliers',
+      controller: 'supplierIndexController'
+    })
+    .state('suppliers.edit', {
+      templateUrl: '/suppliers/edit',
+      url: '/suppliers/:supplierId/edit',
+      controller: 'supplierEditController'
+    });
 }])
 .controller('supplierIndexController', function supplierIndexController($scope, $location, $routeParams,supplierServices){
   function init(){
@@ -114,7 +123,7 @@ angular.module('supplier', [])
         heading: 'Supplier Operation Error',
         body: Lang.eng.supplier.add.error,
         type: 'error'
-      });     
+      });
       callback(false);
     });
   };
@@ -127,7 +136,7 @@ angular.module('supplier', [])
     })
     .error(function(data, status){
       callback(false);
-    });   
+    });
   };
   a.one = function(supplierId, callback){
     console.log(supplierId);
@@ -137,7 +146,7 @@ angular.module('supplier', [])
     })
     .error(function(data, status){
       callback(false);
-    });   
+    });
   };
 
   a.update = function(supplierData, callback){
@@ -147,7 +156,7 @@ angular.module('supplier', [])
       Notification.notifier({
         message: Lang.eng.supplier.update.success,
         type:'success'
-      });     
+      });
       callback(data);
     })
     .error(function(data, status){
@@ -156,7 +165,7 @@ angular.module('supplier', [])
         type: 'error'
       });
       callback(false);
-    });     
+    });
   };
 
   a.remove = function(id, callback){

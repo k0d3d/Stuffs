@@ -3,25 +3,107 @@
 *
 * Description
 */
-angular.module('item', [])
+angular.module('item', ['keycodes'])
 
-.config(['$routeProvider', function ($routeProvider){
-	$routeProvider.when('/items', {templateUrl: '/items/index', controller: 'itemIndexController'})
-  .when('/items/view/:state', {templateUrl: '/items/index', controller: 'itemIndexController'})
-  .when('/items/add', {templateUrl: '/items/new', controller: 'itemAddController'})
-  .when('/items/:itemId/edit/:action',{templateUrl: '/items/edit', controller: 'itemAddController'})
-  .when('/items/:itemId/ds-add/:action',{templateUrl: '/items/new', controller: 'itemAddController'});
+.config(['$stateProvider', function ($stateProvider){
+	$stateProvider
+    .state('items', {
+      url: '/items',
+      templateUrl: '/items/index', controller: 'itemIndexController'
+    })
+    .state('items.view', {
+      url: '/view/:state',
+      templateUrl: '/items/index',
+      controller: 'itemIndexController'
+    })
+    .state('items.add', {
+      url: '/add',
+      templateUrl: '/items/new',
+      controller: 'itemAddController'
+    })
+    .state('items.edit',{
+      url: '/:itemId/edit/:action',
+      templateUrl: '/items/edit',
+      controller: 'itemAddController'
+    })
+    .state('items.summary',{
+      url: '/summary/:itemId',
+      abstract: true,
+      resolve: {
+        itemSummary: function (itemsService, $stateParams, $q) {
+          var q = $q.defer();
+          var currentItem = $stateParams.itemId;
+          itemsService.summary(currentItem,'main',function(res){
+            return q.resolve(res);
+          });
+          return q.promise;
+        }
+      }
+    })
+    .state('items.summary.info',{
+      url: '/info',
+      views: {
+        'summaryview@items' :{
+          templateUrl: '/includes/items/item-summary-pane',
+          controller: function ($scope, itemSummary){
+            $scope.summary = itemSummary;
+          }
+        }
+      }
+    })
+    .state('items.summary.quickorder',{
+      url: '/quickorder',
+      views: {
+        'quickorder@items' :{
+          templateUrl: '/includes/items/quick-order-pane',
+          controller: function (){
+          }
+        }
+      }
+    })
+    .state('items.summary.stockhistory',{
+      url: '/stockhistory',
+      views: {
+        'quickhistory@items' :{
+          templateUrl: '/includes/items/stock-history-pane',
+          controller: function (){
+
+          }
+        }
+      }
+    })
+    .state('items.dsadd',{
+      url: '/:itemId/ds-add/:action',
+      templateUrl: '/items/new',
+      controller: 'itemAddController'
+    });
 }])
 .controller('itemIndexController', [
   '$scope',
   '$location',
-  '$routeParams',
+  '$stateParams',
+  '$state',
   'itemsService',
   'stockService',
   'ordersService',
-  function itemIndexController($scope, $location, $routeParams,itemsService, sS, ordersService){
+  '$document',
+  'Keys',
+  function itemIndexController(
+    $scope,
+    $location,
+    $stateParams,
+    $state,
+    itemsService,
+    sS,
+    ordersService,
+    $document,
+    keycodes
+    ){
+
     function init(){
       $scope.summary = {};
+      $scope.summaryView = {};
+      $scope.search = {};
       $scope.form = {};
       $scope.itemsList = '';
       $scope.hasItems = false;
@@ -36,11 +118,14 @@ angular.module('item', [])
       });
       $scope.$on('onFinishLoaded', function(event, data){
         if(data === true){
-          if($routeParams.state == 'low'){
+          if($stateParams.state == 'low'){
             $('.card').not('.low-stock').hide();
           }
         }
       });
+    itemsService.listCategory(function(r){
+      $scope.catList = r;
+    });
     }
     init();
     function sortItems(data, callback){
@@ -66,45 +151,53 @@ angular.module('item', [])
       }
       return a;
     }
-    $scope.stockFilters = [{
-      'value': '',
-      'text': 'All Stock'
-    },{
-      'value': 'good-stock',
-      'text': 'Good Stock'
-    },{
-      'value': 'low-stock',
-      'text': 'Low Stock'
-    },{
-      'value': 'empty-stock',
-      'text': 'Empty Stock'
-    }];
-    $scope.indexes =  atoz();
-    $scope.summaryDo =  function (event, id){
-      //We use 0 for the location to indicate the Main Inventory
 
-      //Set the current item var
-      $scope.currentItem = id;
-      itemsService.summary(id._id,'main',function(res){
-        $scope.delConfirm = true;
-        $scope.delBtnText = 'Delete Item';
-        $scope.summary = res;
-        $scope.spmenu = 'cbp-spmenu-open';
-
+    /**
+     * displays the summary of a selected / clicked
+     * item on the sidebar.
+     * @param  {Event} event the event that triggers this action
+     * @param  {Object} id    object referencing the item clicked on
+     * @param  {Object} collection    the Collection this item is ng-repeated
+     * from.
+     * @param {Number} index  the index / position of this item on 'collection'
+     * @return {[type]}       [description]
+     */
+    $scope.summaryDo =  function (event, id, collection, index){
         //Click out closes side panel
         $('html').one('click', function(){
-          $scope.spmenu = '';
-          $scope.smpane = '';
-          $scope.shpane = '';
-          $scope.a2cpane = '';
+          $scope.summaryView.opened = false;
           $scope.$apply();
         });
-        $('nav.cbp-spmenu').click(function(event){
+        $('aside.toggled').click(function(event){
           event.stopPropagation();
         });
-      });
+        //Set the current item var
+        $scope.currentItem = id;
     };
 
+    $scope.$on('$stateChangeSuccess',
+    function(){
+      if($state.includes('items.summary')) {
+        $scope.summaryView.opened = true;
+      } else {
+        $scope.summaryView.opened = false;
+      }
+      if($state.is('items.summary.info')) {
+        $scope.summaryView.info = true;
+      }else {
+        $scope.summaryView.info = false;
+      }
+      if($state.is('items.summary.stockhistory')) {
+        $scope.summaryView.history = true;
+      }else {
+        $scope.summaryView.history = false;
+      }
+      if($state.is('items.summary.quickorder')) {
+        $scope.summaryView.order = true;
+      }else {
+        $scope.summaryView.order = false;
+      }
+    });
 
     $scope.deleteItem = function(id){
       itemsService.delete(id, function(data){
@@ -150,6 +243,15 @@ angular.module('item', [])
       // $scope.$storage.orderCart = __cleanJSON($scope.orderCart);
     };
 
+    $scope.go_to_anchor = function (anchor_index) {
+      if (!anchor_index.length) return false;
+      var ele = angular.element(document.getElementById('section' + anchor_index.toUpperCase()));
+      if(ele.length) {
+        $document.scrollToElementAnimated(ele);
+      }
+      $scope.anchor_index = '';
+    };
+
     $scope.addPane = function(){
       $scope.smpane = {right:'240px'};
       $scope.a2cpane = {right:'0px'};
@@ -161,9 +263,9 @@ angular.module('item', [])
 .controller('itemAddController', [
   '$scope',
   '$location',
-  '$routeParams',
+  '$stateParams',
   'itemsService',
-  function itemAddController ($scope, $location, $routeParams,itemsService){
+  function itemAddController ($scope, $location, $stateParams,itemsService){
   $scope.form = {
     itemCategory: [],
     suppliers: []
@@ -175,14 +277,14 @@ angular.module('item', [])
   //Initialization function
   function init(){
 
-    if(!_.isUndefined($routeParams.itemId) && $routeParams.action === 'iv-edit'){
-      itemsService.getItemFields($routeParams.itemId, function(item){
+    if(!_.isUndefined($stateParams.itemId) && $stateParams.action === 'iv-edit'){
+      itemsService.getItemFields($stateParams.itemId, function(item){
         $scope.form = item;
       });
     }
 
-    if(!_.isUndefined($routeParams.itemId) && $routeParams.action === 'ds-add'){
-      itemsService.getDSProductFields($routeParams.itemId, function(item){
+    if(!_.isUndefined($stateParams.itemId) && $stateParams.action === 'ds-add'){
+      itemsService.getDSProductFields($stateParams.itemId, function(item){
         var attributes = _.reduce(item.attributes, function (result, n) {
           result[n.name] = n.options;
           return result;
@@ -309,12 +411,12 @@ angular.module('item', [])
   };
 
 }])
-.controller('itemEditController', function itemEditController($scope, $location, $routeParams,itemsService){
+.controller('itemEditController', function itemEditController($scope, $location, $stateParams,itemsService){
   $scope.form = {
     itemSupplier: {}
   };
-  if(isNaN($routeParams.itemId)){
-    itemsService.getItemFields($routeParams.itemId, function(item){
+  if(isNaN($stateParams.itemId)){
+    itemsService.getItemFields($stateParams.itemId, function(item){
       $scope.form = item;
     });
   }
@@ -773,14 +875,24 @@ angular.module('item', [])
     link: linker
   };
 }])
+.directive('keyPressJump', ['$location', '$anchorScroll',
+  function ($location, $anchorScroll) {
+    return {
+      link: function (scope, ele, attr) {
+        $(ele).on('click', function () {
+          $('.current-anchor').trigger('focus');
+        });
+      }
+    };
+  }])
 .filter('stockclass',function(){
     return function(cs, bp){
       if(cs === 0){
-        return 'empty-stock';
+        return 'bgm-gray';
       }else if(cs <= bp){
-        return 'low-stock';
+        return 'bgm-red';
       }else{
-        return 'good-stock';
+        return 'bgm-green';
       }
     };
   })

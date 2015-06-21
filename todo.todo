@@ -81,7 +81,7 @@ DDIMs Operations Checked and Bug Fix statuses:
  ☐ Fix search
  ☐ Quick switch for itemSize and packageSize on inventory list (hold down tile)
  NOTE: Reorder level is based on the quantity / stock in the inventory
- ☐ Clear totally what eva value is in invoice number when adding an item, if its not necessary.. unset item.orderInvoiceNumber
+ ☐ Clear totally what eva value is in invoice number when adding an item, if its not necessary.. unset item.orderInvoiceNumber nhg9j
  ☐ Small tooltip on view orders that shows, amount / quantity disparity when order is supplied
  ☐ Transactions does not capture dispense @critical
 
