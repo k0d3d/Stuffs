@@ -1,11 +1,12 @@
 #modal-order-supplied.modal.hide.fade.alt-text(data-backdrop="static")
     .modal-header
         div(style="float: left;width: 50%;display: inline-block;")
-
-        div(style="float: left;width: 50%;display: inline-block;")
           form(style="margin-bottom: 0")
             label.lister(for="supplier") Choose Supplier
             input.input-medium(type="text", name="supplier", order-supplier-type-ahead)
+        div(style="float: left;width: 50%;display: inline-block;")
+          button.btn.btn-large.pull-right.btn-success(checkfunc="placeOrder(cb)", printable="print-table-cart", print-tpl="supplier-cart", print-scope="printScope", ng-disabled="!printOrderToSupplier._id") Place Order
+
         .clearfix
     .modal-body.purchase-order(ng-show="selectedCart.length && printOrderToSupplier")
       h3(style="text-decoration: underline; text-align: center") Purchase Order
@@ -41,5 +42,5 @@
         | <i class="fa fa-envelope-o " > SMS</i>
       button.btn(ng-class="saveButtonClass", ng-disabled="!printOrderToSupplier.email")
         | <i class="fa fa-at" > Email</i>
-      button.btn(ng-class="saveButtonClass", ng-click="print_purchase_order('.purchase-order')")
+      button.btn(ng-class="saveButtonClass", ng-click="print_purchase_order('.purchase-order')", ng-disabled="!printOrderToSupplier._id")
         | <i class="fa fa-print" > Print</i>

@@ -60,10 +60,12 @@ config(['$routeProvider',function($routeProvider){
       return false;
     }
 
+
     ordersService.postCart($scope.selectedCart, function () {
 
       ordersService.getCartContent()
       .then(function (d) {
+        // $scope.cart_is_checkedout = true;
         var items = d.data;
         var toOrder = _.map(items, function (item) {
           return {

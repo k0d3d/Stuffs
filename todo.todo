@@ -84,6 +84,6 @@ DDIMs Operations Checked and Bug Fix statuses:
  ☐ Clear totally what eva value is in invoice number when adding an item, if its not necessary.. unset item.orderInvoiceNumber
  ☐ Small tooltip on view orders that shows, amount / quantity disparity when order is supplied
  ☐ Transactions does not capture dispense @critical
-
+ ☐ should alert when cart items are being sent to indistinct suppliers @low
 
 ls102

@@ -8,14 +8,9 @@ block body
       .search-bar
         input.input-medium(type="search", ng-model="cartFilter.supplier", placeholder="Search Suppliers")
 
-      //
-        button.btn.btn-large.btn-block(style="background-color: transparent;border: solid 1px #ddd;", ng-click="selectedView = !selectedView")
-          i.fa.fa-square-o.pull-left(ng-class="{'fa-square-o': !selectedView, 'fa-check-square-o': selectedView}")
-          span(ng-show="selectedView") Selected Items <span class="badge badge">{{selectedCart.length}}</span>
-          span(ng-hide="selectedView") All Items
-      button.btn.btn-large.btn-block.btn-success(checkfunc="placeOrder(cb)", printable="print-table-cart", print-tpl="supplier-cart", print-scope="printScope")
+      button.btn.btn-large.btn-block.btn-success(new-modal="#modal-order-supplied", ng-disabled="!selectedCart.length")
         i.fa.fa-shopping-cart.pull-left
-        | Place Order
+        | Checkout Items
       //
         button.btn.btn-large.btn-block.btn-success(ng-click="send_sms()")
           i.fa.fa-envelope-o.pull-left
