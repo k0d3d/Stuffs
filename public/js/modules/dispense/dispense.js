@@ -211,7 +211,8 @@ angular.module('dispense', [])
         'status':v.options,
         'dosage': v.dosage,
         'period': v.period,
-        'cost': v.cost
+        'cost': v.cost,
+        'unitQuantity': v.unitQuantity
       });
     });
     var toSend = {
@@ -288,6 +289,8 @@ angular.module('dispense', [])
     //                                 $scope.d[index].packageSize / $scope.d[index].dose);
 
     $scope.d[index].amount = $scope.d[index].unitQuantity * $scope.d[index].packageSize;
+
+    $scope.d[index].cost = $scope.d[index].selected_price / ($scope.d[index].itemSize / $scope.d[index].packageSize );
   };
 
   $scope.print_bill = function(ele){

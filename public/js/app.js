@@ -112,6 +112,8 @@ integraApp.controller('MainController', [
   //List of Item forms
   var itemForm = [
    'Tablets',
+   'Pints',
+   'Syringes',
    'Capsules',
    'Vials',
    'Caplets',

@@ -5,12 +5,8 @@ DDIMs Operations Checked and Bug Fix statuses:
   ✔ Fix update operation after using the typeahead on item/add @critical @done (15-05-25 09:07)
   ✔ Fix category list look when attaching a category on item/add @high @done (15-05-25 11:41)
  ✔  Adding item with stock gives error  @done (15-05-25 08:51)
- ☐ Fix cartLoaded events, cart count and refresh by using cart button as a directive
  ✔ Add price to item added with invoice number @critical @done (15-05-25 11:45)
  ✔ Updating order to 'supplied' adds stock @done (15-05-25 09:06)
- ☐ deleting items from inventory should immediately update view @high
- ☐ Add notice / label fozr items already tagged on inventory from drugstoc view on order/add @high
- ☐ Note:: When attaching items drom ds to iv, ds replaces itemPurchasePrice @low
  ✔ Placing order from 'Place Order Inventory' @done (15-05-25 16:47)
  ✔ Attaching DS Product to existing Inventory @done (15-05-25 16:48)
  ✔ Make Purchase rate mandatory when adding inventory item with Stock @low @done (15-06-02 05:49)
@@ -18,15 +14,6 @@ DDIMs Operations Checked and Bug Fix statuses:
  ✔ Order Update operations  @done (15-05-25 17:11)
  ✔ Fixed admin transactions @done (15-05-25 17:17)
  ✔ Adding rules to existing billing profile @done (15-05-25 17:19)
- ☐ Should update rules when adding new rules  @low
- ✔ Requesting Stock to stock down location  @done (15-05-25 17:21)
-     ☐ Updating view after successful stockdown operation
- ✔ Creating stock down locations @done (15-05-25 17:22)
-     ☐ Update list of stock locations on creation
- ✔ Renaming Stockdown location @done (15-05-25 17:23)
- ☐ Log record for multiple dispensed items from a stockdown location @critical
- ☐ Should check if Selected Profile has rules on it at admin->billing->select profile->save, dispense->select profile @high
- ☐ Pre-save middleware for billing rule ; should uppercase 'all' value @low
  ✔ Billing dispense list works with billing rules @done (15-05-25 19:18)
  ✔ Payment History works on bill @done (15-05-25 19:19)
  ✔ Enabled Patient Hospital Number @done (15-05-29 03:04)
@@ -54,7 +41,6 @@ DDIMs Operations Checked and Bug Fix statuses:
 
  ✔ Add 'start' to list of dosage @done (15-05-30 13:11)
  ✔ View order page should sort by date, most recent @done (15-05-30 15:21)
- ☐ Block multiple clicks after order , (also creating / adding items)has been set : all transaction buttons should be disabled till response comes. @high @critical
 
  ✔ sms, email and print purchase orders.  @high @done (15-06-02 05:50)
 
@@ -70,6 +56,20 @@ DDIMs Operations Checked and Bug Fix statuses:
  ✔ Purchase order at carting point / check out point @critical @done (15-06-02 05:57)
  ✔ Add column that describes the item form and package size. when dispensing @done (15-06-02 05:58)
  ✔ describe items being dispensed on confirmation modal @done (15-06-02 05:58)
+ ✔ Requesting Stock to stock down location  @done (15-05-25 17:21)
+     ☐ Updating view after successful stockdown operation
+ ✔ Creating stock down locations @done (15-05-25 17:22)
+     ☐ Update list of stock locations on creation
+ ✔ Renaming Stockdown location @done (15-05-25 17:23)
+ ☐ deleting items from inventory should immediately update view @high
+ ☐ Add notice / label fozr items already tagged on inventory from drugstoc view on order/add @high
+ ☐ Fix cartLoaded events, cart count and refresh by using cart button as a directive
+ ☐ Note:: When attaching items drom ds to iv, ds replaces itemPurchasePrice @low
+ ☐ Should update rules when adding new rules  @low
+ ☐ Log record for multiple dispensed items from a stockdown location @critical
+ ☐ Should check if Selected Profile has rules on it at admin->billing->select profile->save, dispense->select profile @high
+ ☐ Pre-save middleware for billing rule ; should uppercase 'all' value @low
+ ☐ Block multiple clicks after order , (also creating / adding items)has been set : all transaction buttons should be disabled till response comes. @high @critical
  ☐ use find and create / update for stocking method on model/stock.js
  ☐ review stock history implementation @critical
  ☐ Order number not generated when adding item with stock @high
@@ -85,5 +85,13 @@ DDIMs Operations Checked and Bug Fix statuses:
  ☐ Small tooltip on view orders that shows, amount / quantity disparity when order is supplied
  ☐ Transactions does not capture dispense @critical
  ☐ should alert when cart items are being sent to indistinct suppliers @low
+ ☐ use order prices on price select dropdown menu when dispensing, should use order history and active item prices @low
 
+
+NIH needs basic DIMS:
+  ✔ Supplier Input @done (15-06-22 11:01)
+  ☐ Drug Input
+    ☐ needs prescription testing to assertain how NIH entered drugs and if stock calculations make sense.
+    item description
+    ☐ attach or bind items by mininum / package size
 ls102

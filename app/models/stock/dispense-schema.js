@@ -22,6 +22,7 @@ var DispenseSchema = new Schema({
     itemId: {type: Schema.ObjectId, ref: 'item'},
     itemName: {type: String},
     amount: {type: Number},
+    unitQuantity: {type: Number},
     status: {type: String},
     dosage: {type: String},
     period: {type: Number},

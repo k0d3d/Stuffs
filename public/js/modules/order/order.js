@@ -65,7 +65,7 @@ config(['$routeProvider',function($routeProvider){
 
       ordersService.getCartContent()
       .then(function (d) {
-        // $scope.cart_is_checkedout = true;
+        $scope.cart_is_checkedout = true;
         var items = d.data;
         var toOrder = _.map(items, function (item) {
           return {

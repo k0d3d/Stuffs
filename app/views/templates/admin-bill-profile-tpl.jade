@@ -1,10 +1,10 @@
 .span11(ng-init="billingPaneActive = false", style="margin-left: 20px")
   .row-fluid.fixed-table
     .span3.span-rgt-brd(style="width:235px")
-      h4 Billing Profiles            
+      h4 Billing Profiles
         select(ng-options="a.profileName for a in bill.profiles", ng-model="bill.activeProfile", ng-change="bill.js()")
-        .btn-group            
-          button.btn.btn-primary.btn-block(ng-click="bill.popRules(); billingPaneActive = !billingPaneActive") View All Rules 
+        .btn-group
+          button.btn.btn-primary.btn-block(ng-click="bill.popRules(); billingPaneActive = !billingPaneActive") View All Rules
             i.fa.fa-list-ul
       .b-ru-bx
         h4 New Rule
@@ -14,8 +14,9 @@
           label Property
           select.input-medium(type="text", ng-model="bill.newrule.reference.type", placeholder="Property", required, ng-init="bill.newrule.reference.type = 'drug'")
             option(value="drug") Drug Item
-            option(value="medsrvs") Medical Service
-            option(value="other") Other
+            option(value="category") Drug Category
+            //option(value="medsrvs") Medical Service
+            //option(value="other") Other
           label Subject
           input(type="text", ng-model="bill.newrule.reference.name", placeholder="eg. Panadol, Emvite", required, title="Type ALL or * To apply rule to all items", propdrug, ng-show="bill.newrule.reference.type =='drug'")
           input(type="text", ng-model="bill.newrule.reference.name", placeholder="eg. Consultancy", required, title="Type ALL or * To apply rule to all items", propmedserv, ng-show="bill.newrule.reference.type =='medsrvs'")
@@ -25,7 +26,7 @@
             option Value
             option Flat Fee
           label(ng-show="bill.newrule.by == 'Percentage'") Value (%)
-          input.input-small(type="Number", min="0", max="100", ng-show="bill.newrule.by == 'Percentage'", ng-model="bill.newrule.value", required)
+          input.input-small(type="Number", min="0", ng-show="bill.newrule.by == 'Percentage'", ng-model="bill.newrule.value", required)
           label(ng-show="bill.newrule.by == 'Value'") Value (N +/-)
           input.input-small(type="Number", min="0", ng-show="bill.newrule.by == 'Value'", ng-model="bill.newrule.value", required)
           label(ng-show="bill.newrule.by == 'Flat Fee'") Flat Fee (N)
@@ -53,7 +54,7 @@
               .btn-group
                 button.btn.btn-large.btn-block.btn-warning(ng-click="bill.saveProfile()")
                   i.fa.fa-save(style="margin-right: 5px")
-                  | Save         
+                  | Save
           .table-content
             table#list-rules.table.table-fixed-header
               thead.header

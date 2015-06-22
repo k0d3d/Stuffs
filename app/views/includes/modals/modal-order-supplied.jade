@@ -5,7 +5,7 @@
             label.lister(for="supplier") Choose Supplier
             input.input-medium(type="text", name="supplier", order-supplier-type-ahead)
         div(style="float: left;width: 50%;display: inline-block;")
-          button.btn.btn-large.pull-right.btn-success(checkfunc="placeOrder(cb)", printable="print-table-cart", print-tpl="supplier-cart", print-scope="printScope", ng-disabled="!printOrderToSupplier._id") Place Order
+          button.btn.btn-large.pull-right.btn-success(checkfunc="placeOrder(cb)", printable="print-table-cart", print-tpl="supplier-cart", print-scope="printScope", ng-disabled="!printOrderToSupplier._id || cart_is_checkedout") Place Order
 
         .clearfix
     .modal-body.purchase-order(ng-show="selectedCart.length && printOrderToSupplier")

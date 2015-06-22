@@ -264,7 +264,8 @@ DispenseController.prototype.dispenseThis = function(o, callback){
           status: record.status,
           cost: record.cost,
           dosage: record.dosage,
-          period: record.period
+          period: record.period,
+          unitQuantity: record.unitQuantity
         });
         if(data.drugs.length){
           saveAll();

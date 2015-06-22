@@ -46,8 +46,7 @@ append mainbody
             td
               | {{d[$index].itemName}}
             td
-              select(style="width: 70px", ng-model="d[$index].cost", ng-options="c for c in d[$index].orderPrice", ng-init="d[$index].cost = d[$index].orderPrice[0] / (d[$index].itemSize / d[$index].packageSize )")
-                option {{d[$index].itemPurchaseRate}}
+              select(style="width: 70px", ng-model="d[$index].selected_price", ng-options="c for c in d[$index].orderPrice", ng-change="adjust_amount($index)", ng-init="d[$index].selected_price = d[$index].itemPurchaseRate")
             td <span>{{d[$index].currentStock / d[$index].itemSize}}</span> <em style="text-transform: none"> as </em><span class="badge badge-warning" data-toggle="tooltip" data-placement="top" title="item of {{d[$index].packageSize}} {{d[$index].itemForm}}">{{d[$index].currentStock / d[$index].packageSize}}</span>
             td
               .control-group(ng-class="{ error: d[$index].amount > d[$index].currentStock }")

@@ -8,7 +8,7 @@ block body
       .search-bar
         input.input-medium(type="search", ng-model="cartFilter.supplier", placeholder="Search Suppliers")
 
-      button.btn.btn-large.btn-block.btn-success(new-modal="#modal-order-supplied", ng-disabled="!selectedCart.length")
+      button.btn.btn-large.btn-block.btn-success(new-modal="#modal-order-supplied", ng-disabled="!selectedCart.length", ng-click="cart_is_checkedout = false")
         i.fa.fa-shopping-cart.pull-left
         | Checkout Items
       //

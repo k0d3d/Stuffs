@@ -99,7 +99,12 @@ ItemsObject.prototype.create = function (itemBody, cb) {
   //This registers this new item as an order which has been supplied
   //if the invoice data is available
   register.once('checkInvoice', function(data, isDone){
+    //if orderInvoiceData is defined
     if(data.item.orderInvoiceData !== undefined){
+      //lets check if the order Invoice number is also present
+      if (!data.item.orderInvoiceData.orderInvoiceNumber.length) {
+        return isDone(data);
+      }
       hasOrder = true;
 
       //Creates a new order.

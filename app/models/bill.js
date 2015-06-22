@@ -204,6 +204,7 @@ BillsController.prototype.oneBill = function(dispense_id, callback){
  */
 BillsController.fixCost = function(bp, callback){
   var rules = bp.billrules;
+  var omit_from_all = _.pluck(rules, 'serviceid');
   function _adjust (cost, value, by, directive){
     if(by === 'Percentage'){
       //Increse or decrease the cost by percentage
@@ -222,6 +223,10 @@ BillsController.fixCost = function(bp, callback){
         return cost - value;
       }
     }
+    if(by === 'Flat Fee'){
+      //Increse or decrease the cost by value
+      return value ;
+    }
   }
 
   //Oya! Lets process rules that have to do with
@@ -236,6 +241,19 @@ BillsController.fixCost = function(bp, callback){
     //on this billing profile, oya lets walk the drug
     //rule over this bill
     if(_rz.servicetype === 'drugs' || _rz.servicetype === 'drug'){
+      //Now lets do the same thing to every drug item
+      if(_rz.servicename === 'All'){
+        //For every drug on dispensed, we check
+        //if this rule matches / is to be applied
+        _.each(bp.dispenseID.drugs, function(v, i){
+          //If the service/rule matches (by comparing the service name and id)
+          //to the dispensed drug being checked. and the item is not in our list
+          //of items that should be exempted from an 'All rule' (omit_from_all)
+          if(_rz.servicename === 'All' && (_.indexOf(omit_from_all, v.itemId.toString()) === -1)){
+            bp.dispenseID.drugs[i].cost = _adjust(v.cost * v.unitQuantity, _rz.value, _rz.by, _rz.directive);
+          }
+        });
+      }
       //Next we need to check if this rule applies to a
       //specific item or to all items
       if(_rz.servicename !== 'All'){
@@ -245,19 +263,7 @@ BillsController.fixCost = function(bp, callback){
           //If the service/rule matches (by comparing the service name and id)
           //to the dispensed drug being checked
           if(_rz.servicename === v.itemName || _rz.serviceid === v.itemId){
-            bp.dispenseID.drugs[i].cost = _adjust(v.cost * v.amount, _rz.value, _rz.by, _rz.directive);
-          }
-        });
-      }
-      //Now lets do the same thing to every drug item
-      if(_rz.servicename === 'All'){
-        //For every drug on dispensed, we check
-        //if this rule matches / is to be applied
-        _.each(bp.dispenseID.drugs, function(v, i){
-          //If the service/rule matches (by comparing the service name and id)
-          //to the dispensed drug being checked
-          if(_rz.servicename === 'All'){
-            bp.dispenseID.drugs[i].cost = _adjust(v.cost * v.amount, _rz.value, _rz.by, _rz.directive);
+            bp.dispenseID.drugs[i].cost = _adjust(v.cost * v.unitQuantity, _rz.value, _rz.by, _rz.directive);
           }
         });
       }
