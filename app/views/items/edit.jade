@@ -45,18 +45,37 @@ block body
             p {{form.suppliers.length}} suppliers selected.
 
 
+            //- label(for="item-size") Item contains a total of
+            //- input.input-small(type="text",name="item-size",ng-model="form.itemSize", required)
+            //- label(for="itemform") (Item Form)
+            //- select(name="itemform",ng-model="form.itemForm", ng-options="c for c in commons.itemForm", ng-show="itemFormShow")
+            //- label(for="itemsize") minimally dispensed in (Package Size)
+            //- input.input-small(name="itemsize",type="number",ng-model="form.packageSize")
+            //- label(for="itempackaging") (Item Packaging)
+            //- select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging", ng-show="itemPackagingShow")
+
+
+
+
             label(for="item-size") Item contains a total of
             input.input-small(type="text",name="item-size",ng-model="form.itemSize", required)
+
             label(for="itemform") (Item Form)
-            p.disabled-input(ng-click="itemFormShow = !itemFormShow", ng-init="itemFormShow = false", ng-show="!itemFormShow") {{form.itemForm}}
             select(name="itemform",ng-model="form.itemForm", ng-options="c for c in commons.itemForm", ng-show="itemFormShow")
-            label(for="itemsize") minimally dispensed in (Package Size)
-            input.input-small(name="itemsize",type="number",ng-model="form.packageSize")
-            label(for="itempackaging") (Item Packaging)
-            p.disabled-input(ng-click="itemPackagingShow = !itemPackagingShow", ng-init="itemPackagingShow = false", ng-show="!itemPackagingShow") {{form.itemPackaging}}
+            p.disabled-input(ng-click="itemFormShow = !itemFormShow", ng-init="itemFormShow = false", ng-show="!itemFormShow") {{form.itemForm}}
+
+            label(for="itemsize") minimally dispensed in
+            input.input-small(name="itemsize",type="number",ng-model="form.packageSize", required)
+            span.helptext {{form.itemForm}}
+
+            label(for="itempackaging") packaged in one
             select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging", ng-show="itemPackagingShow")
+            p.disabled-input(ng-click="itemPackagingShow = !itemPackagingShow", ng-init="itemPackagingShow = false", ng-show="!itemPackagingShow") {{form.itemPackaging}}
+
+
             label(for="bp") Reorder Level
             input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint", ng-minlength=0, ng-maxlength=100)
+
             label(for="rate") DrugStoc Rate
             p.disabled-input.input-medium {{form.dsPurchaseRate}}
             label(for="rate") Purchase Rate
