@@ -1013,3 +1013,6 @@ em.versiontxt {
 .panorama h5 {
   font-size: 14px
 }
+.palette dt {
+  font-weight: bold;
+}

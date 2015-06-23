@@ -57,9 +57,10 @@ block body
             input.input-small(type="text",name="item-size",ng-model="form.itemSize", required)
             label(for="itemform") (Item Form)
             select(name="itemform",ng-model="form.itemForm", ng-options="c for c in commons.itemForm", required)
-            label(for="itemsize") minimally dispensed in (Package Size)
+            label(for="itemsize") minimally dispensed in
             input.input-small(name="itemsize",type="number",ng-model="form.packageSize", required)
-            label(for="itempackaging") (Item Packaging)
+            span.helptext {{form.itemForm}}
+            label(for="itempackaging") packaged in one
             select(name="itempackaging",ng-model="form.itemPackaging", ng-options="d for d in commons.itemPackaging", required)
             label(for="bp") Reorder Level
             input.input-small(type="number",name="bp",ng-model="form.itemBoilingPoint", min=0)

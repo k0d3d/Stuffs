@@ -37,6 +37,7 @@ var BillSchema = new Schema({
   }],
   patientName: String,
   patientId: String,
+  billClass: {type: Schema.ObjectId, ref: 'billingProfile'},
   /**
    * a collection of rules to be
    * applied to this bill. The collection

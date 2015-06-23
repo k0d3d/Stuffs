@@ -1,11 +1,24 @@
 #modal-order-supplied.modal.hide.fade.alt-text(data-backdrop="static")
     .modal-header
-        div(style="float: left;width: 50%;display: inline-block;")
+        div(style="float: left;width: 60%;display: inline-block;")
           form(style="margin-bottom: 0")
             label.lister(for="supplier") Choose Supplier
             input.input-medium(type="text", name="supplier", order-supplier-type-ahead)
-        div(style="float: left;width: 50%;display: inline-block;")
-          button.btn.btn-large.pull-right.btn-success(checkfunc="placeOrder(cb)", printable="print-table-cart", print-tpl="supplier-cart", print-scope="printScope", ng-disabled="!printOrderToSupplier._id || cart_is_checkedout") Place Order
+        div(style="float: left;width: 40%;display: inline-block;")
+          h5 Notify supplier by
+          dl.dl-horizontal
+            dt(style="text-align: left")
+              span
+                | <i class="fa fa-envelope-o " >  SMS</i>
+            dd
+              input(type="checkbox", ng-disabled="!printOrderToSupplier.phoneNumber && !printOrderToSupplier.isRequesting", style="margin: 0", ng-model="check_send_sms")
+              span.label.label-success(ng-show="sms_is_sent") Sent
+            hr(style="margin: 3px 0")
+            dt(style="text-align: left")
+              span
+                | <i class="fa fa-at" > Email</i>
+            dd
+              input(type="checkbox", ng-disabled="!printOrderToSupplier.email", style="margin: 0")
 
         .clearfix
     .modal-body.purchase-order(ng-show="selectedCart.length && printOrderToSupplier")
@@ -26,7 +39,7 @@
               tr
                 th Item
                 th Quantity
-                th Price (N)
+                th UnitPrice (N)
             tbody
               tr(ng-repeat="or in selectedCart")
                 td {{or.itemName}}
@@ -38,9 +51,6 @@
 
     .modal-footer
       button.btn.btn-default(new-modal="#modal-order-supplied") Back
-      button.btn(ng-click="sms_purchase_order()" ng-class="saveButtonClass", ng-disabled="!printOrderToSupplier.phoneNumber && !printOrderToSupplier.isRequesting")
-        | <i class="fa fa-envelope-o " > SMS</i>
-      button.btn(ng-class="saveButtonClass", ng-disabled="!printOrderToSupplier.email")
-        | <i class="fa fa-at" > Email</i>
       button.btn(ng-class="saveButtonClass", ng-click="print_purchase_order('.purchase-order')", ng-disabled="!printOrderToSupplier._id")
         | <i class="fa fa-print" > Print</i>
+      button.btn.btn-large.pull-right.btn-success(ng-click="placeOrder()", ng-disabled="!printOrderToSupplier._id || cart_is_checkedout") Place Order

@@ -264,16 +264,16 @@ angular.module('dispense', [])
     var val, d = $scope.d[index];
     switch($scope.d[index].dosage){
       case '1':
-        val = 1;
+        val = 1 * d.qty;
       break;
       case '2':
-        val = 2;
+        val = 2 * d.qty;
       break;
       case '3':
-        val = 3;
+        val = 3 * d.qty;
       break;
       case '4':
-        val = 4;
+        val = 4 * d.qty;
       break;
       default:
         val = d.qty;

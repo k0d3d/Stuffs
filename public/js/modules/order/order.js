@@ -49,9 +49,14 @@ config(['$routeProvider',function($routeProvider){
   };
 
 
-  $scope.placeOrder = function (cb) {
+  $scope.placeOrder = function () {
+
+    if (!$scope.check_send_sms && !$scope.check_send_email) {
+      alert('Please select sms or email to notify supplier');
+      return false;
+    }
+
     if (!confirm('Confirm you want to place an order for these items!')) {
-      cb(false);
       return false;
     }
 
@@ -60,9 +65,17 @@ config(['$routeProvider',function($routeProvider){
       return false;
     }
 
+    if ($scope.check_send_sms) {
+      $scope.sms_purchase_order();
+    }
+
+    // if ($scope.check_send_email) {
+
+    // }
+
 
     ordersService.postCart($scope.selectedCart, function () {
-
+      $scope.selectedCart.length = 0;
       ordersService.getCartContent()
       .then(function (d) {
         $scope.cart_is_checkedout = true;
@@ -82,17 +95,17 @@ config(['$routeProvider',function($routeProvider){
         });
         ordersService.cartLoaded(toOrder);
       });
-
-      cb(true);
     });
   };
 
   $scope.sms_purchase_order = function sms_purchase_order (){
 
+    $scope.sms_is_sent = false;
     if ($scope.printOrderToSupplier && $scope.selectedCart) {
       $scope.printOrderToSupplier.isRequesting = true;
       ordersService.notifySupplier($scope.printOrderToSupplier._id, 'sms', $scope.selectedCart, function(){
         $scope.printOrderToSupplier.isRequesting = false;
+        $scope.sms_is_sent = true;
       });
     }
 

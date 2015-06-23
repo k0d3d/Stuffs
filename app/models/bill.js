@@ -180,6 +180,7 @@ BillsController.prototype.getBills = function(req, res){
 BillsController.prototype.oneBill = function(dispense_id, callback){
     var q = Bill.findOne({dispenseID: dispense_id});
   q.populate('dispenseID');
+  q.populate('billClass');
   q.exec(function(err, i){
     // console.log(i.dispenseID.drugs);
     if(err){
@@ -187,7 +188,23 @@ BillsController.prototype.oneBill = function(dispense_id, callback){
     }else{
         if(i.billCost === 0){
             return BillsController.fixCost(i, function(fixed){
+              //fixes situations whr the billing class isnt available
+              //ideally should use the default billing class.
+              //TOBE DISCUSSED
+              if (i.billClass) {
+                fixed.billClassName = i.billClass.profileName;
                 return callback(fixed);
+              } else if (i.dispenseID.billClass){
+                BillingProfile.findOne({
+                  _id: i.dispenseID.billClass
+                }, 'profileName')
+                .exec(function (err, i) {
+                  fixed.billClassName = i.profileName;
+                  return callback(fixed);
+                });
+              } else {
+                callback(fixed);
+              }
             });
         }
         callback(i);
@@ -327,6 +344,7 @@ BillsController.serveBill = function(d, callback){
     }else{
       var bill = new Bill();
       bill.billCost = 0;
+      bill.billClass = d.billClass;
       bill.dispenseID = d.dispenseID;
       bill.patientName = d.patientName;
       bill.patientId =  d.patientId;

@@ -94,4 +94,10 @@ NIH needs basic DIMS:
     ☐ needs prescription testing to assertain how NIH entered drugs and if stock calculations make sense.
     item description
     ☐ attach or bind items by mininum / package size
+    ✔ change price text to unit price on purchase order modal @done (15-06-23 08:35)
+    ✔ must select a minimum of two notification methods on purchase order before placing order @done (15-06-23 13:47)
+    ✔ Selected items should be cleared when order has been placed. @high @done (15-06-23 08:40)
+    ✔ allow decimals or floating points when requesting stock @low @done (15-06-23 08:41)
+    ✔ Item contains a total of x (item form) minimally dispensed in x (item form ) packaged in one (item packaging) @high @done (15-06-23 12:20)
+    ✔ include patient class on printable bill @low @done (15-06-23 14:35)
 ls102

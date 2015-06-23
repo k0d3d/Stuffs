@@ -145,7 +145,8 @@ integraApp.controller('MainController', [
      'Bottles',
      'Bags',
      'Box',
-     'Tube'
+     'Tube',
+     'Envelope'
   ].sort();
 
   $scope.commons = {

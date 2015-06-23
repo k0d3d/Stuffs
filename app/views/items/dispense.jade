@@ -69,12 +69,12 @@ append mainbody
                     option(value="4") 4x Daily (QDS)
                     option(value="5") When Necessary (PRN)
                     option(value="5") Start
-              .row(ng-show="is_fluid(d[$index].itemForm)")
-                .span6(ng-init="d[$index].dose = 1")
+              .row()
+                .span6(ng-init="d[$index].dose = 1", ng-show="is_fluid(d[$index].itemForm)")
                   label.control-label Dose <span style="text-transform: none">(ml)</span>
                   .controls
                       input.input-mini(type="number",ng-model="d[$index].dose", ng-change="adjust_amount($index)")
-                .span6(ng-init="d[$index].qty = 1", ng-show="d[$index].dosage == 5")
+                .span6(ng-init="d[$index].qty = 1")
                   label.control-label Quantity
                   .controls
                       input.input-mini(type="number",ng-model="d[$index].qty", ng-change="adjust_amount($index)")
