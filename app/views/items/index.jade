@@ -39,9 +39,9 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu", ng-style=
       dd {{summary.currentStock}}
       dt Last Order Date
       dd {{summary.lastSupplyDate | date: 'medium'}}
-      dt DrugStoc Rate
+      dt DrugStoc Rate (N)
       dd {{summary.dsPurchaseRate || 0}}
-      dt Purchase Rate
+      dt Purchase Rate (N)
       dd {{summary.itemPurchaseRate || 0}}
   div.summary-actions
     p

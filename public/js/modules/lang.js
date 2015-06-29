@@ -15,8 +15,9 @@ angular.module('language', [])
 				}
 			},
 			"save": {
-				"success":"You've succesfully added an order. Note: Items placed with invoice numbers and stock amounts will have their current stock updated. To add another item, close this dialog or return to the dashboard",
-				"error": "Something went wrong while carrying out your last request. If it's nothing serious, you can try again. If this error happens again, please inform the Admin"
+				"success":"You've succesfully added an item. To add another item, close this dialog or return to the dashboard",
+				"error": "Something went wrong while carrying out your last request. If it's nothing serious, you can try again. If this error happens again, please inform the Admin",
+				"success-alt" : "You've succesfully added an item. Note: Items placed with invoice numbers and stock amounts will have their current stock updated. To add another item, close this dialog or return to the dashboard"
 			},
 			"autocomplete":{
 				"brandname":"",
