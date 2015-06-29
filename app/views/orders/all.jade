@@ -6,9 +6,9 @@ block body
     .span2.actioncol
       .search-bar
         input.input-medium(type="search", ng-model="ordersfilter.itemName", placeholder="Search Item Name")
-        input.input-medium(type="search", ng-model="ordersfilter.orderSupplier", placeholder="Search Suppliers")
-        input.input-medium(type="search", ng-model="ordersfilter.orderInvoiceNumber", placeholder="Search Invoices")
-        input.input-medium(type="search", ng-model="ordersfilter.order_group_id", placeholder="Search Order Ids")
+        input.input-medium(type="search", ng-model="ordersfilter.orderSupplier", placeholder="Search Supplier")
+        input.input-medium(type="search", ng-model="ordersfilter.orderInvoiceNumber", placeholder="Search Invoice Number")
+        input.input-medium(type="search", ng-model="ordersfilter.order_group_id", placeholder="Search Order ID")
         select.input-medium(ng-model="ordersfilter.orderStatus")
           option(value="")  All
           option(value="3") Supplied
