@@ -31,6 +31,14 @@
               return name.itemName === item;
             });
             scope.selectedItem[attrs.thName] = selectedItemId;
+
+            if (scope.typeAction === 'add_grouped_item') {
+              scope.form.groupedItems = scope.form.groupedItems || [];
+              scope.form.groupedItems.push({
+                itemName: selectedItemId.itemName,
+                itemId: selectedItemId._id
+              })
+            }
             scope.$apply();
             return item;
           }
@@ -38,7 +46,11 @@
     };
     return{
       restrict: 'A',
-      link: linker
+      link: linker,
+      scope: {
+        typeAction: '@',
+        form: '=typeAhead'
+      }
     };
   });
   appDirectives.directive('onFinish',function($timeout){

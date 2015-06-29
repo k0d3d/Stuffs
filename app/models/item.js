@@ -64,6 +64,7 @@ ItemsObject.prototype.create = function (itemBody, cb) {
     }
     //copy the item category property into a variable
     var shark = data.item.itemCategory;
+    var grouped_items_list = data.item.groupedItems;
 
     //omit the itemCategory property
     var joel = _.omit(data.item, 'itemCategory');
@@ -72,6 +73,11 @@ ItemsObject.prototype.create = function (itemBody, cb) {
 
     if(shark){
       _.each(shark, function(v){
+        itemObject.itemCategory.push(v._id);
+      });
+    }
+    if(grouped_items_list){
+      _.each(grouped_items_list, function(v){
         itemObject.itemCategory.push(v._id);
       });
     }

@@ -40,7 +40,11 @@ var ItemSchema = new Schema({
   nafdacRegNo: {type: String},
   sku: {type: String},
   product_id: {type: Number},
-  updated_on: {type: Date}
+  updated_on: {type: Date},
+  groupedItems: [{
+    itemId: {type: Schema.ObjectId},
+    itemName: {type: String}
+  }]
 });
 
 var ItemCategorySchema = new Schema({
