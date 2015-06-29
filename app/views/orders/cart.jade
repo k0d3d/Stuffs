@@ -26,7 +26,7 @@ block body
                   input(type="checkbox", ng-model="checkAll", ng-click="checkAllClick")
                 th Item
                 th Quantity
-                th Price (N)
+                th Unit Price (N)
                 th.noprint Order Date
                 th.noprint Supplier
                 th.noprint Action
@@ -37,7 +37,7 @@ block body
                 td {{or.itemName}}
                 td {{or.orderAmount}}
                 td {{or.orderPrice}}
-                td.noprint {{or.orderDate | moment}}
+                td.noprint {{or.orderDate | date:'medium'}}
                 td.noprint {{(or.isDrugStocOrder) ? 'DrugStoc' : or.orderSupplier.supplierName }}
                 td.noprint
                   button.btn.btn-small.btn-danger.btn-bell(ng-click="removeFromCart($index)")

@@ -101,3 +101,5 @@ NIH needs basic DIMS:
     ✔ Item contains a total of x (item form) minimally dispensed in x (item form ) packaged in one (item packaging) @high @done (15-06-23 12:20)
     ✔ include patient class on printable bill @low @done (15-06-23 14:35)
 ls102
+ ☐ Delete of the cart doesnt work @critical
+ ☐ tooltips explaining what each icon does on the UI @high
