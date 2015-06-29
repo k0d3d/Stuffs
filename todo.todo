@@ -103,3 +103,6 @@ NIH needs basic DIMS:
 ls102
  ☐ Delete of the cart doesnt work @critical
  ☐ tooltips explaining what each icon does on the UI @high
+ ☐ Add marker for when items on inventory are available on drugstoc @high
+ ☐ Review UI / UX consistency @order @cart @critical
+ add patient id number to bill table and print
