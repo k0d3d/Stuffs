@@ -28,7 +28,7 @@ append mainbody
       .control-group
           label.control-label Drug Name
           .controls
-              input.input-xlarge(type="text",ng-model="drugname", type-ahead, th-name="itemname", ng-minlength="1")
+              input.input-xlarge(type="text",ng-model="drugname", type-ahead, th-name="itemname", selected-item="selectedItem", type-action="attach_grouped_item")
               button.btn.btn-warning(type="button", ng-click="addDrug()", style="position: relative", ng-disabled="newdispense.$invalid || !dispenseform.location") {{addButtonText}}
               span.help-block {{addHelpText}}
       table.table.drugs-list.table-fixed-header(ng-show="drugsList.length > 0")

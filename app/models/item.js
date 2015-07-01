@@ -342,7 +342,9 @@ ItemsObject.prototype.listOne = function(item, option, location, cb){
       Item.listOne(options, function(err, r){
         //console.log(itemsResult);
         if (err) return isDone(err);
-        data = r.toJSON();
+        if (r) {
+          data = r.toJSON();
+        }
         isDone(data);
       });
     }
@@ -441,7 +443,7 @@ ItemsObject.prototype.listOne = function(item, option, location, cb){
   .onEnd(function(r){
     cb(r);
   })
-  .start();
+  .start({});
 };
 
 /**

@@ -16,7 +16,7 @@ block body
               option Medication
               option Medical Equipment
             label(for="name") Brand Name
-            input.input-medium(type="text",name="name", ng-model="form.itemName", type-ahead, th-name="nafdacdrugs")
+            input.input-medium(type="text",name="name", ng-model="form.itemName", brand-name-type-ahead="form", required, autocomplete="off")
             label(for="sci-name") Scientific Name / Composition
             input.input-medium(type="text", name="sci-name",ng-model="form.sciName")
             label(for="man-name") Manufacturer
@@ -37,7 +37,7 @@ block body
             label(for="itemdesc") Item Description
             textarea(name="itemdesc",ng-model="form.itemDescription")
             label(for="name") Dispense as Group Item
-            input.input-medium(type="text",name="name", type-ahead="form", autocomplete="off", type-action="add_grouped_item", th-name="itemname")
+            input.input-medium(type="text",name="name", type-ahead="form", autocomplete="off", type-action="add_grouped_item", th-name="itemname", selected-item="selectedItem")
             ul#g4.fa-ul.listing(ng-model="form.groupedItems")
               li(ng-repeat="gi in form.groupedItems ", ng-click="removeGroupedItem($index)")
                 | {{gi.itemName}}

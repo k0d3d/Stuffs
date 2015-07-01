@@ -105,4 +105,5 @@ NIH needs basic DIMS:
     ✔ allow decimals or floating points when requesting stock @low @done (15-06-23 08:41)
     ✔ Item contains a total of x (item form) minimally dispensed in x (item form ) packaged in one (item packaging) @high @done (15-06-23 12:20)
     ✔ include patient class on printable bill @low @done (15-06-23 14:35)
+    ☐ Total cost of stock / inventory in a facitity @low
 ls102

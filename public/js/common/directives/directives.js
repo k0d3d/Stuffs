@@ -37,8 +37,9 @@
               scope.form.groupedItems.push({
                 itemName: selectedItemId.itemName,
                 itemId: selectedItemId._id
-              })
+              });
             }
+
             scope.$apply();
             return item;
           }
@@ -47,9 +48,11 @@
     return{
       restrict: 'A',
       link: linker,
+      controller: 'dispensaryController',
       scope: {
         typeAction: '@',
-        form: '=typeAhead'
+        form: '=typeAhead',
+        selectedItem: '='
       }
     };
   });

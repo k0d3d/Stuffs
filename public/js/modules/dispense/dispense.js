@@ -18,7 +18,7 @@ angular.module('dispense', [])
   'Language',
   'billsService',
   'stockService',
-  function itemDispensaryController($scope,$location,$routeParams,itemsService, Notification, Lang, biller, sS){
+  function dispensaryController($scope,$location,$routeParams,itemsService, Notification, Lang, biller, sS){
   function init(){
     //Holds the form for dispensing drugs to a patient.
     //Patient Name, Number, Type and the Drugs list
@@ -141,15 +141,30 @@ angular.module('dispense', [])
   //     $scope.thisItemName = newValue;
   //   }
   // });
+
   $scope.addDrug = function(){
     if($scope.drugname.length === 0 || _.isUndefined($scope.dispenseform.location)) return false;
     $scope.addHelpText = '';
-    itemsService.summary($scope.selectedItem.itemname._id, $scope.dispenseform.location._id,function(c){
+    var itemId = $scope.selectedItem.itemname.itemId || $scope.selectedItem.itemname._id;
+    itemsService.summary(itemId, $scope.dispenseform.location._id,function(c){
       if(_.indexOf($scope.drugsList, $scope.selectedItem.itemname.itemName) < 0){
         $scope.drugsList.push($scope.selectedItem.itemname.itemName);
         $scope.d.push(c);
         //Empty the drugname field
         $scope.drugname = '';
+
+        //lets check if this item has any grouped items that
+        //should be dispensed along with it
+        if (c.groupedItems && c.groupedItems.length) {
+          var i = 0;
+          angular.forEach(c.groupedItems, function (group_item) {
+            $scope.selectedItem.itemname = group_item;
+            // $scope.selectedItem.itemname._id = group_item.itemId;
+            $scope.drugname = $scope.selectedItem.itemname.itemName;
+            $scope.addDrug();
+            i++;
+          });
+        }
       }else{
         Notification.notifier({
           message : Lang.eng.dispense.addDrug.error,
