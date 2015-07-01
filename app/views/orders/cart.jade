@@ -40,7 +40,7 @@ block body
                 td.noprint {{or.orderDate | date:'medium'}}
                 td.noprint {{(or.isDrugStocOrder) ? 'DrugStoc' : or.orderSupplier.supplierName }}
                 td.noprint
-                  button.btn.btn-small.btn-danger.btn-bell(ng-click="removeFromCart($index)")
+                  button.btn.btn-small.btn-danger.btn-bell(ng-click="removeFromCart(or.orderId, $index)")
                     i.fa.fa-times
     .span10(ng-show="orderCart.length === 0")
       h4.align-center Order Cart Empty

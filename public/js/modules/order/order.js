@@ -111,6 +111,12 @@ config(['$routeProvider',function($routeProvider){
 
   };
 
+  $scope.removeFromCart = function removeFromCart (order_id, index){
+    ordersService.remove(order_id, function(){
+      $scope.orderCart.splice(index, 1);
+    });
+  };
+
 }])
 .controller('ordersIndexController', [
   '$scope',

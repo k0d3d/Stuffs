@@ -85,7 +85,7 @@ DDIMs Operations Checked and Bug Fix statuses:
  ☐ Small tooltip on view orders that shows, amount / quantity disparity when order is supplied
  ☐ Transactions does not capture dispense @critical
  ☐ should alert when cart items are being sent to indistinct suppliers @low
- ☐ use order prices on price select dropdown menu when dispensing, should use order history and active item prices @low
+ ✔ use order prices on price select dropdown menu when dispensing, should use order history and active item prices @low @done (15-07-01 08:09)
 
  ☐ notify users about adding existing items to inventory, should present option to edit or place order for new item @high
 
@@ -111,4 +111,4 @@ ls102
  ☐ tooltips explaining what each icon does on the UI @high
  ☐ Add marker for when items on inventory are available on drugstoc @high
  ☐ Review UI / UX consistency @order @cart @critical
- add patient id number to bill table and print
+ ☐ add patient id number to bill table and print
