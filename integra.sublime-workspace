@@ -4,6 +4,22 @@
 		"selected_items":
 		[
 			[
+				"padd",
+				"padding-left"
+			],
+			[
+				"font",
+				"font-size"
+			],
+			[
+				"pull-",
+				"pull-right"
+			],
+			[
+				"index",
+				"index_item"
+			],
+			[
 				"select",
 				"selected"
 			],
@@ -22,10 +38,6 @@
 			[
 				"ty",
 				"typeAction"
-			],
-			[
-				"font",
-				"font-weight"
 			],
 			[
 				"billpr",
@@ -194,10 +206,6 @@
 			[
 				"nomb",
 				"nombers"
-			],
-			[
-				"index",
-				"indexNo"
 			],
 			[
 				"send",
@@ -506,32 +514,40 @@
 			[
 				"proto",
 				"prototype"
-			],
-			[
-				"updat",
-				"updatelogSchema"
-			],
-			[
-				"s",
-				"supplier.js"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
+			"file": "/home/home/bootvm/php-www/predict.php",
+			"settings":
+			{
+				"buffer_size": 6027,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/home/bootvm/php-www/engine/coreengine.php",
+			"settings":
+			{
+				"buffer_size": 7642,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"file": "public/js/modules/order/order.js",
 			"settings":
 			{
-				"buffer_size": 20255,
+				"buffer_size": 21224,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "app/routes.js",
+			"file": "public/css/app.css",
 			"settings":
 			{
-				"buffer_size": 1570,
+				"buffer_size": 15998,
 				"line_ending": "Unix"
 			}
 		},
@@ -544,13 +560,10 @@
 			}
 		},
 		{
-			"contents": "\n\nDDIMs Operations Checked and Bug Fix statuses:\n  ✔ Typeahead on adding brand name  when adding new inventory item broken. @critical @done (15-05-25 09:07)\n  ✔ Fix update operation after using the typeahead on item/add @critical @done (15-05-25 09:07)\n  ✔ Fix category list look when attaching a category on item/add @high @done (15-05-25 11:41)\n ✔  Adding item with stock gives error  @done (15-05-25 08:51)\n ✔ Add price to item added with invoice number @critical @done (15-05-25 11:45)\n ✔ Updating order to 'supplied' adds stock @done (15-05-25 09:06)\n ✔ Placing order from 'Place Order Inventory' @done (15-05-25 16:47)\n ✔ Attaching DS Product to existing Inventory @done (15-05-25 16:48)\n ✔ Make Purchase rate mandatory when adding inventory item with Stock @low @done (15-06-02 05:49)\n ✔ Creating new inventory item from DS product, adding stock and fixing purchase rate @done (15-05-25 16:53)\n ✔ Order Update operations  @done (15-05-25 17:11)\n ✔ Fixed admin transactions @done (15-05-25 17:17)\n ✔ Adding rules to existing billing profile @done (15-05-25 17:19)\n ✔ Billing dispense list works with billing rules @done (15-05-25 19:18)\n ✔ Payment History works on bill @done (15-05-25 19:19)\n ✔ Enabled Patient Hospital Number @done (15-05-29 03:04)\n ✔ Added itemsize field changed field names @done (15-05-29 03:21)\n ✔ @bug unique index key on name field created dispense errors @critical  @done (15-05-29 06:33)\n\n✔ Remove Selling Rate from add inventory form   @done (15-05-29 07:00)\n✔ Make Manufacturer field optional @done (15-05-29 07:00)\n✔ Add extra textfield for Stock Amount [ Inventory Form ] @done (15-05-29 07:00)\n      [ 1 ] stock item contains\n      [ 100 ] [ item form (e.g capsules/syrup/pills) ] dispense\n      [ 1 ] [ package form (e.g sachet) ] has minimum of [ 10 ] [ item form ]\n\n ✔ Add unique historic prices to dispense list preceeded by itemPurchaseRate and dsPrice if available @done (15-05-29 14:45)\n\n      ✔ Use the itemsize * quantity ordered for orders i.e. when supplied, stock should update itemsi @done (15-05-30 12:44)\n\n      ✔ use minimum dispense qty * dispense quantity for dispensing. @done (15-05-30 13:11)\n        NOTE: using stock.stocking method, all 'quantities' are exact, all calculations and multiplications should be done prior to making the request or transaction\n ✔ Creating an item and adding a stock quantity should add the correct stock in terms of item size * stock quantity orderd. @done (15-05-29 16:19)\n ✔ Request stock typeahead bug where selected drug information is mixed up @done (15-05-29 17:27)\n\n\n ✔ discussion on stockdown request, @done (15-05-30 12:45)\n\n ✔ Add 'start' to list of dosage @done (15-05-30 13:11)\n ✔ View order page should sort by date, most recent @done (15-05-30 15:21)\n\n ✔ sms, email and print purchase orders.  @high @done (15-06-02 05:50)\n\n ✔ bug on item already in list when dispensing @done (15-05-30 15:21)\n\n ✔ use jxcore or use kue for update scheduling @done (15-06-02 05:50)\n\n ✔ print orders, @done (15-06-02 05:50)\n ✔ add order id column @done (15-06-02 05:50)\n ✔ order id filter @done (15-06-02 05:50)\n ✔ After adding an item, clearing the form to add another item disables the supplier add field @high @done (15-06-02 05:53)\n ✔ adjust amount on dispense form when duration is changed @low @done (15-05-30 15:12)\n ✔ Purchase order at carting point / check out point @critical @done (15-06-02 05:57)\n ✔ Add column that describes the item form and package size. when dispensing @done (15-06-02 05:58)\n ✔ describe items being dispensed on confirmation modal @done (15-06-02 05:58)\n ✔ Requesting Stock to stock down location  @done (15-05-25 17:21)\n     ☐ Updating view after successful stockdown operation\n ✔ Creating stock down locations @done (15-05-25 17:22)\n     ☐ Update list of stock locations on creation\n ✔ Renaming Stockdown location @done (15-05-25 17:23)\n ☐ deleting items from inventory should immediately update view @high\n ☐ Add notice / label fozr items already tagged on inventory from drugstoc view on order/add @high\n ☐ Fix cartLoaded events, cart count and refresh by using cart button as a directive\n ☐ Note:: When attaching items drom ds to iv, ds replaces itemPurchasePrice @low\n ☐ Should update rules when adding new rules  @low\n ☐ Log record for multiple dispensed items from a stockdown location @critical\n ☐ Should check if Selected Profile has rules on it at admin->billing->select profile->save, dispense->select profile @high\n ☐ Pre-save middleware for billing rule ; should uppercase 'all' value @low\n ☐ Block multiple clicks after order , (also creating / adding items)has been set : all transaction buttons should be disabled till response comes. @high @critical\n ☐ use find and create / update for stocking method on model/stock.js\n ☐ review stock history implementation @critical\n ☐ Order number not generated when adding item with stock @high\n ☐ Use db values for cs key and cs secret on dsitems @high\n ☐ Delete Stock from a location,\n ☐ Search Stock on a location\n ☐ remove item from 'confirmed' if property is edited on dispense list\n ☐ remove item from 'confirmed' dispense list when removes from dispense list\n ☐ Fix search\n ☐ Quick switch for itemSize and packageSize on inventory list (hold down tile)\n NOTE: Reorder level is based on the quantity / stock in the inventory\n ☐ Clear totally what eva value is in invoice number when adding an item, if its not necessary.. unset item.orderInvoiceNumber\n ☐ Small tooltip on view orders that shows, amount / quantity disparity when order is supplied\n ☐ Transactions does not capture dispense @critical\n ☐ should alert when cart items are being sent to indistinct suppliers @low\n ✔ use order prices on price select dropdown menu when dispensing, should use order history and active item prices @low @done (15-07-01 08:09)\n\n ☐ notify users about adding existing items to inventory, should present option to edit or place order for new item @high\n\n ☐ Make sure badge on drugstoc tab bounces or pulses @low\n\n\nNIH needs basic DIMS:\n  ✔ Supplier Input @done (15-06-22 11:01)\n  ☐ Drug Input\n    ☐ needs prescription testing to assertain how NIH entered drugs and if stock calculations make sense.\n    ☐ item drop down should be color coded to diffrentiate new enteries and existing entries.\n    item description\n    ✔ attach or bind items by mininum / package size @done (15-07-01 06:53)\n    ✔ change price text to unit price on purchase order modal @done (15-06-23 08:35)\n    ✔ must select a minimum of two notification methods on purchase order before placing order @done (15-06-23 13:47)\n    ✔ Selected items should be cleared when order has been placed. @high @done (15-06-23 08:40)\n    ✔ allow decimals or floating points when requesting stock @low @done (15-06-23 08:41)\n    ✔ Item contains a total of x (item form) minimally dispensed in x (item form ) packaged in one (item packaging) @high @done (15-06-23 12:20)\n    ✔ include patient class on printable bill @low @done (15-06-23 14:35)\n    ☐ Total cost of stock / inventory in a facitity @low\nls102\n ✔ Delete of the cart doesnt work @critical @done (15-07-01 10:20)\n ☐ tooltips explaining what each icon does on the UI @high\n ☐ Add marker for when items on inventory are available on drugstoc @high\n ☐ Review UI / UX consistency @order @cart @critical\n ☐ add patient id number to bill table and print\n ☐ add last updated to item schema and implement @high\n",
 			"file": "todo.todo",
-			"file_size": 7543,
-			"file_write_time": 130802136248392288,
 			"settings":
 			{
-				"buffer_size": 7388,
+				"buffer_size": 7434,
 				"line_ending": "Unix"
 			}
 		}
@@ -662,12 +675,7 @@
 	[
 		"/home/home/integrabuntu/Projects/Integra",
 		"/home/home/integrabuntu/Projects/Integra/app",
-		"/home/home/integrabuntu/Projects/Integra/app/models/item",
 		"/home/home/integrabuntu/Projects/Integra/app/views",
-		"/home/home/integrabuntu/Projects/Integra/app/views/includes",
-		"/home/home/integrabuntu/Projects/Integra/app/views/includes/dialogs",
-		"/home/home/integrabuntu/Projects/Integra/app/views/includes/modals",
-		"/home/home/integrabuntu/Projects/Integra/app/views/items",
 		"/home/home/integrabuntu/Projects/Integra/public",
 		"/home/home/integrabuntu/Projects/Integra/public/js",
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules",
@@ -675,6 +683,9 @@
 	],
 	"file_history":
 	[
+		"/home/home/integrabuntu/Projects/Integra/app/routes.js",
+		"/home/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/bills/view.jade",
+		"/home/home/integrabuntu/Projects/Integra/app/views/orders/add.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/models/item/item-schema.js",
 		"/home/home/integrabuntu/Projects/Integra/app/models/dsitem.js",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/modals/modal-order-supplied.jade",
@@ -696,12 +707,10 @@
 		"/home/home/integrabuntu/Projects/Integra/public/js/app.js",
 		"/home/home/integrabuntu/Projects/Integra/todo.todo",
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules/item/item.js",
-		"/home/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/bills/view.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/items/index.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/templates/order-list.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/orders/all.jade",
 		"/home/home/integrabuntu/Projects/Integra/public/js/common/services/services.js",
-		"/home/home/integrabuntu/Projects/Integra/app/routes.js",
 		"/home/home/integrabuntu/Projects/Integra/app/models/dispense.js",
 		"/home/home/integrabuntu/Projects/Integra/app/models/bill.js",
 		"/home/home/integrabuntu/Projects/Integra/public/css/app.css",
@@ -801,8 +810,7 @@
 		"/home/integrabuntu/Projects/Integra/app/models/admin.js",
 		"/home/integrabuntu/Projects/Integra/app/models/bill.js",
 		"/home/integrabuntu/Projects/Integra/app/controllers/admin.js",
-		"/home/integrabuntu/Projects/Integra/app/models/dsitem.js",
-		"/home/integrabuntu/Projects/Integra/app/views/orders/all.jade"
+		"/home/integrabuntu/Projects/Integra/app/models/dsitem.js"
 	],
 	"find":
 	{
@@ -1072,73 +1080,34 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "public/js/modules/order/order.js",
+					"file": "/home/home/bootvm/php-www/predict.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 20255,
+						"buffer_size": 6027,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1954,
-								1954
+								0,
+								0
 							]
 						],
 						"settings":
 						{
 							"WordCountShouldRun": false,
-							"WordCountSyntax": "javascript",
-							"auto_complete": false,
+							"WordCountSyntax": "php",
 							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
-							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 636.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/routes.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1570,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								217,
-								217
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": false,
-							"WordCountSyntax": "javascript",
-							"auto_complete": false,
-							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"syntax": "Packages/PHP/PHP.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
@@ -1146,17 +1115,124 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/home/home/bootvm/php-www/engine/coreengine.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7642,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6635,
+								6635
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "php",
+							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 4416.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 2,
+					"file": "public/js/modules/order/order.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 21224,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								18105,
+								18105
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 9988.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "public/css/app.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 15998,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15996,
+								15996
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "css",
+							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 15843.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
 					"file": "public/js/app.js",
 					"semi_transient": false,
 					"settings":
@@ -1174,7 +1250,6 @@
 						],
 						"settings":
 						{
-							"WordCountShouldRun": false,
 							"WordCountSyntax": "javascript",
 							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
@@ -1189,24 +1264,24 @@
 						"translation.y": 2304.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 5,
 					"file": "todo.todo",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 7388,
+						"buffer_size": 7434,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7156,
-								7156
+								7314,
+								7314
 							]
 						],
 						"settings":
@@ -1221,10 +1296,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3144.0,
+						"translation.y": 3072.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -1258,7 +1333,7 @@
 		"cols":
 		[
 			0.0,
-			0.448424921435,
+			0.493137912372,
 			1.0
 		],
 		"rows":
@@ -1301,6 +1376,14 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"bill/view",
+				"app/views/includes/dialogs/bills/view.jade"
+			],
+			[
+				"app.css",
+				"public/css/app.css"
+			],
 			[
 				"ds",
 				"app/models/dsitem.js"
@@ -1354,10 +1437,6 @@
 				"app/views/items/dispense.jade"
 			],
 			[
-				"bill/view",
-				"app/views/includes/dialogs/bills/view.jade"
-			],
-			[
 				"item/inde",
 				"app/views/items/index.jade"
 			],
@@ -1392,10 +1471,6 @@
 			[
 				"public/ite",
 				"public/js/modules/item/item.js"
-			],
-			[
-				"app.css",
-				"public/css/app.css"
 			],
 			[
 				"bill.jade",

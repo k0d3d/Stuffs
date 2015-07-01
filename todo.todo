@@ -111,5 +111,5 @@ ls102
  ☐ tooltips explaining what each icon does on the UI @high
  ✔ Add marker for when items on inventory are available on drugstoc @high @done (15-07-01 16:47)
  ☐ Review UI / UX consistency @order @cart @critical
- ☐ add patient id number to bill table and print
+ ✔ add patient id number to bill table and print @done (15-07-01 17:04)
  ☐ add last updated to item schema and implement @high
