@@ -7,6 +7,8 @@ block body
     .span2.actioncol
       button.btn.btn-large.btn-block.btn-primary(ng-init="saveButtonText='Save Item'", ng-click="saveitem()", modal-Pop, ng-class="saveButtonClass", ng-disabled="newItem.$invalid", type="submit") {{saveButtonText}}
       button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
+
+
     .span8
       .row-fluid
         form#form-add-item(name="newItem", novalidate)
@@ -16,7 +18,7 @@ block body
               option Medication
               option Medical Equipment
             label(for="name") Brand Name
-            input.input-medium(type="text",name="name", ng-model="form.itemName", brand-name-type-ahead, required, autocomplete="off")
+            input.input-medium(type="text",name="name", ng-model="form.itemName", brand-name-type-ahead="form", required, autocomplete="off")
 
             label(for="sci-name") Scientific Name / Composition
             input.input-medium(type="text", name="sci-name",ng-model="form.sciName")
@@ -37,6 +39,14 @@ block body
 
             label(for="itemdesc") Item Description
             textarea(name="itemdesc",ng-model="form.itemDescription")
+            label(for="name") Dispense as Group Item
+            input.input-medium(type="text",name="name", type-ahead="form", autocomplete="off", type-action="add_grouped_item", th-name="itemname", selected-item="selectedItem")
+            ul#g4.fa-ul.listing(ng-model="form.groupedItems")
+              li(ng-repeat="gi in form.groupedItems ", ng-click="removeGroupedItem($index)")
+                | {{gi.itemName}}
+            p.helptext {{form.groupedItems.length || 0}} items grouped with {{form.itemName}}.
+
+
           .span5.offset2
             label(for="invoice-number") Invoice Number
             input.input-medium(type="text", name="invoice-number", placeholder="No Stock Received",ng-model="form.orderInvoiceData.orderInvoiceNumber", ng-disabled="isDisabled")

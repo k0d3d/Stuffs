@@ -12,7 +12,7 @@
           .control-group
               label.control-label Dispense
               .controls
-                  input.input-xlarge(type="text",ng-model="drugname", type-ahead, th-name="itemname")
+                  input.input-xlarge(type="text",ng-model="drugname", type-ahead="", th-name="itemname", selected-item="selectedItem")
                   button.btn.btn-warning.pull-right(type="button", ng-click="addSelectedDrug()", style="position: relative;left: -53px;top: 5px;") {{addButtonText}}
                   span.help-block {{addHelpText}}
           table.table.drugs-list.table-fixed-header(ng-show="requestform.request.length > 0")

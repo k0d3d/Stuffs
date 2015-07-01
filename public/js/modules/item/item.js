@@ -277,6 +277,11 @@ angular.module('item', [])
     });
   };
 
+  //Remove/Delete a Category
+  $scope.removeGroupedItem = function(index){
+    $scope.form.groupedItems.splice(index,1);
+  };
+
   //Add a category to the item's category list
   $scope.addToItem = function(index){
     var i = $scope.catList[index];
@@ -638,7 +643,7 @@ angular.module('item', [])
   return i;
 }])
 .directive('brandNameTypeAhead', ['itemsService', function(itemsService){
-  var linker = function(scope, element){
+  var linker = function(scope, element, attrs){
     var nx;
       element.typeahead({
         source: function(query, process){
@@ -652,18 +657,13 @@ angular.module('item', [])
           var v = _.find(nx, function (thisItem) {
             return thisItem.productName === item;
           });
-          if (v) {
+          if (v && scope.typeAction !== 'add_grouped_item') {
             scope.form.nafdacRegNo = v.regNo;
             scope.form.importer = v.man_imp_supp;
             scope.form.sciName = v.composition;
             scope.form.nafdacId = v._id;
             // check ds cloud list for matching products
-            //itemsService.fetchDSProductInformation(v.regNo)
-            //.then(function (listOfMatches) {
-              // scope.form = {};
-              //scope.dsListOfMatchingProducts = listOfMatches.data;
-              // scope.$apply();
-            //});
+
           }
 
           return item;
@@ -671,7 +671,7 @@ angular.module('item', [])
       });
   };
   return {
-    link: linker
+    link: linker,
   };
 }])
 .directive('supplierNameTypeAhead', ['itemsService', function (itemsService){

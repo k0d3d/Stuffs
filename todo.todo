@@ -87,17 +87,23 @@ DDIMs Operations Checked and Bug Fix statuses:
  ☐ should alert when cart items are being sent to indistinct suppliers @low
  ☐ use order prices on price select dropdown menu when dispensing, should use order history and active item prices @low
 
+ ☐ notify users about adding existing items to inventory, should present option to edit or place order for new item @high
+
+ ☐ Make sure badge on drugstoc tab bounces or pulses @low
+
 
 NIH needs basic DIMS:
   ✔ Supplier Input @done (15-06-22 11:01)
   ☐ Drug Input
     ☐ needs prescription testing to assertain how NIH entered drugs and if stock calculations make sense.
+    ☐ item drop down should be color coded to diffrentiate new enteries and existing entries.
     item description
-    ☐ attach or bind items by mininum / package size
+    ✔ attach or bind items by mininum / package size @done (15-07-01 06:53)
     ✔ change price text to unit price on purchase order modal @done (15-06-23 08:35)
     ✔ must select a minimum of two notification methods on purchase order before placing order @done (15-06-23 13:47)
     ✔ Selected items should be cleared when order has been placed. @high @done (15-06-23 08:40)
     ✔ allow decimals or floating points when requesting stock @low @done (15-06-23 08:41)
     ✔ Item contains a total of x (item form) minimally dispensed in x (item form ) packaged in one (item packaging) @high @done (15-06-23 12:20)
     ✔ include patient class on printable bill @low @done (15-06-23 14:35)
+    ☐ Total cost of stock / inventory in a facitity @low
 ls102
