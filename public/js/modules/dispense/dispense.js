@@ -186,7 +186,7 @@ angular.module('dispense', [])
     }
     // Check if the amount to be dispensed is available
     // (lesser than) from the current stock for the item
-    if($scope.d[index].amount < $scope.d[index].currentStock){
+    if($scope.d[index].amount <= $scope.d[index].currentStock){
       $scope.dispenseform.prescription.push($scope.d[index]);
       $scope.d[index].ready = true;
     }else{

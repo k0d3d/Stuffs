@@ -54,5 +54,5 @@ tr.order-row(ng-repeat="order in orderList | filter: ordersFilter", on-finish="t
               button.btn.btn-danger.input-block-level(ng-click="cancelOrder()", ng-disabled="order.nextStatus() == 6") Cancel
   td
     .btn-group
-      a.btn.btn-mini Return
+      //- a.btn.btn-mini Return
       a.btn.btn-mini.btn-danger(ng-click="removeOrder($event, order._id)") <i class="icon-remove"></i>

@@ -107,3 +107,8 @@ NIH needs basic DIMS:
     ✔ include patient class on printable bill @low @done (15-06-23 14:35)
     ☐ Total cost of stock / inventory in a facitity @low
 ls102
+ ☐ Delete of the cart doesnt work @critical
+ ☐ tooltips explaining what each icon does on the UI @high
+ ☐ Add marker for when items on inventory are available on drugstoc @high
+ ☐ Review UI / UX consistency @order @cart @critical
+ add patient id number to bill table and print

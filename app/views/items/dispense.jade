@@ -22,7 +22,7 @@ append mainbody
           .controls
               select(ng-options="a.profileName for a in profiles", ng-model="dispenseform.billClass", required)
       .control-group
-          label.control-label Patient Hospital Number
+          label.control-label Patient ID
           .controls
               input.input-large(type="text",name="patientnumber", ng-model="dispenseform.patientId")
       .control-group
@@ -57,9 +57,9 @@ append mainbody
                 .span6
                   select(ng-model="d[$index].options", required)
                     option(value="dispense") Dispense
-                    option(value="alternative") Give Alternative
-                    option(value="purchase") Immediate Purchase
-                    option(value="appointment") Supply on appointment
+                    option(value="alternative") Alternative Given
+                    //- option(value="purchase") Immediate Purchase
+                    //- option(value="appointment") Supply on appointment
                     option(value="rx") RX
                 .span6
                   select(ng-model="d[$index].dosage",placeholder="Dosage", ng-change="adjust_amount($index)",required)
