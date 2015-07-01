@@ -1016,3 +1016,11 @@ em.versiontxt {
 .palette dt {
   font-weight: bold;
 }
+.icon-match-ds {
+    position: relative;
+  top: 1px;
+  display: inline;
+  opacity: 0.7;
+  font-size: 14px;
+  padding-left: 10px;
+}

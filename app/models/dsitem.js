@@ -8,7 +8,7 @@ var DsItems = require('./dsitem/dsitem'),
     // OrderController = require('./order').order,
     request = require('request'),
     _ = require('lodash'),
-    debug = require('debug')('dsItem-model'),
+    debug = require('debug')('ddims'),
     util = require('util');
 
 function DSClass (jobQueue) {
@@ -143,7 +143,8 @@ function DSClass (jobQueue) {
       item.updateItem({
         product_id: s.product_id
       }, {
-        dsPurchaseRate: s.regular_price
+        dsPurchaseRate: s.regular_price,
+        updated_on: Date.now()
       }, function (reslt_err) {
         console.log('processed save_one_product');
         if (util.isError(reslt_err)) {

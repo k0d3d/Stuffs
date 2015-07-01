@@ -53,4 +53,4 @@
       button.btn.btn-default(new-modal="#modal-order-supplied") Back
       button.btn(ng-class="saveButtonClass", ng-click="print_purchase_order('.purchase-order')", ng-disabled="!printOrderToSupplier._id")
         | <i class="fa fa-print" > Print</i>
-      button.btn.btn-large.pull-right.btn-success(ng-click="placeOrder()", ng-disabled="!printOrderToSupplier._id || cart_is_checkedout") Place Order
+      button.btn.btn-large.pull-right.btn-success(ng-click="placeOrder()", ng-disabled="!printOrderToSupplier._id || cart_is_checkedout || is_not_ds_order") Place Order

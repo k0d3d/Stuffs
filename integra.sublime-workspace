@@ -4,6 +4,26 @@
 		"selected_items":
 		[
 			[
+				"select",
+				"selected"
+			],
+			[
+				"grou",
+				"groupedItems"
+			],
+			[
+				"grouped",
+				"grouped_items_list"
+			],
+			[
+				"selected",
+				"selectedItem"
+			],
+			[
+				"ty",
+				"typeAction"
+			],
+			[
 				"font",
 				"font-weight"
 			],
@@ -312,10 +332,6 @@
 				"listofItems"
 			],
 			[
-				"select",
-				"selectedCart"
-			],
-			[
 				"admi",
 				"adminModel〔variable〕"
 			],
@@ -498,96 +514,43 @@
 			[
 				"s",
 				"supplier.js"
-			],
-			[
-				"Supp",
-				"Supplier〔variable〕"
-			],
-			[
-				"Stovk",
-				"StockCount〔variable〕"
-			],
-			[
-				"Stock",
-				"StockCount"
-			],
-			[
-				"naf",
-				"nafdacdrugs.js"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"contents": ".row.row-break\n  ul.index-list\n    li(data-ng-repeat=\"index in indexes\", class=\"index {{enabledIndex | indexclass: index}}\") {{index}}\n\n    ",
+			"file": "public/js/modules/order/order.js",
 			"settings":
 			{
-				"buffer_size": 140,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/items/new.jade",
-			"settings":
-			{
-				"buffer_size": 4465,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/items/edit.jade",
-			"settings":
-			{
-				"buffer_size": 4772,
+				"buffer_size": 20255,
 				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "app/views/includes/modals/modal-order-supplied.jade",
-			"settings":
-			{
-				"buffer_size": 2413,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "todo.todo",
-			"settings":
-			{
-				"buffer_size": 6834,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/models/dispense.js",
-			"settings":
-			{
-				"buffer_size": 10463,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/views/includes/dialogs/stock/modal-request-stock.jade",
-			"settings":
-			{
-				"buffer_size": 2332,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "public/js/app.js",
-			"settings":
-			{
-				"buffer_size": 3894,
-				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "app/routes.js",
 			"settings":
 			{
-				"buffer_size": 1560,
+				"buffer_size": 1570,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/js/app.js",
+			"settings":
+			{
+				"buffer_size": 3891,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "\n\nDDIMs Operations Checked and Bug Fix statuses:\n  ✔ Typeahead on adding brand name  when adding new inventory item broken. @critical @done (15-05-25 09:07)\n  ✔ Fix update operation after using the typeahead on item/add @critical @done (15-05-25 09:07)\n  ✔ Fix category list look when attaching a category on item/add @high @done (15-05-25 11:41)\n ✔  Adding item with stock gives error  @done (15-05-25 08:51)\n ✔ Add price to item added with invoice number @critical @done (15-05-25 11:45)\n ✔ Updating order to 'supplied' adds stock @done (15-05-25 09:06)\n ✔ Placing order from 'Place Order Inventory' @done (15-05-25 16:47)\n ✔ Attaching DS Product to existing Inventory @done (15-05-25 16:48)\n ✔ Make Purchase rate mandatory when adding inventory item with Stock @low @done (15-06-02 05:49)\n ✔ Creating new inventory item from DS product, adding stock and fixing purchase rate @done (15-05-25 16:53)\n ✔ Order Update operations  @done (15-05-25 17:11)\n ✔ Fixed admin transactions @done (15-05-25 17:17)\n ✔ Adding rules to existing billing profile @done (15-05-25 17:19)\n ✔ Billing dispense list works with billing rules @done (15-05-25 19:18)\n ✔ Payment History works on bill @done (15-05-25 19:19)\n ✔ Enabled Patient Hospital Number @done (15-05-29 03:04)\n ✔ Added itemsize field changed field names @done (15-05-29 03:21)\n ✔ @bug unique index key on name field created dispense errors @critical  @done (15-05-29 06:33)\n\n✔ Remove Selling Rate from add inventory form   @done (15-05-29 07:00)\n✔ Make Manufacturer field optional @done (15-05-29 07:00)\n✔ Add extra textfield for Stock Amount [ Inventory Form ] @done (15-05-29 07:00)\n      [ 1 ] stock item contains\n      [ 100 ] [ item form (e.g capsules/syrup/pills) ] dispense\n      [ 1 ] [ package form (e.g sachet) ] has minimum of [ 10 ] [ item form ]\n\n ✔ Add unique historic prices to dispense list preceeded by itemPurchaseRate and dsPrice if available @done (15-05-29 14:45)\n\n      ✔ Use the itemsize * quantity ordered for orders i.e. when supplied, stock should update itemsi @done (15-05-30 12:44)\n\n      ✔ use minimum dispense qty * dispense quantity for dispensing. @done (15-05-30 13:11)\n        NOTE: using stock.stocking method, all 'quantities' are exact, all calculations and multiplications should be done prior to making the request or transaction\n ✔ Creating an item and adding a stock quantity should add the correct stock in terms of item size * stock quantity orderd. @done (15-05-29 16:19)\n ✔ Request stock typeahead bug where selected drug information is mixed up @done (15-05-29 17:27)\n\n\n ✔ discussion on stockdown request, @done (15-05-30 12:45)\n\n ✔ Add 'start' to list of dosage @done (15-05-30 13:11)\n ✔ View order page should sort by date, most recent @done (15-05-30 15:21)\n\n ✔ sms, email and print purchase orders.  @high @done (15-06-02 05:50)\n\n ✔ bug on item already in list when dispensing @done (15-05-30 15:21)\n\n ✔ use jxcore or use kue for update scheduling @done (15-06-02 05:50)\n\n ✔ print orders, @done (15-06-02 05:50)\n ✔ add order id column @done (15-06-02 05:50)\n ✔ order id filter @done (15-06-02 05:50)\n ✔ After adding an item, clearing the form to add another item disables the supplier add field @high @done (15-06-02 05:53)\n ✔ adjust amount on dispense form when duration is changed @low @done (15-05-30 15:12)\n ✔ Purchase order at carting point / check out point @critical @done (15-06-02 05:57)\n ✔ Add column that describes the item form and package size. when dispensing @done (15-06-02 05:58)\n ✔ describe items being dispensed on confirmation modal @done (15-06-02 05:58)\n ✔ Requesting Stock to stock down location  @done (15-05-25 17:21)\n     ☐ Updating view after successful stockdown operation\n ✔ Creating stock down locations @done (15-05-25 17:22)\n     ☐ Update list of stock locations on creation\n ✔ Renaming Stockdown location @done (15-05-25 17:23)\n ☐ deleting items from inventory should immediately update view @high\n ☐ Add notice / label fozr items already tagged on inventory from drugstoc view on order/add @high\n ☐ Fix cartLoaded events, cart count and refresh by using cart button as a directive\n ☐ Note:: When attaching items drom ds to iv, ds replaces itemPurchasePrice @low\n ☐ Should update rules when adding new rules  @low\n ☐ Log record for multiple dispensed items from a stockdown location @critical\n ☐ Should check if Selected Profile has rules on it at admin->billing->select profile->save, dispense->select profile @high\n ☐ Pre-save middleware for billing rule ; should uppercase 'all' value @low\n ☐ Block multiple clicks after order , (also creating / adding items)has been set : all transaction buttons should be disabled till response comes. @high @critical\n ☐ use find and create / update for stocking method on model/stock.js\n ☐ review stock history implementation @critical\n ☐ Order number not generated when adding item with stock @high\n ☐ Use db values for cs key and cs secret on dsitems @high\n ☐ Delete Stock from a location,\n ☐ Search Stock on a location\n ☐ remove item from 'confirmed' if property is edited on dispense list\n ☐ remove item from 'confirmed' dispense list when removes from dispense list\n ☐ Fix search\n ☐ Quick switch for itemSize and packageSize on inventory list (hold down tile)\n NOTE: Reorder level is based on the quantity / stock in the inventory\n ☐ Clear totally what eva value is in invoice number when adding an item, if its not necessary.. unset item.orderInvoiceNumber\n ☐ Small tooltip on view orders that shows, amount / quantity disparity when order is supplied\n ☐ Transactions does not capture dispense @critical\n ☐ should alert when cart items are being sent to indistinct suppliers @low\n ✔ use order prices on price select dropdown menu when dispensing, should use order history and active item prices @low @done (15-07-01 08:09)\n\n ☐ notify users about adding existing items to inventory, should present option to edit or place order for new item @high\n\n ☐ Make sure badge on drugstoc tab bounces or pulses @low\n\n\nNIH needs basic DIMS:\n  ✔ Supplier Input @done (15-06-22 11:01)\n  ☐ Drug Input\n    ☐ needs prescription testing to assertain how NIH entered drugs and if stock calculations make sense.\n    ☐ item drop down should be color coded to diffrentiate new enteries and existing entries.\n    item description\n    ✔ attach or bind items by mininum / package size @done (15-07-01 06:53)\n    ✔ change price text to unit price on purchase order modal @done (15-06-23 08:35)\n    ✔ must select a minimum of two notification methods on purchase order before placing order @done (15-06-23 13:47)\n    ✔ Selected items should be cleared when order has been placed. @high @done (15-06-23 08:40)\n    ✔ allow decimals or floating points when requesting stock @low @done (15-06-23 08:41)\n    ✔ Item contains a total of x (item form) minimally dispensed in x (item form ) packaged in one (item packaging) @high @done (15-06-23 12:20)\n    ✔ include patient class on printable bill @low @done (15-06-23 14:35)\n    ☐ Total cost of stock / inventory in a facitity @low\nls102\n ✔ Delete of the cart doesnt work @critical @done (15-07-01 10:20)\n ☐ tooltips explaining what each icon does on the UI @high\n ☐ Add marker for when items on inventory are available on drugstoc @high\n ☐ Review UI / UX consistency @order @cart @critical\n ☐ add patient id number to bill table and print\n ☐ add last updated to item schema and implement @high\n",
+			"file": "todo.todo",
+			"file_size": 7543,
+			"file_write_time": 130802136248392288,
+			"settings":
+			{
+				"buffer_size": 7388,
 				"line_ending": "Unix"
 			}
 		}
@@ -699,45 +662,62 @@
 	[
 		"/home/home/integrabuntu/Projects/Integra",
 		"/home/home/integrabuntu/Projects/Integra/app",
+		"/home/home/integrabuntu/Projects/Integra/app/models/item",
 		"/home/home/integrabuntu/Projects/Integra/app/views",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/dialogs",
-		"/home/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/bills",
+		"/home/home/integrabuntu/Projects/Integra/app/views/includes/modals",
 		"/home/home/integrabuntu/Projects/Integra/app/views/items",
-		"/home/home/integrabuntu/Projects/Integra/app/views/layouts",
-		"/home/home/integrabuntu/Projects/Integra/app/views/orders",
-		"/home/home/integrabuntu/Projects/Integra/public"
+		"/home/home/integrabuntu/Projects/Integra/public",
+		"/home/home/integrabuntu/Projects/Integra/public/js",
+		"/home/home/integrabuntu/Projects/Integra/public/js/modules",
+		"/home/home/integrabuntu/Projects/Integra/public/js/modules/stock"
 	],
 	"file_history":
 	[
+		"/home/home/integrabuntu/Projects/Integra/app/models/item/item-schema.js",
+		"/home/home/integrabuntu/Projects/Integra/app/models/dsitem.js",
+		"/home/home/integrabuntu/Projects/Integra/app/views/includes/modals/modal-order-supplied.jade",
+		"/home/home/integrabuntu/Projects/Integra/app/controllers/orders.js",
+		"/home/home/integrabuntu/Projects/Integra/app/models/order.js",
+		"/home/home/integrabuntu/Projects/Integra/app/views/orders/cart.jade",
+		"/home/home/integrabuntu/Projects/Integra/app/models/item.js",
+		"/home/home/integrabuntu/Projects/Integra/app/views/items/edit.jade",
+		"/home/home/integrabuntu/Projects/Integra/app/views/items/dispense.jade",
+		"/home/home/integrabuntu/Projects/Integra/app/views/includes/modals/modal-order-history.jade",
+		"/home/home/integrabuntu/Projects/Integra/public/js/modules/dispense/dispense.js",
+		"/home/home/integrabuntu/Projects/Integra/app/views/items/new.jade",
+		"/home/home/integrabuntu/Projects/Integra/public/js/modules/lang.js",
+		"/home/home/integrabuntu/Projects/Integra/public/js/common/directives/directives.js",
+		"/home/home/integrabuntu/Projects/Integra/app/views/articles/new.jade",
+		"/home/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/order/modal-tag-ds-product.jade",
+		"/home/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/stock/modal-request-stock.jade",
+		"/home/home/integrabuntu/Projects/Integra/app/views/includes/modals/dispensary/modal-success.jade",
+		"/home/home/integrabuntu/Projects/Integra/public/js/app.js",
+		"/home/home/integrabuntu/Projects/Integra/todo.todo",
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules/item/item.js",
-		"/home/home/integrabuntu/Projects/Integra/app/models/bill.js",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/bills/view.jade",
+		"/home/home/integrabuntu/Projects/Integra/app/views/items/index.jade",
+		"/home/home/integrabuntu/Projects/Integra/app/views/templates/order-list.jade",
+		"/home/home/integrabuntu/Projects/Integra/app/views/orders/all.jade",
+		"/home/home/integrabuntu/Projects/Integra/public/js/common/services/services.js",
+		"/home/home/integrabuntu/Projects/Integra/app/routes.js",
+		"/home/home/integrabuntu/Projects/Integra/app/models/dispense.js",
+		"/home/home/integrabuntu/Projects/Integra/app/models/bill.js",
 		"/home/home/integrabuntu/Projects/Integra/public/css/app.css",
 		"/home/home/integrabuntu/Projects/Integra/app/models/stock/bill-schema.js",
 		"/home/home/integrabuntu/Projects/Integra/app/views/templates/bill-print-tpl.jade",
-		"/home/home/integrabuntu/Projects/Integra/app/views/items/dispense.jade",
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules/order/order.js",
-		"/home/home/integrabuntu/Projects/Integra/public/js/modules/dispense/dispense.js",
-		"/home/home/integrabuntu/Projects/Integra/app/models/dispense.js",
 		"/home/home/integrabuntu/Projects/Integra/app/views/templates/admin-bill-profile-tpl.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/models/stock/dispense-schema.js",
-		"/home/home/integrabuntu/Projects/Integra/app/models/item.js",
-		"/home/home/integrabuntu/Projects/Integra/app/views/orders/cart.jade",
-		"/home/home/integrabuntu/Projects/Integra/app/views/orders/all.jade",
-		"/home/home/integrabuntu/Projects/Integra/app/views/templates/order-list.jade",
-		"/home/home/integrabuntu/Projects/Integra/public/js/app.js",
 		"/home/home/integrabuntu/Projects/Integra/app/controllers/items.js",
-		"/home/home/integrabuntu/Projects/Integra/app/views/includes/modals/modal-order-supplied.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/index.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/foot.jade",
-		"/home/home/integrabuntu/Projects/Integra/app/views/items/new.jade",
 		"/home/home/integrabuntu/Projects/Integra/public/css/app.3.css",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/items/item-summary-pane.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/items/quick-order-pane.jade",
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules/keycodes.js",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/inventory-side-pane.jade",
-		"/home/home/integrabuntu/Projects/Integra/app/views/items/index.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/home/index.jade",
 		"/home/home/integrabuntu/Projects/Integra/public/css/app.min.2.css",
 		"/home/home/integrabuntu/Projects/Integra/public/css/app.min.1.css",
@@ -745,7 +725,6 @@
 		"/home/home/integrabuntu/Projects/Integra/app/controllers/bills.js",
 		"/home/home/integrabuntu/Projects/Integra/public/js/index.js",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/sidebar.jade",
-		"/home/home/integrabuntu/Projects/Integra/app/models/dsitem.js",
 		"/home/home/integrabuntu/Projects/Integra/new template/v1-3-1/index.html",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/items/category.jade",
 		"/home/home/integrabuntu/Projects/Integra/new template/v1-3-1/components.html",
@@ -753,7 +732,6 @@
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/chat.jade",
 		"/home/home/integrabuntu/Projects/Integra/new template/v1-3-1/colors.html",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/head.jade",
-		"/home/home/integrabuntu/Projects/Integra/todo.todo",
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules/reports/reports.js",
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules/stock/stock.js",
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules/supplier/supplier.js",
@@ -771,20 +749,14 @@
 		"/home/home/integrabuntu/Projects/Integra/app/views/templates/admin-configuration-tpl.jade",
 		"/home/home/integrabuntu/Projects/Integra/lib/smsSend.js",
 		"/home/home/integrabuntu/Projects/Integra/app/controllers/suppliers.js",
-		"/home/home/integrabuntu/Projects/Integra/app/models/order.js",
 		"/home/home/integrabuntu/Projects/Integra/config/development.json",
-		"/home/home/integrabuntu/Projects/Integra/app/views/includes/modals/dispensary/modal-success.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/modals/items/modal-item.jade",
-		"/home/home/integrabuntu/Projects/Integra/app/controllers/orders.js",
 		"/home/home/integrabuntu/Projects/Integra/app/models/user/supplier-schema.js",
 		"/home/home/bootvm/.config/sublime-text-3/Packages/User/SublimeLinter.sublime-settings",
-		"/home/home/integrabuntu/Projects/Integra/public/js/common/directives/directives.js",
 		"/home/home/integrabuntu/Projects/Integra/config/production.json",
 		"/home/home/integrabuntu/Projects/Integra/app/models/stock.js",
 		"/home/home/integrabuntu/Projects/Integra/app/views/reports/dashboard.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/reports/location.jade",
-		"/home/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/stock/modal-request-stock.jade",
-		"/home/home/integrabuntu/Projects/Integra/app/routes.js",
 		"/home/home/integrabuntu/Projects/Integra/app/models/_dsitem",
 		"/home/home/integrabuntu/Projects/Integra/app/models/stock/order-schema.js",
 		"/home/home/integrabuntu/Projects/Integra/public/js/printThis.js",
@@ -792,8 +764,6 @@
 		"/home/home/integrabuntu/Projects/Integra/app/views/items/stockdown.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/models/transaction.js",
 		"/home/home/integrabuntu/Projects/Integra/app/models/stock/stockcount-schema.js",
-		"/home/home/integrabuntu/Projects/Integra/app/models/item/item-schema.js",
-		"/home/home/integrabuntu/Projects/Integra/app/views/items/edit.jade",
 		"/home/home/bootvm/.config/sublime-text-3/Packages/PlainTasks/messages/Tutorial.todo",
 		"/home/home/bootvm/.cache/.fr-o2pcOV/jQuery-Plugin-To-Print-Any-Part-Of-Your-Page-Print/README.md",
 		"/home/home/integrabuntu/Projects/Integra/app/models/stock/stockhistory-schema.js",
@@ -832,12 +802,7 @@
 		"/home/integrabuntu/Projects/Integra/app/models/bill.js",
 		"/home/integrabuntu/Projects/Integra/app/controllers/admin.js",
 		"/home/integrabuntu/Projects/Integra/app/models/dsitem.js",
-		"/home/integrabuntu/Projects/Integra/app/views/orders/all.jade",
-		"/home/integrabuntu/Projects/Integra/app/controllers/suppliers.js",
-		"/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/order/modal-tag-ds-product.jade",
-		"/home/integrabuntu/Projects/Integra/app/views/home/index.jade",
-		"/home/integrabuntu/Projects/Integra/app/models/item/item-schema.js",
-		"/home/integrabuntu/Projects/Integra/app/models/dsitem/dsitem.js"
+		"/home/integrabuntu/Projects/Integra/app/views/orders/all.jade"
 	],
 	"find":
 	{
@@ -848,6 +813,8 @@
 		"height": 93.0,
 		"where_history":
 		[
+			"/home/home/integrabuntu/Projects/Integra/app/views",
+			"<project>",
 			"/home/home/integrabuntu/Projects/Integra/public/js/modules",
 			"/home/home/integrabuntu/Projects/Integra/app/views",
 			"/home/integrabuntu/Projects/Integra/app/models",
@@ -879,6 +846,16 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"postOrders",
+			"slice",
+			"splice",
+			"slice",
+			"remove",
+			"type-ahead",
+			"scope",
+			"type-ahead",
+			"typeahead",
+			"brand-name-type-ahead",
 			"unitQuantity",
 			"amount",
 			"Number",
@@ -996,17 +973,7 @@
 			"currentItem",
 			"typeahead",
 			"locations",
-			"(){\n",
-			"\"",
-			"onLocation",
-			"hasItems",
-			"\"",
-			"json(200",
-			"localStorage",
-			"boot",
-			"routes",
-			"AdminController",
-			"invoi"
+			"(){\n"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1105,34 +1072,75 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
+					"file": "public/js/modules/order/order.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 140,
+						"buffer_size": 20255,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								140,
-								140
+								1954,
+								1954
 							]
 						],
 						"settings":
 						{
-							"WordCountSyntax": "jade",
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
-							"default_dir": "/home/home/integrabuntu/Projects/Integra",
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 636.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/routes.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1570,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								217,
+								217
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1140,173 +1148,35 @@
 					},
 					"stack_index": 3,
 					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/views/items/new.jade",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4465,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3444,
-								3444
-							]
-						],
-						"settings":
-						{
-							"WordCountSyntax": "jade",
-							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 560.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 2,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 2,
-					"file": "app/views/items/edit.jade",
+					"file": "public/js/app.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4772,
+						"buffer_size": 3891,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3023,
-								3023
+								3172,
+								3172
 							]
 						],
 						"settings":
 						{
-							"WordCountSyntax": "jade",
-							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 256.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "app/views/includes/modals/modal-order-supplied.jade",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2413,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								875,
-								875
-							]
-						],
-						"settings":
-						{
-							"WordCountSyntax": "jade",
-							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
-							"history_list_is_closing": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 192.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "todo.todo",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6834,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5958,
-								5958
-							]
-						],
-						"settings":
-						{
-							"WordCountSyntax": "plaintasks",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PlainTasks/PlainTasks.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2208.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "app/models/dispense.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 10463,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3992,
-								3992
-							]
-						],
-						"settings":
-						{
+							"WordCountShouldRun": false,
 							"WordCountSyntax": "javascript",
+							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
 							"incomplete_sync": null,
 							"remote_loading": false,
@@ -1319,115 +1189,42 @@
 						"translation.y": 2304.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "app/views/includes/dialogs/stock/modal-request-stock.jade",
+					"buffer": 3,
+					"file": "todo.todo",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2332,
+						"buffer_size": 7388,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1802,
-								1802
+								7156,
+								7156
 							]
 						],
 						"settings":
 						{
-							"WordCountSyntax": "jade",
-							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
+							"WordCountShouldRun": true,
+							"WordCountSyntax": "plaintasks",
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"syntax": "Packages/PlainTasks/PlainTasks.tmLanguage",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3144.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "public/js/app.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3894,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2669,
-								2669
-							]
-						],
-						"settings":
-						{
-							"WordCountSyntax": "javascript",
-							"auto_complete": false,
-							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
-							"history_list_is_closing": true,
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1792.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "app/routes.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1560,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"WordCountSyntax": "javascript",
-							"auto_complete": false,
-							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 240.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -1461,7 +1258,7 @@
 		"cols":
 		[
 			0.0,
-			0.431413847232,
+			0.448424921435,
 			1.0
 		],
 		"rows":
@@ -1505,6 +1302,98 @@
 		"selected_items":
 		[
 			[
+				"ds",
+				"app/models/dsitem.js"
+			],
+			[
+				"app/model/order",
+				"app/models/order.js"
+			],
+			[
+				"app.js",
+				"public/js/app.js"
+			],
+			[
+				"pub/ord",
+				"public/js/modules/order/order.js"
+			],
+			[
+				"cart",
+				"app/views/orders/cart.jade"
+			],
+			[
+				"lang",
+				"public/js/modules/lang.js"
+			],
+			[
+				"todo",
+				"todo.todo"
+			],
+			[
+				"edit",
+				"app/views/items/edit.jade"
+			],
+			[
+				"new.jade",
+				"app/views/items/new.jade"
+			],
+			[
+				"dispe.jad",
+				"app/views/items/dispense.jade"
+			],
+			[
+				"directi",
+				"public/js/common/directives/directives.js"
+			],
+			[
+				"pub/disp",
+				"public/js/modules/dispense/dispense.js"
+			],
+			[
+				"disp.ja",
+				"app/views/items/dispense.jade"
+			],
+			[
+				"bill/view",
+				"app/views/includes/dialogs/bills/view.jade"
+			],
+			[
+				"item/inde",
+				"app/views/items/index.jade"
+			],
+			[
+				"order-li",
+				"app/views/templates/order-list.jade"
+			],
+			[
+				"all.jade",
+				"app/views/orders/all.jade"
+			],
+			[
+				"cart.jade",
+				"app/views/orders/cart.jade"
+			],
+			[
+				"app",
+				"public/js/app.js"
+			],
+			[
+				"stock",
+				"app/views/includes/dialogs/stock/modal-request-stock.jade"
+			],
+			[
+				"app/mode/ite",
+				"app/models/item.js"
+			],
+			[
+				"directive",
+				"public/js/common/directives/directives.js"
+			],
+			[
+				"public/ite",
+				"public/js/modules/item/item.js"
+			],
+			[
 				"app.css",
 				"public/css/app.css"
 			],
@@ -1533,10 +1422,6 @@
 				"app/views/items/new.jade"
 			],
 			[
-				"app",
-				"public/js/app.js"
-			],
-			[
 				"bill",
 				"app/models/bill.js"
 			],
@@ -1551,10 +1436,6 @@
 			[
 				"modal-order",
 				"app/views/includes/modals/modal-order-supplied.jade"
-			],
-			[
-				"cart",
-				"app/views/orders/cart.jade"
 			],
 			[
 				"public/order",
@@ -1609,14 +1490,6 @@
 				"new template/20150522152251/notification-dialog.css"
 			],
 			[
-				"ds",
-				"app/models/dsitem.js"
-			],
-			[
-				"app.js",
-				"public/js/app.js"
-			],
-			[
 				"dispe",
 				"app/models/stock/dispense-schema.js"
 			],
@@ -1643,10 +1516,6 @@
 			[
 				"modal-succ",
 				"app/views/includes/modals/dispensary/modal-success.jade"
-			],
-			[
-				"directive",
-				"public/js/common/directives/directives.js"
 			],
 			[
 				"module/order",
@@ -1713,10 +1582,6 @@
 				"app/controllers/orders.js"
 			],
 			[
-				"todo",
-				"todo.todo"
-			],
-			[
 				"models/tr",
 				"app/models/transaction.js"
 			],
@@ -1735,14 +1600,6 @@
 			[
 				"flat-ui",
 				"public/css/flat-ui.css"
-			],
-			[
-				"order-li",
-				"app/views/templates/order-list.jade"
-			],
-			[
-				"cart.jade",
-				"app/views/orders/cart.jade"
 			],
 			[
 				"modal/comp",
@@ -1885,10 +1742,6 @@
 				"stoc-cloud/views/layouts/default.jade"
 			],
 			[
-				"directi",
-				"stoc-cloud/build/js/common/directives/directives.js"
-			],
-			[
 				"drug/index",
 				"stoc-cloud/views/drug/index.jade"
 			],
@@ -1959,62 +1812,6 @@
 			[
 				"b/admin",
 				"stoc-cloud/build/js/modules/admin/admin.js"
-			],
-			[
-				"grun",
-				"stoc-cloud/gruntfile.js"
-			],
-			[
-				"header",
-				"stoc-cloud/views/includes/headerbar.jade"
-			],
-			[
-				"t/paginatio",
-				"stoc-cloud/views/templates/pagination.jade"
-			],
-			[
-				"user.jade",
-				"stoc-cloud/views/admin/user.jade"
-			],
-			[
-				"directives",
-				"stoc-cloud/build/js/common/directives/directives.js"
-			],
-			[
-				"all-cart",
-				"stoc-cloud/views/widgets/order/all-cart.jade"
-			],
-			[
-				"templates/pa",
-				"stoc-cloud/views/templates/pagination.jade"
-			],
-			[
-				"models/users",
-				"stoc-cloud/models/user.js"
-			],
-			[
-				"invoice",
-				"stoc-cloud/views/admin/invoice.jade"
-			],
-			[
-				"inv",
-				"stoc-cloud/views/order/invoice.jade"
-			],
-			[
-				"lang",
-				"stoc-cloud/build/js/modules/lang.js"
-			],
-			[
-				"messa",
-				"stoc-cloud/lib/message-strings.js"
-			],
-			[
-				"invoi",
-				"stoc-cloud/views/admin/invoice.jade"
-			],
-			[
-				"post",
-				"stoc-cloud/models/postman.js"
 			]
 		],
 		"width": 0.0
@@ -2041,7 +1838,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},
@@ -2049,7 +1846,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 247.0,
+	"side_bar_width": 216.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

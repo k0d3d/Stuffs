@@ -15,8 +15,8 @@ var
  * Module dependencies.
  */
 
-function OrderModel () {
-
+function OrderModel (jobQueue) {
+  this.jobQueue = jobQueue;
 }
 
 OrderModel.prototype.constructor = OrderModel;
@@ -65,7 +65,7 @@ OrderModel.prototype.postOrders = function postOrders (){
         return debug(err);
       }else
       if (i.length) {
-        var dsItems = new DsItems();
+        var dsItems = new DsItems(thisOrder.jobQueue);
 
         dsItems.postDSCloudOrders(i)
         .then(function (r) {

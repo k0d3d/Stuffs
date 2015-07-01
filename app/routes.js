@@ -6,7 +6,7 @@ module.exports = function (app, jobQueue) {
   var items = require('./controllers/items');
   items.routes(app, jobQueue);
   var orders = require('./controllers/orders');
-  orders.routes(app);
+  orders.routes(app, jobQueue);
   var suppliers = require('./controllers/suppliers');
   suppliers.routes(app);
   var reports = require('./controllers/reports');

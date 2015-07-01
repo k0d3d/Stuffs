@@ -1,8 +1,8 @@
 var utils = require('util');
 
-module.exports.routes = function(app){
+module.exports.routes = function(app, jobQueue){
   var Orders = require('../models/order').order;
-  var orders = new Orders();
+  var orders = new Orders(jobQueue);
   var ndls = require('../models/nafdac').ndl;
 
   app.get('/dashboard/order', function(req, res){

@@ -69,9 +69,9 @@ config(['$routeProvider',function($routeProvider){
       $scope.sms_purchase_order();
     }
 
-    // if ($scope.check_send_email) {
+    if ($scope.check_send_email) {
 
-    // }
+    }
 
 
     ordersService.postCart($scope.selectedCart, function () {
@@ -629,6 +629,44 @@ config(['$routeProvider',function($routeProvider){
       getStatus: '&'
     },
     templateUrl: '/templates/order-list'
+  };
+}])
+.directive('crossItemSearchDs', [function () {
+  return {
+    link : function (scope) {
+      function check_against (collection) {
+        return _.findIndex(collection, function (index_item) {
+          return index_item.product_id === scope.item.product_id;
+        });
+      }
+
+      if ((check_against(scope.collection) + 1)) {
+        scope.item.matching_ds_item = true;
+      }
+    },
+    scope: {
+      collection: '=',
+      item: '=crossItemSearchDs',
+    }
+  };
+}])
+.directive('crossItemSearchIv', [function () {
+  return {
+    link : function (scope) {
+      function check_against (collection) {
+        return _.findIndex(collection, function (index_item) {
+          return index_item.nafdacRegNo === scope.item.attributes[1].options[0];
+        });
+      }
+
+      if ((check_against(scope.collection) + 1)) {
+        scope.item.matching_iv_item = true;
+      }
+    },
+    scope: {
+      collection: '=',
+      item: '=crossItemSearchIv',
+    }
   };
 }])
 .directive('orderItemMenu', ['ordersService','Notification','Language', function(OS, N, L){

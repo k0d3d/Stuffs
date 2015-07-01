@@ -37,11 +37,15 @@ block body
             th
         tbody(ng-show="activePane == 'iv'")
           tr(ng-repeat="iv in inventoryResults | filter:product_id_filter")
-            td.span4
+            td.span5
               .media
                 .media-body
                   h4.media-heading
                     a(ng-href='/items/{{iv._id}}/edit/iv-edit') {{iv.itemName}}
+                    a.icon-match-ds(title="Available on DrugStoc", ng-click="$parent.activePane = 'ds'; $parent.activeText = 'DrugStoc'", cross-item-search-ds="iv", collection="drugstocResults")
+                        span.fa-stack(ng-show="iv.matching_ds_item")
+                          i.fa.fa-dot-circle-o.fa-stack-2x(style="color: #2281FD")
+                          i.fa.fa-circle.fa-stack-1x(style="color: #88BEFF")
                   p.media-body
                     span {{iv.sciName}}
             td
@@ -50,7 +54,7 @@ block body
             td.span2
               .controls.controls-row
                 input#exampleInputEmail1.form-control.pull-left.span10(type='number', ng-model="iv.orderAmount")
-            td.span4
+            td.span3
               button.btn.btn-mini.btn-block.btn-sky-blue(type='button', ng-click="orderItem(iv, 'sup')", ng-disabled="!iv.orderAmount && iv.suppliers.length", title="Order from Supplier")
                 //i.fa.fa-truck
                 | Order @ {{iv.itemPurchaseRate}} <i>from <strong>Supplier</strong></i>
@@ -76,6 +80,9 @@ block body
                 .media-body
                   h4.media-heading
                     | {{ds.title}}
+                    a.icon-match-ds(ng-show="ds.matching_iv_item", title="Linked to your inventory", ng-click="$parent.activePane = 'ds'; $parent.activeText = 'DrugStoc'", cross-item-search-iv="ds", collection="inventoryResults")
+                        span.label.label-info
+                          i.fa.fa-check-square
                   p.media-body
                     span(ng-bind-html="ds.description")
             td.span1
