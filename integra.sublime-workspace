@@ -520,18 +520,34 @@
 	"buffers":
 	[
 		{
-			"file": "/home/home/bootvm/php-www/predict.php",
+			"file": "app/views/index.jade",
 			"settings":
 			{
-				"buffer_size": 6027,
+				"buffer_size": 388,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/home/bootvm/php-www/engine/coreengine.php",
+			"file": "app/views/layouts/default.jade",
 			"settings":
 			{
-				"buffer_size": 7642,
+				"buffer_size": 365,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/views/home/index.jade",
+			"settings":
+			{
+				"buffer_size": 3044,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "package.json",
+			"settings":
+			{
+				"buffer_size": 2133,
 				"line_ending": "Unix"
 			}
 		},
@@ -547,7 +563,7 @@
 			"file": "public/css/app.css",
 			"settings":
 			{
-				"buffer_size": 15998,
+				"buffer_size": 16160,
 				"line_ending": "Unix"
 			}
 		},
@@ -676,6 +692,8 @@
 		"/home/home/integrabuntu/Projects/Integra",
 		"/home/home/integrabuntu/Projects/Integra/app",
 		"/home/home/integrabuntu/Projects/Integra/app/views",
+		"/home/home/integrabuntu/Projects/Integra/app/views/home",
+		"/home/home/integrabuntu/Projects/Integra/app/views/layouts",
 		"/home/home/integrabuntu/Projects/Integra/public",
 		"/home/home/integrabuntu/Projects/Integra/public/js",
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules",
@@ -683,6 +701,9 @@
 	],
 	"file_history":
 	[
+		"/home/home/integrabuntu/Projects/Integra/server.js",
+		"/home/home/bootvm/php-www/predict.php",
+		"/home/home/bootvm/php-www/engine/coreengine.php",
 		"/home/home/integrabuntu/Projects/Integra/app/routes.js",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/bills/view.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/orders/add.jade",
@@ -747,7 +768,6 @@
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules/bills/bills.js",
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules/dashboard/dashboard.js",
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules/admin/admin.js",
-		"/home/home/integrabuntu/Projects/Integra/server.js",
 		"/home/home/integrabuntu/Projects/Integra/app/controllers/admin.js",
 		"/home/home/bootvm/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
 		"/home/home/integrabuntu/Projects/Integra/app/models/dsitem/dsitem.js",
@@ -808,9 +828,7 @@
 		"/home/integrabuntu/Projects/Integra/app/models/item.js",
 		"/home/integrabuntu/Projects/Integra/public/js/app.js",
 		"/home/integrabuntu/Projects/Integra/app/models/admin.js",
-		"/home/integrabuntu/Projects/Integra/app/models/bill.js",
-		"/home/integrabuntu/Projects/Integra/app/controllers/admin.js",
-		"/home/integrabuntu/Projects/Integra/app/models/dsitem.js"
+		"/home/integrabuntu/Projects/Integra/app/models/bill.js"
 	],
 	"find":
 	{
@@ -854,6 +872,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"label",
+			"before",
+			"concrete",
+			"silver",
+			"clouds",
 			"postOrders",
 			"slice",
 			"splice",
@@ -976,12 +999,7 @@
 			"orderList[index].",
 			"orderList[index]",
 			"ng-rep",
-			"Items",
-			"$scope",
-			"currentItem",
-			"typeahead",
-			"locations",
-			"(){\n"
+			"Items"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1080,16 +1098,16 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/home/home/bootvm/php-www/predict.php",
+					"file": "app/views/index.jade",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6027,
+						"buffer_size": 388,
 						"regions":
 						{
 						},
@@ -1102,13 +1120,118 @@
 						],
 						"settings":
 						{
-							"WordCountShouldRun": false,
-							"WordCountSyntax": "php",
+							"WordCountShouldRun": true,
+							"WordCountSyntax": "jade",
 							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/views/layouts/default.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 365,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								190,
+								190
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": true,
+							"WordCountSyntax": "jade",
+							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/views/home/index.jade",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3044,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								859,
+								859
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": true,
+							"WordCountSyntax": "jade",
+							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
 							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 96.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "package.json",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2133,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								248,
+								248
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "json",
+							"auto_complete": true,
+							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
@@ -1117,49 +1240,15 @@
 					},
 					"stack_index": 2,
 					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/home/home/bootvm/php-www/engine/coreengine.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7642,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6635,
-								6635
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": false,
-							"WordCountSyntax": "php",
-							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PHP/PHP.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 4416.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 3,
+			"selected": 1,
 			"sheets":
 			[
 				{
-					"buffer": 2,
+					"buffer": 4,
 					"file": "public/js/modules/order/order.js",
 					"semi_transient": false,
 					"settings":
@@ -1192,24 +1281,24 @@
 						"translation.y": 9988.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
+					"buffer": 5,
 					"file": "public/css/app.css",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 15998,
+						"buffer_size": 16160,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								15996,
-								15996
+								15854,
+								15854
 							]
 						],
 						"settings":
@@ -1225,14 +1314,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 15843.0,
+						"translation.y": 16070.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 6,
 					"file": "public/js/app.js",
 					"semi_transient": false,
 					"settings":
@@ -1264,11 +1353,11 @@
 						"translation.y": 2304.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 7,
 					"file": "todo.todo",
 					"semi_transient": false,
 					"settings":
@@ -1299,7 +1388,7 @@
 						"translation.y": 3072.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -1913,7 +2002,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 0,
+	"selected_group": 1,
 	"settings":
 	{
 	},
