@@ -15,7 +15,8 @@ var SuppliersSchema = new Schema({
   contactPersonPhone: String,
   daysSupply: String,
   daysPayment: String,
-  addedOn: {type: Date, default: Date.now}
+  addedOn: {type: Date, default: Date.now},
+  linkedIds: [{type: String}]
 });
 
 /**

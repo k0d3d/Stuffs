@@ -113,3 +113,43 @@ ls102
  ☐ Review UI / UX consistency @order @cart @critical
  ✔ add patient id number to bill table and print @done (15-07-01 17:04)
  ☐ add last updated to item schema and implement @high
+
+
+Hello Michael,
+
+Please find below the requested information
+
+Item Pull
+- Schema of Items from Genesys.
+- Item Code
+- Item Name
+- Unit Quantity
+- Unit Cost
+
+{"items":[
+{"itemcode":"PAC01", "itemname":"PANADOL", "unitquantity":"12", "unitcost":"300"},
+{"itemcode":"PAC01", "itemname":"PANADOL", "unitquantity":"12", "unitcost":"300"},
+{"itemcode":"PAC01", "itemname":"PANADOL", "unitquantity":"12", "unitcost":"300"}
+]}
+
+
+Supplier Pull
+- Schema for Supplier from Genesys
+- General Supplier Payload
+{"suppliers":[
+{"suppliername":"ADFEM", "contactphone":"098888888", "contactaddress":"12 ,layoutdrive , lagos", "emailaddress":"adfem@yahoo.com", "contactperson":"OLUMIDE OLUFEMI"},
+{"suppliername":"ADFEM", "contactphone":"098888888", "contactaddress":"12 ,layoutdrive , lagos", "emailaddress":"adfem@yahoo.com", "contactperson":"OLUMIDE OLUFEMI"},
+{"suppliername":"ADFEM", "contactphone":"098888888", "contactaddress":"12 ,layoutdrive , lagos", "emailaddress":"adfem@yahoo.com", "contactperson":"OLUMIDE OLUFEMI"}
+]}
+
+
+Reorder Level
+- Periodic Pull from Genesys
+- Check against existing records of low stock items on DIMs
+- Current Stock Level of each low item
+
+{"items":[
+{"itemcode":"PAC01", "itemname":"PANADOL", "reorderlevel":"360", "currentlevel":"300"},
+{"itemcode":"PAC01", "itemname":"PANADOL", "reorderlevel":"360", "currentlevel":"300"},
+{"itemcode":"PAC01", "itemname":"PANADOL", "reorderlevel":"360", "currentlevel":"300"}
+]}

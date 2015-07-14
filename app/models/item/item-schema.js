@@ -26,7 +26,13 @@ var ItemSchema = new Schema({
   itemPackaging:{type: String},
   itemForm: {type: String},
   itemPurchaseRate: {type: Number},
-  dsPurchaseRate: {type: Number},
+  dsPurchaseRate: [
+    {
+      sid: {type: String},
+      stype: {type: String},
+      price: {type: Number}
+    }
+  ],
   sellingPrice: {type: Number},
   packageSize: {type: Number},
   itemSize: {type: Number},
@@ -35,6 +41,7 @@ var ItemSchema = new Schema({
     supplierID: {type: Schema.ObjectId},
     supplierName: {type: String},
   }],
+  linkedIds : [{type: String}],
   nafdacId: {type: Schema.ObjectId},
   importer: {type: String},
   nafdacRegNo: {type: String},

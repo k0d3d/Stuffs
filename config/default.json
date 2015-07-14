@@ -20,6 +20,13 @@
         }
     },
     "api":{
+        "HMIS_URL" : "http://localhost:8888",
+        "HMIS_ROUTES" : {
+          "ALL_ITEMS" : "/items",
+          "ALL_SUPPLIERS": "/suppliers",
+          "LOW_ITEMS" : "/items/level",
+          "ORDER": "/orders"
+          },
         "DS_CLOUD_URL": "https://drugstoc.biz/",
         "DS_CLOUD_ROUTES" : {
           "ALL_WC_PRODUCTS" : "/wc-api/v2/products",
