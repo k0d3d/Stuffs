@@ -16,7 +16,11 @@ var SuppliersSchema = new Schema({
   daysSupply: String,
   daysPayment: String,
   addedOn: {type: Date, default: Date.now},
-  linkedIds: [{type: String}]
+  linkedIds: [{type: String}],
+  ds_sup: {
+    dist_meta_key: {type: String},
+    distributor_id: {type: String}
+  }
 });
 
 /**

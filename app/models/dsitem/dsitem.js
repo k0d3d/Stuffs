@@ -23,7 +23,14 @@ var DsOnlineScehma = new Schema ({
   created_at: {type: Date},
   updated_at: {type: Date},
   permalink: {type: String},
-  product_id : {type: Number}
+  product_id : {type: Number},
+  suppliers: [
+    {
+      sid: {type: String},
+      stype: {type: String},
+      price: {type: Number}
+    }
+  ]
 });
 
 

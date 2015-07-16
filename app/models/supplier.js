@@ -205,4 +205,16 @@ SupplierModel.prototype.sendNotice = function(id, type, order, cb){
 
 };
 
+
+SupplierModel.prototype.matchByDsId = function matchByDsId (dsid, cb) {
+  Supplier.findOne({
+    'ds_sup.dist_meta_key': dsid
+  })
+  .exec(function(err, doc) {
+    if (err) {
+      return cb(err);
+    }
+    cb(doc);
+  })
+}
 module.exports = SupplierModel;

@@ -126,7 +126,8 @@ function DSClass (jobQueue) {
       attributes: _.map(product.data.attributes, mapProductAttribs),
       created_at: product.data.created_at,
       updated_at: product.data.updated_at,
-      permalink: product.data.permalink
+      permalink: product.data.permalink,
+      suppliers: _.map(product.data.price_meta, function (v,sid) { return { sid: sid, stype: 'ds', price: v};})
     };
 
     DsItems.update({
@@ -349,6 +350,9 @@ DSClass.prototype.runProductUpdateRequest =   function runProductUpdateRequest (
     var q = q || Q.defer();
     var DSC = this;
     console.log('runProductUpdateRequest');
+
+    DSC.getDsSuppliers();
+    return;
     page = page || 0;
     extraQs = extraQs || {};
     var jobQueue = this.jobQueue;
@@ -523,4 +527,83 @@ DSClass.prototype.findDrugstocProductById = function findDrugstocProductById (qu
 
   return q.promise;
 };
+
+DSClass.prototype.getDsSuppliers = function getDsSuppliers () {
+  var q = Q.defer();
+  var DSC = this;
+  var Supplier = require('./supplier');
+  var SupplierModel = require('./user/supplier-schema.js');
+
+  function save_a_supp (sup) {
+    if (sup && sup.length) {
+      var s_this = sup.pop();
+      var sup_data = {
+        supplierName: s_this.institution,
+        phoneNumber: s_this.phonenumber,
+        email: s_this.email,
+        // linkedIds: [s_this.username],
+        ds_sup: {
+          dist_meta_key: s_this.dist_meta_key,
+          distributor_id: s_this.id
+        }
+      };
+
+      SupplierModel.findOne({
+        'ds_sup.dist_meta_key': s_this.dist_meta_key
+      }, function (err, sup) {
+        if (err) {
+          console.log(err)
+        }
+        if (sup && sup._id) {
+          _.forEach(sup_data, function (v, key) {
+            sup[key] = v;
+          });
+
+          if (_.indexOf(sup.linkedIds, s_this.username) === -1) {
+            sup.linkedIds.push(s_this.username)
+          }
+
+          sup.save(function (err, doc) {
+            if (err) {
+              console.log(err);
+            }
+          });
+        } else {
+          var supplierInstance = new Supplier();
+          supplierInstance.add(sup_data, function(d) {
+            if (d instanceof Error) {
+              console.log(d);
+            }
+            if (sup.length) {
+              save_a_supp(sup);
+            }
+          });
+        }
+        if (sup.length) {
+          return save_a_supp(sup);
+        }
+      })
+
+
+    }
+  }
+
+  DSC.request(_.extend(DSC.requestOptions, {
+      url : DSC.DS_CLOUD_ROUTES.ALL_SUPPLIERS,
+      method: 'GET',
+      json: true
+      }),
+  function (e ,r, body) {
+
+    if (_.isObject(body.suppliers)) {
+      save_a_supp(body.suppliers);
+    } else {
+      //Json parse
+      var k = JSON.parse(body);
+      save_a_supp(k.suppliers);
+    }
+  })
+
+  return q.promise;
+}
 module.exports = DSClass;

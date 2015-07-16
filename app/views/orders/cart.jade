@@ -30,10 +30,13 @@ block body
                 th.noprint Order Date
                 th.noprint Supplier
                 th.noprint Action
-            tbody
-              tr(ng-repeat="or in orderCart | filter: cartFilter")
+            tbody(ng-repeat="(key, orderItem) in orderCart | filter: cartFilter | groupBy: 'orderSupplier.supplierName'")
+              tr
                 td
                   input(type="checkbox", checklist-model="selectedCart", checklist-value="or", ng-checked="checkAll")
+                td <strong>{{key}}</strong>
+              tr(ng-repeat="or in orderItem")
+                td
                 td {{or.itemName}}
                 td {{or.orderAmount}}
                 td {{or.orderPrice}}

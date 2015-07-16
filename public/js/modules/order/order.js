@@ -19,7 +19,7 @@ config(['$routeProvider',function($routeProvider){
   '$http',
   'ordersService',
   function($scope, $http, ordersService){
-
+  $scope.$emit('refresh-cart');
   $scope.print_purchase_order = function(ele){
     // return cb(true);
     $(ele).printThis({
@@ -76,25 +76,26 @@ config(['$routeProvider',function($routeProvider){
 
     ordersService.postCart($scope.selectedCart, function () {
       $scope.selectedCart.length = 0;
-      ordersService.getCartContent()
-      .then(function (d) {
-        $scope.cart_is_checkedout = true;
-        var items = d.data;
-        var toOrder = _.map(items, function (item) {
-          return {
-            itemName: item.itemName,
-            orderAmount: item.orderAmount,
-            orderPrice: item.orderPrice,
-            orderDate: item.orderDate,
-            product_id: item.product_id,
-            sku: item.sku,
-            orderId: item._id,
-            orderSupplier: item.orderSupplier,
-            isDrugStocOrder:item.isDrugStocOrder
-          };
-        });
-        ordersService.cartLoaded(toOrder);
-      });
+      $scope.$emit('refresh-cart');
+      $scope.cart_is_checkedout = true;
+      // ordersService.getCartContent()
+      // .then(function (d) {
+      //   var items = d.data;
+      //   var toOrder = _.map(items, function (item) {
+      //     return {
+      //       itemName: item.itemName,
+      //       orderAmount: item.orderAmount,
+      //       orderPrice: item.orderPrice,
+      //       orderDate: item.orderDate,
+      //       product_id: item.product_id,
+      //       sku: item.sku,
+      //       orderId: item._id,
+      //       orderSupplier: item.orderSupplier,
+      //       isDrugStocOrder:item.isDrugStocOrder
+      //     };
+      //   });
+      //   ordersService.cartLoaded(toOrder);
+      // });
     });
   };
 
@@ -114,6 +115,7 @@ config(['$routeProvider',function($routeProvider){
   $scope.removeFromCart = function removeFromCart (order_id, index){
     ordersService.remove(order_id, function(){
       $scope.orderCart.splice(index, 1);
+      $scope.$emit('refresh-cart');
     });
   };
 
@@ -190,20 +192,7 @@ config(['$routeProvider',function($routeProvider){
     supplierData: {}
   };
   $scope.modal = {};
-  // if($routeParams.itemId){
-  //   itemsService.summary($routeParams.itemId, 'main', function(r){
-  //     $scope.summary = r;
-  //     $scope.form.itemData.itemName = r.itemName;
-  //     $scope.form.itemData.id = r._id;
-  //     $scope.form.nafdacRegNo = r.nafdacRegNo;
-  //     $scope.form.nafdacRegName = r.itemName;
-  //     $scope.form.orderPrice = r.itemPurchaseRate;
-  //     $scope.form.suppliers = {
-  //       supplierName : r.supplierName,
-  //       supplierID : r.supplierID
-  //     };
-  //   });
-  // }
+
 
   $scope.set_ds_product = function (ds) {
     $scope.now_product = ds;
@@ -316,22 +305,6 @@ config(['$routeProvider',function($routeProvider){
       // }
     });
   };
-  // $scope.orderthis = function(){
-  //   if($scope.ds.length === 0) return false;
-  //   $scope.form = {
-  //     orderType: 'Medication',
-  //     itemData : {
-  //       itemName: $scope.ds.productName,
-  //       sciName: $scope.ds.composition
-  //     },
-  //     suppliers:{
-  //       supplierName: $scope.ds.man_imp_supp
-  //     },
-  //     nafdacRegNo: $scope.ds.regNo,
-  //     nafdacRegName: $scope.ds.productNameja
-  //   };
-  //   $scope.toggle();
-  // };
 
   $scope.orderItem = function orderItem (item, scope) {
 
@@ -356,9 +329,11 @@ config(['$routeProvider',function($routeProvider){
       ordersService.save(toOrder)
       .then(function () {
         ordersService.cartUpdated(toOrder);
+        $scope.$emit('refresh-cart');
       });
 
   };
+
 
   $scope.saveButtonClass = 'btn-primary';
   // $scope.submitOrder = function(){

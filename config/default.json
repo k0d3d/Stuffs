@@ -29,6 +29,7 @@
           },
         "DS_CLOUD_URL": "https://drugstoc.biz/",
         "DS_CLOUD_ROUTES" : {
+          "ALL_SUPPLIERS": "/wc-api/v2/customers/suppliers",
           "ALL_WC_PRODUCTS" : "/wc-api/v2/products",
           "CREATE_ORDER" : "/wc-api/v2/orders",
           "ACTIVE_CONSUMER" : "/wc-api/v2/customers/email"

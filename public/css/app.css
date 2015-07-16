@@ -1040,3 +1040,33 @@ form p {
 .palette-clouds {
   color: #585B5E;
 }
+
+.ds-sr span.pr-title {
+  font-weight: bold;
+  display: block;
+  padding-right: 20px;
+}
+.ds-sr span.pr-title:hover {
+  color: #304DB7;
+}
+.ds-sr span.label {
+  float: right;
+  right: 0px;
+  position: relative;
+  top: 0;
+  display: inline-block;
+
+}
+.ds-sr span.label:hover{
+  cursor: pointer;
+}
+.ds-sr span.pr-price {
+  float: right;
+  color: #F89406;
+}
+.ds-sr a {
+  text-decoration: none;
+}
+.ds-sr .sup-prices-list{
+  display: block;
+}

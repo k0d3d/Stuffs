@@ -23,7 +23,8 @@ var OrderSchema = new Schema({
   orderDescription: {type: String, default: 'None'},
   orderSupplier: {
     supplierID: {type: String, default: ''},
-    supplierName: {type: String, default: ''}
+    supplierName: {type: String, default: ''},
+    dsId: {type: String}
   },
   amountSupplied: {type: Number},
   orderInvoiceNumber: {type: String, default: ''},
@@ -45,7 +46,8 @@ var OrderSchema = new Schema({
   orderPrice: {type: Number},
   paymentReferenceType: {type: String},
   paymentReferenceID: {type: String},
-  isDrugStocOrder: {type: Boolean, default: false}
+  isDrugStocOrder: {type: Boolean, default: false},
+
 });
 
 var OrderStatusSchema = new Schema({

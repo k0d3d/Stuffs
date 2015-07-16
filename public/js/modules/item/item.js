@@ -19,7 +19,8 @@ angular.module('item', [])
   'itemsService',
   'stockService',
   'ordersService',
-  function itemIndexController($scope, $location, $routeParams,itemsService, sS, ordersService){
+  '$q',
+  function itemIndexController($scope, $location, $routeParams,itemsService, sS, ordersService, Q){
     function init(){
       $scope.summary = {};
       $scope.form = {};
@@ -97,6 +98,7 @@ angular.module('item', [])
           $scope.smpane = '';
           $scope.shpane = '';
           $scope.a2cpane = '';
+          $scope.aqpane = '';
           $scope.$apply();
         });
         $('nav.cbp-spmenu').click(function(event){
@@ -148,15 +150,64 @@ angular.module('item', [])
       });
       //Store Cart Locally
       // $scope.$storage.orderCart = __cleanJSON($scope.orderCart);
+      $scope.$emit('refresh-cart');
     };
 
     $scope.addPane = function(){
       $scope.smpane = {right:'240px'};
       $scope.a2cpane = {right:'0px'};
       $scope.shpane = {right:'-240px'};
+      $scope.aqpane = {right:'240px'};
+    };
+    $scope.search_ds_pane = function(){
+      $scope.smpane = {right:'240px'};
+      $scope.aqpane = {right:'0px'};
+      $scope.shpane = {right:'-240px'};
     };
 
+  $scope.searchcmp = function(searchQuery, query){
+    $scope.searching_icon = true;
+    itemsService.request_search(searchQuery, 'drugstoc', query)
+    .then(function (resolvedPromise) {
+      $scope.searching_icon = false;
+      $scope.drugstocResults = resolvedPromise.data.results;
 
+      $scope.drugstocCount = resolvedPromise.data.totalCount;
+    });
+    // ordersService.searchCmp(searchQuery)
+    // .
+  };
+
+
+  $scope.bindAdd = function (sup, product) {
+    $scope.orderSupplier = {
+      supplierName: sup.supplierName,
+      supplierID: sup.supplierId,
+      dsId: sup.supplierDsId
+    }
+    $scope.summary.product_id = product.product_id;
+    $scope.summary.dsPurchaseRate = sup.price;
+    $scope.addPane();
+  }
+
+
+}])
+.directive('fetchSupplierData', ['$http', function ($http) {
+  return {
+    link: function (scope) {
+      $http.get('/api/suppliers/'+ scope.fetchSupplierData.sid  + '/tag')
+      .then(function (su) {
+        if (su.data && su.data.ds_sup) {
+          scope.fetchSupplierData.supplierName = su.data.supplierName;
+          scope.fetchSupplierData.supplierDsId = su.data.ds_sup.distributor_id;
+          scope.fetchSupplierData.supplierId = su.data._id;
+        }
+      })
+    },
+    scope: {
+      fetchSupplierData: '=fetchSupplierData'
+    }
+  }
 }])
 .controller('itemAddController', [
   '$scope',

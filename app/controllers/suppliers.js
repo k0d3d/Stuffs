@@ -53,6 +53,17 @@ module.exports.routes = function(app){
       }
     });
   });
+  //Fetch one supplier record
+  app.get("/api/suppliers/:supplierId/tag", function(req, res, next){
+
+    supplierController.matchByDsId(req.params.supplierId, function(i){
+      if(utils.isError(i)){
+        next(i);
+      }else{
+        res.status(200).json(i);
+      }
+    });
+  });
 
 
   //Typeahead for suppliers' name

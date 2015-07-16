@@ -520,42 +520,45 @@
 	"buffers":
 	[
 		{
-			"file": "app/views/index.jade",
+			"file": "app/views/items/index.jade",
 			"settings":
 			{
-				"buffer_size": 388,
+				"buffer_size": 6905,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/views/layouts/default.jade",
+			"file": "app/views/orders/add.jade",
 			"settings":
 			{
-				"buffer_size": 365,
+				"buffer_size": 6599,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/views/admin/index.jade",
+			"contents": "var\n    ItemFn = require('../models/item'),\n    _ = require('lodash'),\n    Ndl = require('../models/nafdac').ndl,\n    cors = require('../../config/middlewares/cors'),\n    DsItem = require('../models/dsitem'),\n    util = require('util');\n\n\n\n\n\n\n\n\nmodule.exports.routes = function(app, jobQueue){\n  var itemInstance = new ItemFn();\n  var dsItems = new DsItem(jobQueue);\n  var ndls = new Ndl();\n\n  app.get('/items', function(req, res){\n      res.render('index',{\n        title: 'All Items'\n      });\n  });\n  app.get('/items/index', function(req, res){\n      res.render('items/index');\n  });\n\n  app.get('/items/view/low', function(req, res){\n    res.render('index');\n  });\n\n\n  //Item routes\n  app.get('/items/add',function(req,res){\n    res.render('index', {\n      title: 'New Inventory Item',\n    });\n  });\n\n  app.get('/items/:itemId/edit/:action',function(req,res){\n    res.render('index', {\n      title: 'Update Item',\n    });\n  });\n\n  app.get('/items/:itemId/ds-add/:action',function(req,res){\n    res.render('index', {\n      title: 'Update Item',\n    });\n  });\n\n  /**\n  *Items Routes\n  */\n  //List all Items\n  // app.get('/api/items/listAll', itemInstance.list);\n  app.get('/api/items/listAll', function (req, res, next) {\n    itemInstance.list()\n    .then(function (listofItems) {\n      res.json(listofItems);\n    }, function (err) {\n      next(err);\n    });\n  });\n\n  //app.get('/api/items/listOne/:id/:option',listOne);\n\n  //Fetches data on an item, either full or summary by location\n  app.get('/api/items/:id/options/:option/locations/:locationId', cors, function(req, res, next){\n    var option = req.params.option, itemId = req.params.id, location = req.params.locationId;\n    itemInstance.listOne(itemId, option, location, function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.status(200).json(r);\n      }\n    });\n  });\n\n  //Fetches data for an item when editing\n  app.get('/api/items/:item_id/edit', function(req, res, next){\n    var body = req.body;\n    var itemId = req.params.item_id;\n    itemInstance.itemFields(itemId, body, function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  //Fetches data for an item when editing\n  app.get('/api/items/:item_id/ds-product', function(req, res, next){\n    var itemId = req.params.item_id;\n    dsItems.findDrugstocProductById(itemId)\n    .then(function(r){\n\n        res.json(r);\n    }, function (err) {\n        next(err);\n    });\n  });\n\n  //Updates an Item\n  app.put('/api/items/:id/edit', function(req, res, next){\n    var itemId = req.params.id;\n    var body = req.body;\n    itemInstance.updateItem(itemId, body, function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, true);\n      }\n    });\n  });\n\n  //Typeahead Route\n  app.get('/api/items/typeahead', cors, function (req, res, next) {\n    var needle = req.query.q;\n    itemInstance.typeahead(needle, function (r) {\n      if (util.isError(r)) {\n        next(r);\n      } else {\n        res.json(200, r);\n      }\n    });\n  });\n\n  //Nafdac Typeahead Route\n  app.get('/api/nafdacdrugs', cors,  function(req, res, next){\n    var limit = req.query.limit;\n    ndls.searchComposition(req.params.needle, req.params.page, limit, function(r){\n      if(util.isError(r)){\n        next(r);\n        return;\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  app.get('/api/items/search', function(req, res, next) {\n    if (!req.query.scope){\n      return res.status(400).json({'message' : 'Invalid Request'});\n    }\n\n    if (!req.query.s) {\n      return res.status(400).json({'message' : 'Empty Query'});\n    }\n    var options = {\n      limit: req.query.limit || 20\n    };\n    if (req.query.page) {\n      options.skip = req.query.page * options.limit;\n    }\n\n\n    var query = req.query.s;\n    // if (!isNaN(query)) {\n    //   options.conditions = {product_id: query};\n    //   // options.conditions = {'product_id': 4207};\n    // }\n\n    if (req.query.scope === 'drugstoc') { \n      dsItems.findDrugstocProduct(query, options, null, function (r) {\n        res.json(r);\n      });\n      // .then(function (result) {\n      //   res.json(result);\n      // }, function (err) {\n      //   next(err);\n      // });\n    }\n    if (req.query.scope === 'inventory') {\n      itemInstance.findItem(query, options, null, function  (result) {\n        res.json(result);\n      });\n    }\n    if (req.query.scope === 'nafdac') {\n      itemInstance.findRegisteredItem(query, options, null, function  (result) {\n        res.json(result);\n      });\n    }\n    if (req.query.scope === 'checkProduct') {\n      itemInstance.searchInventory({product_id: query})\n      .then(function (result) {\n        res.json(result);\n      }, function (err) {\n        next(err);\n      });\n    }\n\n\n  });\n\n  app.get('/api/nafdacdrugs/typeahead/needle/:needle', function (req, res, next) {\n    itemInstance.nafdacTypeAhead(req.param('needle'))\n    .then(function (matches) {\n      res.json(matches);\n    }, function (err) {\n      next(err);\n    });\n  });\n\n  //NAFDAC Fetch item by Registeration Number\n  app.get('/api/nafdacdrugs/typeahead', function(req, res, next){\n    itemInstance.fetchByRegNo(req.query.q, function(r){\n      if(util.isError(r)){\n        next(r);\n      }else if(_.isEmpty(r)){\n        res.json(400, false);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  //Create a new Item\n  app.post('/api/items',function(req, res, next){\n    itemInstance.create(req.body, function(result){\n      if (result instanceof Error) {\n        return next(result);\n      }\n      res.json(true);\n    });\n  });\n\n\n  //Delete Item\n  app.delete('/api/items/:itemId', function(req, res){\n    itemInstance.deleteItem(req.param('itemId'), function(i){\n      res.json(200, {state: i});\n    });\n  });\n\n  //Item Category Routes.///\n  app.post('/api/items/category', function(req, res, next){\n    itemInstance.addCategory(req.body.name, req.body.parent, function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  app.get('/api/items/category', function(req, res, next){\n    itemInstance.listCategory(function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  app.delete('/api/items/category/:categoryId', function(req, res, next){\n    var catId = req.params.categoryId;\n    itemInstance.delCat(catId, function(i){\n      if(util.isError(i)){\n        next(i);\n      }else{\n        res.json(200, true);\n      }\n    });\n  });\n  //Item Form Routes.///\n  app.post('/api/items/form', function(req, res, next){\n    itemInstance.addForm(req.body.name, function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  app.get('/api/items/form', function(req, res, next){\n    itemInstance.listForm(function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  app.delete('/api/items/category/:form_id', function(req, res, next){\n    var catId = req.params.form_id;\n    itemInstance.removeForm(catId, function(i){\n      if(util.isError(i)){\n        next(i);\n      }else{\n        res.json(200, true);\n      }\n    });\n  });\n  //Item Packaging Routes.///\n  app.post('/api/items/packaging', function(req, res, next){\n    itemInstance.addPackaging(req.body.name, function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  app.get('/api/items/packaging', function(req, res, next){\n    itemInstance.listPackaging(function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  app.delete('/api/items/category/:package_id', function(req, res, next){\n    var catId = req.params.package_id;\n    itemInstance.removePackage(catId, function(i){\n      if(util.isError(i)){\n        next(i);\n      }else{\n        res.json(200, true);\n      }\n    });\n  });\n\n  app.get('/api/dsproducts', function (req, res, next) {\n    dsItems.findByNafdacNo(req.query.s)\n    .then(function (r) {\n      res.json(r);\n    }, function (err) {\n      next(err);\n      // res.status(400).json(err.message);\n    });\n  });\n\n};\n\n",
+			"file": "app/controllers/items.js",
+			"file_size": 8218,
+			"file_write_time": 130778962500802258,
 			"settings":
 			{
-				"buffer_size": 688,
+				"buffer_size": 8219,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "public/js/modules/item/item.js",
+			"settings":
+			{
+				"buffer_size": 22161,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "app/models/dsitem.js",
+			"file": "public/css/app.css",
 			"settings":
 			{
-				"buffer_size": 14063,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "package.json",
-			"settings":
-			{
-				"buffer_size": 2160,
+				"buffer_size": 16160,
 				"line_ending": "Unix"
 			}
 		},
@@ -568,54 +571,11 @@
 			}
 		},
 		{
-			"contents": "\nvar util = require('util'),\n    request = require('request'),\n    apiConfig = require('config').api,\n    DSItems = require('../models/dsitem');\n\n\n\n\n\nmodule.exports.routes = function(app){\n\n  //get all items from the hmis system.\n  //TODO: add a date or timestamp parameter\n  //to query for items added after a specific date.\n  //this way, a large payload is avoided after a\n  //major or initial pull request\n  app.get('/hmis/items', function (req, res, next) {\n    request({\n      url : apiConfig.HMIS_URL + apiConfig.HMIS_ROUTES.ALL_ITEMS,\n      method: 'GET'\n      },\n      function (e, r, body) {\n        if (e) {\n          return q.reject(e);\n        }\n\n        var b = JSON.parse(body).customer;\n        b.consumer_key = deets.consumer_key;\n        b.consumer_secret = deets.consumer_secret;\n        q.resolve(b);\n    });\n  });\n\n  //get all suppliers from the hmis system\n  //TODO: the same date parameter should be passed\n  //along with query.\n  //\n\n  //dummy routes to test data\n  //\n  //items\n  //suppliers\n  //low items\n\n\n}",
-			"file": "app/controllers/hmis.js",
-			"file_size": 1032,
-			"file_write_time": 130813577328284248,
-			"settings":
-			{
-				"buffer_size": 1033,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "config/default.json",
-			"settings":
-			{
-				"buffer_size": 999,
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "app/models/item/item-schema.js",
 			"settings":
 			{
-				"buffer_size": 5667,
+				"buffer_size": 5754,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/css/app.css",
-			"settings":
-			{
-				"buffer_size": 16160,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "todo.todo",
-			"settings":
-			{
-				"buffer_size": 8871,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/models/user/supplier-schema.js",
-			"settings":
-			{
-				"buffer_size": 1147,
-				"line_ending": "Windows"
 			}
 		}
 	],
@@ -726,16 +686,31 @@
 	[
 		"/home/home/integrabuntu/Projects/Integra",
 		"/home/home/integrabuntu/Projects/Integra/app",
-		"/home/home/integrabuntu/Projects/Integra/app/models/dsitem",
-		"/home/home/integrabuntu/Projects/Integra/app/models/user",
-		"/home/home/integrabuntu/Projects/Integra/config",
+		"/home/home/integrabuntu/Projects/Integra/app/controllers",
+		"/home/home/integrabuntu/Projects/Integra/app/models",
+		"/home/home/integrabuntu/Projects/Integra/app/models/item",
+		"/home/home/integrabuntu/Projects/Integra/app/views",
+		"/home/home/integrabuntu/Projects/Integra/app/views/orders",
 		"/home/home/integrabuntu/Projects/Integra/public",
 		"/home/home/integrabuntu/Projects/Integra/public/js",
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules",
-		"/home/home/integrabuntu/Projects/Integra/public/js/modules/stock"
+		"/home/home/integrabuntu/Projects/Integra/public/js/modules/item",
+		"/home/home/integrabuntu/Projects/Integra/public/js/modules/order"
 	],
 	"file_history":
 	[
+		"/home/home/integrabuntu/Projects/Integra/app/models/dsitem.js",
+		"/home/home/integrabuntu/Projects/Integra/app/views/index.jade",
+		"/home/home/integrabuntu/Projects/Integra/app/views/layouts/default.jade",
+		"/home/home/integrabuntu/Projects/Integra/app/views/admin/index.jade",
+		"/home/home/integrabuntu/Projects/Integra/package.json",
+		"/home/home/integrabuntu/Projects/Integra/app/controllers/hmis.js",
+		"/home/home/integrabuntu/Projects/Integra/public/js/modules/order/order.js",
+		"/home/home/integrabuntu/Projects/Integra/config/default.json",
+		"/home/home/integrabuntu/Projects/Integra/app/models/item/item-schema.js",
+		"/home/home/integrabuntu/Projects/Integra/public/css/app.css",
+		"/home/home/integrabuntu/Projects/Integra/todo.todo",
+		"/home/home/integrabuntu/Projects/Integra/app/models/user/supplier-schema.js",
 		"/home/home/integrabuntu/Projects/Integra/app/views/home/index.jade",
 		"/home/home/integrabuntu/Projects/Integra/public/js/app.js",
 		"/home/home/integrabuntu/Projects/Integra/server.js",
@@ -744,8 +719,6 @@
 		"/home/home/integrabuntu/Projects/Integra/app/routes.js",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/bills/view.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/orders/add.jade",
-		"/home/home/integrabuntu/Projects/Integra/app/models/item/item-schema.js",
-		"/home/home/integrabuntu/Projects/Integra/app/models/dsitem.js",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/modals/modal-order-supplied.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/controllers/orders.js",
 		"/home/home/integrabuntu/Projects/Integra/app/models/order.js",
@@ -762,7 +735,6 @@
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/order/modal-tag-ds-product.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/dialogs/stock/modal-request-stock.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/modals/dispensary/modal-success.jade",
-		"/home/home/integrabuntu/Projects/Integra/todo.todo",
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules/item/item.js",
 		"/home/home/integrabuntu/Projects/Integra/app/views/items/index.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/templates/order-list.jade",
@@ -770,14 +742,11 @@
 		"/home/home/integrabuntu/Projects/Integra/public/js/common/services/services.js",
 		"/home/home/integrabuntu/Projects/Integra/app/models/dispense.js",
 		"/home/home/integrabuntu/Projects/Integra/app/models/bill.js",
-		"/home/home/integrabuntu/Projects/Integra/public/css/app.css",
 		"/home/home/integrabuntu/Projects/Integra/app/models/stock/bill-schema.js",
 		"/home/home/integrabuntu/Projects/Integra/app/views/templates/bill-print-tpl.jade",
-		"/home/home/integrabuntu/Projects/Integra/public/js/modules/order/order.js",
 		"/home/home/integrabuntu/Projects/Integra/app/views/templates/admin-bill-profile-tpl.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/models/stock/dispense-schema.js",
 		"/home/home/integrabuntu/Projects/Integra/app/controllers/items.js",
-		"/home/home/integrabuntu/Projects/Integra/app/views/index.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/foot.jade",
 		"/home/home/integrabuntu/Projects/Integra/public/css/app.3.css",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/items/item-summary-pane.jade",
@@ -809,13 +778,11 @@
 		"/home/home/integrabuntu/Projects/Integra/new template/20150522152251/notification-dialog.css",
 		"/home/home/integrabuntu/Projects/Integra/app/models/supplier.js",
 		"/home/home/integrabuntu/Projects/Integra/app/models/admin.js",
-		"/home/home/integrabuntu/Projects/Integra/app/views/admin/index.jade",
 		"/home/home/integrabuntu/Projects/Integra/app/views/templates/admin-configuration-tpl.jade",
 		"/home/home/integrabuntu/Projects/Integra/lib/smsSend.js",
 		"/home/home/integrabuntu/Projects/Integra/app/controllers/suppliers.js",
 		"/home/home/integrabuntu/Projects/Integra/config/development.json",
 		"/home/home/integrabuntu/Projects/Integra/app/views/includes/modals/items/modal-item.jade",
-		"/home/home/integrabuntu/Projects/Integra/app/models/user/supplier-schema.js",
 		"/home/home/bootvm/.config/sublime-text-3/Packages/User/SublimeLinter.sublime-settings",
 		"/home/home/integrabuntu/Projects/Integra/config/production.json",
 		"/home/home/integrabuntu/Projects/Integra/app/models/stock.js",
@@ -859,11 +826,7 @@
 		"/home/integrabuntu/Projects/Integra/app/views/orders/cart.jade",
 		"/home/integrabuntu/Projects/Integra/app/views/includes/foot.jade",
 		"/home/integrabuntu/Projects/Integra/public/css/extra/modal/component.css",
-		"/home/integrabuntu/Projects/Integra/todo",
-		"/home/integrabuntu/Projects/Integra/app/models/item.js",
-		"/home/integrabuntu/Projects/Integra/public/js/app.js",
-		"/home/integrabuntu/Projects/Integra/app/models/admin.js",
-		"/home/integrabuntu/Projects/Integra/app/models/bill.js"
+		"/home/integrabuntu/Projects/Integra/todo"
 	],
 	"find":
 	{
@@ -1133,56 +1096,24 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "app/views/index.jade",
+					"file": "app/views/items/index.jade",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 388,
+						"buffer_size": 6905,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"WordCountSyntax": "jade",
-							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "app/views/layouts/default.jade",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 365,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								365,
-								365
+								2271,
+								2271
 							]
 						],
 						"settings":
@@ -1193,34 +1124,37 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage"
+							"syntax": "Packages/Jade/Syntaxes/Jade.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 385.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "app/views/admin/index.jade",
+					"buffer": 1,
+					"file": "app/views/orders/add.jade",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 688,
+						"buffer_size": 6599,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								342,
-								342
+								3765,
+								3765
 							]
 						],
 						"settings":
 						{
+							"WordCountShouldRun": true,
 							"WordCountSyntax": "jade",
 							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
 							"incomplete_sync": null,
@@ -1231,33 +1165,34 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 192.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "app/models/dsitem.js",
+					"buffer": 2,
+					"file": "app/controllers/items.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14063,
+						"buffer_size": 8219,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								585,
-								585
+								3324,
+								3324
 							]
 						],
 						"settings":
 						{
 							"WordCountShouldRun": false,
 							"WordCountSyntax": "javascript",
+							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
 							"incomplete_sync": null,
 							"remote_loading": false,
@@ -1267,73 +1202,38 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 96.0,
+						"translation.y": 1920.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "package.json",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2160,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								248,
-								248
-							]
-						],
-						"settings":
-						{
-							"WordCountSyntax": "json",
-							"auto_complete": true,
-							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
+					"stack_index": 4,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
-					"buffer": 5,
-					"file": "public/js/modules/order/order.js",
+					"buffer": 3,
+					"file": "public/js/modules/item/item.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 21224,
+						"buffer_size": 22161,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								18105,
-								18105
+								847,
+								847
 							]
 						],
 						"settings":
 						{
+							"WordCountShouldRun": false,
 							"WordCountSyntax": "javascript",
 							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
@@ -1345,123 +1245,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 788.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "app/controllers/hmis.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1033,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								833,
-								833
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": false,
-							"WordCountSyntax": "javascript",
-							"auto_complete": false,
-							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
-							"incomplete_sync": null,
-							"open_with_edit": true,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 144.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
-					"file": "config/default.json",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 999,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								541,
-								541
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": false,
-							"WordCountSyntax": "json",
-							"auto_complete": true,
-							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "app/models/item/item-schema.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5667,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								880,
-								880
-							]
-						],
-						"settings":
-						{
-							"WordCountSyntax": "javascript",
-							"auto_complete": false,
-							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
+					"buffer": 4,
 					"file": "public/css/app.css",
 					"semi_transient": false,
 					"settings":
@@ -1473,12 +1264,13 @@
 						"selection":
 						[
 							[
-								15854,
-								15854
+								5222,
+								5222
 							]
 						],
 						"settings":
 						{
+							"WordCountShouldRun": false,
 							"WordCountSyntax": "css",
 							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
 							"incomplete_sync": null,
@@ -1489,68 +1281,33 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 630.0,
+						"translation.y": 3921.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
-					"file": "todo.todo",
-					"semi_transient": false,
+					"buffer": 5,
+					"file": "public/js/modules/order/order.js",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 8871,
+						"buffer_size": 21224,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7602,
-								7602
+								10492,
+								10492
 							]
 						],
 						"settings":
 						{
-							"WordCountSyntax": "plaintasks",
-							"color_scheme": "Packages/PlainTasks/tasks.hidden-tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/PlainTasks/PlainTasks.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 4474.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "app/models/user/supplier-schema.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1147,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								411,
-								411
-							]
-						],
-						"settings":
-						{
+							"WordCountShouldRun": false,
 							"WordCountSyntax": "javascript",
-							"auto_complete": false,
 							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
 							"incomplete_sync": null,
 							"remote_loading": false,
@@ -1560,10 +1317,46 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 4512.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "app/models/item/item-schema.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5754,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								725,
+								725
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 48.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
@@ -1597,7 +1390,7 @@
 		"cols":
 		[
 			0.0,
-			0.413065666737,
+			0.575618345846,
 			1.0
 		],
 		"rows":
@@ -1641,12 +1434,12 @@
 		"selected_items":
 		[
 			[
-				"bill/view",
-				"app/views/includes/dialogs/bills/view.jade"
-			],
-			[
 				"app.css",
 				"public/css/app.css"
+			],
+			[
+				"bill/view",
+				"app/views/includes/dialogs/bills/view.jade"
 			],
 			[
 				"ds",
@@ -2177,7 +1970,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},

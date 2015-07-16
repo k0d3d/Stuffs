@@ -15,7 +15,8 @@ var integraApp  = angular.module('integraApp', [
   'directives',
   'services',
   'language',
-  'checklist-model'
+  'checklist-model',
+  'angular.filter'
   ]);
 
 integraApp.config([
@@ -157,35 +158,31 @@ integraApp.controller('MainController', [
 
   };
 
-  ordersService.getCartContent()
-  .then(function (d) {
-    var items = d.data;
-    var toOrder = _.map(items, function (item) {
-      return {
-        itemName: item.itemName,
-        orderAmount: item.orderAmount,
-        orderPrice: item.orderPrice,
-        orderDate: item.orderDate,
-        product_id: item.product_id,
-        sku: item.sku,
-        orderId: item._id,
-        orderSupplier: item.orderSupplier,
-        isDrugStocOrder:item.isDrugStocOrder
-      };
+
+  $scope.$on('refresh-cart', function () {
+    ordersService.getCartContent()
+    .then(function (d) {
+      var items = d.data;
+      var toOrder = _.map(items, function (item) {
+        return {
+          itemName: item.itemName,
+          orderAmount: item.orderAmount,
+          orderPrice: item.orderPrice,
+          orderDate: item.orderDate,
+          product_id: item.product_id,
+          sku: item.sku,
+          orderId: item._id,
+          orderSupplier: item.orderSupplier,
+          isDrugStocOrder:item.isDrugStocOrder,
+          supplierName: item.orderSupplier.supplierName
+        };
+      });
+      ordersService.cartLoaded(toOrder);
     });
-    ordersService.cartLoaded(toOrder);
   });
 
+  $scope.$emit('refresh-cart');
 
-  // $scope.clearCart = function(){
-  //   delete $localStorage.orderCart;
-  //   $scope.orderCart.length = 0;
-  // };
-
-  // $scope.removeFromCart = function(index){
-  //   $scope.orderCart.splice(index, 1);
-  //   $scope.$storage.orderCart = angular.toJson($scope.orderCart);
-  // };
 
 }]);
 angular.module('integraApp').filter('moment', function(){
