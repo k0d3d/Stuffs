@@ -113,7 +113,7 @@ ls102
  ☐ Review UI / UX consistency @order @cart @critical
  ✔ add patient id number to bill table and print @done (15-07-01 17:04)
  ☐ add last updated to item schema and implement @high
-
+ ☐ Order history on Summary Pane
 
 Hello Michael,
 

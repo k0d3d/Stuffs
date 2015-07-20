@@ -2,7 +2,7 @@ append head
   link(rel='stylesheet', href='/css/extra/timeline/component.css')
 
 nav.shpane.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu",ng-style="a2cpane")
-  h3(style="padding-top: 60px") Add to cart
+  h3(style="") Add to cart
   form.cart-order(role="form", ng-submit="addToCart(summary)", style="padding: 5px", name="cartorder")
     label Quantity
     input(type="number", ng-model="summary.orderAmount", required)
@@ -11,10 +11,10 @@ nav.shpane.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu",ng-
       label Order Price
       input(type="number", ng-model="sdprice", ng-required="!summary.itemPurchaseRate")
     label Current Supplier: <b>{{summary.suppliers[0].supplierName}}</b>
-    label Change Supplier
-    input(type="text", placeholder="Supplier", cart-supplier, ng-model="summary.orderSupplier.supplierName", ng-required="!summary.suppliers.length && !summary.dsPurchaseRate")
-    button.btn.btn-bell.btn-block(type="submit" ng-click="summary.supplierSelected = 'drugstoc'", ng-disabled="cartorder.$invalid || !summary.dsPurchaseRate", ng-show="summary.product_id") Order from DrugStoc
-    button.btn.btn-warning.btn-block(type="submit", ng-disabled="cartorder.$invalid", ng-click="summary.supplierSelected = 'user_entry'") Add to Cart
+    label(ng-hide="summary.isDrugStocOrder", style="color: #ddd") Change Supplier
+    input(type="text", placeholder="Supplier", cart-supplier, ng-model="summary.orderSupplier.supplierName", ng-required="!summary.suppliers.length && !summary.dsPurchaseRate", ng-hide="summary.isDrugStocOrder")
+    button.btn.btn-bell.btn-block(type="submit" ng-click="summary.supplierSelected = 'drugstoc'", ng-disabled="cartorder.$invalid || !summary.dsPurchaseRate", ng-show="summary.isDrugStocOrder") Order from DrugStoc
+    button.btn.btn-warning.btn-block(type="submit", ng-disabled="cartorder.$invalid", ng-hide="summary.isDrugStocOrder") Add to Cart
 nav.shpane.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu",ng-style="shpane")
   ul.cbp_tmtimeline.stup-hstry
     li(ng-repeat="sh in shz")
@@ -32,13 +32,10 @@ nav.shpane.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu",ng-
       input#itemname.search-query(type="text",name="s",ng-model="searchQuery", required, placeholder="Item / Drug Name / Composition")
       input(type="hidden" name="page" value="0")
       <i ng-show="searching_icon" class="fa fa-spinner fa-pulse"></i>
-  div.summary()
+  div.summary(style="overflow-y: scroll;height: 100%;")
     p.ds-sr(ng-repeat="ds in drugstocResults", ng-init="ds.show_prices = false")
       span.label.label-warning(ng-click="ds.show_prices = !ds.show_prices") {{ds.suppliers.length}}
       span.pr-title {{ds.title}}
-      a(href="", ng-click="bindAdd(sup, ds, summary)", title="Buy From Supplier")
-        span.pr-supp DrugStoc
-        span.pr-price N{{ds.price || 0}}
       a(href="", ng-click="bindAdd(sup, ds)", title="Buy From Supplier", ng-repeat="sup in ds.suppliers", ng-show="ds.show_prices", fetch-supplier-data="sup")
         span.pr-supp {{sup.supplierName}}
         span.pr-supp(ng-hide="sup.supplierName") {{sup.sid || 'DrugStoc'}}
@@ -58,8 +55,6 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu", ng-style=
       dd {{summary.currentStock}}
       dt Last Order Date
       dd {{summary.lastSupplyDate | date: 'medium'}}
-      dt DrugStoc Rate (N)
-      dd {{summary.dsPurchaseRate || 0}}
       dt Purchase Rate (N)
       dd {{summary.itemPurchaseRate || 0}}
   div.summary-actions
@@ -68,7 +63,7 @@ nav.cbp-spmenu.cbp-spmenu-vertical.cbp-spmenu-right(ng-class="spmenu", ng-style=
     p
       button.btn.btn-block.btn-warning(data-ng-click="search_ds_pane()") Search DrugStoc
     p
-      button.btn.btn-block.btn-warning(data-ng-click="addPane()") Add to cart
+      button.btn.btn-block.btn-warning(data-ng-click="addPane(); summary.isDrugStocOrder = false") Add to cart
     p
       button.btn.btn-block.btn-warning(ng-click="stockhistory(summary._id)") Stock History
     p

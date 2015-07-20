@@ -144,7 +144,7 @@ function DSClass (jobQueue) {
       item.updateItem({
         product_id: s.product_id
       }, {
-        dsPurchaseRate: s.regular_price,
+        dsPurchaseRate: s.suppliers,
         updated_on: Date.now()
       }, function (reslt_err) {
         console.log('processed save_one_product');
@@ -199,7 +199,9 @@ DSClass.prototype.postDSCloudOrders = function postDSCloudOrders (orders, extraQ
   function sortOrdersToArray (o) {
     return {
       'product_id' : o.product_id,
-      'quantity' : o.orderAmount
+      'quantity' : o.orderAmount,
+      'supplier_key': '',
+      'supplier_id': ''
     };
   }
   admin.fetchUser('ck_74d23e186250997246f0c198148441d4')

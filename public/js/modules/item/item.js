@@ -128,15 +128,25 @@ angular.module('item', [])
     };
 
     $scope.addToCart = function (summary){
+      if (!summary.itemPurchaseRate) {
+        return alert ('This item has nos price. It can not be ordered without a price.');
+      }
+      if (!summary.orderSupplier) {
+        if (summary.suppliers[0]) {
+          summary.orderSupplier = summary.suppliers[0];
+        } else {
 
+          return alert('No Supplier has been found or selected for this item. Please provide a supplier to proceed');
+        }
+      }
       var toOrder = {
         itemId: summary._id,
         itemName: summary.itemName,
         sciName: summary.sciName,
         orderAmount: summary.orderAmount,
-        orderPrice: (summary.supplierSelected === 'user_entry')? summary.itemPurchaseRate || 0 : summary.dsPurchaseRate,
-        orderSupplier: (summary.supplierSelected === 'user_entry') ? summary.orderSupplier || summary.suppliers[0] : {},
-        isDrugStocOrder: (summary.supplierSelected === 'user_entry') ? false: true,
+        orderPrice: (summary.isDrugStocOrder)? summary.dsPurchaseRate: summary.itemPurchaseRate,
+        orderSupplier: summary.orderSupplier,
+        isDrugStocOrder: (summary.isDrugStocOrder) ? true: false,
         orderItemSize: summary.itemSize,
         orderDate: Date.now(),
         product_id: summary.product_id,
@@ -180,15 +190,16 @@ angular.module('item', [])
 
 
   $scope.bindAdd = function (sup, product) {
-    $scope.orderSupplier = {
+    $scope.summary.orderSupplier = {
       supplierName: sup.supplierName,
       supplierID: sup.supplierId,
       dsId: sup.supplierDsId
-    }
+    };
     $scope.summary.product_id = product.product_id;
     $scope.summary.dsPurchaseRate = sup.price;
     $scope.addPane();
-  }
+    $scope.summary.isDrugStocOrder= true;
+  };
 
 
 }])
@@ -202,12 +213,12 @@ angular.module('item', [])
           scope.fetchSupplierData.supplierDsId = su.data.ds_sup.distributor_id;
           scope.fetchSupplierData.supplierId = su.data._id;
         }
-      })
+      });
     },
     scope: {
       fetchSupplierData: '=fetchSupplierData'
     }
-  }
+  };
 }])
 .controller('itemAddController', [
   '$scope',
@@ -246,7 +257,7 @@ angular.module('item', [])
           nafdacRegNo: (attributes['Nafdac-no']) ? attributes['Nafdac-no'][0]: '',
           itemCategory: item.categories,
           sku: item.sku,
-          dsPurchaseRate: item.price,
+          dsPurchaseRate: item.suppliers,
           itemPurchaseRate: item.price,
           product_id: item.product_id,
           itemTags: item.tags,
@@ -770,7 +781,7 @@ angular.module('item', [])
         var selectedItemId = _.find(nx, function (name) {
           return name.supplierName = name;
         });
-        scope.orderSupplier = {
+        scope.summary.orderSupplier = {
           supplierID : selectedItemId._id,
           supplierName: selectedItemId.supplierName
         };
