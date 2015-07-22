@@ -6,15 +6,7 @@ block body
   .row-fluid.row-break
     .span2.actioncol
       .search-bar
-        input.input-medium(type="search", ng-model="cartFilter.supplier", placeholder="Search Suppliers")
 
-      button.btn.btn-large.btn-block.btn-success(new-modal="#modal-order-supplied", ng-disabled="!selectedCart.length", ng-click="cart_is_checkedout = false")
-        i.fa.fa-shopping-cart.pull-left
-        | Checkout Items
-      //
-        button.btn.btn-large.btn-block.btn-success(ng-click="send_sms()")
-          i.fa.fa-envelope-o.pull-left
-          |   Send SMS
       button.btn.btn-large.btn-block.btn-default(ng-click="commons.backBtn()") Go Back
     .span10(ng-show="orderCart.length > 0 && !selectedView")
       .row-fluid.fixed-table
@@ -23,7 +15,6 @@ block body
             thead.header
               tr
                 th
-                  input(type="checkbox", ng-model="checkAll", ng-click="checkAllClick")
                 th Item
                 th Quantity
                 th Unit Price (N)
@@ -33,7 +24,8 @@ block body
             tbody(ng-repeat="(key, orderItem) in orderCart | filter: cartFilter | groupBy: 'orderSupplier.supplierName'")
               tr
                 td
-                  input(type="checkbox", checklist-model="selectedCart", checklist-value="or", ng-checked="checkAll")
+                  span.badge.badge-success(style="cursor: pointer", ng-click="init_modal(orderItem)", new-modal="#modal-order-supplied",)
+                    i.fa.fa-shopping-cart.pull-left
                 td <strong>{{key}}</strong>
               tr(ng-repeat="or in orderItem")
                 td

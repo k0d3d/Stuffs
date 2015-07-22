@@ -165,26 +165,30 @@ this.jobQueue = jobQueue;
 
 DSClass.prototype.constructor = DSClass;
 
+//drugstocpasword2015*!@
 
 DSClass.prototype.checkConsumerByEmail = function checkConsumerByEmail (deets) {
   var q = Q.defer(), DSC = this;
 
-  request(_.extend(DSC.requestOptions, {
-    url : DSC.DS_CLOUD_ROUTES.ACTIVE_CONSUMER + '/' + deets.email,
-    method: 'GET',
-    qs : {
-      consumer_key : deets.consumer_key,
-      consumer_secret :deets.consumer_secret
+  request({
+    baseUrl: DSC.DS_CLOUD_URL,
+    url : DSC.DS_CLOUD_ROUTES.ACTIVE_CONSUMER ,
+    method: 'POST',
+    // json: true,
+    form : {
+      'username' : deets.email,
+      'password' :deets.password,
+      'auth_token': 'jZ.<|xWE%-@)H%cX(d)[?fzVnG,*SV1|V=NofI&v #vl/B[T)B+U!.|0p{a,/l5}'
       }
-    }),
+    },
     function (e, r, body) {
       if (e) {
         return q.reject(e);
       }
 
-      var b = JSON.parse(body).customer;
-      b.consumer_key = deets.consumer_key;
-      b.consumer_secret = deets.consumer_secret;
+      var b = JSON.parse(body);
+      // b.consumer_key = deets.key;
+      // b.consumer_secret = deets.secret;
       q.resolve(b);
   });
 
@@ -200,8 +204,9 @@ DSClass.prototype.postDSCloudOrders = function postDSCloudOrders (orders, extraQ
     return {
       'product_id' : o.product_id,
       'quantity' : o.orderAmount,
-      'supplier_key': '',
-      'supplier_id': ''
+      //'meta' :
+      'supplier_key': o.orderSupplier.sup,
+      'supplier_id': o.orderSupplier.dsId
     };
   }
   admin.fetchUser('ck_74d23e186250997246f0c198148441d4')

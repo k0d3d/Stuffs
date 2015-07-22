@@ -11,6 +11,7 @@ var
     // StockCount = require('./stock/stockcount-schema'),
     // Transactions = require('./stock/transaction-schema'),
     UserModel = require('./user/user-schema').UserModel,
+    _ = require('lodash'),
     Q = require('q');
 
 function AdminMethods () {
@@ -62,7 +63,13 @@ AdminMethods.prototype.fetchUser = function fetchUser (csKey) {
       if (err) {
         return q.reject(err);
       }
-      return q.resolve(user);
+      if (user) {
+        var u = user.toObject();
+        u.isLoggedIn = true;
+        q.resolve(_.omit(u, ['consumer_key', 'consumer_secret']));
+      } else {
+        q.reject(new Error('User not found'));
+      }
     });
 
   return q.promise;

@@ -56,7 +56,7 @@ angular.module('admin', [])
       //Calls for the list of created profiles
       biller.profiles(function(r){
         $scope.bill.profiles = r;
-        angular.forEach(r, function(value, index){
+        angular.forEach(r, function(value){
           $scope.bill.p.push(value.profileName);
         });
       });
@@ -103,7 +103,7 @@ angular.module('admin', [])
           //Holds just the names as elements of an array
           $scope.bill.l =[];
           //use angular or underscore maping function
-          $scope.bill.l = _.map(r, function(value, index){
+          $scope.bill.l = _.map(r, function(value){
             return value.name;
           });
           // angular.forEach(r, function(value, index){
@@ -184,6 +184,24 @@ angular.module('admin', [])
 
     $scope.login_user = function (f) {
       adminService.login(f);
+      adminService.loadUserProfile()
+      .then(function (userInfo) {
+        if (userInfo.data) {
+          $scope.facility = userInfo.data;
+        }
+      });
+    };
+
+    $scope.logout_user = function (f) {
+      adminService.logout()
+      .then(function () {
+        adminService.loadUserProfile()
+        .then(function (userInfo) {
+          if (userInfo.data) {
+            $scope.facility = userInfo.data;
+          }
+        });
+      });
     };
 
     $scope.saveFacilityInformation = function saveFacilityInformation (data){
@@ -206,6 +224,10 @@ angular.module('admin', [])
 
 .factory('adminService', ['$http', 'Notification', 'Language',  function(http, N, L){
   var a = {};
+
+  a.logout = function () {
+    return http.delete('/admin/session');
+  };
 
   a.getUpdates = function(cb){
     http.get('/api/admin/updates')
@@ -261,7 +283,7 @@ angular.module('admin', [])
   a.login = function(deets){
     return http.post('/admin/session', {
       email: deets.email,
-      consumer_key: deets.consumer_key,
+      password: deets.password,
       consumer_secret: deets.consumer_secret
     })
     .then(function () {

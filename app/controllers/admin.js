@@ -35,7 +35,10 @@ module.exports.routes = function(app, jobQueue){
 
   app.route('/api/admin/user-profile')
   .get(function (req, res, next) {
-    admin.fetchUser(req.consumer_key)
+    if (!req.cookies.ckey) {
+      return res.status(200).json({});
+    }
+    admin.fetchUser(req.cookies.ckey)
     .then(function (user) {
        if (user) {
         return res.json(user);
@@ -46,7 +49,7 @@ module.exports.routes = function(app, jobQueue){
     });
   })
   .post(function (req, res, next) {
-    admin.updateUserProfile(req.consumer_key, req.body)
+    admin.updateUserProfile(req.cookies.ckey, req.body)
     .then(function (r) {
       res.json(r);
     }, function (err) {
@@ -131,20 +134,44 @@ module.exports.routes = function(app, jobQueue){
 
   app.post('/admin/session', function(req, res, next){
     var dsitem = new DSItems(jobQueue);
-    admin.updateUserProfile(req.body.consumer_key, req.body)
-    .then(function () {
-      res.json(true);
-    }, function (err) {
-      next(err);
-    });
-    return ;
+
+//    return ;
     dsitem.checkConsumerByEmail(req.body)
     .then(function(d){
-      d.customer_id = d.id;
+      if (d.ID) {
 
+        // d.customer_id = d.ID;
+        admin.updateUserProfile(d.key, {
+          customer_id: d.ID,
+          consumer_key: d.key,
+          consumer_secret: d.secret,
+          email: d.user_email,
+          username: d.user_login
+        })
+        .then(function () {
+          res.cookie('ckey', d.key, {
+            httpOnly: true,
+            expires: new Date(Date.now() + 24 * 60 * 60 * 1000)
+          });
+          res.json(true);
+        }, function (err) {
+          next(err);
+        });
+      } else {
+        next(new Error('failed login'));
+      }
     }, function (err) {
       next(err);
     });
+  });
+
+  app.delete('/admin/session', function(req, res) {
+    if (req.cookies.ckey) {
+      res.clearCookie('ckey');
+      res.json(true);
+    } else {
+      res.status(400);
+    }
   });
   //Get facility information
   app.get('/api/admin/facility', function (req, res, next) {

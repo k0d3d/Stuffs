@@ -48,6 +48,11 @@ config(['$routeProvider',function($routeProvider){
     $scope.selectedCart = angular.copy($scope.orderCart);
   };
 
+  $scope.init_modal = function (selectedItems) {
+    $scope.cart_is_checkedout = false;
+    $scope.selectedCart = selectedItems;
+  };
+
 
   $scope.placeOrder = function () {
 

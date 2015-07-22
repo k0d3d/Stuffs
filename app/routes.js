@@ -23,6 +23,8 @@ module.exports = function (app, jobQueue) {
   transaction.routes(app);
   var user = require('./controllers/users');
   user.routes(app);
+  var hmis = require('./controllers/hmis');
+  hmis.routes(app);
 
   app.get('/', function(req, res){
       res.render('index',{

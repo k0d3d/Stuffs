@@ -29,14 +29,17 @@ div(ng-controller="usersController")
         .control-group
           .controls
             input(style='margin-bottom: 15px;', type='text', placeholder='Email Address', name='email',ng-model="facility.email", required)
-        .control-group
+        .control-group(ng-hide="facility.isLoggedIn")
           .controls
-            input(style='margin-bottom: 15px;', type='text', placeholder='Consumer Key', name='consumer_key',ng-model="facility.consumer_key", required)
+            input(style='margin-bottom: 15px;', type='password', placeholder='Password', name='consumer_key',ng-model="facility.password", required)
+        //
+          .control-group
+            .controls
+              input(style='margin-bottom: 15px;', type='password', placeholder='Consumer Secret', name='consumer_secret',ng-model="facility.consumer_secret", required)
         .control-group
-          .controls
-            input(style='margin-bottom: 15px;', type='password', placeholder='Consumer Secret', name='consumer_secret',ng-model="facility.consumer_secret", required)
-        .control-group
-          .controls
+          .controls(ng-hide="facility.isLoggedIn")
             button#sign-in.btn.btn-primary(type='submit', style="border-radius: 6px", ng-disabled="login_form.$invalid", ng-click="login_user(facility)") Activate
+          .controls(ng-show="facility.isLoggedIn")
+            button#sign-in.btn.btn-primary(type='submit', style="border-radius: 6px",  ng-click="logout_user(facility)") Logout
 
 

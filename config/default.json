@@ -20,7 +20,7 @@
         }
     },
     "api":{
-        "HMIS_URL" : "http://localhost:8888",
+        "HMIS_URL" : "http://localhost:8888/hmisdemo",
         "HMIS_ROUTES" : {
           "ALL_ITEMS" : "/items",
           "ALL_SUPPLIERS": "/suppliers",
@@ -32,7 +32,7 @@
           "ALL_SUPPLIERS": "/wc-api/v2/customers/suppliers",
           "ALL_WC_PRODUCTS" : "/wc-api/v2/products",
           "CREATE_ORDER" : "/wc-api/v2/orders",
-          "ACTIVE_CONSUMER" : "/wc-api/v2/customers/email"
+          "ACTIVE_CONSUMER" : "/ds-app/ds-access.php"
         },
         "DS_CLOUD_PAGE_LIMIT" : 100
     }

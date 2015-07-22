@@ -120,15 +120,6 @@ function afterResourceFilesLoad () {
 
     require('./lib/passport.js')(passport);
 
-    app.use(function (req, res, next) {
-      // console.log(req.cookies);
-      // check if client sent cookie
-      if (!req.consumer_key){
-        req.consumer_key = 'ck_74d23e186250997246f0c198148441d4';
-      }
-      next();
-    });
-
     //Initialize Passport
     app.use(passport.initialize());
 
@@ -258,7 +249,6 @@ require('./lib/db').open()
   console.log('Database Connection open...');
   require('mongoose-pureautoinc').init(mongoose);
 
-  require('./lib/boot')();
   afterResourceFilesLoad();
 
   //load resource
