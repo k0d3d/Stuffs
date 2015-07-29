@@ -523,7 +523,26 @@
 			"file": "app/views/items/index.jade",
 			"settings":
 			{
-				"buffer_size": 6905,
+				"buffer_size": 6044,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "// HMIS Plug and Play Integration\n// ------------------------------\n\n\n// This document explains how RESTful request\n// can be made to DIMS to carry out inventory\n// specific operations like ordering and item\n// querying. DIMS HTTP server runs on port 8888.\n//\nvar util = require('util'),\n    request = require('request'),\n    apiConfig = require('config').api,\n    Q = require('q'),\n    _ = require('lodash'),\n    Items = require('../models/item/item-schema').Item;\n\n\n\n\n\nmodule.exports.routes = function(app){\n\n\n  function createOrUpdateItem (items, ref) {\n    var q = Q.defer();\n    var item = items.pop();\n    var allerrs = [];\n\n    Items.findOne({\n      linkedIds: item[ref]\n    }, function (err, doc) {\n      if (err) {\n        allerrs.push(err);\n      }\n      if (doc) {\n        if (doc.linkedIds.length) {\n          if (_.indexOf(doc.linkedIds, item[ref]) === -1) {\n            doc.itemName = item.itemname;\n            doc.linkedIds.push(item[ref]);\n            doc.save(function (err) {\n               if (err) {\n                allerrs.push(err);\n               }\n            });\n          }\n        }\n      } else {\n        var new_item = new Items();\n        new_item.linkedIds.push(item[ref]);\n        new_item.itemName = item.itemname;\n        new_item.save(function (err) {\n          if (err) {\n            allerrs.push(err);\n          }\n        });\n      }\n      if (items.length) {\n        createOrUpdateItem(items, ref);\n      } else {\n        q.resolve(true);\n      }\n    });\n\n    return q.promise;\n  }\n\n\n  app.get('/hmisdemo/items', function (req, res) {\n    res.json({'items':[\n      {'itemcode':'PAC01', 'itemname':'PANADOL', 'unitquantity':'12', 'unitcost':'300'},\n      {'itemcode':'PAC02', 'itemname':'PANADOL', 'unitquantity':'12', 'unitcost':'300'},\n      {'itemcode':'PAC03', 'itemname':'PANADOL', 'unitquantity':'12', 'unitcost':'300'}\n    ]});\n  });\n\n  //get all items from the hmis system.\n  //TODO: add a date or timestamp parameter\n  //to query for items added after a specific date.\n  //this way, a large payload is avoided after a\n  //major or initial pull request\n  //This route expects the a GET request which must contain a\n  //ref query parameter where the value of 'ref' is the a string\n  //which is stored as an element of the linkedIds array\n  //on DIMS item-schema that matches an item on DIMS to an item\n  //on the HMIS. eg\n  //\n  //`var ItemSchema = new Schema({\n  //   itemID: {type: Number, default: ''},\n  //   itemType: {type: String, default: ''},\n  //   itemName: {type: String, default: ''},\n  //   sciName: {type: String, default: ''},\n  //   itemCategory: [\n  //     {type: String}\n  //   ],\n  //   linkedIds : [{**itemcode**}],\n  // });`\n  //\n  //By default, the JSON response for this request is an array of items.\n  //If your response is wrapped as the value of a property eg. {items: [{Object}, {Object}]},\n  //you need to supply a query parameter called wrap where its value is the name of the\n  //the property containg the array of items requested e.g '?wrap = items'.\n  app.get('/hmis/items', function (req, res, next) {\n    if (!req.query.ref) {\n      return res.status(400).json({\n        error: 1,\n        message: 'Reference value is absent.',\n        tip: 'Your query should contain a \"ref=??\" eg. http://dims:8888?ref=itemCode'\n      });\n    }\n    request({\n      baseUrl: apiConfig.HMIS_URL,\n      url :  apiConfig.HMIS_ROUTES.ALL_ITEMS,\n      method: 'GET'\n      },\n      function (e, r, body) {\n        if (e) {\n          return next(e);\n        }\n\n        var b = JSON.parse(body);\n        if (req.query.wrap) {\n          if (!req.query.wrap.length) {\n            return res.status(400).json({\n              error: 1,\n              message: 'Empty value for \"wrap\"',\n              tip: 'Provide a value for \"wrap\" or remove it'\n            });\n          }\n          b = b[req.query.wrap];\n        }\n        if (b && b.length) {\n          var itemsCount = b.length;\n          createOrUpdateItem(b, req.query.ref)\n          .then(function (done) {\n            if (done) {\n              return res.json({no: itemsCount});\n            }\n          }, function (err) {\n            return next(err);\n          });\n        } else {\n          res.status(400).json({\n            error: 1,\n            message: 'Request expects a Array-like response',\n            tip: 'Respond with array of objects [{object}, {Object}]'\n          });\n        }\n\n    });\n  });\n\n  //get all suppliers from the hmis system\n  //TODO: the same date parameter should be passed\n  //along with query.\n  app.get('/hmis/suppliers', function (req, res, next) {\n    if (!req.query.ref) {\n      return res.status(400).json({\n        error: 1,\n        message: 'Reference value is absent.',\n        tip: 'Your query should contain a \"ref=??\" eg. http://dims:8888?ref=supplierId'\n      });\n    }\n\n    request({\n      baseUrl: apiConfig.HMIS_URL,\n      url :  apiConfig.HMIS_ROUTES.ALL_SUPPLIERS,\n      method: 'GET'\n      }, function (e, r, body) {\n        if (e) {\n          return next(e);\n        }\n\n        var b = JSON.parse(body);\n        if (req.query.wrap) {\n          if (!req.query.wrap.length) {\n            return res.status(400).json({\n              error: 1,\n              message: 'Empty value for \"wrap\"',\n              tip: 'Provide a value for \"wrap\" or remove it'\n            });\n          }\n          b = b[req.query.wrap];\n        }\n        if (b && b.length) {\n          var itemsCount = b.length;\n          createOrUpdateItem(b, req.query.ref)\n          .then(function (done) {\n            if (done) {\n              return res.json({no: itemsCount});\n            }\n          }, function (err) {\n            return next(err);\n          });\n        } else {\n          res.status(400).json({\n            error: 1,\n            message: 'Request expects a Array-like response',\n            tip: 'Respond with array of objects [{object}, {Object}]'\n          });\n        }\n    })\n  });\n\n  //dummy routes to test data\n  //\n  //items\n  //suppliers\n  //low items\n\n\n};",
+			"file": "app/controllers/hmis.js",
+			"file_size": 4618,
+			"file_write_time": 130826359144730613,
+			"settings":
+			{
+				"buffer_size": 6010,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "app/controllers/bridge.js",
+			"settings":
+			{
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -536,13 +555,10 @@
 			}
 		},
 		{
-			"contents": "var\n    ItemFn = require('../models/item'),\n    _ = require('lodash'),\n    Ndl = require('../models/nafdac').ndl,\n    cors = require('../../config/middlewares/cors'),\n    DsItem = require('../models/dsitem'),\n    util = require('util');\n\n\n\n\n\n\n\n\nmodule.exports.routes = function(app, jobQueue){\n  var itemInstance = new ItemFn();\n  var dsItems = new DsItem(jobQueue);\n  var ndls = new Ndl();\n\n  app.get('/items', function(req, res){\n      res.render('index',{\n        title: 'All Items'\n      });\n  });\n  app.get('/items/index', function(req, res){\n      res.render('items/index');\n  });\n\n  app.get('/items/view/low', function(req, res){\n    res.render('index');\n  });\n\n\n  //Item routes\n  app.get('/items/add',function(req,res){\n    res.render('index', {\n      title: 'New Inventory Item',\n    });\n  });\n\n  app.get('/items/:itemId/edit/:action',function(req,res){\n    res.render('index', {\n      title: 'Update Item',\n    });\n  });\n\n  app.get('/items/:itemId/ds-add/:action',function(req,res){\n    res.render('index', {\n      title: 'Update Item',\n    });\n  });\n\n  /**\n  *Items Routes\n  */\n  //List all Items\n  // app.get('/api/items/listAll', itemInstance.list);\n  app.get('/api/items/listAll', function (req, res, next) {\n    itemInstance.list()\n    .then(function (listofItems) {\n      res.json(listofItems);\n    }, function (err) {\n      next(err);\n    });\n  });\n\n  //app.get('/api/items/listOne/:id/:option',listOne);\n\n  //Fetches data on an item, either full or summary by location\n  app.get('/api/items/:id/options/:option/locations/:locationId', cors, function(req, res, next){\n    var option = req.params.option, itemId = req.params.id, location = req.params.locationId;\n    itemInstance.listOne(itemId, option, location, function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.status(200).json(r);\n      }\n    });\n  });\n\n  //Fetches data for an item when editing\n  app.get('/api/items/:item_id/edit', function(req, res, next){\n    var body = req.body;\n    var itemId = req.params.item_id;\n    itemInstance.itemFields(itemId, body, function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  //Fetches data for an item when editing\n  app.get('/api/items/:item_id/ds-product', function(req, res, next){\n    var itemId = req.params.item_id;\n    dsItems.findDrugstocProductById(itemId)\n    .then(function(r){\n\n        res.json(r);\n    }, function (err) {\n        next(err);\n    });\n  });\n\n  //Updates an Item\n  app.put('/api/items/:id/edit', function(req, res, next){\n    var itemId = req.params.id;\n    var body = req.body;\n    itemInstance.updateItem(itemId, body, function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, true);\n      }\n    });\n  });\n\n  //Typeahead Route\n  app.get('/api/items/typeahead', cors, function (req, res, next) {\n    var needle = req.query.q;\n    itemInstance.typeahead(needle, function (r) {\n      if (util.isError(r)) {\n        next(r);\n      } else {\n        res.json(200, r);\n      }\n    });\n  });\n\n  //Nafdac Typeahead Route\n  app.get('/api/nafdacdrugs', cors,  function(req, res, next){\n    var limit = req.query.limit;\n    ndls.searchComposition(req.params.needle, req.params.page, limit, function(r){\n      if(util.isError(r)){\n        next(r);\n        return;\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  app.get('/api/items/search', function(req, res, next) {\n    if (!req.query.scope){\n      return res.status(400).json({'message' : 'Invalid Request'});\n    }\n\n    if (!req.query.s) {\n      return res.status(400).json({'message' : 'Empty Query'});\n    }\n    var options = {\n      limit: req.query.limit || 20\n    };\n    if (req.query.page) {\n      options.skip = req.query.page * options.limit;\n    }\n\n\n    var query = req.query.s;\n    // if (!isNaN(query)) {\n    //   options.conditions = {product_id: query};\n    //   // options.conditions = {'product_id': 4207};\n    // }\n\n    if (req.query.scope === 'drugstoc') { \n      dsItems.findDrugstocProduct(query, options, null, function (r) {\n        res.json(r);\n      });\n      // .then(function (result) {\n      //   res.json(result);\n      // }, function (err) {\n      //   next(err);\n      // });\n    }\n    if (req.query.scope === 'inventory') {\n      itemInstance.findItem(query, options, null, function  (result) {\n        res.json(result);\n      });\n    }\n    if (req.query.scope === 'nafdac') {\n      itemInstance.findRegisteredItem(query, options, null, function  (result) {\n        res.json(result);\n      });\n    }\n    if (req.query.scope === 'checkProduct') {\n      itemInstance.searchInventory({product_id: query})\n      .then(function (result) {\n        res.json(result);\n      }, function (err) {\n        next(err);\n      });\n    }\n\n\n  });\n\n  app.get('/api/nafdacdrugs/typeahead/needle/:needle', function (req, res, next) {\n    itemInstance.nafdacTypeAhead(req.param('needle'))\n    .then(function (matches) {\n      res.json(matches);\n    }, function (err) {\n      next(err);\n    });\n  });\n\n  //NAFDAC Fetch item by Registeration Number\n  app.get('/api/nafdacdrugs/typeahead', function(req, res, next){\n    itemInstance.fetchByRegNo(req.query.q, function(r){\n      if(util.isError(r)){\n        next(r);\n      }else if(_.isEmpty(r)){\n        res.json(400, false);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  //Create a new Item\n  app.post('/api/items',function(req, res, next){\n    itemInstance.create(req.body, function(result){\n      if (result instanceof Error) {\n        return next(result);\n      }\n      res.json(true);\n    });\n  });\n\n\n  //Delete Item\n  app.delete('/api/items/:itemId', function(req, res){\n    itemInstance.deleteItem(req.param('itemId'), function(i){\n      res.json(200, {state: i});\n    });\n  });\n\n  //Item Category Routes.///\n  app.post('/api/items/category', function(req, res, next){\n    itemInstance.addCategory(req.body.name, req.body.parent, function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  app.get('/api/items/category', function(req, res, next){\n    itemInstance.listCategory(function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  app.delete('/api/items/category/:categoryId', function(req, res, next){\n    var catId = req.params.categoryId;\n    itemInstance.delCat(catId, function(i){\n      if(util.isError(i)){\n        next(i);\n      }else{\n        res.json(200, true);\n      }\n    });\n  });\n  //Item Form Routes.///\n  app.post('/api/items/form', function(req, res, next){\n    itemInstance.addForm(req.body.name, function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  app.get('/api/items/form', function(req, res, next){\n    itemInstance.listForm(function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  app.delete('/api/items/category/:form_id', function(req, res, next){\n    var catId = req.params.form_id;\n    itemInstance.removeForm(catId, function(i){\n      if(util.isError(i)){\n        next(i);\n      }else{\n        res.json(200, true);\n      }\n    });\n  });\n  //Item Packaging Routes.///\n  app.post('/api/items/packaging', function(req, res, next){\n    itemInstance.addPackaging(req.body.name, function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  app.get('/api/items/packaging', function(req, res, next){\n    itemInstance.listPackaging(function(r){\n      if(util.isError(r)){\n        next(r);\n      }else{\n        res.json(200, r);\n      }\n    });\n  });\n\n  app.delete('/api/items/category/:package_id', function(req, res, next){\n    var catId = req.params.package_id;\n    itemInstance.removePackage(catId, function(i){\n      if(util.isError(i)){\n        next(i);\n      }else{\n        res.json(200, true);\n      }\n    });\n  });\n\n  app.get('/api/dsproducts', function (req, res, next) {\n    dsItems.findByNafdacNo(req.query.s)\n    .then(function (r) {\n      res.json(r);\n    }, function (err) {\n      next(err);\n      // res.status(400).json(err.message);\n    });\n  });\n\n};\n\n",
 			"file": "app/controllers/items.js",
-			"file_size": 8218,
-			"file_write_time": 130778962500802258,
 			"settings":
 			{
-				"buffer_size": 8219,
+				"buffer_size": 8218,
 				"line_ending": "Unix"
 			}
 		},
@@ -550,24 +566,24 @@
 			"file": "public/js/modules/item/item.js",
 			"settings":
 			{
-				"buffer_size": 22161,
+				"buffer_size": 23428,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "config/default.json",
+			"settings":
+			{
+				"buffer_size": 1064,
+				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "public/css/app.css",
 			"settings":
 			{
-				"buffer_size": 16160,
+				"buffer_size": 16595,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "public/js/modules/order/order.js",
-			"settings":
-			{
-				"buffer_size": 21224,
-				"line_ending": "Windows"
 			}
 		},
 		{
@@ -685,13 +701,12 @@
 	"expanded_folders":
 	[
 		"/home/home/integrabuntu/Projects/Integra",
-		"/home/home/integrabuntu/Projects/Integra/app",
 		"/home/home/integrabuntu/Projects/Integra/app/controllers",
 		"/home/home/integrabuntu/Projects/Integra/app/models",
 		"/home/home/integrabuntu/Projects/Integra/app/models/item",
 		"/home/home/integrabuntu/Projects/Integra/app/views",
 		"/home/home/integrabuntu/Projects/Integra/app/views/orders",
-		"/home/home/integrabuntu/Projects/Integra/public",
+		"/home/home/integrabuntu/Projects/Integra/config",
 		"/home/home/integrabuntu/Projects/Integra/public/js",
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules",
 		"/home/home/integrabuntu/Projects/Integra/public/js/modules/item",
@@ -1096,7 +1111,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -1105,15 +1120,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6905,
+						"buffer_size": 6044,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2271,
-								2271
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1129,14 +1144,86 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 385.0,
+						"translation.y": 273.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
+					"file": "app/controllers/hmis.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6010,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5918,
+								5918
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"auto_complete": false,
+							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2322.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/controllers/bridge.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "javascript",
+							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
+							"incomplete_sync": null,
+							"open_with_edit": true,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
 					"file": "app/views/orders/add.jade",
 					"semi_transient": false,
 					"settings":
@@ -1168,16 +1255,16 @@
 						"translation.y": 192.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 4,
 					"file": "app/controllers/items.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8219,
+						"buffer_size": 8218,
 						"regions":
 						{
 						},
@@ -1205,30 +1292,30 @@
 						"translation.y": 1920.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 6,
 					"type": "text"
 				}
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 1,
 			"sheets":
 			[
 				{
-					"buffer": 3,
+					"buffer": 5,
 					"file": "public/js/modules/item/item.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 22161,
+						"buffer_size": 23428,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								847,
-								847
+								653,
+								653
 							]
 						],
 						"settings":
@@ -1245,27 +1332,63 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 144.0,
+						"translation.y": 128.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "public/css/app.css",
-					"semi_transient": false,
+					"buffer": 6,
+					"file": "config/default.json",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 16160,
+						"buffer_size": 1064,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5222,
-								5222
+								616,
+								616
+							]
+						],
+						"settings":
+						{
+							"WordCountShouldRun": false,
+							"WordCountSyntax": "json",
+							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
+							"incomplete_sync": null,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "public/css/app.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16595,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1284,47 +1407,11 @@
 						"translation.y": 3921.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "public/js/modules/order/order.js",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 21224,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								10492,
-								10492
-							]
-						],
-						"settings":
-						{
-							"WordCountShouldRun": false,
-							"WordCountSyntax": "javascript",
-							"color_scheme": "Packages/User/Color Highlighter/themes/predawn (SL).tmTheme",
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 4512.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
+					"buffer": 8,
 					"file": "app/models/item/item-schema.js",
 					"semi_transient": false,
 					"settings":
@@ -1356,7 +1443,7 @@
 						"translation.y": 48.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 8,
 					"type": "text"
 				}
 			]

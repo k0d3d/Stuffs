@@ -51,7 +51,8 @@ var ItemSchema = new Schema({
   groupedItems: [{
     itemId: {type: Schema.ObjectId},
     itemName: {type: String}
-  }]
+  }],
+  lowNotice: {type: Boolean}
 });
 
 var ItemCategorySchema = new Schema({

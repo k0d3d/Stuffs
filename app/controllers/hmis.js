@@ -12,7 +12,8 @@ var util = require('util'),
     apiConfig = require('config').api,
     Q = require('q'),
     _ = require('lodash'),
-    Items = require('../models/item/item-schema').Item;
+    Items = require('../models/item/item-schema').Item,
+    Supplier = require('../models/user/supplier-schema');
 
 
 
@@ -36,6 +37,8 @@ module.exports.routes = function(app){
         if (doc.linkedIds.length) {
           if (_.indexOf(doc.linkedIds, item[ref]) === -1) {
             doc.itemName = item.itemname;
+            doc.itemPurchaseRate = item.unitcost;
+            doc.itemSize = item.unitquantity;
             doc.linkedIds.push(item[ref]);
             doc.save(function (err) {
                if (err) {
@@ -48,6 +51,8 @@ module.exports.routes = function(app){
         var new_item = new Items();
         new_item.linkedIds.push(item[ref]);
         new_item.itemName = item.itemname;
+        doc.itemPurchaseRate = item.unitcost;
+        doc.itemSize = item.unitquantity;
         new_item.save(function (err) {
           if (err) {
             allerrs.push(err);
@@ -65,12 +70,71 @@ module.exports.routes = function(app){
   }
 
 
+  function createOrUpdateSupplier (sups, ref) {
+    var q = Q.defer();
+    var item = sups.pop();
+    var allerrs = [];
+
+    Supplier.findOne({
+      linkedIds: item[ref]
+    }, function (err, doc) {
+      if (err) {
+        allerrs.push(err);
+      }
+      if (doc) {
+        if (doc.linkedIds.length) {
+          if (_.indexOf(doc.linkedIds, item[ref]) === -1) {
+            doc.supplierName = item.suppliername;
+            doc.phoneNumber = item.contactphone;
+            doc.email = item.emailaddress;
+            doc.address = item.contactaddress;
+            doc.contactPerson = item.contactperson;
+            doc.linkedIds.push(item[ref]);
+            doc.save(function (err) {
+               if (err) {
+                allerrs.push(err);
+               }
+            });
+          }
+        }
+      } else {
+        var new_item = new Supplier();
+        new_item.linkedIds.push(item[ref]);
+        new_item.supplierName = item.suppliername;
+        new_item.phoneNumber = item.contactphone;
+        new_item.email = item.emailaddress;
+        new_item.address = item.contactaddress;
+        new_item.contactPerson = item.contactperson;
+        new_item.save(function (err) {
+          if (err) {
+            allerrs.push(err);
+          }
+        });
+      }
+      if (sups.length) {
+        createOrUpdateItem(sups, ref);
+      } else {
+        q.resolve(true);
+      }
+    });
+
+    return q.promise;
+  }
+
+
   app.get('/hmisdemo/items', function (req, res) {
     res.json({'items':[
       {'itemcode':'PAC01', 'itemname':'PANADOL', 'unitquantity':'12', 'unitcost':'300'},
       {'itemcode':'PAC02', 'itemname':'PANADOL', 'unitquantity':'12', 'unitcost':'300'},
       {'itemcode':'PAC03', 'itemname':'PANADOL', 'unitquantity':'12', 'unitcost':'300'}
     ]});
+  });
+  app.get('/hmisdemo/suppliers', function (req, res) {
+    res.json({'suppliers':[
+{'suppliername':'ADFEM1', 'contactphone':'098888888', 'contactaddress':'12 ,layoutdrive , lagos', 'emailaddress':'adfem1@yahoo.com', 'contactperson':'OLUMIDE OLUFEMI'},
+{'suppliername':'ADFEM2', 'contactphone':'098888888', 'contactaddress':'12 ,layoutdrive , lagos', 'emailaddress':'adfem2@yahoo.com', 'contactperson':'OLUMIDE OLUFEMI'},
+{'suppliername':'ADFEM3', 'contactphone':'098888888', 'contactaddress':'12 ,layoutdrive , lagos', 'emailaddress':'adfem3@yahoo.com', 'contactperson':'OLUMIDE OLUFEMI'}
+]});
   });
 
   //get all items from the hmis system.
@@ -137,7 +201,7 @@ module.exports.routes = function(app){
             }
           }, function (err) {
             return next(err);
-          })
+          });
         } else {
           res.status(400).json({
             error: 1,
@@ -152,7 +216,54 @@ module.exports.routes = function(app){
   //get all suppliers from the hmis system
   //TODO: the same date parameter should be passed
   //along with query.
-  //
+  app.get('/hmis/suppliers', function (req, res, next) {
+    if (!req.query.ref) {
+      return res.status(400).json({
+        error: 1,
+        message: 'Reference value is absent.',
+        tip: 'Your query should contain a "ref=??" eg. http://dims:8888?ref=supplierId'
+      });
+    }
+
+    request({
+      baseUrl: apiConfig.HMIS_URL,
+      url :  apiConfig.HMIS_ROUTES.ALL_SUPPLIERS,
+      method: 'GET'
+      }, function (e, r, body) {
+        if (e) {
+          return next(e);
+        }
+
+        var b = JSON.parse(body);
+        if (req.query.wrap) {
+          if (!req.query.wrap.length) {
+            return res.status(400).json({
+              error: 1,
+              message: 'Empty value for "wrap"',
+              tip: 'Provide a value for "wrap" or remove it'
+            });
+          }
+          b = b[req.query.wrap];
+        }
+        if (b && b.length) {
+          var suplCount = b.length;
+          createOrUpdateSupplier(b, req.query.ref)
+          .then(function (done) {
+            if (done) {
+              return res.json({no: suplCount});
+            }
+          }, function (err) {
+            return next(err);
+          });
+        } else {
+          res.status(400).json({
+            error: 1,
+            message: 'Request expects a Array-like response',
+            tip: 'Respond with array of objects [{object}, {Object}]'
+          });
+        }
+    });
+  });
 
   //dummy routes to test data
   //
@@ -161,4 +272,4 @@ module.exports.routes = function(app){
   //low items
 
 
-}
+};
