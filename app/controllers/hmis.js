@@ -265,11 +265,8 @@ module.exports.routes = function(app){
     });
   });
 
-  //dummy routes to test data
-  //
-  //items
-  //suppliers
   //low items
+  app.get()
 
 
 };
