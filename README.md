@@ -1,16 +1,6 @@
-# Integra Drug Store
+Open source Modular Inventory Management Solution ( OpenMIMS )
 
-Lead Developer 
-Michael Koded Rhema
-
-Dependencies
-Node.js
-Mongo DB
-Angular JS
-
-Testing
-Jasmine-node
-
-@pinkybrayne
-
-CopyRight c2013 Integra Health
+Sprinkle in amazing Node.js
+then Awesome AngularJS 2. 
+Alot of coffee and boredom,
+and yeah yeah i did it....
