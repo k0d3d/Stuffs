@@ -7,7 +7,7 @@
         "database": "drugstocpc",
         "server": "ds155087.mlab.com",
         "user": "heroku_fggc8tmw",
-        "password": "rnnmn8k19kr3bkcqr6v2scu5fm"
+        "password": "rnnmn8k19kr3bkcqr6v2scu5fm",
         "port": 55087
     },    
     "express": {
