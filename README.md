@@ -1,5 +1,4 @@
-# Integra Drug Store
-
+#Inventory Management in NodeJS
 Lead Developer
 Michael Koded Rhema
 
