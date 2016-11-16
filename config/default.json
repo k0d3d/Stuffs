@@ -4,7 +4,7 @@
         "main_stock_id": ""
     },
     "db": {
-        "database": "drugstocpc",
+        "database": "heroku_fggc8tmw",
         "server": "ds155087.mlab.com",
         "user": "heroku_fggc8tmw",
         "password": "rnnmn8k19kr3bkcqr6v2scu5fm",
