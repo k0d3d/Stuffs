@@ -3,6 +3,13 @@
         "name": "Integra Drug Stoc",
         "main_stock_id": ""
     },
+    "db": {
+        "database": "drugstocpc",
+        "server": "ds155087.mlab.com",
+        "user": "heroku_fggc8tmw",
+        "password": "rnnmn8k19kr3bkcqr6v2scu5fm"
+        "port": 27017
+    },    
     "express": {
         "secret": "fwse^$NHJNH922A^Nm9s))*Z&B!@g7509",
         "cors" : {
