@@ -4,7 +4,7 @@
 
 // pull in the package json
 var pjson = require('./package.json');
-console.log('DDIM version: ' + pjson.version);
+console.log('Stuffs version: ' + pjson.version);
 
 // REQUIRE SECTION
 var express = require('express'),
@@ -255,14 +255,14 @@ require('./lib/db').open()
 
   // actual application start
   app.listen(port);
-  console.log('DrugStoc Desktop Inventory Manager started on port ' + port);
+  console.log('Inventory Manager started on port ' + port);
   // CATASTROPHIC ERROR
   app.use(function(err, req, res){
 
     console.error(err.stack);
 
     // make this a nicer error later
-    res.status(500).send('Ewww! Something got broken on DDIM. Getting some tape and glue');
+    res.status(500).send('Ewww! Something got broken. Getting some tape and glue');
 
   });
 
