@@ -114,7 +114,8 @@ function afterResourceFilesLoad () {
             autoReconnect: true,
             username: config.db.user,
             password: config.db.password,
-            collection: "mongoStoreSessions"
+            collection: "mongoStoreSessions",
+            url: config.db.url
         })
     }));
 
