@@ -12,8 +12,8 @@
   "private": false,
   "author": "Michael Rhema <michael.rhema@gmail.com>",
   "engines": {
-    "node": "0.10.x",
-    "npm": "1.2.x"
+    "node": "6.0.0",
+    "npm": "3.8.6"
   },
   "scripts": {
     "start": "NODE_ENV=development ./node_modules/.bin/nodemon server.js",
