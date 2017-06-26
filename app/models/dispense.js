@@ -6,7 +6,7 @@ var
     Biller = require('./bill').bills,
     config = require('config'),
     _ = require('underscore'),
-    rest = require('restler'),
+    rest = require('request'),
 
     EventRegister = require('../../lib/event_register').register,
     util = require('util');

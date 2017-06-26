@@ -103,22 +103,33 @@ function afterResourceFilesLoad () {
 
     // setup session management
     console.log('setting up session management, please wait...');
+    let mUrl = url.parse(process.env.MONGOLAB_URI)
     app.use(session({
         resave: true,
         saveUninitialized: true,
         secret: config.express.secret,
         store: new MongoStore({
-            db: config.db.database,
-            host: config.db.server,
-            port: config.db.port,
+            db: mUrl.pathname.split('/')[1],
+            host: mUrl.hostname,
+            port: mUrl.port,
             autoReconnect: true,
-            username: config.db.user,
-            password: config.db.password,
-            collection: "mongoStoreSessions"
+            username: mUrl.auth.split(':')[0],
+            password: mUrl.auth.split(':')[1],
+            collection: "mongoStoreSessions",
+            url: process.env.MONGOLAB_URI
         })
     }));
 
     require('./lib/passport.js')(passport);
+
+    app.use(function (req, res, next) {
+      // console.log(req.cookies);
+      // check if client sent cookie
+      if (!req.consumer_key){
+        req.consumer_key = 'ck_74d23e186250997246f0c198148441d4';
+      }
+      next();
+    });
 
     //Initialize Passport
     app.use(passport.initialize());
@@ -249,12 +260,13 @@ require('./lib/db').open()
   console.log('Database Connection open...');
   require('mongoose-pureautoinc').init(mongoose);
 
+  require('./lib/boot')();
   afterResourceFilesLoad();
 
   //load resource
 
   // actual application start
-  app.listen(port);
+  app.listen(port, process.env.IP);
   console.log('DrugStoc Desktop Inventory Manager started on port ' + port);
   // CATASTROPHIC ERROR
   app.use(function(err, req, res){

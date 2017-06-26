@@ -5,7 +5,7 @@
 
 var
     Supplier = require('./user/supplier-schema'),
-    sendSMS = require('../../lib/smsSend'),
+    // sendSMS = require('../../lib/smsSend'),
     util = require('util'),
     Admin = require('./admin'),
     _ = require('lodash');
@@ -193,12 +193,12 @@ SupplierModel.prototype.sendNotice = function(id, type, order, cb){
         _.each(order, function (o) {
           msg += util.format('%s-%d', o.itemName, o.orderAmount);
         });
-        sendSMS.sendSMS(msg, get_user_phone_numbers(i))
-        .then(function () {
-          cb(true);
-        }, function (err) {
-          cb(err);
-        });
+        // sendSMS.sendSMS(msg, get_user_phone_numbers(i))
+        // .then(function () {
+        //   cb(true);
+        // }, function (err) {
+        //   cb(err);
+        // });
       });
     }
   });

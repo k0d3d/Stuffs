@@ -90,7 +90,7 @@ module.exports.routes = function(app){
       if(util.isError(l)){
         next(l);
       }else{
-        res.json(200, {"count": l.totalCount, "low": l.lowCount});
+        res.status(200).json({"count": l.totalCount, "low": l.lowCount});
       }
 
     });

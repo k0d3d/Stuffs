@@ -2,7 +2,7 @@
  * Module Dependecies
  */
 
-var restler = require('restler'),
+var restler = require('request'),
 		util = require('util'),
 		config = require('config');
 
