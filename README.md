@@ -34,6 +34,18 @@ Installing Stuffs is straight forward
 * npm start
 
 ### Screenshots
+** These screenshots are from [DIMS](http://about.drugstoc.com) for evaluation purpose **
+
+*Dashboard*
+![Dashboard](https://image.ibb.co/h83tEa/screenshot_localhost_8888_2015_07_03_10_58_48.png)
+*Inventory Overview*
+![Inventory Overview](https://image.ibb.co/iBKB0F/screenshot_localhost_8888_2015_07_03_11_02_56.png)
+*Place an Order*
+![Place an Order](https://image.ibb.co/bH3h7v/screenshot_localhost_8888_2015_07_03_11_06_42.png)
+*Print and Manage bills*
+![Print Bill](https://image.ibb.co/kSCyfF/screenshot_localhost_8888_2015_07_03_11_08_33.png)
+*Multiple Stock location*
+![Stockup and Down](https://image.ibb.co/ip6r0F/screenshot_localhost_8888_2015_07_03_11_09_01.png)
 
 
 
